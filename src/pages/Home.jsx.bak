@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Layers, ArrowRight, ChevronDown, CalendarDays } from "lucide-react";
+import { Layers, Eye, Shield, Sparkles, ArrowRight, ChevronDown, CalendarDays } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Helmet } from 'react-helmet-async';
 import ScrollReveal from "@/components/ScrollReveal";
@@ -11,8 +11,7 @@ import MarqueeStrip from "@/components/MarqueeStrip";
 import AmbientParticles from "@/components/AmbientParticles";
 import HeroCanvas from "@/components/HeroCanvas";
 import GradientTransition from "@/components/GradientTransition";
-import DemoSection from "@/components/DemoSection";
-import { DEMO_CLIENTE_URL } from "@/lib/demo";
+import AdminClienteShowcase from "@/components/AdminClienteShowcase";
 
 const solutions = [
   {
@@ -45,10 +44,10 @@ const processSteps = [
 ];
 
 const pillars = [
-  { emoji: "💸", title: "Sem comissões", desc: "Ficas com 100% das tuas marcações" },
-  { emoji: "🔓", title: "Sem fidelização", desc: "Cancelas quando quiseres" },
-  { emoji: "⚡", title: "Pronto em 24h", desc: "Operacional no próprio dia" },
-  { emoji: "🎧", title: "Suporte real", desc: "Resposta em menos de 24 horas" },
+  { icon: CalendarDays, title: "Sem comissões", desc: "Ficas com 100% das tuas marcações" },
+  { icon: Shield, title: "Sem fidelização", desc: "Cancelas quando quiseres" },
+  { icon: Sparkles, title: "Pronto em 24h", desc: "Operacional no próprio dia" },
+  { icon: Eye, title: "Suporte real", desc: "Resposta em menos de 24 horas" },
 ];
 
 const faqItems = [
@@ -112,16 +111,16 @@ function HeroDevices() {
     <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'visible' }}>
 
       {/* ── Background glow ── */}
-      <div style={{ position: 'absolute', top: '45%', left: '45%', transform: 'translate(-50%, -50%)', width: 560, height: 560, borderRadius: '50%', background: 'radial-gradient(circle, rgba(254,233,109,0.07) 0%, rgba(254,233,109,0.02) 50%, transparent 72%)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'absolute', top: '40%', left: '38%', transform: 'translate(-50%, -50%)', width: 620, height: 620, borderRadius: '50%', background: 'radial-gradient(circle, rgba(254,233,109,0.08) 0%, rgba(254,233,109,0.02) 50%, transparent 72%)', pointerEvents: 'none', zIndex: 0 }} />
 
-      {/* ── Laptop / Admin Dashboard — fills most of the space ── */}
+      {/* ── Laptop / Admin Dashboard — left, behind ── */}
       <div style={{
-        position: 'absolute', left: 0, top: 100,
-        width: 520, height: 276,
-        borderRadius: '14px 14px 0 0',
+        position: 'absolute', left: 0, top: 152,
+        width: 500, height: 265,
+        borderRadius: '12px 12px 0 0',
         background: '#0b0b0f',
         border: '1.5px solid rgba(255,255,255,0.08)',
-        boxShadow: '0 40px 90px rgba(0,0,0,0.9), 0 0 60px rgba(254,233,109,0.05)',
+        boxShadow: '0 40px 90px rgba(0,0,0,0.9), 0 0 60px rgba(254,233,109,0.06)',
         overflow: 'hidden', zIndex: 1,
       }}>
         <video
@@ -136,8 +135,8 @@ function HeroDevices() {
 
       {/* ── Laptop base / keyboard ── */}
       <div style={{
-        position: 'absolute', left: -18, top: 376,
-        width: 556, height: 16,
+        position: 'absolute', left: -16, top: 417,
+        width: 532, height: 16,
         background: 'linear-gradient(180deg, #1a1a1f 0%, #0e0e12 100%)',
         borderRadius: '0 0 10px 10px',
         boxShadow: '0 8px 30px rgba(0,0,0,0.7)',
@@ -146,17 +145,29 @@ function HeroDevices() {
         <div style={{ width: 50, height: 4, background: 'rgba(255,255,255,0.06)', borderRadius: 2, margin: '5px auto 0' }} />
       </div>
 
-      {/* ── Phone (client app) — clearly to the right, minimal overlap ── */}
-      <div style={{ position: 'absolute', left: 490, top: 60, zIndex: 3 }}>
+      {/* ── Sync indicator ── */}
+      <motion.div
+        animate={{ opacity: [0.45, 1, 0.45] }}
+        transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ position: 'absolute', left: 355, top: 382, zIndex: 4 }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(7,7,10,0.95)', border: '1px solid rgba(254,233,109,0.18)', borderRadius: 8, padding: '5px 10px', backdropFilter: 'blur(8px)' }}>
+          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px #34d399' }} />
+          <span style={{ fontSize: 8, color: 'rgba(255,255,255,0.55)', fontWeight: 600 }}>Em sincronia</span>
+        </div>
+      </motion.div>
+
+      {/* ── Phone (client app) — right, in front, higher ── */}
+      <div style={{ position: 'absolute', left: 400, top: 80, zIndex: 3 }}>
         <div style={{
-          width: 200, height: 440, borderRadius: 40,
+          width: 215, height: 475, borderRadius: 42,
           border: '2px solid rgba(255,255,255,0.1)',
           background: '#0c0c10',
-          boxShadow: '0 40px 90px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.04), 0 0 50px rgba(254,233,109,0.08)',
+          boxShadow: '0 40px 90px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.04), 0 0 60px rgba(254,233,109,0.10)',
           overflow: 'hidden', position: 'relative',
         }}>
           {/* Dynamic island */}
-          <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', width: 50, height: 12, background: '#000', borderRadius: 6, zIndex: 10 }} />
+          <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', width: 54, height: 13, background: '#000', borderRadius: 7, zIndex: 10 }} />
           {/* Video */}
           <video
             src="/phone-demo.mp4"
@@ -168,18 +179,6 @@ function HeroDevices() {
           />
         </div>
       </div>
-
-      {/* ── Sync indicator ── */}
-      <motion.div
-        animate={{ opacity: [0.45, 1, 0.45] }}
-        transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ position: 'absolute', left: 420, top: 345, zIndex: 4 }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(7,7,10,0.95)', border: '1px solid rgba(254,233,109,0.18)', borderRadius: 8, padding: '5px 10px', backdropFilter: 'blur(8px)' }}>
-          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px #34d399' }} />
-          <span style={{ fontSize: 8, color: 'rgba(255,255,255,0.55)', fontWeight: 600 }}>Em sincronia</span>
-        </div>
-      </motion.div>
 
     </div>
   );
@@ -421,7 +420,7 @@ export default function Home() {
                   </p>
                 </div>
                 {/* H1 */}
-                <h1 className="font-heading text-[1.85rem] md:text-4xl lg:text-[4.1rem] text-white leading-[0.97] mb-4 max-w-xl">
+                <h1 className="font-heading text-4xl md:text-5xl lg:text-[4.1rem] text-white leading-[0.97] mb-5 max-w-xl">
                   {"A plataforma que a tua barbearia precisava.".split(" ").map((word, i) => (
                     <motion.span key={i} initial={{ opacity:0, y:28 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.5, delay:0.3+i*0.05, ease:"easeOut" }} className="inline-block mr-[0.25em]">
                       {word === "precisava." ? <span style={{ color:"#fee96d" }}>{word}</span> : word}
@@ -429,32 +428,31 @@ export default function Home() {
                   ))}
                 </h1>
                 {/* Subtitle */}
-                <p className="text-sm lg:text-[1.05rem] text-white/55 leading-relaxed mb-7 max-w-md">
+                <p className="text-base lg:text-[1.05rem] text-white/55 leading-relaxed mb-9 max-w-md">
                   Agenda online, gestão de caixa e fidelização de clientes — tudo numa plataforma simples, sem comissões por marcação.
                 </p>
                 {/* CTAs */}
-                <div className="flex flex-col sm:flex-row gap-3 mb-8 lg:mb-12">
-                  {/* "Pedir demonstracao" levava ao formulario de contacto: pedia-se e
-                      esperava-se. Agora a demonstracao abre-se sozinha, e o botao
-                      diz isso. Quem preferir falar primeiro tem o segundo botao. */}
-                  <a href={DEMO_CLIENTE_URL} target="_blank" rel="noopener" className="btn-glow inline-flex items-center justify-center px-5 py-3 lg:px-8 lg:py-4 text-xs lg:text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor:"#fee96d", color:"#1a1a1a" }}>
-                    Experimentar a demonstração <ArrowRight size={14} className="ml-2" />
-                  </a>
-                  <Link to="/contacto" className="inline-flex items-center justify-center gap-2 px-5 py-3 lg:px-8 lg:py-4 text-xs lg:text-sm font-medium text-white/65 hover:text-white transition-colors">
-                    Falar connosco →
+                <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                  <Link to="/contacto" className="btn-glow inline-flex items-center justify-center px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor:"#fee96d", color:"#1a1a1a" }}>
+                    Pedir Demonstração <ArrowRight size={16} className="ml-2" />
+                  </Link>
+                  <Link to="/funcionalidades" className="inline-flex items-center justify-center gap-2 px-8 py-4 text-sm font-medium text-white/65 hover:text-white transition-colors">
+                    Ver funcionalidades →
                   </Link>
                 </div>
               </div>
               {/* Benefits strip — desktop only */}
               <div className="hidden lg:flex" style={{ flexDirection:'column', gap:14 }}>
                 {[
-                  { emoji:'📅', title:'Mais marcações', sub:'Mais clientes' },
-                  { emoji:'📊', title:'Mais organização', sub:'Mais tempo para o que importa' },
-                  { emoji:'❤️', title:'Mais fidelização', sub:'Clientes que voltam' },
-                ].map(({ emoji, title, sub }) => (
+                  { icon:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01', title:'Mais marcações', sub:'Mais clientes' },
+                  { icon:'M18 20V10 M12 20V4 M6 20v-6', title:'Mais organização', sub:'Mais tempo para o que importa' },
+                  { icon:'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z', title:'Mais fidelização', sub:'Clientes que voltam' },
+                ].map(({ icon, title, sub }) => (
                   <div key={title} style={{ display:'flex', alignItems:'center', gap:12 }}>
-                    <div style={{ width:34, height:34, borderRadius:9, border:'1.5px solid rgba(254,233,109,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:'1.1rem' }}>
-                      {emoji}
+                    <div style={{ width:34, height:34, borderRadius:9, border:'1.5px solid rgba(254,233,109,0.2)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fee96d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d={icon}/>
+                      </svg>
                     </div>
                     <div>
                       <p style={{ fontSize:'0.83rem', fontWeight:700, color:'white', margin:0 }}>{title}</p>
@@ -467,14 +465,16 @@ export default function Home() {
               {/* Benefits grid — mobile only (2×2) */}
               <div className="grid grid-cols-2 gap-3 lg:hidden">
                 {[
-                  { emoji:'📅', title:'Mais marcações', sub:'Mais clientes' },
-                  { emoji:'📊', title:'Mais organização', sub:'Mais tempo para o que importa' },
-                  { emoji:'❤️', title:'Mais fidelização', sub:'Clientes que voltam' },
-                  { emoji:'🚀', title:'Resultados reais', sub:'Negócios em crescimento' },
-                ].map(({ emoji, title, sub }) => (
+                  { icon:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01', title:'Mais marcações', sub:'Mais clientes' },
+                  { icon:'M18 20V10 M12 20V4 M6 20v-6', title:'Mais organização', sub:'Mais tempo para o que importa' },
+                  { icon:'M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z', title:'Mais fidelização', sub:'Clientes que voltam' },
+                  { icon:'M22 12h-4l-3 9L9 3l-3 9H2', title:'Resultados reais', sub:'Negócios em crescimento' },
+                ].map(({ icon, title, sub }) => (
                   <div key={title} style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:12, padding:'12px 10px', display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center', gap:6 }}>
-                    <div style={{ width:36, height:36, borderRadius:10, border:'1.5px solid rgba(254,233,109,0.25)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.2rem' }}>
-                      {emoji}
+                    <div style={{ width:36, height:36, borderRadius:10, border:'1.5px solid rgba(254,233,109,0.25)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fee96d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d={icon}/>
+                      </svg>
                     </div>
                     <p style={{ fontSize:'0.78rem', fontWeight:700, color:'white', margin:0 }}>{title}</p>
                     <p style={{ fontSize:'0.65rem', color:'rgba(255,255,255,0.4)', margin:0, lineHeight:1.3 }}>{sub}</p>
@@ -593,21 +593,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* A demonstracao: logo a seguir ao hero, antes de explicar o que e a
-          Convecta. Quem chega ao site quer ver, nao ler. */}
-      <DemoSection />
-
-            <GradientTransition from="#0d0d0d" to="#ffffff" />
+            <GradientTransition from="#111111" to="#ffffff" />
 
       {/* Why Convecta */}
       <section style={{ backgroundColor:"#f5f5f5" }} className="py-14 lg:py-28">
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <ScrollReveal>
             <div className="max-w-3xl mx-auto text-center mb-10 lg:mb-14">
-              <h2 className="font-heading text-2xl lg:text-4xl text-dark mb-4">
+              <h2 className="font-heading text-3xl lg:text-4xl text-dark mb-4">
                 O que é a <Keyword>Convecta</Keyword>
               </h2>
-              <p className="text-sm lg:text-lg text-dark/60 leading-relaxed">
+              <p className="text-base lg:text-lg text-dark/60 leading-relaxed">
                 Tecnologia com intenção e acompanhamento contínuo. Criamos ferramentas digitais que fazem sentido para a forma como o teu negócio trabalha.
               </p>
             </div>
@@ -619,7 +615,7 @@ export default function Home() {
                 <div className="p-5 lg:p-8 rounded-xl transition-all duration-300 group h-full"
                   style={{ background:"rgba(255,255,255,0.6)", backdropFilter:"blur(16px)", WebkitBackdropFilter:"blur(16px)", border:"1px solid rgba(0,0,0,0.08)", boxShadow:"0 8px 32px rgba(0,0,0,0.06)" }}>
                   <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg bg-mustard/10 flex items-center justify-center mb-4 group-hover:bg-mustard/20 transition-colors">
-                    <span style={{ fontSize:'1.4rem', lineHeight:1 }}>{pillar.emoji}</span>
+                    <pillar.icon size={20} style={{ color:"#1a1a1a" }} strokeWidth={1.5} />
                   </div>
                   <h3 className="font-heading text-lg lg:text-xl text-dark mb-1 lg:mb-2">{pillar.title}</h3>
                   <p className="text-xs lg:text-sm text-dark/50 leading-relaxed">{pillar.desc}</p>
@@ -636,7 +632,7 @@ export default function Home() {
           <ScrollReveal>
             <div className="text-center mb-12">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-dark/40 mb-4">Como funciona</p>
-              <h2 className="font-heading text-2xl lg:text-5xl text-dark leading-tight">Do primeiro contacto ao crescimento.</h2>
+              <h2 className="font-heading text-3xl lg:text-5xl text-dark leading-tight">Do primeiro contacto ao crescimento.</h2>
             </div>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -680,13 +676,13 @@ export default function Home() {
                 </div>
 
                 {/* Heading */}
-                <h2 className="font-heading" style={{ fontSize:'clamp(2rem, 5.5vw, 4.8rem)', color:'white', lineHeight:1.0, margin:'0 0 18px', letterSpacing:'-0.02em' }}>
+                <h2 className="font-heading" style={{ fontSize:'clamp(2.8rem, 5.5vw, 4.8rem)', color:'white', lineHeight:1.0, margin:'0 0 22px', letterSpacing:'-0.02em' }}>
                   Segue-nos<br/>
                   no <span style={{ color:'#fee96d' }}>Instagram.</span>
                 </h2>
 
                 {/* Subtitle */}
-                <p style={{ fontSize:'clamp(0.85rem, 2.5vw, 1.05rem)', color:'rgba(255,255,255,0.48)', lineHeight:1.75, margin:'0 0 28px', maxWidth:420 }}>
+                <p style={{ fontSize:'1.05rem', color:'rgba(255,255,255,0.48)', lineHeight:1.75, margin:'0 0 40px', maxWidth:420 }}>
                   Dicas, novidades e exemplos reais para digitalizar o teu negócio.
                 </p>
 
@@ -697,11 +693,11 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="btn-glow"
                   style={{
-                    display:'inline-flex', alignItems:'center', gap:10,
-                    padding:'12px 24px', borderRadius:8,
+                    display:'inline-flex', alignItems:'center', gap:12,
+                    padding:'17px 34px', borderRadius:8,
                     background:'#fee96d', color:'#111',
-                    fontWeight:700, fontSize:'0.88rem',
-                    textDecoration:'none', marginBottom:36,
+                    fontWeight:700, fontSize:'0.95rem',
+                    textDecoration:'none', marginBottom:52,
                     transition:'transform 0.2s, box-shadow 0.2s',
                     boxShadow:'0 4px 24px rgba(254,233,109,0.3)',
                   }}
@@ -717,15 +713,15 @@ export default function Home() {
                 </a>
 
                 {/* Feature pills */}
-                <div style={{ display:'flex', gap:20, flexWrap:'wrap' }}>
+                <div style={{ display:'flex', gap:32, flexWrap:'wrap' }}>
                   {[
-                    { emoji:'🔔', label:'Novidades', sub:'Novas funcionalidades' },
-                    { emoji:'💡', label:'Dicas', sub:'Para o teu negócio' },
-                    { emoji:'👥', label:'Casos reais', sub:'Resultados de clientes' },
-                  ].map(({ emoji, label, sub }) => (
+                    { path:'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', label:'Novidades', sub:'Novas funcionalidades' },
+                    { path:'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z', label:'Dicas', sub:'Para o teu negócio' },
+                    { path:'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', label:'Casos reais', sub:'Resultados de clientes' },
+                  ].map(({ path, label, sub }) => (
                     <div key={label} style={{ display:'flex', alignItems:'flex-start', gap:10 }}>
-                      <div style={{ width:32, height:32, borderRadius:8, border:'1.5px solid rgba(254,233,109,0.22)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:1, fontSize:'1rem' }}>
-                        {emoji}
+                      <div style={{ width:32, height:32, borderRadius:8, border:'1.5px solid rgba(254,233,109,0.22)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:1 }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fee96d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d={path}/></svg>
                       </div>
                       <div>
                         <p style={{ fontWeight:700, color:'white', margin:0, fontSize:'0.85rem' }}>{label}</p>
@@ -737,12 +733,12 @@ export default function Home() {
               </div>
             </ScrollReveal>
 
-            {/* RIGHT: Instagram profile card */}
+            {/* RIGHT: Phone mockup + annotation */}
             <ScrollReveal delay={0.2}>
-              <div style={{ position:'relative' }}>
+              <div style={{ position:'relative', display:'flex', justifyContent:'center', alignItems:'center', minHeight:520 }}>
 
-                {/* Handwritten annotation — desktop only */}
-                <div className="hidden lg:block" style={{ position:'absolute', right:-10, top:-40, zIndex:5, maxWidth:160 }}>
+                {/* Handwritten annotation */}
+                <div style={{ position:'absolute', right:0, top:'8%', zIndex:5, maxWidth:160 }}>
                   <p style={{ fontFamily:"Georgia, 'Times New Roman', serif", fontStyle:'italic', fontSize:'1rem', color:'white', lineHeight:1.45, margin:0, opacity:0.9 }}>
                     Conteúdo<br/>que faz sentido<br/>para o teu negócio.
                   </p>
@@ -752,20 +748,41 @@ export default function Home() {
                   </svg>
                 </div>
 
-                {/* Card with Instagram gradient border — natural image proportions */}
+                {/* Instagram gradient glow */}
+                <div style={{ position:'absolute', top:'50%', left:'42%', transform:'translate(-50%,-50%)', width:340, height:340, borderRadius:'50%', background:'radial-gradient(circle, rgba(188,24,136,0.18) 0%, rgba(220,39,67,0.12) 40%, transparent 70%)', pointerEvents:'none' }} />
+                <div style={{ position:'absolute', top:'30%', left:'30%', transform:'translate(-50%,-50%)', width:200, height:200, borderRadius:'50%', background:'radial-gradient(circle, rgba(240,148,51,0.12) 0%, transparent 70%)', pointerEvents:'none' }} />
+
+                {/* Instagram gradient border ring around phone */}
                 <div style={{
-                  borderRadius:20,
+                  position:'absolute',
+                  width:272, height:572,
+                  borderRadius:46,
                   background:'linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)',
                   padding:3,
-                  boxShadow:'0 24px 70px rgba(0,0,0,0.6)',
+                  zIndex:1,
                 }}>
-                  <div style={{ borderRadius:17, overflow:'hidden', background:'#fff' }}>
-                    <img
-                      src="/instagram-profile.jpg"
-                      alt="Perfil Instagram Convecta"
-                      style={{ width:'100%', height:'auto', display:'block' }}
-                    />
-                  </div>
+                  <div style={{ width:'100%', height:'100%', borderRadius:43, background:'#0d0d0d' }} />
+                </div>
+
+                {/* Phone */}
+                <div style={{
+                  width:262,
+                  height:560,
+                  borderRadius:42,
+                  background:'#000',
+                  overflow:'hidden',
+                  position:'relative',
+                  zIndex:2,
+                  boxShadow:'0 40px 90px rgba(0,0,0,0.85)',
+                }}>
+                  {/* Notch */}
+                  <div style={{ position:'absolute', top:10, left:'50%', transform:'translateX(-50%)', width:56, height:12, background:'#111', borderRadius:6, zIndex:10 }} />
+                  {/* Screenshot fills the phone */}
+                  <img
+                    src="/instagram-profile.jpg"
+                    alt="Perfil Instagram Convecta"
+                    style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'top', display:'block' }}
+                  />
                 </div>
 
               </div>
@@ -787,7 +804,7 @@ export default function Home() {
           <ScrollReveal>
             <div className="text-center mb-10">
               <span style={{ display:"inline-block", backgroundColor:"rgba(254,233,109,0.18)", color:"#b89e00", fontSize:11, fontWeight:800, letterSpacing:"0.2em", padding:"6px 18px", borderRadius:100, marginBottom:16, textTransform:"uppercase" }}>FAQ</span>
-              <h2 style={{ fontWeight:800, fontSize:"clamp(1.35rem,3.5vw,2.5rem)", color:"#111", lineHeight:1.1, letterSpacing:"-0.02em", marginBottom:8 }}>
+              <h2 style={{ fontWeight:800, fontSize:"clamp(1.7rem,3.5vw,2.5rem)", color:"#111", lineHeight:1.1, letterSpacing:"-0.02em", marginBottom:8 }}>
                 Perguntas frequentes
               </h2>
               <p style={{ color:"#6B7280", fontSize:"0.92rem", lineHeight:1.7 }}>
@@ -813,7 +830,7 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <CtaSection title="Pronto para modernizar a tua barbearia?" buttonText="Experimentar a demonstração" href={DEMO_CLIENTE_URL} secondaryText="ou fala connosco" />
+      <CtaSection title="Pronto para modernizar a tua barbearia?" buttonText="Pedir Demonstração Gratuita" />
     </main>
   );
 }

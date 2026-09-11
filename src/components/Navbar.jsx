@@ -1,35 +1,25 @@
 import React, { useState, useEffect } from "react";
+import { DEMO_CLIENTE_URL } from "@/lib/demo";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Instagram, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ConvectaLogo from "@/components/ConvectaLogo";
-import { useContactModal } from "@/lib/ContactModalContext";
 
 const navLinks = [
-  { label: "Serviços", path: "/servicos" },
-  { label: "Convecta Booking", path: "/booking" },
-  { label: "Processo", path: "/processo" },
-  { label: "FAQ", path: "/faq" },
-  { label: "Instagram", path: "/instagram", icon: Instagram },
+  { label: "Funcionalidades", path: "/funcionalidades" },
+  { label: "Como Funciona", path: "/como-funciona" },
   { label: "Preços", path: "/precos" },
+  { label: "FAQ", path: "/faq" },
   { label: "Contacto", path: "/contacto" },
 ];
 
-const bookingMenuLinks = [
-  { label: "Visão geral", path: "/booking" },
-  { label: "Funcionalidades", path: "/booking/funcionalidades" },
-  { label: "Admin & Cliente", path: "/booking/admin-cliente" },
-  { label: "Como funciona", path: "/booking/como-funciona" },
-  { label: "Demonstração", path: "/booking/demonstracao" },
-];
+
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [bookingMenuOpen, setBookingMenuOpen] = useState(false);
   const location = useLocation();
   const isHome = location.pathname === "/";
-  const { open: openModal } = useContactModal();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -37,7 +27,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); setBookingMenuOpen(false); }, [location.pathname]);
+  useEffect(() => { setMobileOpen(false); }, [location.pathname]);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -64,28 +54,10 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => {
               const Icon = link.icon;
-              if (link.path === "/booking") {
-                return (
-                  <div key={link.path} className="booking-menu-group">
-                    <div className="booking-menu-trigger">
-                    <Link to={link.path}
-                      className="text-sm font-medium tracking-wide uppercase transition-colors relative flex items-center gap-1.5 booking-nav-link"
-                      style={{ color: "#fee96d" }}>
-                      {link.label}
-                      {location.pathname === link.path && <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-mustard rounded-full" />}
-                    </Link>
-                    <button type="button" className="booking-menu-toggle" aria-label="Mostrar opções do Convecta Booking" aria-expanded={bookingMenuOpen} onClick={() => setBookingMenuOpen(open => !open)}><ChevronDown size={14} /></button>
-                    </div>
-                    <div className={`booking-menu-dropdown ${bookingMenuOpen ? "open" : ""}`}>
-                      {bookingMenuLinks.map((item) => <Link key={item.path} className={location.pathname === item.path ? "active" : ""} to={item.path}>{item.label}</Link>)}
-                    </div>
-                  </div>
-                );
-              }
               return (
                 <Link key={link.path} to={link.path}
-                  className={`text-sm font-medium tracking-wide uppercase transition-colors relative flex items-center gap-1.5 ${link.path === "/booking" ? "booking-nav-link" : ""}`}
-                  style={{ color: location.pathname === link.path ? "#fee96d" : link.path === "/booking" ? "#fee96d" : "rgba(255,255,255,0.7)" }}>
+                  className="text-sm font-medium tracking-wide uppercase transition-colors relative flex items-center gap-1.5"
+                  style={{ color: location.pathname === link.path ? "#fee96d" : "rgba(255,255,255,0.7)" }}>
                   {Icon && <Icon size={14} />}
                   {link.label}
                   {location.pathname === link.path && (
@@ -97,13 +69,13 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:block">
-            <button
-              onClick={openModal}
+            <a
+              href={DEMO_CLIENTE_URL} target="_blank" rel="noopener"
               className="inline-flex items-center px-6 py-2.5 text-sm font-bold rounded-sm transition-all hover:scale-105"
               style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
             >
-              Falar Connosco
-            </button>
+              Experimentar demo
+            </a>
           </div>
 
           {/* Hamburger with animated icon */}
@@ -161,24 +133,20 @@ export default function Navbar() {
                         {Icon && <Icon size={17} />}
                         {link.label}
                       </Link>
-                      {link.path === "/booking" && (
-                        <div className="booking-mobile-submenu">
-                          {bookingMenuLinks.map((item) => <Link key={item.path} className={location.pathname === item.path ? "active" : ""} to={item.path}>{item.label}</Link>)}
-                        </div>
-                      )}
                     </motion.div>
                   );
                 })}
               </div>
 
               <div className="mt-auto">
-                <button
-                  onClick={() => { setMobileOpen(false); openModal(); }}
+                <a
+                  href={DEMO_CLIENTE_URL} target="_blank" rel="noopener"
+                  onClick={() => setMobileOpen(false)}
                   className="w-full block text-center px-6 py-3.5 text-sm font-bold rounded-xl"
                   style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
                 >
-                  Falar Connosco
-                </button>
+                  Experimentar a demonstração
+                </a>
               </div>
             </motion.div>
           </div>

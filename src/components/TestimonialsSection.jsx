@@ -4,27 +4,27 @@ import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Dra. Ana Ferreira",
-    role: "Directora Clínica — Sorriso Dental, Lisboa",
+    name: "Ricardo Andrade",
+    role: "Proprietário — Barbearia Andrade, Lisboa",
     rating: 5,
-    text: "Desde que lançámos o novo website com a Convecta, as marcações online aumentaram de forma notável. O design é moderno, carrega rapidamente e os pacientes comentam que a imagem transmite confiança logo à primeira vista.",
-    initial: "AF",
+    text: "Antes perdíamos marcações porque os clientes não conseguiam ligar na hora certa. Agora a agenda está sempre cheia e eu nem preciso de atender o telefone. O painel é simples e em dois dias já estava tudo a funcionar.",
+    initial: "RA",
     dark: false,
   },
   {
-    name: "Dr. Pedro Sousa",
-    role: "Médico Dentista — Clínica Oral Premium, Porto",
+    name: "Bruno Carvalho",
+    role: "Dono — The Cuts Barbershop, Porto",
     rating: 5,
-    text: "Profissionalismo do início ao fim. A equipa da Convecta entendeu o posicionamento da nossa clínica e traduziu-o numa presença digital que nos representa a 100%. O retorno foi visível em menos de 30 dias.",
-    initial: "PS",
+    text: "O que mais me surpreendeu foi a rapidez. Em 24 horas estava online com a minha identidade, os meus serviços e os meus profissionais. Os clientes adoram poder marcar quando querem, e eu finalmente tenho controlo da caixa ao final do dia.",
+    initial: "BC",
     dark: true,
   },
   {
-    name: "Dra. Marta Lopes",
-    role: "Ortodontista — DenteSafe, Braga",
+    name: "Fábio Loureiro",
+    role: "Proprietário — Studio Loureiro, Braga",
     rating: 5,
-    text: "A melhor decisão para o meu consultório. Hoje os pacientes chegam diretamente pelo Google e pelo website — nunca foi tão fácil conseguir marcações. O suporte é sempre rápido e eficaz.",
-    initial: "ML",
+    text: "Os no-shows reduziram muito desde que os clientes passaram a confirmar pelo sistema. A fidelização digital é o que mais valor traz — tenho clientes a voltar com regularidade que antes simplesmente desapareciam.",
+    initial: "FL",
     dark: false,
   },
 ];
@@ -43,10 +43,10 @@ export default function TestimonialsSection() {
       <div className="relative z-10 max-w-4xl mx-auto px-6 lg:px-12">
         <motion.div initial={{ opacity:0, y:28 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.6 }} className="text-center mb-10 lg:mb-14">
           <span style={{ display:"inline-block", backgroundColor:"rgba(254,233,109,0.12)", color:"#FEE96D", fontSize:11, fontWeight:800, letterSpacing:"0.2em", padding:"6px 18px", borderRadius:100, marginBottom:18, textTransform:"uppercase", border:"1px solid rgba(254,233,109,0.2)" }}>
-            Casos / exemplos
+            O que dizem
           </span>
           <h2 style={{ fontWeight:800, fontSize:"clamp(1.8rem,4vw,3rem)", color:"#fff", lineHeight:1.1, marginBottom:14, letterSpacing:"-0.02em" }}>
-            Soluções que já fazem diferença
+            Negócios que já têm controlo
           </h2>
           <div style={{ display:"flex", alignItems:"center", justifyContent:"center", gap:6, marginTop:8 }}>
             {[...Array(5)].map((_,i) => <Star key={i} size={16} fill="#FEE96D" color="#FEE96D" />)}

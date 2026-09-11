@@ -2,7 +2,7 @@ import React, { lazy, Suspense, useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -75,16 +75,19 @@ const AuthenticatedApp = () => {
       <Routes>
         <Route element={<SiteLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/servicos" element={<Servicos />} />
-          <Route path="/processo" element={<Processo />} />
+          <Route path="/funcionalidades" element={<Booking />} />
+          <Route path="/como-funciona" element={<BookingSection />} />
+          <Route path="/precos" element={<Precos />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/instagram" element={<Instagram />} />
           <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/termos" element={<Termos />} />
-          <Route path="/precos" element={<Precos />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/booking/:section" element={<BookingSection />} />
+          {/* Redirects para URLs antigas */}
+          <Route path="/servicos" element={<Navigate to="/" replace />} />
+          <Route path="/processo" element={<Navigate to="/como-funciona" replace />} />
+          <Route path="/booking" element={<Navigate to="/funcionalidades" replace />} />
+          <Route path="/booking/:section" element={<Navigate to="/funcionalidades" replace />} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
       </Routes>

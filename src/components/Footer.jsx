@@ -1,20 +1,9 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Mail, Phone } from "lucide-react";
 import ConvectaLogo from "@/components/ConvectaLogo";
 
-const footerLinks = [
-  { label: "Serviços", path: "/servicos" },
-  { label: "Convecta Booking", path: "/booking" },
-  { label: "Processo", path: "/processo" },
-  { label: "FAQ", path: "/faq" },
-  { label: "Contacto", path: "/contacto" },
-];
-
 export default function Footer() {
-  const location = useLocation();
-  const isBooking = location.pathname.startsWith("/booking");
-
   return (
     <footer style={{ backgroundColor: "#1a1a1a" }} className="text-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-20">
@@ -23,41 +12,41 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <ConvectaLogo light />
             <p className="mt-4 text-sm text-white/50 leading-relaxed font-body">
-              {isBooking ? "Gestão completa para a tua barbearia." : "Websites modernos. Acompanhamento contínuo."}
+              Uma plataforma para gerir o teu negócio. Uma experiência digital para os teus clientes.
             </p>
           </div>
 
-          {/* Serviços */}
+          {/* Plataforma */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Serviços</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Plataforma</h4>
             <div className="flex flex-col gap-3">
-              <Link to="/booking" className="text-sm text-white/70 hover:text-mustard transition-colors">
-                App de Marcações para Barbearias
+              <Link to="/funcionalidades" className="text-sm text-white/70 hover:text-mustard transition-colors">
+                Funcionalidades
               </Link>
-              <Link to="/servicos" className="text-sm text-white/70 hover:text-mustard transition-colors">
-                Websites Premium
+              <Link to="/como-funciona" className="text-sm text-white/70 hover:text-mustard transition-colors">
+                Como Funciona
               </Link>
               <Link to="/precos" className="text-sm text-white/70 hover:text-mustard transition-colors">
-                Ver Preços
+                Preços
               </Link>
             </div>
           </div>
 
-          {/* Produto */}
+          {/* Empresa */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Produto</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Empresa</h4>
             <div className="flex flex-col gap-3">
-              <Link to="/booking" className="text-sm text-white/70 hover:text-mustard transition-colors">
-                Convecta Booking
-              </Link>
-              <Link to="/booking/funcionalidades" className="text-sm text-white/70 hover:text-mustard transition-colors">
-                Funcionalidades
-              </Link>
-              <Link to="/booking/como-funciona" className="text-sm text-white/70 hover:text-mustard transition-colors">
-                Como Funciona
-              </Link>
               <Link to="/faq" className="text-sm text-white/70 hover:text-mustard transition-colors">
                 Perguntas Frequentes
+              </Link>
+              <Link to="/contacto" className="text-sm text-white/70 hover:text-mustard transition-colors">
+                Contacto
+              </Link>
+              <Link to="/privacidade" className="text-sm text-white/70 hover:text-mustard transition-colors">
+                Política de Privacidade
+              </Link>
+              <Link to="/termos" className="text-sm text-white/70 hover:text-mustard transition-colors">
+                Termos e Condições
               </Link>
             </div>
           </div>

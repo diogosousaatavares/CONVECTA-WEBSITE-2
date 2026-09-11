@@ -1,31 +1,39 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { 
-  Calendar, 
-  Users, 
-  TrendingUp, 
-  Search, 
-  Plus, 
-  Bell, 
-  CreditCard, 
-  BarChart3, 
-  Clock, 
+import {
+  Calendar,
+  Users,
+  TrendingUp,
+  Search,
+  Plus,
+  Bell,
+  BarChart3,
   ChevronRight,
-  ChevronDown,
   LayoutDashboard,
   Scissors,
   FileText,
   Repeat,
   Tag,
-  Settings,
-  MoreHorizontal,
-  Menu
+  Settings
 } from "lucide-react";
 
 export default function AdminClienteShowcase() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    vid.muted = true;
+    vid.play().catch(() => {
+      // autoplay blocked — try on first user interaction
+      const resume = () => { vid.play().catch(() => {}); document.removeEventListener("click", resume); };
+      document.addEventListener("click", resume, { once: true });
+    });
+  }, []);
+
   return (
     <div className="relative w-full max-w-6xl mx-auto py-2 sm:py-12 px-1 sm:px-4 select-none">
-      
+
       {/* Background Radial Glow (Gold/Yellow aura behind the laptop) */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[55%] w-[85%] h-[85%] bg-gradient-to-tr from-[#fee96d]/25 via-amber-500/15 to-transparent blur-[140px] pointer-events-none rounded-full" />
 
@@ -38,7 +46,7 @@ export default function AdminClienteShowcase() {
           <motion.div
             initial={{ opacity: 0, x: -30, y: -10 }}
             animate={{ opacity: 1, x: 0, y: [0, -7, 0] }}
-            transition={{ 
+            transition={{
               opacity: { duration: 0.7 },
               y: { repeat: Infinity, duration: 4.2, ease: "easeInOut" }
             }}
@@ -58,7 +66,7 @@ export default function AdminClienteShowcase() {
           <motion.div
             initial={{ opacity: 0, x: -30, y: 20 }}
             animate={{ opacity: 1, x: 0, y: [0, 7, 0] }}
-            transition={{ 
+            transition={{
               opacity: { duration: 0.7, delay: 0.2 },
               y: { repeat: Infinity, duration: 4.8, ease: "easeInOut", delay: 0.4 }
             }}
@@ -78,7 +86,7 @@ export default function AdminClienteShowcase() {
           <motion.div
             initial={{ opacity: 0, x: 30, y: -10 }}
             animate={{ opacity: 1, x: 0, y: [0, -9, 0] }}
-            transition={{ 
+            transition={{
               opacity: { duration: 0.7, delay: 0.3 },
               y: { repeat: Infinity, duration: 4, ease: "easeInOut", delay: 0.2 }
             }}
@@ -98,7 +106,7 @@ export default function AdminClienteShowcase() {
           <motion.div
             initial={{ opacity: 0, x: 30, y: 20 }}
             animate={{ opacity: 1, x: 0, y: [0, 8, 0] }}
-            transition={{ 
+            transition={{
               opacity: { duration: 0.7, delay: 0.4 },
               y: { repeat: Infinity, duration: 4.5, ease: "easeInOut", delay: 0.6 }
             }}
@@ -117,7 +125,7 @@ export default function AdminClienteShowcase() {
 
           {/* LAPTOP FRAME (ADMIN DASHBOARD MOCKUP) */}
           <div className="relative mx-auto rounded-t-xl sm:rounded-t-[28px] overflow-hidden border-4 sm:border-[10px] border-[#25252e] bg-[#09090c] shadow-[0_30px_90px_rgba(0,0,0,0.95)]">
-            
+
             {/* Laptop Screen Top Camera Notch Bar */}
             <div className="w-full bg-[#16161c] py-1 sm:py-1.5 px-2.5 sm:px-4 flex items-center justify-between border-b border-white/10">
               <div className="flex items-center gap-1.5">
@@ -133,7 +141,7 @@ export default function AdminClienteShowcase() {
 
             {/* LAPTOP SCREEN BODY (WITH LEFT SIDEBAR & DASHBOARD MAIN) */}
             <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] bg-[#0c0c10] text-white font-sans text-xs min-h-0 sm:min-h-[520px]">
-              
+
               {/* LEFT SIDEBAR (CONVECTA ADMIN SIDEBAR) */}
               <div className="hidden md:flex flex-col bg-[#121217] border-r border-white/10 p-4 justify-between">
                 <div>
@@ -147,7 +155,7 @@ export default function AdminClienteShowcase() {
 
                   {/* Sidebar Navigation Items */}
                   <div className="space-y-1">
-                    
+
                     {/* Active Item: Dashboard */}
                     <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-[#fee96d] text-black font-bold text-xs shadow-md shadow-[#fee96d]/20">
                       <div className="flex items-center gap-2.5">
@@ -184,10 +192,10 @@ export default function AdminClienteShowcase() {
 
               {/* MAIN CONTENT AREA */}
               <div className="p-2.5 sm:p-6 flex flex-col justify-between overflow-hidden bg-[#0a0a0e]">
-                
+
                 {/* Top Nav Bar inside main view */}
                 <div className="flex items-center justify-between gap-2 pb-2.5 sm:pb-4 border-b border-white/10">
-                  
+
                   {/* Brand on mobile / Search Bar on desktop */}
                   <div className="flex items-center gap-2 md:hidden">
                     <span className="font-heading font-bold text-sm text-white">Convecta.</span>
@@ -196,10 +204,10 @@ export default function AdminClienteShowcase() {
                   <div className="flex-1 max-w-sm hidden md:block">
                     <div className="relative">
                       <Search size={13} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/40" />
-                      <input 
-                        type="text" 
-                        readOnly 
-                        placeholder="Pesquisar..." 
+                      <input
+                        type="text"
+                        readOnly
+                        placeholder="Pesquisar..."
                         className="w-full bg-white/5 border border-white/10 rounded-xl pl-9 pr-4 py-1.5 text-[11px] text-white/80 focus:outline-none placeholder:text-white/30"
                       />
                     </div>
@@ -236,16 +244,16 @@ export default function AdminClienteShowcase() {
 
                 {/* 4 Metric Cards */}
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-2.5 sm:mb-4">
-                  
+
                   {/* Card 1: Receita */}
                   <div className="p-2 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/[0.04] border border-white/10 relative">
                     <div className="flex items-center justify-between text-white/60 text-[9px] sm:text-[11px] mb-1">
                       <span>Receita do período</span>
                       <div className="w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-[#fee96d] text-black flex items-center justify-center font-black text-[9px] sm:text-xs">€</div>
                     </div>
-                    <div className="text-sm sm:text-xl font-bold text-white">€ 12,00</div>
+                    <div className="text-sm sm:text-xl font-bold text-white">€ 3.480,00</div>
                     <div className="text-[8px] sm:text-[10px] text-emerald-400 mt-0.5 sm:mt-1 flex items-center gap-1 font-medium">
-                      <span>↑ +12%</span>
+                      <span>↑ +18%</span>
                       <span className="text-white/40 hidden sm:inline">vs. mês anterior</span>
                     </div>
                   </div>
@@ -258,9 +266,9 @@ export default function AdminClienteShowcase() {
                         <Calendar size={10} className="sm:w-3 sm:h-3" />
                       </div>
                     </div>
-                    <div className="text-sm sm:text-xl font-bold text-white">1</div>
+                    <div className="text-sm sm:text-xl font-bold text-white">128</div>
                     <div className="text-[8px] sm:text-[10px] text-emerald-400 mt-0.5 sm:mt-1 flex items-center gap-1 font-medium">
-                      <span>↑ +0%</span>
+                      <span>↑ +22%</span>
                       <span className="text-white/40 hidden sm:inline">vs. mês anterior</span>
                     </div>
                   </div>
@@ -273,9 +281,9 @@ export default function AdminClienteShowcase() {
                         <Users size={10} className="sm:w-3 sm:h-3" />
                       </div>
                     </div>
-                    <div className="text-sm sm:text-xl font-bold text-white">0.06%</div>
+                    <div className="text-sm sm:text-xl font-bold text-white">78%</div>
                     <div className="text-[8px] sm:text-[10px] text-emerald-400 mt-0.5 sm:mt-1 flex items-center gap-1 font-medium">
-                      <span>↑ +0%</span>
+                      <span>↑ +5%</span>
                       <span className="text-white/40 hidden sm:inline">vs. mês anterior</span>
                     </div>
                   </div>
@@ -286,8 +294,8 @@ export default function AdminClienteShowcase() {
                       <span>Ticket médio</span>
                       <span className="text-[#fee96d] font-bold text-xs sm:text-sm">€</span>
                     </div>
-                    <div className="text-sm sm:text-xl font-bold text-[#fee96d]">€ 12,00</div>
-                    <div className="text-[8px] sm:text-[10px] text-white/40 mt-0.5 sm:mt-1">Hoje: € 0,00</div>
+                    <div className="text-sm sm:text-xl font-bold text-[#fee96d]">€ 27,19</div>
+                    <div className="text-[8px] sm:text-[10px] text-white/40 mt-0.5 sm:mt-1">Hoje: € 108,75</div>
                   </div>
 
                 </div>
@@ -308,7 +316,7 @@ export default function AdminClienteShowcase() {
                     </div>
                   </div>
 
-                  {/* Wave Graph SVG with Grid Lines */}
+                  {/* Wave Graph SVG with upward trend */}
                   <div className="h-16 sm:h-32 w-full relative pt-1 sm:pt-2">
                     <svg className="w-full h-full overflow-visible relative z-10" viewBox="0 0 500 100" preserveAspectRatio="none">
                       <defs>
@@ -318,17 +326,17 @@ export default function AdminClienteShowcase() {
                         </linearGradient>
                       </defs>
                       <path
-                        d="M 0,95 Q 100,95 200,95 T 380,95 Q 420,25 455,25 T 500,95 L 500,100 L 0,100 Z"
+                        d="M 0,80 Q 60,75 120,65 T 240,50 Q 300,42 360,30 T 460,15 L 500,12 L 500,100 L 0,100 Z"
                         fill="url(#goldGradientFill)"
                       />
                       <path
-                        d="M 0,95 Q 100,95 200,95 T 380,95 Q 420,25 455,25 T 500,95"
+                        d="M 0,80 Q 60,75 120,65 T 240,50 Q 300,42 360,30 T 460,15 L 500,12"
                         fill="none"
                         stroke="#fee96d"
                         strokeWidth="3.5"
                       />
                     </svg>
-                    
+
                     {/* X Axis Dates */}
                     <div className="flex justify-between text-[8px] sm:text-[10px] text-white/40 font-mono mt-1 pt-0.5 sm:pt-1 border-t border-white/10">
                       <span>1 Set</span>
@@ -339,29 +347,43 @@ export default function AdminClienteShowcase() {
                   </div>
                 </div>
 
-                {/* Bottom Row: Marcações de Hoje & Clientes Recentes (Aparece apenas de tablet para cima para manter laptop compacto em mobile) */}
+                {/* Bottom Row: Marcações de Hoje & Clientes Recentes */}
                 <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
-                  
+
                   {/* Marcações de hoje */}
                   <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
                     <div className="flex items-center justify-between text-xs mb-2.5">
                       <span className="font-bold text-white flex items-center gap-2">
-                        <Calendar size={14} className="text-[#fee96d]" /> 
+                        <Calendar size={14} className="text-[#fee96d]" />
                         <span>Marcações de hoje</span>
                       </span>
                       <span className="text-[10px] text-[#fee96d] font-bold cursor-pointer hover:underline">Ver todas →</span>
                     </div>
-                    <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 text-xs">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-7 h-7 rounded-full bg-[#fee96d]/20 text-[#fee96d] font-bold flex items-center justify-center text-xs">TS</div>
-                        <div>
-                          <span className="font-bold text-white block">Tiago Silva</span>
-                          <span className="text-[10px] text-white/50">10:00 · Corte de cabelo</span>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 text-xs">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-7 h-7 rounded-full bg-[#fee96d]/20 text-[#fee96d] font-bold flex items-center justify-center text-xs">RF</div>
+                          <div>
+                            <span className="font-bold text-white block">Rui Fonseca</span>
+                            <span className="text-[10px] text-white/50">10:00 · Corte + Barba</span>
+                          </div>
                         </div>
+                        <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
+                          Confirmada
+                        </span>
                       </div>
-                      <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
-                        Confirmada
-                      </span>
+                      <div className="flex items-center justify-between p-2.5 rounded-xl bg-white/5 text-xs">
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-7 h-7 rounded-full bg-[#fee96d]/20 text-[#fee96d] font-bold flex items-center justify-center text-xs">JP</div>
+                          <div>
+                            <span className="font-bold text-white block">João Pacheco</span>
+                            <span className="text-[10px] text-white/50">11:30 · Corte de cabelo</span>
+                          </div>
+                        </div>
+                        <span className="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 text-[10px] font-bold border border-amber-500/30">
+                          Pendente
+                        </span>
+                      </div>
                     </div>
                   </div>
 
@@ -369,15 +391,24 @@ export default function AdminClienteShowcase() {
                   <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10">
                     <div className="flex items-center justify-between text-xs mb-2.5">
                       <span className="font-bold text-white flex items-center gap-2">
-                        <Users size={14} className="text-[#fee96d]" /> 
+                        <Users size={14} className="text-[#fee96d]" />
                         <span>Clientes recentes</span>
                       </span>
                     </div>
-                    <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 text-xs">
-                      <div className="w-7 h-7 rounded-full bg-[#fee96d]/20 text-[#fee96d] font-bold flex items-center justify-center text-xs">TS</div>
-                      <div>
-                        <span className="font-bold text-white block">Tiago Silva</span>
-                        <span className="text-[10px] text-white/40">Último cliente registado</span>
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 text-xs">
+                        <div className="w-7 h-7 rounded-full bg-[#fee96d]/20 text-[#fee96d] font-bold flex items-center justify-center text-xs">MC</div>
+                        <div>
+                          <span className="font-bold text-white block">Marco Carvalho</span>
+                          <span className="text-[10px] text-white/40">3ª visita este mês</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 text-xs">
+                        <div className="w-7 h-7 rounded-full bg-[#fee96d]/20 text-[#fee96d] font-bold flex items-center justify-center text-xs">AC</div>
+                        <div>
+                          <span className="font-bold text-white block">André Costa</span>
+                          <span className="text-[10px] text-white/40">Cliente desde Jan 2026</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -396,98 +427,50 @@ export default function AdminClienteShowcase() {
           </div>
 
 
-          {/* SMARTPHONE OVERLAY MOCKUP (DIREITA INFERIOR - VISÍVEL APENAS EM TABLET / DESKTOP PARA MANTER MOBILE SUPER ULTRA LIMPO) */}
+          {/* SMARTPHONE OVERLAY MOCKUP — with video */}
           <motion.div
             initial={{ opacity: 0, x: 50, y: 50 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="hidden sm:block absolute -bottom-10 right-0 sm:right-2 z-40 w-52 sm:w-64 rounded-[36px] sm:rounded-[44px] p-2.5 bg-[#1f1f28] border-4 sm:border-[7px] border-[#313140] shadow-[0_25px_70px_rgba(0,0,0,0.98)]"
           >
-            {/* Phone Screen Body */}
-            <div className="bg-[#0a0a0e] rounded-[28px] sm:rounded-[36px] p-3.5 text-white overflow-hidden font-sans border border-white/10">
-              
-              {/* Phone Status Notch Bar */}
-              <div className="flex items-center justify-between text-[10px] text-white/50 px-2 pb-2 mb-1.5 border-b border-white/10">
-                <span className="font-semibold">9:41</span>
-                <div className="w-12 h-2.5 bg-black rounded-full mx-auto" />
-                <div className="flex items-center gap-1">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                </div>
-              </div>
+            {/* Phone Screen Body — fixed height to guarantee size */}
+            <div
+              className="rounded-[28px] sm:rounded-[36px] overflow-hidden bg-[#0a0a0e]"
+              style={{ position: "relative", width: "100%", paddingBottom: "216%" }}
+            >
+              <div style={{ position: "absolute", inset: 0 }}>
 
-              {/* App Navigation Bar */}
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-2">
-                  <Menu size={14} className="text-white/70" />
-                  <span className="font-heading font-bold text-sm text-white">Convecta.</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Bell size={13} className="text-white/60" />
-                  <div className="w-5 h-5 rounded-full bg-[#fee96d] text-black font-black text-[9px] flex items-center justify-center">A</div>
-                </div>
-              </div>
+                {/* Video fills the entire phone screen */}
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    display: "block",
+                  }}
+                  src="/videos/app-demo.mp4"
+                />
 
-              {/* Date Filter Dropdown */}
-              <div className="flex items-center justify-between p-2 rounded-xl bg-white/5 border border-white/10 text-[10px] text-white/70 mb-3">
-                <span className="font-mono">01/09/2026 → 30/09/2026</span>
-                <ChevronDown size={12} className="text-[#fee96d]" />
-              </div>
+                {/* Dynamic Island */}
+                <div style={{ position: "absolute", top: 12, left: "50%", transform: "translateX(-50%)", width: 72, height: 20, background: "#000", borderRadius: 99, zIndex: 20 }} />
 
-              {/* 2x2 Grid Stats Mobile */}
-              <div className="grid grid-cols-2 gap-2 mb-3">
-                <div className="p-2 rounded-xl bg-white/5 border border-white/10">
-                  <span className="text-[8px] text-white/40 block">Receita</span>
-                  <span className="text-xs font-bold text-[#fee96d]">€ 12,00</span>
-                  <span className="text-[8px] text-emerald-400 block mt-0.5">+12% +0%</span>
-                </div>
-                <div className="p-2 rounded-xl bg-white/5 border border-white/10">
-                  <span className="text-[8px] text-white/40 block">Marcações</span>
-                  <span className="text-xs font-bold text-white">1</span>
-                  <span className="text-[8px] text-emerald-400 block mt-0.5">+0% +0%</span>
-                </div>
-                <div className="p-2 rounded-xl bg-white/5 border border-white/10">
-                  <span className="text-[8px] text-white/40 block">Ocupação</span>
-                  <span className="text-xs font-bold text-white">0.06%</span>
-                  <span className="text-[8px] text-emerald-400 block mt-0.5">+0% +0%</span>
-                </div>
-                <div className="p-2 rounded-xl bg-white/5 border border-white/10">
-                  <span className="text-[8px] text-white/40 block">Ticket médio</span>
-                  <span className="text-xs font-bold text-[#fee96d]">€ 12,00</span>
-                </div>
-              </div>
+                {/* Top shadow for notch readability */}
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 48, background: "linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)", zIndex: 10, pointerEvents: "none" }} />
 
-              {/* Mini Wave Chart Box */}
-              <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 mb-3">
-                <div className="text-[9px] font-bold text-[#fee96d] mb-1 flex items-center justify-between">
-                  <span>Receita ao longo do tempo</span>
-                </div>
-                <div className="h-12 w-full relative">
-                  <svg className="w-full h-full" viewBox="0 0 200 50" preserveAspectRatio="none">
-                    <path d="M 0,45 Q 50,45 100,45 T 150,10 T 200,45" fill="none" stroke="#fee96d" strokeWidth="2.5" />
-                  </svg>
-                </div>
-              </div>
+                {/* Bottom shadow + home indicator */}
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 40, background: "linear-gradient(to top, rgba(0,0,0,0.5), transparent)", zIndex: 10, pointerEvents: "none" }} />
+                <div style={{ position: "absolute", bottom: 8, left: "50%", transform: "translateX(-50%)", width: 80, height: 4, background: "rgba(255,255,255,0.35)", borderRadius: 99, zIndex: 20 }} />
 
-              {/* Phone Bottom Tab Bar */}
-              <div className="flex items-center justify-around pt-2 border-t border-white/10 text-[9px]">
-                <div className="flex flex-col items-center text-[#fee96d] font-bold">
-                  <BarChart3 size={13} />
-                  <span className="mt-0.5">Dashboard</span>
-                </div>
-                <div className="flex flex-col items-center text-white/40">
-                  <Calendar size={13} />
-                  <span className="mt-0.5">Agenda</span>
-                </div>
-                <div className="flex flex-col items-center text-white/40">
-                  <Users size={13} />
-                  <span className="mt-0.5">Clientes</span>
-                </div>
-                <div className="flex flex-col items-center text-white/40">
-                  <MoreHorizontal size={13} />
-                  <span className="mt-0.5">Mais</span>
-                </div>
               </div>
-
             </div>
           </motion.div>
 

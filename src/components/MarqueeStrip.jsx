@@ -1,12 +1,16 @@
 import React from "react";
 
 const defaultItems = [
-  "Websites Modernos",
-  "Acompanhamento Contínuo",
-  "Estrutura Profissional",
-  "Visibilidade Local",
-  "Confiança Digital",
-  "Suporte Prioritário",
+  "Marcações Online",
+  "Sem Comissões por Marcação",
+  "Agenda por Profissional",
+  "Gestão de Clientes",
+  "Controlo de Caixa",
+  "Fidelização Digital",
+  "Relatórios em Tempo Real",
+  "Pronto em 24 Horas",
+  "Suporte Real",
+  "Sem Fidelização Obrigatória",
 ];
 
 export default function MarqueeStrip({ items = defaultItems }) {
