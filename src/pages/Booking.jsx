@@ -1,650 +1,393 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Helmet } from 'react-helmet-async';
-import { 
-  Play, 
-  Sparkles, 
-  ArrowRight, 
-  ChevronRight, 
-  CheckCircle2, 
-  Clock, 
-  Zap, 
-  ShieldCheck, 
-  Star,
-  X
-} from "lucide-react";
+import React from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import {
+  ArrowRight, Smartphone, LayoutDashboard, CalendarDays, BellRing, CheckCircle2, Clock3,
+  Users, UserCog, Wallet, Package, BarChart3, FileSpreadsheet, Settings, ShieldCheck,
+  Globe, Stamp, Ban, MonitorSmartphone, ListChecks, Percent, Lock, Download,
+} from "lucide-react";
+import Seo from "@/components/Seo";
 import ScrollReveal from "@/components/ScrollReveal";
-import TiltCard from "@/components/TiltCard";
 import AmbientParticles from "@/components/AmbientParticles";
 import GradientTransition from "@/components/GradientTransition";
-import { useContactModal } from "@/lib/ContactModalContext";
+import { SITE, PRECO_MENSAL_TEXTO, softwareLd, migalhasLd } from "@/lib/seo";
 
-// Lista de vídeos de demonstração da aplicação (6 módulos)
-const videoShowcaseData = [
+/*
+ * Funcionalidades.
+ *
+ * Esta pagina descreve o que a Convecta Booking faz HOJE. Nao o que esta
+ * planeado, nao o que o painel mostra num menu sem gravar nada — o que um
+ * barbeiro pode confirmar na demonstracao ao vivo, agora. A lista foi
+ * verificada contra o codigo do painel e do site do cliente.
+ *
+ * A pagina anterior era uma montra de seis videos que nunca existiram, com
+ * texto de exemplo visivel ("coloca o teu ficheiro MP4…") e funcionalidades
+ * que nao existem (lembretes, assinaturas, cupoes, alertas de stock). Um
+ * dono de barbearia que lesse aquilo e abrisse a demonstracao a seguir
+ * apanhava a mentira em dois minutos.
+ */
+
+// O que o cliente da barbearia ve e faz, no site dela.
+const PARA_CLIENTES = [
   {
-    id: "video-1",
-    step: "01",
-    category: "admin",
-    categoryLabel: "Painel Admin",
-    title: "Visão Geral do Dashboard & Métricas ao Vivo",
-    subtitle: "A central de comando da tua barbearia num relance.",
-    description: "Vê como monitorizar a receita do dia, taxa de ocupação das cadeiras, alertas de stock baixo e a agenda de hoje em tempo real. Tudo intuitivo, rápido e sem complicações.",
-    highlights: [
-      "Métricas de receita e ticket médio ao vivo",
-      "Alertas automáticos de caixa e produtos",
-      "Visão multiplataforma sem necessidade de instalar nada"
-    ],
-    duration: "1:45 min",
-    videoUrl: "", // Podes inserir aqui o ficheiro .mp4 ou URL
-    posterBg: "from-[#fee96d]/10 via-amber-500/5 to-transparent",
-    accentColor: "#fee96d"
+    icon: CalendarDays,
+    titulo: "Marcações online, 24 horas por dia",
+    texto: "O cliente abre o site da tua barbearia no telemóvel e marca em três toques: serviço, barbeiro, hora. Só vê as horas livres — as ocupadas nem aparecem. Marca às 23h de domingo, se quiser; a agenda é que decide.",
   },
   {
-    id: "video-2",
-    step: "02",
-    category: "admin",
-    categoryLabel: "Gestão de Agenda",
-    title: "Agenda Inteligente & Controlo de Marcações",
-    subtitle: "Adeus conflitos de horários e mensagens no WhatsApp.",
-    description: "Aprende como a agenda interativa por profissional organiza os horários automaticamente, envia lembretes aos clientes e permite reagendamentos em segundos.",
-    highlights: [
-      "Vista diária, semanal e individual por barbeiro",
-      "Confirmação e lembretes automáticos",
-      "Checkout direto na agenda com cálculo de comissões"
-    ],
-    duration: "2:10 min",
-    videoUrl: "",
-    posterBg: "from-[#fee96d]/10 via-yellow-500/5 to-transparent",
-    accentColor: "#fee96d"
+    icon: Globe,
+    titulo: "Endereço próprio, com a tua marca",
+    texto: `A tua barbearia tem o seu endereço em ${SITE.dominioApps} — o teu nome, o teu logótipo, as tuas cores, a tua foto de capa. O cliente vê a tua barbearia. A Convecta não aparece em lado nenhum.`,
   },
   {
-    id: "video-3",
-    step: "03",
-    category: "cliente",
-    categoryLabel: "App do Cliente",
-    title: "Experiência de Reserva para o Cliente",
-    subtitle: "Marcações em 3 cliques na tua app web personalizada.",
-    description: "Mostra aos teus clientes uma experiência moderna e luxuosa. O cliente escolhe o profissional, o serviço e a hora disponível sem precisar de descarregar apps da loja.",
-    highlights: [
-      "Marcação rápida 24/7 a partir de qualquer telemóvel",
-      "Histórico de cortes e preferências guardadas",
-      "Link próprio com as tuas cores e logotipo"
-    ],
-    duration: "1:30 min",
-    videoUrl: "",
-    posterBg: "from-[#fee96d]/10 via-amber-400/5 to-transparent",
-    accentColor: "#fee96d"
+    icon: MonitorSmartphone,
+    titulo: "Sem instalar nada das lojas",
+    texto: "Funciona no browser de qualquer telemóvel, iPhone ou Android. O cliente pode guardá-lo no ecrã principal e fica lá como uma app, com o teu ícone — sem App Store, sem Play Store, sem atualizações a pedir.",
   },
   {
-    id: "video-4",
-    step: "04",
-    category: "cliente",
-    categoryLabel: "Fidelização",
-    title: "Cartão de Fidelidade Digital Animado",
-    subtitle: "Recorrente e viciante: retém os teus clientes.",
-    description: "Assiste à animação 3D do cartão de fidelidade digital. A cada visita concluída, o cliente ganha carimbos digitais e desbloqueia recompensas configuradas por ti.",
-    highlights: [
-      "Cartão interativo e animado no telemóvel do cliente",
-      "Recompensas e regras totalmente personalizáveis",
-      "Aumento imediato da taxa de retorno de clientes"
-    ],
-    duration: "1:15 min",
-    videoUrl: "",
-    posterBg: "from-[#fee96d]/10 via-yellow-400/5 to-transparent",
-    accentColor: "#fee96d"
+    icon: BellRing,
+    titulo: "Aviso no telemóvel do cliente",
+    texto: "Quando confirmas a marcação — ou se tiveres de a cancelar — o cliente recebe uma notificação no telemóvel dele, com o serviço, o dia e a hora. Sem SMS, sem custos por mensagem.",
   },
   {
-    id: "video-5",
-    step: "05",
-    category: "operacao",
-    categoryLabel: "Caixa & Stock",
-    title: "Gestão de Caixa, Produtos & Inventário",
-    subtitle: "Controlo absoluto sobre o dinheiro e os produtos.",
-    description: "Vê como funciona a venda de produtos ao balcão, a abertura e fecho de caixa, e o alerta automático quando um champô ou óleo de barba está prestes a esgotar.",
-    highlights: [
-      "Abertura, fecho e histórico de caixa sem erros",
-      "Gestão de stock com preço de custo e margem",
-      "Alertas automáticos de stock mínimo"
-    ],
-    duration: "2:00 min",
-    videoUrl: "",
-    posterBg: "from-[#fee96d]/10 via-amber-500/5 to-transparent",
-    accentColor: "#fee96d"
+    icon: Clock3,
+    titulo: "As minhas marcações e cancelar sozinho",
+    texto: "O cliente vê as próximas marcações e o histórico. Pode cancelar sozinho até ao prazo que tu definires — duas horas antes, um dia, o que fizer sentido. Depois desse prazo, o site diz-lhe para te ligar.",
   },
   {
-    id: "video-6",
-    step: "06",
-    category: "operacao",
-    categoryLabel: "Finanças & Planos",
-    title: "Relatórios Financeiros & Assinaturas Recorrentes",
-    subtitle: "Cresce com dados reais e receita previsível.",
-    description: "Descobre como criar pacotes de cortes e assinaturas mensais para clientes VIP, gerando receita recorrente e relatórios de comissões por barbeiro.",
-    highlights: [
-      "Relatórios de faturação e comissões em tempo real",
-      "Criação de pacotes e planos de assinatura mensais",
-      "Gestão de promoções e cupões de desconto"
-    ],
-    duration: "2:25 min",
-    videoUrl: "",
-    posterBg: "from-[#fee96d]/10 via-yellow-500/5 to-transparent",
-    accentColor: "#fee96d"
-  }
+    icon: Stamp,
+    titulo: "Cartão de fidelidade digital",
+    texto: "Cada corte pago dá um carimbo. Ao chegar ao número que definires, o próximo corte é grátis — e o cliente usa-o na própria marcação, sem cartão de papel para perder. Tu vês no painel quem tem corte grátis antes de ele entrar.",
+  },
 ];
 
-// Categorias para filtro rápido de vídeos
-const categories = [
-  { id: "todos", label: "Todas as Apresentações" },
-  { id: "admin", label: "Painel Admin" },
-  { id: "cliente", label: "App do Cliente" },
-  { id: "operacao", label: "Gestão & Finanças" },
+// O que o barbeiro tem no painel, por area. Cada item existe e grava.
+const PARA_BARBEIROS = [
+  {
+    icon: CalendarDays,
+    titulo: "Agenda",
+    itens: [
+      "Agenda por barbeiro: cada coluna é um profissional, com vista do dia e em lista.",
+      "O telemóvel toca a cada marcação nova, com o nome do cliente, o serviço e a hora.",
+      "Confirmas com dois toques — ou ligas a confirmação automática e a marcação entra confirmada.",
+      "Marcações manuais para quem liga ou entra pela porta; reagendar sem conflitos.",
+      "Sem marcações sobrepostas: a base de dados não deixa dois clientes no mesmo barbeiro à mesma hora.",
+      "Lista de espera para quem quer uma hora que já não há.",
+      "Antecedência mínima e prazo de cancelamento definidos por ti.",
+    ],
+  },
+  {
+    icon: Users,
+    titulo: "Clientes",
+    itens: [
+      "Ficha de cada cliente: contacto, histórico de visitas, o que gastou, quantos carimbos tem.",
+      "Aniversários do mês, para mandares a mensagem certa no dia certo.",
+      "Cada cliente só vê as suas marcações; tu vês todos os teus. Ninguém de fora vê nada.",
+    ],
+  },
+  {
+    icon: UserCog,
+    titulo: "Equipa",
+    itens: [
+      "Cada barbeiro com o seu horário, os seus serviços e a sua agenda.",
+      "Comissão em percentagem por barbeiro, guardada no momento do checkout com a taxa em vigor.",
+      "Desempenho por profissional: serviços feitos, receita, comissão a pagar.",
+    ],
+  },
+  {
+    icon: Wallet,
+    titulo: "Caixa e dinheiro",
+    itens: [
+      "Checkout no fim do serviço: método de pagamento, desconto se houver, gorjeta. Comissão e carimbo ficam feitos no mesmo toque.",
+      "Abertura e fecho de caixa por dia, com entradas, saídas e histórico.",
+      "Receitas por período e fluxo de caixa; conta-corrente por cliente e por barbeiro.",
+      "Um corte grátis do cartão de fidelidade é cobrado a zero — o checkout sabe.",
+    ],
+  },
+  {
+    icon: Package,
+    titulo: "Produtos e stock",
+    itens: [
+      "Produtos com preço de custo e de venda, stock atual e stock mínimo.",
+      "Movimentos de entrada e saída, com histórico.",
+      "Fornecedores.",
+    ],
+  },
+  {
+    icon: BarChart3,
+    titulo: "Relatórios e contabilista",
+    itens: [
+      "Relatórios de marcações, clientes, profissionais, financeiro, serviços e produtos.",
+      "Excel para o contabilista: escolhes o mês, carregas num botão. Sai o resumo (total, por método de pagamento, por barbeiro, por serviço) e todos os serviços prestados, linha a linha.",
+    ],
+  },
+  {
+    icon: Settings,
+    titulo: "Definições",
+    itens: [
+      "Dados do negócio, horário, serviços e preços.",
+      "Agenda: intervalo entre marcações, antecedência mínima, prazo de cancelamento, confirmação automática.",
+      "Cartão de fidelidade: número de carimbos e validade.",
+      "Tema e aparência: cores, logótipo e capa do site dos teus clientes.",
+      "Notificações, utilizadores e segurança.",
+    ],
+  },
 ];
 
-const schemaBooking = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Convecta Booking",
-  "applicationCategory": "BusinessApplication",
-  "applicationSubCategory": "AppointmentScheduling",
-  "operatingSystem": "Web, iOS, Android",
-  "url": "https://convecta.pt/booking",
-  "description": "Plataforma de gestão para barbearias com agendamento online, cartão de fidelidade digital, controlo de caixa, gestão de stock e relatórios financeiros em tempo real.",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "EUR",
-    "description": "Demonstração gratuita disponível. Contactar para preços."
+// O que ainda nao faz. Dito aqui para nao ser descoberto depois de assinar.
+const AINDA_NAO = [
+  {
+    icon: Ban,
+    titulo: "Lembretes por SMS ou WhatsApp",
+    texto: "Hoje não há lembretes automáticos na véspera. As notificações no telemóvel (marcação recebida, confirmada, cancelada) existem e são grátis. Lembretes por WhatsApp custam dinheiro por mensagem; se os incluirmos, será como extra, com o preço à vista.",
   },
-  "provider": {
-    "@type": "Organization",
-    "name": "Convecta",
-    "url": "https://convecta.pt"
+  {
+    icon: Ban,
+    titulo: "Pagamentos online pelo cliente",
+    texto: "O cliente paga na barbearia, como sempre — dinheiro, MB Way, cartão, o que tu aceitares. A Convecta regista o método no checkout; não cobra ao cliente nem fica com nada.",
   },
-  "featureList": [
-    "Agendamento online para barbearias",
-    "Gestão de agenda por profissional",
-    "Cartão de fidelidade digital animado",
-    "Controlo de caixa e checkout",
-    "Relatórios financeiros em tempo real",
-    "Gestão de inventário e stock",
-    "Assinaturas e planos mensais",
-    "Promoções e cupões de desconto",
-    "Painel de administração web",
-    "App de cliente sem instalação"
-  ],
-  "audience": {
-    "@type": "Audience",
-    "audienceType": "Barbearias, Barbeiros, Salões"
+  {
+    icon: Ban,
+    titulo: "Assinaturas, pacotes e cupões",
+    texto: "Não fazem parte da app hoje. Quando fizerem, aparecem aqui primeiro — não vendemos o que ainda não gravou uma única marcação.",
   },
-  "inLanguage": "pt-PT",
-  "countryOfOrigin": "PT"
-};
+];
 
-export default function Booking() {
-  const { open: openModal } = useContactModal();
-  const [activeTab, setActiveTab] = useState("todos");
-  const [activeVideoModal, setActiveVideoModal] = useState(null);
-  const [playingInline, setPlayingInline] = useState({});
+// Palavras que os donos de barbearia escrevem no Google. A pagina responde
+// a cada uma com o que a Convecta faz, em portugues corrente — nao e uma
+// lista de termos, e o que a app e.
+const GARANTIAS = [
+  { icon: Percent, titulo: "0 % de comissões", texto: "Mensalidade fixa. Cada marcação é tua, cada euro é teu." },
+  { icon: Lock, titulo: "Dados na União Europeia", texto: "Guardados em servidores na Irlanda, isolados por barbearia." },
+  { icon: ShieldCheck, titulo: "Sem marcações duplas", texto: "Garantido pela base de dados, não por uma regra no ecrã." },
+  { icon: Download, titulo: "Os dados são teus", texto: "Excel quando quiseres; apagamos tudo a pedido se saíres." },
+];
 
-  const filteredVideos = videoShowcaseData.filter(v => {
-    if (activeTab === "todos") return true;
-    return v.category === activeTab;
-  });
+function Cartao({ icon: Icon, titulo, texto }) {
+  return (
+    <article className="h-full p-6 lg:p-7 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#fee96d]/40 transition-colors duration-300">
+      <div className="w-11 h-11 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center mb-4 border border-[#fee96d]/20">
+        <Icon size={20} />
+      </div>
+      <h3 className="font-heading text-xl text-white mb-2 leading-snug">{titulo}</h3>
+      <p className="text-white/60 text-sm leading-relaxed">{texto}</p>
+    </article>
+  );
+}
 
-  const toggleInlinePlay = (videoId) => {
-    setPlayingInline(prev => ({ ...prev, [videoId]: !prev[videoId] }));
-  };
+export default function Funcionalidades() {
+  const ld = [
+    softwareLd(),
+    migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Funcionalidades", caminho: "/funcionalidades" }]),
+  ];
 
   return (
     <main id="main-content" style={{ backgroundColor: "#1a1a1a" }} className="booking-page text-white min-h-screen overflow-hidden selection:bg-[#fee96d] selection:text-[#1a1a1a]">
-      <Helmet>
-        <title>Convecta Booking — App de Marcações e Gestão para Barbearias</title>
-        <meta name="description" content="App de agendamento online para barbearias. Gestão de marcações, cartão de fidelidade digital, controlo de caixa e relatórios em tempo real. Criada de raiz para barbeiros em Portugal." />
-        <link rel="canonical" href="https://convecta.pt/booking" />
+      <Seo
+        titulo="Funcionalidades da app de marcações online para barbearias"
+        descricao="Tudo o que a Convecta Booking faz: marcações online 24/7 pelo site da barbearia, agenda por barbeiro com notificações, confirmação automática, cartão de fidelidade digital, checkout, caixa, comissões, stock, relatórios e Excel para o contabilista."
+        caminho="/funcionalidades"
+        ld={ld}
+      />
 
-        {/* Open Graph */}
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Convecta" />
-        <meta property="og:locale" content="pt_PT" />
-        <meta property="og:title" content="Convecta Booking — App de Marcações para Barbearias" />
-        <meta property="og:description" content="Agendamento online, fidelização de clientes, caixa e relatórios. A plataforma de gestão feita para barbearias modernas em Portugal." />
-        <meta property="og:url" content="https://convecta.pt/booking" />
-        <meta property="og:image" content="https://convecta.pt/og-image-booking.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="Convecta Booking — App de marcações e gestão para barbearias" />
-
-        {/* Twitter / X */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@convecta" />
-        <meta name="twitter:title" content="Convecta Booking — App de Marcações para Barbearias" />
-        <meta name="twitter:description" content="Agendamento online, cartão de fidelidade, caixa e relatórios. O software de gestão para barbearias feito em Portugal." />
-        <meta name="twitter:image" content="https://convecta.pt/og-image-booking.jpg" />
-        <meta name="twitter:image:alt" content="Convecta Booking — painel de gestão para barbearias" />
-        <script type="application/ld+json">
-          {JSON.stringify(schemaBooking)}
-        </script>
-      </Helmet>
-
-      {/* HERO / INTRODUÇÃO RESUMIDA */}
-      <section style={{ backgroundColor: "#1a1a1a" }} className="relative pt-32 pb-20 lg:pt-40 lg:pb-24 px-6 lg:px-12 max-w-7xl mx-auto text-center overflow-hidden">
+      {/* HERO */}
+      <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 px-6 lg:px-12 overflow-hidden">
         <AmbientParticles count={10} />
-        
-        {/* Glow de fundo amarelo da marca */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#fee96d]/10 blur-[140px] pointer-events-none rounded-full" />
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="relative z-10 max-w-3xl mx-auto"
-        >
-          <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">
-            Convecta Booking · Apresentação em Vídeo
-          </p>
-
-          <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
-            App de Marcações e Gestão para Barbearias
-          </h1>
-
-          <p className="text-white/70 text-base sm:text-lg leading-relaxed mb-6 max-w-2xl mx-auto font-light">
-            O Convecta Booking é o software de barbearia feito em Portugal para simplificar agendamentos online, fidelizar clientes e ter controlo total da operação — num só lugar.
-          </p>
-
-          <p className="text-white/80 text-xs sm:text-sm leading-relaxed mb-10 max-w-2xl mx-auto font-light">
-            Dezenas de barbearias em Portugal já usam o Convecta Booking para gerir marcações online, controlar a caixa e crescer sem depender do WhatsApp. Descobre o que a plataforma faz por ti.
-          </p>
-
-          {/* Abas de Navegação / Filtros de Vídeo */}
-          <div role="tablist" aria-label="Categorias de funcionalidades" className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 p-1.5 rounded-2xl sm:rounded-full bg-black/40 border border-[#fee96d]/20 backdrop-blur-xl max-w-2xl mx-auto">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                id={`tab-${cat.id}`}
-                role="tab"
-                aria-selected={activeTab === cat.id}
-                aria-controls={`tab-panel-${cat.id}`}
-                onClick={() => setActiveTab(cat.id)}
-                className={`relative px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl sm:rounded-full text-xs sm:text-sm font-medium transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fee96d] ${
-                  activeTab === cat.id
-                    ? "text-[#1a1a1a] font-bold"
-                    : "text-white/70 hover:text-white hover:bg-white/5"
-                }`}
-              >
-                {activeTab === cat.id && (
-                  <motion.div
-                    layoutId="activeTabGlow"
-                    className="absolute inset-0 bg-[#fee96d] rounded-xl sm:rounded-full shadow-lg shadow-[#fee96d]/20"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10">{cat.label}</span>
-              </button>
-            ))}
-          </div>
-        </motion.div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <nav aria-label="Caminho" className="text-xs text-white/40 mb-6 text-center">
+            <Link to="/" className="hover:text-white/70 transition-colors">Início</Link>
+            <span className="mx-2">/</span>
+            <span className="text-white/60">Funcionalidades</span>
+          </nav>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-3xl mx-auto text-center">
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">Convecta Booking · Funcionalidades</p>
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
+              A app de marcações online para barbearias, por dentro.
+            </h1>
+            <p className="text-white/70 text-base sm:text-lg leading-relaxed mb-4 max-w-2xl mx-auto font-light">
+              A Convecta Booking tem duas partes: o site onde os teus clientes marcam e o painel onde tu geres a barbearia — agenda, clientes, caixa, comissões, stock, cartão de fidelidade e relatórios. Esta página diz o que existe e funciona hoje.
+            </p>
+            <p className="text-white/45 text-sm leading-relaxed mb-10 max-w-xl mx-auto">
+              Não acredites em nós: cada frase aqui pode ser confirmada na demonstração ao vivo, sem registo e sem cartão.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}>
+                <Smartphone size={16} /> Marcar como cliente
+              </a>
+              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm bg-white/10 text-white hover:bg-white/20 border border-white/20 transition-all">
+                <LayoutDashboard size={16} /> Entrar no painel
+              </a>
+            </div>
+          </motion.div>
+        </div>
       </section>
 
-      {/* SECÇÃO ZIG-ZAG DE VÍDEOS */}
-      <section style={{ backgroundColor: "#141414" }} className="relative py-20 px-6 lg:px-12 border-t border-b border-white/5">
-        <AmbientParticles count={8} />
-        
-        <div className="max-w-7xl mx-auto relative z-10">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              id={`tab-panel-${activeTab}`}
-              role="tabpanel"
-              aria-labelledby={`tab-${activeTab}`}
-              aria-live="polite"
-              aria-atomic="false"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.4 }}
-              className="space-y-24 lg:space-y-32"
-            >
-              {filteredVideos.map((video, index) => {
-                const isEven = index % 2 === 1; // Alternar esquerda/direita
-                const isPlaying = playingInline[video.id];
+      {/* GARANTIAS — a faixa que diz o que nao muda */}
+      <section className="px-6 lg:px-12 pb-16 lg:pb-24">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {GARANTIAS.map((g, i) => (
+            <ScrollReveal key={g.titulo} delay={i * 0.06} variant="fadeInUp">
+              <div className="h-full p-5 rounded-xl bg-white/5 border border-[#fee96d]/20">
+                <div className="flex items-center gap-2 text-[#fee96d] font-bold text-sm mb-1">
+                  <g.icon size={18} /> <span>{g.titulo}</span>
+                </div>
+                <p className="text-white/60 text-xs leading-relaxed">{g.texto}</p>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </section>
 
-                return (
-                  <div key={video.id} className="relative group">
-                    
-                    {/* Linha/Seta de ligação em Zig-Zag para o próximo vídeo */}
-                    {index < filteredVideos.length - 1 && (
-                      <div className="hidden lg:block absolute left-1/2 -bottom-24 -translate-x-1/2 w-48 h-24 pointer-events-none z-0">
-                        <svg className="w-full h-full text-[#fee96d]/40 overflow-visible" viewBox="0 0 100 100" fill="none">
-                          <motion.path
-                            d={isEven ? "M 20,0 C 20,50 80,50 80,100" : "M 80,0 C 80,50 20,50 20,100"}
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeDasharray="4 4"
-                            initial={{ pathLength: 0 }}
-                            whileInView={{ pathLength: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, delay: 0.2 }}
-                          />
-                          <polygon
-                            points={isEven ? "76,92 84,100 80,88" : "16,92 24,100 20,88"}
-                            fill="#fee96d"
-                            className="animate-bounce"
-                          />
-                        </svg>
-                      </div>
-                    )}
-
-                    <ScrollReveal variant="fadeInUp">
-                      <div className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${
-                        isEven ? "lg:flex-row-reverse" : ""
-                      }`}>
-                        
-                        {/* CAIXA DE VÍDEO (LADO ESQUERDO / DIREITO) */}
-                        <div className={`lg:col-span-7 ${isEven ? "lg:order-2" : "lg:order-1"}`}>
-                          <TiltCard
-                            dark={true}
-                            glowColor="rgba(254,233,109,0.2)"
-                            className="rounded-2xl overflow-hidden border border-[#fee96d]/20 shadow-2xl bg-[#1a1a1a] p-2 sm:p-3 transition-all duration-500 hover:border-[#fee96d]/40"
-                          >
-                            <div className="relative aspect-video rounded-xl overflow-hidden bg-[#0d0d0d] group/video flex items-center justify-center">
-                              
-                              {/* Fundo do vídeo / Poster */}
-                              <div className={`absolute inset-0 bg-gradient-to-br ${video.posterBg} opacity-80 group-hover/video:opacity-100 transition-opacity`} />
-                              
-                              {/* Grelha de padrão de fundo */}
-                              <div className="absolute inset-0 bg-[radial-gradient(#fee96d_1px,transparent_1px)] [background-size:20px_20px] opacity-10 pointer-events-none" />
-
-                              {/* Conteúdo do Leitor de Vídeo */}
-                              {video.videoUrl && isPlaying ? (
-                                <video
-                                  src={video.videoUrl}
-                                  controls
-                                  autoPlay
-                                  className="w-full h-full object-cover rounded-xl z-20"
-                                />
-                              ) : (
-                                <>
-                                  {/* Thumbnail / Efeito Visual do Vídeo */}
-                                  <div className="relative z-10 text-center p-6 flex flex-col items-center justify-center">
-                                    {/* Badge Superior no Vídeo */}
-                                    <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1 rounded-full bg-[#1a1a1a]/80 border border-[#fee96d]/30 text-xs font-semibold backdrop-blur-md">
-                                      <span className="w-2 h-2 rounded-full bg-[#fee96d] animate-ping" />
-                                      <span className="text-white">{video.categoryLabel}</span>
-                                    </div>
-
-                                    <div className="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#1a1a1a]/80 border border-white/10 text-xs text-white/70 backdrop-blur-md">
-                                      <Clock size={12} className="text-[#fee96d]" />
-                                      <span>{video.duration}</span>
-                                    </div>
-
-                                    {/* Botão Play 3D com Efeito Pulsante */}
-                                    <motion.button
-                                      aria-label={`Ver demonstração: ${video.title}`}
-                                      whileHover={{ scale: 1.1 }}
-                                      whileTap={{ scale: 0.95 }}
-                                      onClick={() => {
-                                        if (video.videoUrl) {
-                                          toggleInlinePlay(video.id);
-                                        } else {
-                                          setActiveVideoModal(video);
-                                        }
-                                      }}
-                                      className="relative group/btn my-4 w-20 h-20 rounded-full flex items-center justify-center bg-[#fee96d] text-[#1a1a1a] shadow-xl shadow-[#fee96d]/20 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fee96d]"
-                                    >
-                                      <span className="absolute inset-0 rounded-full bg-[#fee96d] animate-ping opacity-25" />
-                                      <Play size={28} className="fill-[#1a1a1a] translate-x-0.5" />
-                                    </motion.button>
-
-                                    <p className="text-xs sm:text-sm font-medium text-white/80 group-hover/video:text-white transition-colors">
-                                      Clique para ver a demonstração em vídeo
-                                    </p>
-                                  </div>
-                                </>
-                              )}
-
-                              {/* Barra Inferior do Vídeo */}
-                              <div className="absolute bottom-0 inset-x-0 p-3 bg-gradient-to-t from-[#0d0d0d] via-[#0d0d0d]/70 to-transparent flex items-center justify-between text-xs text-white/60 z-10 pointer-events-none">
-                                <span className="font-mono text-[#fee96d] font-bold">VÍDEO {video.step}</span>
-                                <span className="truncate max-w-[200px] text-white/80">{video.title}</span>
-                              </div>
-                            </div>
-                          </TiltCard>
-                        </div>
-
-                        {/* CONTEÚDO EXPLICATIVO (LADO DIREITO / ESQUERDO) */}
-                        <div className={`lg:col-span-5 ${isEven ? "lg:order-1" : "lg:order-2"}`}>
-                          <div className="space-y-5">
-                            
-                            {/* Número do Passo & Tag */}
-                            <div className="flex items-center gap-3">
-                              <span className="font-mono text-3xl font-black tracking-tighter text-[#fee96d]">
-                                {video.step}
-                              </span>
-                              <div className="h-4 w-px bg-white/20" />
-                              <span className="text-xs uppercase tracking-widest font-semibold text-[#fee96d] bg-[#fee96d]/10 px-3 py-1 rounded-full border border-[#fee96d]/20">
-                                {video.subtitle}
-                              </span>
-                            </div>
-
-                            {/* Título */}
-                            <h2 className="font-heading text-2xl sm:text-3xl text-white leading-tight">
-                              {video.title}
-                            </h2>
-
-                            {/* Descrição */}
-                            <p className="text-white/70 text-sm sm:text-base leading-relaxed font-light">
-                              {video.description}
-                            </p>
-
-                            {/* Lista de Highlights com Ícones */}
-                            <ul className="space-y-2.5 pt-2">
-                              {video.highlights.map((item, i) => (
-                                <li key={i} className="flex items-start gap-3 text-xs sm:text-sm text-white/80">
-                                  <CheckCircle2 size={16} className="text-[#fee96d] shrink-0 mt-0.5" />
-                                  <span>{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-
-                            {/* Ação rápida / Interação */}
-                            <div className="pt-3">
-                              <button
-                                aria-label={`Ver detalhes da demonstração: ${video.title}`}
-                                onClick={() => setActiveVideoModal(video)}
-                                className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold uppercase tracking-wider text-[#fee96d] hover:text-white transition-colors group/link cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fee96d]"
-                              >
-                                <span>Ver detalhes da demonstração</span>
-                                <ArrowRight size={14} className="group-hover/link:translate-x-1 transition-transform" />
-                              </button>
-                            </div>
-
-                          </div>
-                        </div>
-
-                      </div>
-                    </ScrollReveal>
-                  </div>
-                );
-              })}
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="flex flex-wrap gap-4 justify-center mt-8 text-sm">
-            <Link to="/precos" className="text-[#fee96d] underline underline-offset-2">
-              Ver planos e preços do Booking
-            </Link>
-            <span className="text-white/30">·</span>
-            <Link to="/booking/funcionalidades" className="text-[#fee96d] underline underline-offset-2">
-              Explorar todas as funcionalidades
-            </Link>
-            <span className="text-white/30">·</span>
-            <Link to="/faq" className="text-[#fee96d] underline underline-offset-2">
-              Perguntas frequentes
-            </Link>
+      {/* PARA OS CLIENTES */}
+      <section style={{ backgroundColor: "#141414" }} className="relative py-20 lg:py-28 px-6 lg:px-12 border-t border-white/5">
+        <AmbientParticles count={6} />
+        <div className="max-w-6xl mx-auto relative z-10">
+          <ScrollReveal>
+            <div className="max-w-3xl mb-10 lg:mb-14">
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">1 · O site de marcações dos teus clientes</p>
+              <h2 className="font-heading text-3xl lg:text-5xl text-white mb-4 leading-tight">Agendamento online que o teu cliente faz sozinho.</h2>
+              <p className="text-white/60 text-base lg:text-lg leading-relaxed">
+                Nada de mensagens no WhatsApp a perguntar "tens hora?". O cliente vê as horas livres e marca. Tu sabes no segundo seguinte.
+              </p>
+            </div>
+          </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {PARA_CLIENTES.map((c, i) => (
+              <ScrollReveal key={c.titulo} delay={i * 0.06} variant="fadeInUp">
+                <Cartao {...c} />
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* MODAL DE VÍDEO / DETALHES */}
-      <AnimatePresence>
-        {activeVideoModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-xl"
-            onClick={() => setActiveVideoModal(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-[#1a1a1a] border border-[#fee96d]/30 rounded-2xl shadow-2xl p-5 sm:p-8"
-            >
-              {/* Botão Fechar */}
-              <button
-                aria-label="Fechar modal de demonstração"
-                onClick={() => setActiveVideoModal(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/10 text-white/70 hover:text-white hover:bg-white/20 transition-colors z-20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fee96d]"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="mb-6">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#fee96d]/10 text-[#fee96d] text-xs font-semibold mb-2 border border-[#fee96d]/20">
-                  <span>Vídeo {activeVideoModal.step} · {activeVideoModal.categoryLabel}</span>
-                </div>
-                <h3 className="font-heading text-2xl sm:text-3xl text-white">
-                  {activeVideoModal.title}
-                </h3>
-              </div>
-
-              {/* Player do Modal */}
-              <div className="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/10 mb-6 flex items-center justify-center">
-                {activeVideoModal.videoUrl ? (
-                  <video
-                    src={activeVideoModal.videoUrl}
-                    controls
-                    autoPlay
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="text-center p-8">
-                    <div className="w-16 h-16 rounded-full bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center mx-auto mb-4 border border-[#fee96d]/30">
-                      <Play size={28} className="fill-[#fee96d]" />
-                    </div>
-                    <p className="text-white font-medium text-lg mb-2">Ficheiro de vídeo pronto para associação</p>
-                    <p className="text-white/60 text-sm max-w-md mx-auto">
-                      Coloca o teu ficheiro MP4 no caminho especificado ou define a URL no código para reproduzir o vídeo de apresentação correspondente ao módulo <span className="text-[#fee96d]">{activeVideoModal.title}</span>.
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-white/10">
-                <p className="text-white/60 text-xs sm:text-sm">
-                  Tens dúvidas sobre este módulo? Agenda uma demonstração em direto com a nossa equipa.
-                </p>
-                <button
-                  onClick={() => {
-                    setActiveVideoModal(null);
-                    openModal();
-                  }}
-                  className="btn-glow w-full sm:w-auto px-6 py-3 rounded-sm bg-[#fee96d] text-[#1a1a1a] font-bold text-xs uppercase tracking-wide shrink-0"
-                >
-                  Pedir Demonstração do Módulo
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* CTA FORTE NO FINAL IGUAL AO SITE */}
-      <section style={{ backgroundColor: "#1a1a1a" }} className="relative py-24 lg:py-32 px-6 lg:px-12 border-t border-white/10 overflow-hidden">
-        <AmbientParticles count={8} />
-        
-        <div className="max-w-4xl mx-auto text-center relative z-10 space-y-8">
+      {/* PARA O BARBEIRO */}
+      <section className="relative py-20 lg:py-28 px-6 lg:px-12 border-t border-white/5">
+        <AmbientParticles count={6} />
+        <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
-            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">
-              Pronto para transformar a tua barbearia?
-            </p>
-
-            <h2 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
-              Garante o Convecta Booking <br />
-              <span style={{ color: "#fee96d" }}>com configuração personalizada.</span>
-            </h2>
-
-            <p className="text-white/70 text-base sm:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-10">
-              Experimenta o software de gestão para barbearias mais completo de Portugal. Lançamos a tua plataforma pronta a usar em menos de 24 horas. Sem custos escondidos, sem comissões por marcação e com apoio total da nossa equipa.
-            </p>
-
-            {/* Badges de garantia */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 text-left">
-              <div className="p-5 rounded-xl bg-white/5 border border-[#fee96d]/20 backdrop-blur-md">
-                <div className="flex items-center gap-2 text-[#fee96d] font-bold text-sm mb-1">
-                  <ShieldCheck size={18} />
-                  <span>0% Comissões</span>
-                </div>
-                <p className="text-white/60 text-xs">Fica com 100% da receita das tuas marcações.</p>
-              </div>
-
-              <div className="p-5 rounded-xl bg-white/5 border border-[#fee96d]/20 backdrop-blur-md">
-                <div className="flex items-center gap-2 text-[#fee96d] font-bold text-sm mb-1">
-                  <Zap size={18} />
-                  <span>Ativação em &lt;24h</span>
-                </div>
-                <p className="text-white/60 text-xs">Configuração acompanhada e pronta a funcionar.</p>
-              </div>
-
-              <div className="p-5 rounded-xl bg-white/5 border border-[#fee96d]/20 backdrop-blur-md">
-                <div className="flex items-center gap-2 text-[#fee96d] font-bold text-sm mb-1">
-                  <Star size={18} />
-                  <span>Suporte Incluído</span>
-                </div>
-                <p className="text-white/60 text-xs">Acompanhamento direto e apoio técnico contínuo.</p>
-              </div>
+            <div className="max-w-3xl mb-10 lg:mb-14">
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">2 · O painel de gestão da barbearia</p>
+              <h2 className="font-heading text-3xl lg:text-5xl text-white mb-4 leading-tight">Software de gestão para barbearias que cabe no telemóvel.</h2>
+              <p className="text-white/60 text-base lg:text-lg leading-relaxed">
+                Abre no browser do telemóvel, do tablet ou do computador ao balcão. Tudo o que está abaixo grava na base de dados e aparece em todos os dispositivos.
+              </p>
             </div>
+          </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {PARA_BARBEIROS.map((g, i) => (
+              <ScrollReveal key={g.titulo} delay={i * 0.05} variant="fadeInUp">
+                <article className="h-full p-6 lg:p-7 rounded-2xl bg-white/[0.04] border border-white/10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center border border-[#fee96d]/20">
+                      <g.icon size={18} />
+                    </div>
+                    <h3 className="font-heading text-2xl text-white">{g.titulo}</h3>
+                  </div>
+                  <ul className="space-y-2.5">
+                    {g.itens.map((it) => (
+                      <li key={it} className="flex items-start gap-3 text-sm text-white/70 leading-relaxed">
+                        <CheckCircle2 size={16} className="text-[#fee96d] shrink-0 mt-0.5" />
+                        <span>{it}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            {/* Botões de Ação Principais */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button
-                onClick={() => {
-                  if (typeof window.trackEvent === 'function') {
-                    window.trackEvent('cta_click', {
-                      event_category: 'CTA',
-                      event_label: 'booking_hero_demo',
-                      value: 1
-                    });
-                  }
-                  openModal();
-                }}
-                className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#fee96d]"
-                style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
-              >
-                <span>Pedir Demonstração</span>
-                <ArrowRight size={18} />
-              </button>
+      <GradientTransition from="#1a1a1a" to="#ffffff" />
 
-              <Link
-                to="/precos"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-wide rounded-sm bg-white/10 text-white hover:bg-white/20 border border-white/20 transition-all duration-200"
-              >
-                <span>Ver Planos e Preços</span>
-                <ChevronRight size={16} />
-              </Link>
+      {/* O QUE MUDA — texto corrido, para quem quer perceber (e para o Google) */}
+      <section className="bg-white py-20 lg:py-28 px-6 lg:px-12">
+        <div className="max-w-3xl mx-auto">
+          <ScrollReveal>
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-dark/40 mb-4">3 · Na prática</p>
+            <h2 className="font-heading text-3xl lg:text-5xl text-dark mb-8 leading-tight">O que muda numa barbearia com marcações online</h2>
+            <div className="space-y-5 text-dark/70 text-base leading-relaxed">
+              <p>
+                <strong className="text-dark">Marcações online</strong> quer dizer que a agenda deixa de viver no teu telemóvel e nas conversas do WhatsApp. Passa a viver num sítio onde o cliente marca sozinho, a qualquer hora, e onde tu só tens de confirmar — ou nem isso, se ligares a confirmação automática. Cada marcação chega com nome, serviço e hora, e o teu telemóvel avisa-te.
+              </p>
+              <p>
+                <strong className="text-dark">Agendamento automático</strong> não é o cliente ser atendido por um robô: é a agenda saber que horas estão livres, quanto dura cada serviço, que barbeiro está de folga e a que horas fechas — e só mostrar ao cliente o que realmente pode marcar. Duas pessoas não conseguem ficar com a mesma hora no mesmo barbeiro, nem que tentem ao mesmo segundo.
+              </p>
+              <p>
+                <strong className="text-dark">Gestão</strong> é o que acontece depois do corte. No checkout registas como pagou, o desconto e a gorjeta; a comissão do barbeiro e o carimbo do cliente ficam feitos no mesmo toque. No fim do dia fechas a caixa. No fim do mês, o Excel do contabilista sai com um botão. Os produtos que vendes ao balcão saem do stock.
+              </p>
+              <p>
+                Tudo isto por uma <strong className="text-dark">mensalidade fixa de {PRECO_MENSAL_TEXTO}</strong>, sem comissões por marcação, sem fidelização, para uma barbearia com um barbeiro ou com cinco. É um <strong className="text-dark">software de gestão para barbearias</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
+              </p>
             </div>
-            <p className="text-center text-white/40 text-xs mt-3">
-              Tens dúvidas primeiro?{" "}
-              <Link to="/faq" className="text-white/60 underline underline-offset-2">
-                Consulta as perguntas frequentes
-              </Link>
-            </p>
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">
+              <Link to="/precos" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1">Ver o preço <ArrowRight size={14} /></Link>
+              <Link to="/como-funciona" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1">Como funciona, passo a passo <ArrowRight size={14} /></Link>
+              <Link to="/faq" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1">Perguntas frequentes <ArrowRight size={14} /></Link>
+            </div>
           </ScrollReveal>
         </div>
       </section>
 
+      <GradientTransition from="#ffffff" to="#1a1a1a" />
+
+      {/* AINDA NAO */}
+      <section className="relative py-20 lg:py-28 px-6 lg:px-12">
+        <div className="max-w-6xl mx-auto">
+          <ScrollReveal>
+            <div className="max-w-3xl mb-10">
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">4 · Para não haver surpresas</p>
+              <h2 className="font-heading text-3xl lg:text-5xl text-white mb-4 leading-tight">O que a Convecta ainda não faz.</h2>
+              <p className="text-white/60 text-base lg:text-lg leading-relaxed">
+                Preferimos que saibas antes de assinar do que descobrires depois. Isto é o que nos perguntam e ainda não temos.
+              </p>
+            </div>
+          </ScrollReveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {AINDA_NAO.map((c, i) => (
+              <ScrollReveal key={c.titulo} delay={i * 0.06} variant="fadeInUp">
+                <article className="h-full p-6 rounded-2xl bg-white/[0.03] border border-white/10">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 text-white/50 flex items-center justify-center mb-4 border border-white/10">
+                    <c.icon size={18} />
+                  </div>
+                  <h3 className="font-heading text-xl text-white mb-2">{c.titulo}</h3>
+                  <p className="text-white/55 text-sm leading-relaxed">{c.texto}</p>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA FINAL */}
+      <section className="relative py-24 lg:py-32 px-6 lg:px-12 border-t border-white/10 overflow-hidden">
+        <AmbientParticles count={8} />
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <ScrollReveal>
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">Cinco minutos chegam</p>
+            <h2 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
+              Vê tudo isto a funcionar,<br /><span style={{ color: "#fee96d" }}>com as tuas próprias mãos.</span>
+            </h2>
+            <p className="text-white/70 text-base sm:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-10">
+              Marca uma consulta como cliente na barbearia de demonstração. Depois entra no painel e vê-a chegar. Sem registo, sem cartão, sem ninguém a ligar-te a meio.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}>
+                <span>Experimentar a demonstração</span>
+                <ArrowRight size={18} />
+              </a>
+              <Link to="/precos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-wide rounded-sm bg-white/10 text-white hover:bg-white/20 border border-white/20 transition-all duration-200">
+                <span>Ver o preço: {PRECO_MENSAL_TEXTO}/mês</span>
+              </Link>
+            </div>
+            <p className="text-center text-white/40 text-xs mt-4">
+              Preferes falar primeiro? <Link to="/contacto" className="text-white/60 underline underline-offset-2">Deixa-nos o teu contacto</Link>.
+            </p>
+          </ScrollReveal>
+        </div>
+      </section>
     </main>
   );
 }

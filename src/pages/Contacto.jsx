@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
-import { Helmet } from 'react-helmet-async';
+import Seo from "@/components/Seo";
+import { migalhasLd } from "@/lib/seo";
 import { enviarContacto } from "@/lib/contactos";
 import ScrollReveal from "@/components/ScrollReveal";
 import GradientTransition from "@/components/GradientTransition";
@@ -27,7 +28,7 @@ export default function Contacto() {
       next.nome = "Indica o teu nome.";
     }
     if (!data.negocio || data.negocio.trim().length < 2) {
-      next.negocio = "Indica o nome do teu negócio.";
+      next.negocio = "Indica o nome da tua barbearia.";
     }
     const phoneDigits = data.telefone.replace(/\D/g, "");
     if (phoneDigits.length < 9) {
@@ -96,11 +97,12 @@ export default function Contacto() {
 
   return (
     <div>
-      <Helmet>
-        <title>Contacto — Fala com a Convecta</title>
-        <meta name="description" content="Fala com a equipa da Convecta. Estamos disponíveis para websites, Convecta Booking e qualquer questão sobre as nossas soluções digitais." />
-        <link rel="canonical" href="https://convecta.pt/contacto" />
-      </Helmet>
+      <Seo
+        titulo="Contacto — Fala com a Convecta sobre marcações online para a tua barbearia"
+        descricao="Fala com quem fez a Convecta: telefone +351 912 381 717, geral@convecta.pt ou o formulário. Respondemos em dias úteis, normalmente no próprio dia. Porto, Portugal."
+        caminho="/contacto"
+        ld={[migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Contacto", caminho: "/contacto" }])]}
+      />
 
       {/* Hero */}
       <section style={{ backgroundColor: "#1a1a1a" }} className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden">
@@ -116,7 +118,7 @@ export default function Contacto() {
               Vamos <span style={{ color: "#fee96d" }}>falar.</span>
             </h1>
             <p className="text-lg text-white/50 max-w-2xl mx-auto">
-              Sem compromisso. Sem pressão. Uma conversa simples para perceber se fazemos sentido para o teu negócio.
+              Sem compromisso, sem pressão. Quinze minutos ao telefone ou no WhatsApp para percebermos a tua barbearia e dizermos, sem rodeios, se a Convecta faz sentido para ti.
             </p>
           </motion.div>
         </div>
@@ -141,7 +143,7 @@ export default function Contacto() {
                     </div>
                     <h3 className="font-heading text-2xl text-dark mb-3">Recebemos o teu pedido.</h3>
                     <p className="text-dark/50 text-sm max-w-md mx-auto">
-                      Entraremos em contacto nas próximas 24 horas para agendar a tua chamada.
+                      Respondemos em dias úteis, normalmente no próprio dia, por telefone ou WhatsApp.
                     </p>
                   </div>
                 ) : (
@@ -180,7 +182,7 @@ export default function Contacto() {
                       </div>
                       <div>
                         <label htmlFor="negocio" className="text-xs font-bold uppercase tracking-wider text-dark/40 mb-2 block">
-                          Nome do negócio
+                          Barbearia
                         </label>
                         <input
                           id="negocio"
@@ -191,7 +193,7 @@ export default function Contacto() {
                           value={form.negocio}
                           onChange={handleChange}
                           className="w-full bg-transparent border-b border-dark/15 py-3 text-dark text-sm focus:outline-none focus:border-mustard transition-colors"
-                          placeholder="Nome da tua empresa"
+                          placeholder="Nome da tua barbearia"
                         />
                         {errors.negocio && <p className="text-xs text-red-500 mt-1">{errors.negocio}</p>}
                       </div>
@@ -244,7 +246,7 @@ export default function Contacto() {
                         value={form.mensagem}
                         onChange={handleChange}
                         className="w-full bg-transparent border-b border-dark/15 py-3 text-dark text-sm focus:outline-none focus:border-mustard transition-colors resize-none"
-                        placeholder="Conta-nos sobre o teu negócio..."
+                        placeholder="Quantos barbeiros, como marcas hoje, o que te faz perder tempo…"
                       />
                       {errors.mensagem && <p className="text-xs text-red-500 mt-1">{errors.mensagem}</p>}
                     </div>
@@ -268,7 +270,7 @@ export default function Contacto() {
                   <div className="flex items-center gap-3 mb-6">
                     <Clock size={16} className="text-mustard" />
                     <span className="text-xs font-bold uppercase tracking-wider text-dark/60">
-                      Resposta em 24h
+                      Resposta em dias úteis, até 24 h
                     </span>
                   </div>
 

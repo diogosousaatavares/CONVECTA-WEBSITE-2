@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Seo from "@/components/Seo";
 
 export default function PaginaNaoEncontrada() {
   return (
     <div style={{ minHeight: "100vh", background: "#111111", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
+      <Seo titulo="Página não encontrada" descricao="Este endereço não existe no site da Convecta." noindex />
       <div>
         <p style={{ fontSize: 12, letterSpacing: ".25em", textTransform: "uppercase", color: "rgba(255,255,255,.4)", marginBottom: 12 }}>404</p>
         <h1 className="font-heading" style={{ fontSize: 34, marginBottom: 12 }}>Esta página não existe.</h1>

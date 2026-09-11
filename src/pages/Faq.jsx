@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Helmet } from 'react-helmet-async';
+import Seo from "@/components/Seo";
 import {
   Accordion,
   AccordionContent,
@@ -12,11 +12,12 @@ import CtaSection from "@/components/CtaSection";
 import GradientTransition from "@/components/GradientTransition";
 import AmbientParticles from "@/components/AmbientParticles";
 import { DEMO_CLIENTE_URL } from "@/lib/demo";
+import { PRECO_MENSAL_TEXTO, faqLd, migalhasLd } from "@/lib/seo";
 
 const faqs = [
   {
     q: "O que é a Convecta Booking?",
-    a: "É o sistema de marcações da tua barbearia: um site próprio onde os teus clientes marcam pelo telemóvel, e um painel onde tu geres a agenda, a caixa, os clientes e o cartão de fidelidade. Tudo com o nome e as cores da tua barbearia — o cliente nunca vê a Convecta, vê-te a ti.",
+    a: "É a app de marcações online e o software de gestão da tua barbearia: um site próprio onde os teus clientes marcam pelo telemóvel, e um painel onde tu geres a agenda, a caixa, as comissões, o stock, os clientes e o cartão de fidelidade. Tudo com o nome e as cores da tua barbearia — o cliente nunca vê a Convecta, vê-te a ti.",
   },
   {
     q: "Posso experimentar antes de decidir?",
@@ -28,7 +29,7 @@ const faqs = [
   },
   {
     q: "Como fico a saber que entrou uma marcação?",
-    a: "O telemóvel toca. Recebes uma notificação com o nome do cliente, o serviço e a hora, e a marcação aparece na agenda nesse segundo. Confirmas com dois toques — ou ligas a confirmação automática e nem isso precisas. O cliente também é avisado quando confirmas, e lembrado no dia anterior.",
+    a: "O telemóvel toca. Recebes uma notificação com o nome do cliente, o serviço e a hora, e a marcação aparece na agenda nesse segundo. Confirmas com dois toques — ou ligas a confirmação automática e nem isso precisas. O cliente também recebe uma notificação no telemóvel quando confirmas. Lembretes na véspera por SMS ou WhatsApp ainda não existem — dizemo-lo aqui para não o descobrires depois.",
   },
   {
     q: "Podem entrar duas marcações à mesma hora?",
@@ -44,7 +45,7 @@ const faqs = [
   },
   {
     q: "A caixa e as comissões?",
-    a: "No fim de cada serviço fazes o checkout: método de pagamento, desconto se houver, gorjeta. A comissão do barbeiro é calculada e guardada nesse momento com a percentagem em vigor — mudar a percentagem amanhã não altera o que já foi feito hoje. Abres e fechas a caixa por dia, e cada barbeiro tem a sua conta.",
+    a: "No fim de cada serviço fazes o checkout: método de pagamento, desconto se houver, gorjeta. A comissão do barbeiro é calculada e guardada nesse momento com a percentagem em vigor — mudar a percentagem amanhã não altera o que já foi feito hoje. Abres e fechas a caixa por dia, e cada barbeiro tem a sua conta-corrente com o que fez e o que há a pagar.",
   },
   {
     q: "E o contabilista?",
@@ -52,7 +53,7 @@ const faqs = [
   },
   {
     q: "Quanto custa? Há comissões por marcação?",
-    a: "Uma mensalidade fixa, sem comissões por marcação e sem fidelização — cancelas quando quiseres. O preço é o mesmo para todas as barbearias, tenhas um barbeiro ou cinco. Fala connosco e dizemos-te o valor sem rodeios.",
+    a: `${PRECO_MENSAL_TEXTO} por mês, por barbearia, tudo incluído. Sem comissões por marcação, sem taxa de adesão e sem fidelização — cancelas quando quiseres. O preço é o mesmo para todas as barbearias, tenhas um barbeiro ou cinco. Acresce IVA à taxa legal, quando aplicável.`,
   },
   {
     q: "Quanto tempo até estar a funcionar?",
@@ -64,7 +65,7 @@ const faqs = [
   },
   {
     q: "Os dados dos meus clientes estão seguros?",
-    a: "Os dados ficam em servidores na União Europeia (Irlanda). Cada barbearia está isolada das outras: só tu vês os teus clientes e as tuas marcações, e cada cliente só vê as suas. Fazemos cópias de segurança, e se um dia quiseres sair, os teus dados são apagados a pedido.",
+    a: "Os dados ficam em servidores na União Europeia (Irlanda). Cada barbearia está isolada das outras: só tu vês os teus clientes e as tuas marcações, e cada cliente só vê as suas. Guardamos cópias de segurança, e se um dia quiseres sair, os teus dados são apagados a pedido — ou levas o Excel antes.",
   },
   {
     q: "Já uso outra agenda. Vale a pena mudar?",
@@ -72,34 +73,31 @@ const faqs = [
   },
   {
     q: "E se precisar de ajuda?",
-    a: "Falas connosco por telefone ou WhatsApp. Somos uma equipa pequena e portuguesa: quem te atende é quem fez a app.",
+    a: "Falas connosco por telefone ou WhatsApp, em dias úteis. Somos uma equipa pequena, do Porto: quem te atende é quem fez a app.",
+  },
+  {
+    q: "Serve para um salão de cabeleireiro ou um estúdio de barbeiro a solo?",
+    a: "A Convecta foi feita para barbearias, e é para elas que vamos continuar a fazê-la. Um barbeiro a solo usa-a exatamente da mesma forma — a agenda tem uma coluna em vez de quatro. Um salão que marque por serviço, profissional e hora também funciona; fala connosco antes, para confirmarmos que faz sentido.",
+  },
+  {
+    q: "Que endereço têm os meus clientes para marcar?",
+    a: "O nome da tua barbearia em marcacoes.app — por exemplo, a-tua-barbearia.marcacoes.app. É esse link que pões na bio do Instagram, no perfil do Google e na mensagem automática do WhatsApp. Abre no browser, sem instalar nada, e pode ficar no ecrã do telemóvel como uma app com o teu ícone.",
+  },
+  {
+    q: "Marcações automáticas: o cliente fica logo com a hora ou tenho de aprovar?",
+    a: "Tu decides. Com a confirmação automática ligada, a marcação entra confirmada e o cliente é avisado nesse segundo. Desligada, entra como pendente, o teu telemóvel toca e confirmas com dois toques. Em qualquer dos casos a hora fica bloqueada para toda a gente no momento em que o cliente marca.",
   },
 ];
-
-const schemaFaq = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqs.map((faq) => ({
-    "@type": "Question",
-    "name": faq.q,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": faq.a,
-    }
-  }))
-};
 
 export default function Faq() {
   return (
     <div>
-      <Helmet>
-        <title>Perguntas Frequentes — Convecta Booking | Convecta</title>
-        <meta name="description" content="Como os teus clientes marcam, como ficas a saber, o que acontece com cancelamentos, fidelidade, caixa e contabilista. As respostas antes de experimentares a Convecta Booking." />
-        <link rel="canonical" href="https://convecta.pt/faq" />
-        <script type="application/ld+json">
-          {JSON.stringify(schemaFaq)}
-        </script>
-      </Helmet>
+      <Seo
+        titulo="Perguntas frequentes sobre marcações online para barbearias"
+        descricao="Como os teus clientes marcam online, como ficas a saber, cancelamentos, cartão de fidelidade, caixa, comissões, contabilista, preço (24,99 €/mês) e segurança dos dados. As respostas antes de experimentares a Convecta."
+        caminho="/faq"
+        ld={[faqLd(faqs), migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Perguntas frequentes", caminho: "/faq" }])]}
+      />
 
       {/* Hero */}
       <section style={{ backgroundColor: "#1a1a1a" }} className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden">

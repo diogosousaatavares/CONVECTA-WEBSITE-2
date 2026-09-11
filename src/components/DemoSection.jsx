@@ -34,7 +34,7 @@ export default function DemoSection() {
               Demonstração ao vivo · sem registo · sem cartão
             </span>
             <h2 className="font-heading text-3xl lg:text-5xl text-white mb-5 leading-tight">
-              Experimenta agora, com as tuas próprias mãos
+              Experimenta as marcações online agora, com as tuas próprias mãos
             </h2>
             <p className="text-sm lg:text-lg text-white/55 leading-relaxed">
               Não é um vídeo nem uma apresentação. É a Convecta a funcionar, numa barbearia de

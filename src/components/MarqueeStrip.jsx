@@ -2,15 +2,15 @@ import React from "react";
 
 const defaultItems = [
   "Marcações Online",
-  "Sem Comissões por Marcação",
-  "Agenda por Profissional",
-  "Gestão de Clientes",
-  "Controlo de Caixa",
-  "Fidelização Digital",
-  "Relatórios em Tempo Real",
-  "Pronto em 24 Horas",
-  "Suporte Real",
-  "Sem Fidelização Obrigatória",
+  "0 % de Comissões",
+  "Agenda por Barbeiro",
+  "Notificações no Telemóvel",
+  "Cartão de Fidelidade Digital",
+  "Caixa e Comissões",
+  "Excel para o Contabilista",
+  "24,99 € por Mês",
+  "Sem Fidelização",
+  "Feito no Porto",
 ];
 
 export default function MarqueeStrip({ items = defaultItems }) {
@@ -32,16 +32,6 @@ export default function MarqueeStrip({ items = defaultItems }) {
           </span>
         ))}
       </div>
-
-      <style>{`
-        @keyframes marquee-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          [style*="marquee-scroll"] { animation: none !important; }
-        }
-      `}</style>
     </div>
   );
 }

@@ -1,293 +1,239 @@
-import React, { useState } from "react";
-import { ArrowRight, CalendarDays, Check, LineChart, Users, CreditCard, Heart, Package, Tag, Scissors, Clock3, Repeat2 } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
+import React from "react";
 import { motion } from "framer-motion";
-import { Helmet } from 'react-helmet-async';
+import { Link } from "react-router-dom";
+import { ArrowRight, Check, Smartphone, PhoneCall, Store, ListChecks, Share2, CalendarCheck, BellRing, Wallet, Stamp, FileSpreadsheet, LayoutDashboard } from "lucide-react";
+import Seo from "@/components/Seo";
 import CtaSection from "@/components/CtaSection";
-import AdminClienteShowcase from "@/components/AdminClienteShowcase";
+import ScrollReveal from "@/components/ScrollReveal";
 import AmbientParticles from "@/components/AmbientParticles";
-import { useContactModal } from "@/lib/ContactModalContext";
+import GradientTransition from "@/components/GradientTransition";
+import { SITE, PRECO_MENSAL_TEXTO, migalhasLd, faqLd } from "@/lib/seo";
 
-const sections = {
-  funcionalidades: {
-    eyebrow: "Convecta Booking · Funcionalidades",
-    title: <>Funcionalidades do App de Marcações<br /><span>para Barbearias</span></>,
-    intro: "Seis módulos pensados para eliminar processos manuais e dar-te uma visão clara do negócio a qualquer momento.",
-    cards: [
-      { title: "Agenda & Marcações", desc: "Sistema de agendamentos online para barbearias — o teu cliente marca em segundos, tu recebes a confirmação em tempo real.", icon: CalendarDays },
-      { title: "Cartão de Fidelidade Digital", desc: "A cada corte, o cliente acumula carimbos num cartão animado personalizado com as tuas cores. A recompensa é configurável.", icon: Heart },
-      { title: "Relatórios Financeiros", desc: "Receita por período, comissões por profissional, ranking de serviços e funil de marcações. Gestão financeira da tua barbearia com dados reais.", icon: LineChart },
-      { title: "Gestão de Inventário", desc: "Produtos com preço de custo e venda, controlo de stock, alertas de nível baixo e histórico de movimentos integrado com o checkout.", icon: Package },
-      { title: "Assinaturas & Pacotes", desc: "Cria planos mensais para os teus clientes mais fiéis. Gere renovações e benefícios exclusivos sem burocracia adicional.", icon: Repeat2 },
-      { title: "Promoções & Cupões", desc: "Lança promoções de percentagem ou valor fixo, define períodos de validade e distribui cupões aplicados automaticamente no checkout.", icon: Tag },
-    ],
-  },
-  "admin-cliente": {
-    eyebrow: "Convecta Booking · Admin & Cliente",
-    title: <>Um painel para gerir.<br /><span>Uma app para reservar.</span></>,
-    intro: "Duas plataformas complementares — o dono tem controlo total, o cliente tem uma experiência de reserva profissional.",
-    cards: [
-      { title: "Agenda por profissional", desc: "Vista global e individual de cada profissional, com drag-and-drop e checkout integrado.", icon: CalendarDays },
-      { title: "Checkout e comissões", desc: "Regista serviços, produtos e pagamentos. As comissões calculam-se automaticamente.", icon: CreditCard },
-      { title: "Dashboard financeiro", desc: "Receita, ticket médio, ocupação e previsões — em tempo real, sem exportações.", icon: LineChart },
-      { title: "Perfil e histórico do cliente", desc: "Cada cliente tem um perfil com o histórico completo de visitas, preferências e notas.", icon: Users },
-      { title: "Fidelização digital", desc: "Cartão de fidelidade animado, personalizado com as cores da tua barbearia.", icon: Heart },
-      { title: "Marcações online em segundos", desc: "O cliente escolhe serviço, profissional e hora. A confirmação chega automaticamente.", icon: Clock3 },
-    ],
-  },
-  "como-funciona": {
-    eyebrow: "Convecta Booking · Como funciona",
-    title: <>Da configuração à<br /><span>operação completa.</span></>,
-    intro: "Três fases simples. A tua barbearia está operacional em menos de uma semana.",
-    cards: [
-      { title: "Configuração inicial (2–3 dias)", desc: "Definimos profissionais, serviços, horários e preços. Personalizamos o cartão de fidelidade com a tua identidade.", icon: SettingsIcon },
-      { title: "Publicação do link personalizado", desc: "A app de cliente fica disponível com o teu URL próprio. Os clientes registam-se e marcam de imediato.", icon: ArrowRight },
-      { title: "Marcações em tempo real", desc: "O painel de admin recebe cada marcação instantaneamente. A equipa vê a agenda atualizada.", icon: CalendarDays },
-      { title: "Relatórios para crescer", desc: "Com dados reais da operação, tomas decisões com clareza — promoções, stock, comissões.", icon: LineChart },
-    ],
-  },
-  demonstracao: {
-    eyebrow: "Convecta Booking · Demonstração",
-    title: <>Vê o Booking<br /><span>em funcionamento.</span></>,
-    intro: "Mostramos-te a plataforma completa adaptada ao dia a dia da tua barbearia — sem compromisso.",
-    cards: [
-      { title: "Demonstração personalizada", desc: "Não é uma apresentação genérica. Mostramos o produto aplicado ao teu tipo de barbearia.", icon: Users },
-      { title: "Resposta em menos de 24 horas", desc: "Entramos em contacto no próprio dia ou no dia útil seguinte ao teu pedido.", icon: Clock3 },
-      { title: "Sem compromisso", desc: "Podes ver tudo antes de decidir. Não há contratos nem obrigações na demonstração.", icon: Check },
-      { title: "Configuração acompanhada", desc: "Se avançares, acompanhamos todo o processo de configuração e lançamento.", icon: Scissors },
-    ],
-  },
-};
+/*
+ * Como funciona.
+ *
+ * Do primeiro clique na demonstracao ate ao Excel do contabilista no fim do
+ * mes. E uma sequencia real — por isso e numerada. Cada passo diz quem faz o
+ * que e quanto tempo demora, sem "2 a 3 dias de configuracao" inventados.
+ *
+ * (O ficheiro chama-se BookingSection por heranca do site antigo; a rota e
+ * /como-funciona.)
+ */
 
-function RepeatIcon(props) { return <span {...props}><Check size={20} /></span>; }
-function SettingsIcon(props) { return <span {...props}><Package size={20} /></span>; }
+const PASSOS = [
+  {
+    icon: Smartphone,
+    n: "01",
+    titulo: "Experimentas a demonstração",
+    quem: "Tu · 5 minutos",
+    texto: "Entras na barbearia de demonstração como cliente e marcas uma consulta. Depois entras no painel como barbeiro e vês essa marcação chegar. Sem registo, sem cartão. Pedimos só o teu nome e um contacto à entrada.",
+    link: { href: SITE.demoCliente, label: "Abrir a demonstração", externo: true },
+  },
+  {
+    icon: PhoneCall,
+    n: "02",
+    titulo: "Falamos",
+    quem: "Nós e tu · 15 minutos, telefone ou WhatsApp",
+    texto: "Percebemos a tua barbearia: quantos barbeiros, que serviços e preços, o horário, com que antecedência queres receber marcações, até quando o cliente pode cancelar sozinho, quantos carimbos dão um corte grátis. Não há proposta nem orçamento: o preço é um só.",
+  },
+  {
+    icon: Store,
+    n: "03",
+    titulo: "Criamos a tua barbearia",
+    quem: `Nós · em regra, no próprio dia`,
+    texto: `Criamos o teu endereço (a-tua-barbearia.${SITE.dominioApps}), o painel, a tua conta de acesso, e afinamos o logótipo, as cores e a foto de capa contigo. Quando acabamos, o site dos teus clientes já abre.`,
+  },
+  {
+    icon: ListChecks,
+    n: "04",
+    titulo: "Carregas a equipa e os serviços",
+    quem: "Tu, ou nós contigo ao telefone · 20 minutos",
+    texto: "Barbeiros com os seus horários, serviços com duração e preço, comissões se as houver. Se já tens uma lista de clientes, ajudamos a passá-la. Se preferires, fazemos isto por ti na chamada.",
+  },
+  {
+    icon: Share2,
+    n: "05",
+    titulo: "Partilhas o link",
+    quem: "Tu · 1 minuto",
+    texto: "Pões o endereço na bio do Instagram, no perfil do Google, na mensagem automática do WhatsApp, num autocolante ao balcão. A partir daí os clientes marcam sozinhos, a qualquer hora.",
+  },
+  {
+    icon: CalendarCheck,
+    n: "06",
+    titulo: "O dia a dia trata-se sozinho",
+    quem: "Todos os dias",
+    texto: "A marcação entra, o telemóvel toca, confirmas com dois toques (ou nem isso, com a confirmação automática), o cliente é avisado, cortas, fazes o checkout, o carimbo cai no cartão. No fim do mês, o Excel do contabilista sai com um botão.",
+  },
+];
 
-export default function BookingSection() {
-  const { section = "funcionalidades" } = useParams();
-  const content = sections[section] || sections.funcionalidades;
-  const { open: openModal } = useContactModal();
-  const [formSent, setFormSent] = useState(false);
+// Um dia numa barbearia com a Convecta. Horas plausiveis, nada de metricas
+// inventadas — e a sequencia que a app faz, contada a horas.
+const UM_DIA = [
+  { hora: "08:50", icon: Wallet, texto: "Abres a caixa no painel com o fundo do dia." },
+  { hora: "09:12", icon: BellRing, texto: "Toca o telemóvel: o Rui marcou corte + barba às 11:00 com o Miguel. A hora fica logo ocupada para toda a gente." },
+  { hora: "09:13", icon: CalendarCheck, texto: "Dois toques: Confirmar. O Rui recebe a notificação no telemóvel dele." },
+  { hora: "10:40", icon: Smartphone, texto: "Uma cliente cancela sozinha a marcação das 15:00 — ainda está dentro do prazo que definiste. A hora volta a ficar livre e és avisado." },
+  { hora: "11:35", icon: Wallet, texto: "Fim do serviço do Rui: checkout, MB Way, sem desconto, 1 € de gorjeta. A comissão do Miguel e o carimbo do Rui ficam registados no mesmo toque." },
+  { hora: "16:20", icon: Stamp, texto: "O Tiago chega ao décimo carimbo. Na próxima marcação, o corte é grátis e o site já sabe." },
+  { hora: "19:30", icon: FileSpreadsheet, texto: "Fechas a caixa com o valor que contaste e as notas do dia. No dia 1, o Excel do mês inteiro vai para o contabilista." },
+];
 
-  const isAdminCliente = section === "admin-cliente";
+const PERGUNTAS = [
+  { q: "Preciso de saber de informática?", a: "Não. Se sabes usar o WhatsApp, sabes usar o painel. E a configuração inicial fazemo-la contigo ao telefone." },
+  { q: "Tenho de instalar alguma coisa?", a: "Não. O painel abre no browser do telemóvel ou do computador, e podes guardá-lo no ecrã principal como uma app. Os teus clientes também não instalam nada." },
+  { q: "E se já tenho clientes marcados noutro sítio?", a: "Podes começar a receber marcações novas na Convecta e ir fechando as antigas onde estão. Marcações feitas ao telefone lanças à mão no painel, em segundos." },
+  { q: "Quanto custa e quando começo a pagar?", a: `${PRECO_MENSAL_TEXTO} por mês, por barbearia, tudo incluído. Sem taxa de adesão e sem comissões por marcação. A mensalidade começa quando a tua barbearia fica ativa.` },
+];
+
+export default function ComoFunciona() {
+  const ld = [
+    migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Como funciona", caminho: "/como-funciona" }]),
+    faqLd(PERGUNTAS),
+  ];
 
   return (
     <main id="main-content" style={{ backgroundColor: "#1a1a1a" }} className="booking-page text-white min-h-screen">
-      <Helmet>
-        <title>Convecta Booking — Funcionalidades | App para Barbearias</title>
-        <meta name="description" content="Explora todas as funcionalidades do Convecta Booking: agenda online, fidelização, caixa e relatórios para barbearias." />
-        <link rel="canonical" href="https://convecta.pt/booking/funcionalidades" />
-        <meta property="og:title" content="Convecta Booking — Funcionalidades" />
-        <meta property="og:description" content="Tudo o que a tua barbearia precisa: marcações online, fidelização digital, caixa e relatórios financeiros." />
-        <meta property="og:url" content="https://convecta.pt/booking/funcionalidades" />
-        <meta property="og:image" content="https://convecta.pt/og-image-booking.jpg" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://convecta.pt/og-image-booking.jpg" />
-      </Helmet>
+      <Seo
+        titulo="Como funciona: da demonstração às marcações online na tua barbearia"
+        descricao="Seis passos, sem burocracia: experimentas a demonstração, falamos 15 minutos, criamos a tua barbearia no próprio dia, carregas serviços e equipa, partilhas o link e os clientes começam a marcar online. 24,99 €/mês, sem comissões."
+        caminho="/como-funciona"
+        ld={ld}
+      />
 
-      {/* HERO SECTION */}
-      <section style={{ backgroundColor: "#1a1a1a" }} className="relative pt-32 pb-16 lg:pt-40 lg:pb-24 px-6 lg:px-12 text-center overflow-hidden border-b border-white/5">
+      {/* HERO */}
+      <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 px-6 lg:px-12 text-center overflow-hidden border-b border-white/5">
         <AmbientParticles count={10} />
-        
-        <div className="max-w-5xl mx-auto relative z-10">
-          <nav aria-label="Breadcrumb" className="text-xs text-white/40 mb-4">
+        <div className="max-w-4xl mx-auto relative z-10">
+          <nav aria-label="Caminho" className="text-xs text-white/40 mb-6">
             <Link to="/" className="hover:text-white/70 transition-colors">Início</Link>
             <span className="mx-2">/</span>
-            <Link to="/booking" className="hover:text-white/70 transition-colors">
-              Convecta Booking
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-white/60">{section}</span>
+            <span className="text-white/60">Como funciona</span>
           </nav>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#fee96d] mb-4">
-              {content.eyebrow}
-            </p>
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              {content.title}
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#fee96d] mb-4">Convecta Booking · Como funciona</p>
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
+              Da demonstração à primeira marcação online.
             </h1>
             <p className="text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
-              {content.intro}
+              Não há proposta comercial, orçamento nem semanas de "implementação". Há uma chamada de 15 minutos e uma barbearia criada, em regra, no próprio dia. Isto é o caminho todo.
             </p>
-            <button 
-              onClick={openModal} 
-              className="btn-glow inline-flex items-center gap-2 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm"
-              style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
-            >
-              Pedir demonstração <ArrowRight size={16} />
-            </button>
+            <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow inline-flex items-center gap-2 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}>
+              Começar pela demonstração <ArrowRight size={16} />
+            </a>
           </motion.div>
-
-          {/* MOSTRA O MOCKUP 3D INSPIRADO NA FOTO QUANDO ESTÁ NA ABA ADMIN & CLIENTE */}
-          {isAdminCliente && (
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}>
-              <AdminClienteShowcase />
-            </motion.div>
-          )}
         </div>
       </section>
 
-      {/* CARDS DA SECTOR */}
-      <section style={{ backgroundColor: "#141414" }} className="py-20 px-6 lg:px-12">
+      {/* OS SEIS PASSOS */}
+      <section style={{ backgroundColor: "#141414" }} className="py-20 lg:py-28 px-6 lg:px-12">
         <div className="max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {content.cards.map((card, index) => {
-              const Icon = card.icon;
-              return (
-              <motion.article 
-                key={card.title} 
-                initial={{ opacity: 0, y: 15 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
-                viewport={{ once: true }} 
-                transition={{ delay: index * 0.06 }} 
-                className="p-6 rounded-2xl bg-white/[0.04] border border-white/10 relative group hover:border-[#fee96d]/40 transition-all duration-300"
-              >
-                <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center mb-4 border border-[#fee96d]/20">
-                  <Icon size={20} />
-                </div>
-                <span className="text-xs font-mono text-[#fee96d]">0{index + 1}</span>
-                <h2 className="font-heading text-xl font-bold text-white my-2">{card.title}</h2>
-                <p className="text-white/60 text-xs sm:text-sm leading-relaxed font-light">{card.desc}</p>
-                <Check size={16} className="text-[#fee96d] absolute bottom-6 right-6 opacity-60" />
-              </motion.article>
-              );
-            })}
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pt-8 border-t border-white/10">
-            <Link to="/booking" className="inline-flex items-center gap-2 text-sm font-bold text-[#fee96d] hover:text-white transition-colors">
-              <ArrowRight size={15} className="rotate-180" /> Voltar à visão geral
-            </Link>
-            <div className="flex items-center gap-4">
-              <Link to="/precos" className="text-sm font-semibold text-white/70 hover:text-white transition-colors">
-                Ver preços
-              </Link>
-              <button 
-                onClick={openModal} 
-                className="btn-glow px-6 py-3 text-xs font-bold uppercase tracking-wide rounded-sm"
-                style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
-              >
-                Falar sobre o Booking
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {section === "demonstracao" && (
-        <section style={{ backgroundColor: "#1a1a1a" }} className="py-20 px-6 lg:px-12 border-t border-white/10">
-          <div className="max-w-3xl mx-auto">
-            <div className="p-8 sm:p-12 rounded-3xl bg-white/[0.04] border border-white/10">
-              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-2">Agendar demonstração</p>
-              <h2 className="font-heading text-3xl font-bold text-white mb-3">Vamos mostrar-te como funciona.</h2>
-              <p className="text-white/60 text-sm mb-8 font-light">Deixa os teus dados e indica-nos quando é melhor falar contigo.</p>
-              {formSent ? (
-                <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-medium flex items-center gap-3">
-                  <Check size={18} /> Pedido recebido. Entraremos em contacto em menos de 24 horas.
-                </div>
-              ) : (
-                <form onSubmit={(event) => { 
-                  event.preventDefault(); 
-                  if (typeof window.trackEvent === 'function') {
-                    window.trackEvent('demo_request', {
-                      event_category: 'Conversao',
-                      event_label: 'formulario_demo',
-                      value: 1
-                    });
-                  }
-                  setFormSent(true); 
-                }} className="space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <label htmlFor="campo-nome" className="text-xs font-medium text-white/80 space-y-1 block">
-                      <span>Nome</span>
-                      <input id="campo-nome" required placeholder="O teu nome" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#fee96d] focus:ring-offset-1 focus:ring-offset-black" />
-                    </label>
-                    <label htmlFor="campo-barbearia" className="text-xs font-medium text-white/80 space-y-1 block">
-                      <span>Barbearia</span>
-                      <input id="campo-barbearia" required placeholder="Nome da barbearia" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#fee96d] focus:ring-offset-1 focus:ring-offset-black" />
-                    </label>
-                    <label htmlFor="campo-email" className="text-xs font-medium text-white/80 space-y-1 block">
-                      <span>Email</span>
-                      <input id="campo-email" required type="email" placeholder="email@exemplo.pt" className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#fee96d] focus:ring-offset-1 focus:ring-offset-black" />
-                    </label>
-                    <label htmlFor="campo-telefone" className="text-xs font-medium text-white/80 space-y-1 block">
-                      <span>Telefone</span>
-                      <input id="campo-telefone" type="tel" placeholder="+351 ..." className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#fee96d] focus:ring-offset-1 focus:ring-offset-black" />
-                    </label>
+          <ol className="space-y-5">
+            {PASSOS.map((p, i) => (
+              <ScrollReveal key={p.n} delay={i * 0.05} variant="fadeInUp">
+                <li className="grid grid-cols-[auto_1fr] gap-5 lg:gap-8 p-6 lg:p-8 rounded-2xl bg-white/[0.04] border border-white/10">
+                  <div className="flex flex-col items-center gap-3">
+                    <span className="font-heading text-3xl text-[#fee96d] leading-none">{p.n}</span>
+                    <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center border border-[#fee96d]/20">
+                      <p.icon size={18} />
+                    </div>
                   </div>
-                  <label htmlFor="campo-horario" className="text-xs font-medium text-white/80 space-y-1 block">
-                    <span>Horário preferido</span>
-                    <select id="campo-horario" defaultValue="" className="w-full bg-[#1a1a1a] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#fee96d] focus:ring-offset-1 focus:ring-offset-black">
-                      <option value="" disabled>Escolher horário</option>
-                      <option>Manhã</option>
-                      <option>Tarde</option>
-                      <option>Final do dia</option>
-                    </select>
-                  </label>
-                  <button type="submit" className="btn-glow w-full py-4 rounded-xl bg-[#fee96d] text-black font-bold text-sm uppercase tracking-wide mt-4">
-                    Quero uma demonstração <ArrowRight size={16} className="inline ml-2" />
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </section>
-      )}
+                  <div className="min-w-0">
+                    <p className="text-[11px] uppercase tracking-[0.18em] font-bold text-white/40 mb-1">{p.quem}</p>
+                    <h2 className="font-heading text-2xl lg:text-3xl text-white mb-2 leading-snug">{p.titulo}</h2>
+                    <p className="text-white/65 text-sm lg:text-base leading-relaxed">{p.texto}</p>
+                    {p.link && (
+                      <a href={p.link.href} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 mt-3 text-sm font-bold text-[#fee96d] hover:text-white transition-colors">
+                        {p.link.label} <ArrowRight size={14} />
+                      </a>
+                    )}
+                  </div>
+                </li>
+              </ScrollReveal>
+            ))}
+          </ol>
 
-      <section style={{ backgroundColor: "#1a1a1a" }} className="py-20 px-6 lg:px-12 border-t border-white/10">
-        <div className="max-w-3xl mx-auto">
-          <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-2">Perguntas frequentes</p>
-          <h2 className="font-heading text-3xl font-bold text-white mb-8">Ainda tens dúvidas?</h2>
-          <div className="space-y-4">
-            <details className="p-4 rounded-xl bg-white/5 border border-white/10 group cursor-pointer">
-              <summary className="text-white font-bold text-sm flex items-center justify-between">
-                <span>Os clientes precisam de instalar uma app?</span>
-                <span className="text-[#fee96d] group-open:rotate-180 transition-transform">↓</span>
-              </summary>
-              <p className="text-white/60 text-xs sm:text-sm mt-3 leading-relaxed font-light">
-                Não. A experiência funciona no browser, em qualquer dispositivo, sem downloads.
-              </p>
-            </details>
-            <details className="p-4 rounded-xl bg-white/5 border border-white/10 group cursor-pointer">
-              <summary className="text-white font-bold text-sm flex items-center justify-between">
-                <span>Posso gerir vários profissionais?</span>
-                <span className="text-[#fee96d] group-open:rotate-180 transition-transform">↓</span>
-              </summary>
-              <p className="text-white/60 text-xs sm:text-sm mt-3 leading-relaxed font-light">
-                Sim. Cada profissional pode ter horários, serviços e agenda próprios.
-              </p>
-            </details>
-            <details className="p-4 rounded-xl bg-white/5 border border-white/10 group cursor-pointer">
-              <summary className="text-white font-bold text-sm flex items-center justify-between">
-                <span>O Convecta Booking substitui o meu sistema atual?</span>
-                <span className="text-[#fee96d] group-open:rotate-180 transition-transform">↓</span>
-              </summary>
-              <p className="text-white/60 text-xs sm:text-sm mt-3 leading-relaxed font-light">
-                O Booking centraliza agenda, clientes, caixa, stock, fidelização e relatórios numa só operação.
-              </p>
-            </details>
-            <details className="p-4 rounded-xl bg-white/5 border border-white/10 group cursor-pointer">
-              <summary className="text-white font-bold text-sm flex items-center justify-between">
-                <span>Como conheço os preços?</span>
-                <span className="text-[#fee96d] group-open:rotate-180 transition-transform">↓</span>
-              </summary>
-              <p className="text-white/60 text-xs sm:text-sm mt-3 leading-relaxed font-light">
-                Os planos dependem da dimensão e necessidades da barbearia. Consulta a página de preços ou pede uma demonstração.
-              </p>
-            </details>
-          </div>
+          <ScrollReveal>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
+              <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.03]">
+                <h3 className="font-heading text-xl text-white mb-3">O que precisas de ter</h3>
+                <ul className="space-y-2 text-sm text-white/65">
+                  {["Um telemóvel ou computador com browser", "A lista de serviços, com duração e preço", "O horário da barbearia e de cada barbeiro", "O logótipo, se tiveres (senão, o nome chega)"].map((t) => (
+                    <li key={t} className="flex items-start gap-2.5"><Check size={15} className="text-[#fee96d] shrink-0 mt-0.5" /> {t}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="p-6 rounded-2xl border border-[#fee96d]/25 bg-[#fee96d]/[0.05]">
+                <h3 className="font-heading text-xl text-white mb-3">O que a Convecta trata</h3>
+                <ul className="space-y-2 text-sm text-white/65">
+                  {[`O teu endereço em ${SITE.dominioApps} e o alojamento`, "O site dos teus clientes e o painel, com a tua marca", "As atualizações — sem custos extra, sem versões a comprar", "Suporte por telefone e WhatsApp, por quem fez a app"].map((t) => (
+                    <li key={t} className="flex items-start gap-2.5"><Check size={15} className="text-[#fee96d] shrink-0 mt-0.5" /> {t}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
-      <CtaSection title="Pronto para simplificar a tua barbearia?" buttonText="Pedir demonstração" />
-      <div className="text-center pb-12 text-sm text-white/40">
-        <Link to="/booking" className="text-[#fee96d] underline underline-offset-2">
-          ← Voltar ao Convecta Booking
-        </Link>
-        {" · "}
-        <Link to="/precos" className="text-[#fee96d] underline underline-offset-2">
-          Ver preços
-        </Link>
-      </div>
+      <GradientTransition from="#141414" to="#ffffff" />
+
+      {/* UM DIA */}
+      <section className="bg-white py-20 lg:py-28 px-6 lg:px-12">
+        <div className="max-w-3xl mx-auto">
+          <ScrollReveal>
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-dark/40 mb-4">Depois de lançar</p>
+            <h2 className="font-heading text-3xl lg:text-5xl text-dark mb-4 leading-tight">Um dia com marcações online na barbearia</h2>
+            <p className="text-dark/60 text-base leading-relaxed mb-10">
+              Nomes e horas inventados; o que a app faz em cada momento é exatamente isto.
+            </p>
+          </ScrollReveal>
+          <ol className="relative border-l-2 border-dark/10 ml-3 space-y-8">
+            {UM_DIA.map((m, i) => (
+              <ScrollReveal key={m.hora} delay={i * 0.04}>
+                <li className="pl-8 relative">
+                  <span className="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-[#fee96d] border-2 border-white flex items-center justify-center">
+                    <m.icon size={10} color="#111" />
+                  </span>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-dark/40 mb-1 tabular-nums">{m.hora}</p>
+                  <p className="text-dark/75 text-sm lg:text-base leading-relaxed">{m.texto}</p>
+                </li>
+              </ScrollReveal>
+            ))}
+          </ol>
+          <ScrollReveal>
+            <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm">
+              <Link to="/funcionalidades" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1">Todas as funcionalidades <ArrowRight size={14} /></Link>
+              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1"><LayoutDashboard size={14} /> Ver o painel na demonstração</a>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <GradientTransition from="#ffffff" to="#1a1a1a" />
+
+      {/* PERGUNTAS */}
+      <section className="py-20 px-6 lg:px-12">
+        <div className="max-w-3xl mx-auto">
+          <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-2">Antes de começar</p>
+          <h2 className="font-heading text-3xl text-white mb-8">O que costumam perguntar nesta fase</h2>
+          <div className="space-y-4">
+            {PERGUNTAS.map((p) => (
+              <details key={p.q} className="p-4 rounded-xl bg-white/5 border border-white/10 group cursor-pointer">
+                <summary className="text-white font-bold text-sm flex items-center justify-between gap-4">
+                  <span>{p.q}</span>
+                  <span className="text-[#fee96d] group-open:rotate-180 transition-transform">↓</span>
+                </summary>
+                <p className="text-white/60 text-sm mt-3 leading-relaxed font-light">{p.a}</p>
+              </details>
+            ))}
+          </div>
+          <p className="text-sm text-white/45 mt-6">
+            Mais respostas nas <Link to="/faq" className="text-[#fee96d] underline underline-offset-2">perguntas frequentes</Link>.
+          </p>
+        </div>
+      </section>
+
+      <CtaSection title="O primeiro passo demora cinco minutos." buttonText="Experimentar a demonstração" href={SITE.demoCliente} secondaryText="ou fala connosco primeiro" />
     </main>
   );
 }

@@ -1,5 +1,5 @@
 // Imagens estáticas do Instagram @convecta.pt
-// Usadas como fallback enquanto não há imagens carregadas no Base44.
+// Para trocar uma foto, troca o ficheiro em /public/instagram e a linha aqui.
 // Para adicionar mais, basta colocar o ficheiro em /public/instagram/ e
 // acrescentar uma entrada aqui.
 

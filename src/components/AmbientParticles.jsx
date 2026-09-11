@@ -31,15 +31,6 @@ export default function AmbientParticles({ count = 8, className = "" }) {
           }}
         />
       ))}
-      <style>{`
-        @keyframes ambientFloat {
-          0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
-          50% { transform: translateY(-24px) translateX(8px); opacity: 0.7; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          [style*="ambientFloat"] { animation: none !important; }
-        }
-      `}</style>
     </div>
   );
 }

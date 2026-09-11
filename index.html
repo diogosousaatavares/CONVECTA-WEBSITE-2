@@ -1,44 +1,63 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#111111" />
+  <meta name="application-name" content="Convecta" />
+  <meta name="apple-mobile-web-app-title" content="Convecta" />
+  <meta name="format-detection" content="telephone=yes" />
 
-  <!-- Fallback title/description (substituído por react-helmet em cada página) -->
-  <title>Convecta — Websites e App para Barbearias</title>
-  <meta name="description" content="A Convecta cria websites premium e o Convecta Booking — app de gestão para barbearias. Soluções digitais feitas para negócios modernos." />
+  <!--
+    O bloco entre os marcadores seo:default e o que o WhatsApp, o Instagram e
+    o Facebook leem quando alguem partilha um link: eles nao correm
+    JavaScript. No build, scripts/prerender.mjs substitui este bloco pelo
+    titulo, descricao e cartao de cada pagina (dist/precos.html, etc.); aqui
+    fica a versao geral, usada pela casca app.html e pelo `vite dev`.
+  -->
+  <!-- seo:default -->
+  <title>Convecta — Marcações online e gestão para barbearias</title>
+  <meta name="description" content="Software de marcações online e gestão para barbearias em Portugal. Os clientes marcam pelo site da barbearia, o barbeiro recebe a notificação no telemóvel e gere agenda, caixa, comissões e cartão de fidelidade. 24,99 €/mês, sem comissões por marcação." />
+  <link rel="canonical" href="https://convecta.pt" />
 
-  <!-- Twitter fallback -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Convecta" />
+  <meta property="og:locale" content="pt_PT" />
+  <meta property="og:title" content="Convecta — Marcações online e gestão para barbearias" />
+  <meta property="og:description" content="Os teus clientes marcam sozinhos pelo site da tua barbearia. Tu recebes a notificação no telemóvel e geres agenda, caixa, comissões e cartão de fidelidade num só painel. 24,99 €/mês, sem comissões." />
+  <meta property="og:url" content="https://convecta.pt" />
+  <meta property="og:image" content="https://convecta.pt/og-image.png" />
+  <meta property="og:image:secure_url" content="https://convecta.pt/og-image.png" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Convecta — marcações online para barbearias" />
+
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="@convecta" />
+  <meta name="twitter:title" content="Convecta — Marcações online e gestão para barbearias" />
+  <meta name="twitter:description" content="Os teus clientes marcam sozinhos pelo site da tua barbearia. Agenda, caixa, comissões e cartão de fidelidade num só painel. 24,99 €/mês, sem comissões." />
+  <meta name="twitter:image" content="https://convecta.pt/og-image.png" />
+  <!-- /seo:default -->
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="/favicon.png" />
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <!-- Icones: o "C" da marca, gerado a partir do logotipo novo -->
+  <link rel="icon" href="/favicon.ico" sizes="48x48" />
+  <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX', {
-      page_path: window.location.pathname,
-      anonymize_ip: true,
-      cookie_flags: 'SameSite=None;Secure'
-    });
-  </script>
-
-  <!-- Google Search Console verification -->
-  <meta name="google-site-verification" content="COLOCA_AQUI_O_TEU_CODIGO" />
+  <!--
+    Sem Google Analytics enquanto nao houver uma propriedade criada. Quando
+    houver, o ID vai para GA_ID em src/lib/seo.js e o script e carregado a
+    partir de src/main.jsx — nao aqui — para que sem ID nao se carregue nada.
+  -->
 </head>
   <body>
     <a href="#main-content"
@@ -48,6 +67,19 @@
       Saltar para o conteúdo principal
     </a>
     <div id="root"></div>
+    <noscript>
+      <!-- O essencial, para quem chega sem JavaScript: leitores muito antigos e alguns robôs. -->
+      <main style="font-family: system-ui, sans-serif; max-width: 640px; margin: 0 auto; padding: 32px 20px; color: #111; line-height: 1.6;">
+        <h1>Convecta — marcações online e gestão para barbearias</h1>
+        <p>Os teus clientes marcam sozinhos pelo site da tua barbearia, a qualquer hora. Tu recebes a notificação no telemóvel e geres a agenda, a caixa, as comissões, o stock e o cartão de fidelidade num só painel. Sem comissões por marcação: 24,99 € por mês.</p>
+        <p>Este site precisa de JavaScript para funcionar. Enquanto isso:</p>
+        <ul>
+          <li><a href="https://demo.marcacoes.app">Experimentar a demonstração ao vivo</a></li>
+          <li><a href="/funcionalidades">Funcionalidades</a> · <a href="/como-funciona">Como funciona</a> · <a href="/precos">Preços</a> · <a href="/faq">Perguntas frequentes</a> · <a href="/contacto">Contacto</a></li>
+          <li>Telefone: <a href="tel:+351912381717">+351 912 381 717</a> · Email: <a href="mailto:geral@convecta.pt">geral@convecta.pt</a></li>
+        </ul>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

@@ -6,10 +6,10 @@ import { enviarContacto } from "@/lib/contactos";
 
 const STEPS = [
   { key: "nome", label: "Como te chamas?", placeholder: "O teu nome", type: "text", maxLength: 100 },
-  { key: "negocio", label: "Qual é o nome do teu negócio?", placeholder: "Nome da empresa ou projeto", type: "text", maxLength: 100 },
+  { key: "negocio", label: "Como se chama a tua barbearia?", placeholder: "Nome da barbearia", type: "text", maxLength: 100 },
   { key: "telefone", label: "Qual é o teu número de telefone?", placeholder: "+351 ...", type: "tel", maxLength: 20 },
   { key: "email", label: "E o teu email?", placeholder: "o-teu@email.com", type: "email", maxLength: 150 },
-  { key: "mensagem", label: "Queres dizer mais alguma coisa? (opcional)", placeholder: "Conta-nos sobre o teu negócio...", type: "textarea", maxLength: 2000 },
+  { key: "mensagem", label: "Queres dizer mais alguma coisa? (opcional)", placeholder: "Quantos barbeiros, como marcas hoje…", type: "textarea", maxLength: 2000 },
 ];
 
 export default function ContactModal() {
@@ -26,7 +26,7 @@ export default function ContactModal() {
 
   const validate = (key, value) => {
     if (key === "nome" && value.trim().length < 2) return "Indica o teu nome.";
-    if (key === "negocio" && value.trim().length < 2) return "Indica o nome do teu negócio.";
+    if (key === "negocio" && value.trim().length < 2) return "Indica o nome da tua barbearia.";
     if (key === "telefone" && value.replace(/\D/g, "").length < 9) return "Indica um telefone válido.";
     if (key === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Indica um email válido.";
     return "";
@@ -266,7 +266,7 @@ export default function ContactModal() {
                 </motion.div>
                 <h3 className="font-heading text-2xl text-white mb-3">Recebemos o teu pedido!</h3>
                 <p className="text-sm max-w-xs mx-auto mb-8" style={{ color: "rgba(255,255,255,0.45)", lineHeight: 1.7 }}>
-                  Entraremos em contacto nas próximas 24 horas para agendar a tua chamada.
+                  Respondemos em dias úteis, normalmente no próprio dia, por telefone ou WhatsApp.
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.04 }}

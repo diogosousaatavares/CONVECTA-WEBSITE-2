@@ -89,37 +89,6 @@ export default function AmbientBackground() {
         left: "20%",
         animation: "auroraFloat4 16s ease-in-out infinite 6s",
       }} />
-
-      <style>{`
-        @keyframes auroraFloat1 {
-          0%   { transform: translate(0px, 0px) scale(1); }
-          25%  { transform: translate(60px, -50px) scale(1.1); }
-          55%  { transform: translate(-30px, 40px) scale(0.94); }
-          80%  { transform: translate(40px, 20px) scale(1.05); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        @keyframes auroraFloat2 {
-          0%   { transform: translate(0px, 0px) scale(1); }
-          30%  { transform: translate(-70px, 50px) scale(1.12); }
-          65%  { transform: translate(50px, -30px) scale(0.92); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        @keyframes auroraFloat3 {
-          0%   { transform: translateX(-50%) scale(1); }
-          35%  { transform: translateX(calc(-50% + 90px)) scale(1.08); }
-          70%  { transform: translateX(calc(-50% - 60px)) scale(0.95); }
-          100% { transform: translateX(-50%) scale(1); }
-        }
-        @keyframes auroraFloat4 {
-          0%   { transform: translate(0px, 0px) scale(1); }
-          40%  { transform: translate(80px, -60px) scale(1.15); }
-          75%  { transform: translate(-40px, 30px) scale(0.9); }
-          100% { transform: translate(0px, 0px) scale(1); }
-        }
-        @media (prefers-reduced-motion: reduce) {
-          [style*="auroraFloat"] { animation: none !important; }
-        }
-      `}</style>
     </div>
   );
 }

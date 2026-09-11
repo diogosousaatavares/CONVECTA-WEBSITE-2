@@ -1,7 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /login
-Disallow: /register
-Disallow: /admin
+Disallow: /instagram
 
 Sitemap: https://convecta.pt/sitemap.xml

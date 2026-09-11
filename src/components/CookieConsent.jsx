@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Cookie } from "lucide-react";
 
+/*
+ * O aviso de cookies. So diz a verdade: nao ha cookies de publicidade nem de
+ * estatisticas neste site (o Google Analytics so entra quando houver um ID
+ * em lib/seo.js — e nesse dia este aviso volta a ter duas opcoes).
+ */
 const CONSENT_KEY = "convecta_cookie_consent";
 
 export default function CookieConsent() {
@@ -27,13 +32,6 @@ export default function CookieConsent() {
     setVisible(false);
   };
 
-  const decline = () => {
-    try {
-      localStorage.setItem(CONSENT_KEY, "declined");
-    } catch {}
-    setVisible(false);
-  };
-
   if (!visible) return null;
 
   return (
@@ -55,9 +53,8 @@ export default function CookieConsent() {
         <div className="flex items-start gap-3 flex-1">
           <Cookie size={20} className="shrink-0 mt-0.5" style={{ color: "#fee96d" }} />
           <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
-            Utilizamos cookies essenciais para o funcionamento do site e cookies opcionais para
-            melhorar a tua experiência, em conformidade com o RGPD. Podes aceitar todos os
-            cookies ou continuar apenas com os essenciais.{" "}
+            Este site não usa cookies de publicidade nem de rastreio. Guarda no teu browser só o
+            essencial: esta escolha e o facto de já teres preenchido o formulário da demonstração.{" "}
             <Link to="/privacidade" className="underline hover:text-mustard transition-colors">
               Saber mais
             </Link>
@@ -65,17 +62,11 @@ export default function CookieConsent() {
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
           <button
-            onClick={decline}
-            className="flex-1 sm:flex-none px-4 py-2.5 text-xs font-bold uppercase tracking-wide rounded-sm border border-white/20 text-white/70 hover:text-white hover:border-white/40 transition-colors"
-          >
-            Apenas essenciais
-          </button>
-          <button
             onClick={accept}
             className="flex-1 sm:flex-none px-5 py-2.5 text-xs font-bold uppercase tracking-wide rounded-sm transition-transform hover:scale-105"
             style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
           >
-            Aceitar todos
+            Entendi
           </button>
         </div>
       </div>

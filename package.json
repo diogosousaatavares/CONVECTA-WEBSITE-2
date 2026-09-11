@@ -1,15 +1,16 @@
 {
-  "name": "base44-app",
+  "name": "convecta-site",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
     "lint": "eslint . --quiet",
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc -p ./jsconfig.json",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:spa": "vite build"
   },
   "dependencies": {
     "@base44/sdk": "^0.8.35",

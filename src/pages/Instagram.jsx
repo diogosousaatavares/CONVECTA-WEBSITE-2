@@ -6,8 +6,10 @@ import InstagramCarousel from "@/components/instagram/InstagramCarousel";
 import CtaSection from "@/components/CtaSection";
 import staticImages from "@/data/instagramImages";
 import AmbientParticles from "@/components/AmbientParticles";
+import Seo from "@/components/Seo";
+import { SITE } from "@/lib/seo";
 
-const INSTAGRAM_URL = "https://instagram.com/convecta.pt";
+const INSTAGRAM_URL = SITE.instagram;
 
 export default function Instagram() {
   const [images, setImages] = useState([]);
@@ -21,6 +23,12 @@ export default function Instagram() {
 
   return (
     <div>
+      <Seo
+        titulo="A Convecta no Instagram"
+        descricao="Bastidores, novidades da app e as barbearias que já marcam online com a Convecta. Segue @convecta.pt."
+        caminho="/instagram"
+        noindex
+      />
       {/* Hero — Profile layout */}
       <section style={{ backgroundColor: "#1a1a1a" }} className="pt-32 pb-16 lg:pt-40 lg:pb-20 relative overflow-hidden">
         <AmbientParticles count={6} />
@@ -49,10 +57,10 @@ export default function Instagram() {
                 style={{ color: "#fee96d" }}
               >
                 <InstagramIcon size={18} />
-                @convecta.pt
+                {SITE.instagramHandle}
               </a>
               <p className="text-sm text-white/50 max-w-xs mb-6 mx-auto md:mx-0">
-                Websites modernos para negócios locais. Clareza, confiança e conversão.
+                Marcações online e gestão para barbearias. Os teus clientes marcam sozinhos; tu só cortas. Experimenta a demonstração — o link está na bio.
               </p>
               <a
                 href={INSTAGRAM_URL}
@@ -66,23 +74,8 @@ export default function Instagram() {
               </a>
             </div>
 
-            {/* Right: Stats */}
-            <div className="flex gap-8 md:gap-10">
-              <div className="text-center">
-                <p className="font-heading text-2xl lg:text-3xl text-white">
-                  {images.length || 12}
-                </p>
-                <p className="text-xs text-white/40 uppercase tracking-wider mt-1">Posts</p>
-              </div>
-              <div className="text-center">
-                <p className="font-heading text-2xl lg:text-3xl text-white">2 606</p>
-                <p className="text-xs text-white/40 uppercase tracking-wider mt-1">Seguidores</p>
-              </div>
-              <div className="text-center">
-                <p className="font-heading text-2xl lg:text-3xl text-white">1</p>
-                <p className="text-xs text-white/40 uppercase tracking-wider mt-1">Seguindo</p>
-              </div>
-            </div>
+            {/* Os numeros de seguidores mudam todos os dias; escritos aqui
+                ficavam sempre errados. O Instagram mostra-os. */}
           </motion.div>
         </div>
       </section>
@@ -110,8 +103,10 @@ export default function Instagram() {
 
       {/* CTA */}
       <CtaSection
-        title="Gostas do que vês? Vê o que podemos fazer pelo teu negócio."
-        buttonText="Falar Connosco"
+        title="Vê a Convecta a funcionar, não só em fotografias."
+        buttonText="Experimentar a demonstração"
+        href={SITE.demoCliente}
+        secondaryText="ou fala connosco"
       />
     </div>
   );

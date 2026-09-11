@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 import ConvectaLogo from "@/components/ConvectaLogo";
+import { SITE } from "@/lib/seo";
+import { DEMO_CLIENTE_URL } from "@/lib/demo";
 
 export default function Footer() {
   return (
@@ -12,7 +14,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <ConvectaLogo light />
             <p className="mt-4 text-sm text-white/50 leading-relaxed font-body">
-              Uma plataforma para gerir o teu negócio. Uma experiência digital para os teus clientes.
+              Marcações online e gestão para barbearias. O site onde os teus clientes marcam e o painel onde tu geres a barbearia. Feito no Porto.
             </p>
           </div>
 
@@ -29,6 +31,9 @@ export default function Footer() {
               <Link to="/precos" className="text-sm text-white/70 hover:text-mustard transition-colors">
                 Preços
               </Link>
+              <a href={DEMO_CLIENTE_URL} target="_blank" rel="noopener" className="text-sm text-mustard hover:text-white transition-colors">
+                Demonstração ao vivo
+              </a>
             </div>
           </div>
 
@@ -55,22 +60,26 @@ export default function Footer() {
           <div>
             <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-4">Contacto</h4>
             <div className="flex flex-col gap-3">
-              <a href="mailto:geral@convecta.pt" className="text-sm text-white/70 hover:text-mustard transition-colors flex items-center gap-2">
+              <a href={`mailto:${SITE.email}`} className="text-sm text-white/70 hover:text-mustard transition-colors flex items-center gap-2">
                 <Mail size={14} className="text-mustard" />
-                geral@convecta.pt
+                {SITE.email}
               </a>
-              <a href="tel:+351912381717" className="text-sm text-white/70 hover:text-mustard transition-colors flex items-center gap-2">
+              <a href={`tel:${SITE.telefoneE164}`} className="text-sm text-white/70 hover:text-mustard transition-colors flex items-center gap-2">
                 <Phone size={14} className="text-mustard" />
-                +351 912 381 717
+                {SITE.telefone}
               </a>
+              <span className="text-sm text-white/50 flex items-start gap-2">
+                <MapPin size={14} className="text-mustard shrink-0 mt-0.5" />
+                <span>{SITE.morada.rua}<br />{SITE.morada.codigoPostal} {SITE.morada.cidade}</span>
+              </span>
               <a
-                href="https://instagram.com/convecta.pt"
+                href={SITE.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-white/70 hover:text-mustard transition-colors flex items-center gap-2 mt-1"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                @convecta.pt
+                {SITE.instagramHandle}
               </a>
             </div>
           </div>
@@ -79,7 +88,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/40">
-            © {new Date().getFullYear()} Convecta. Todos os direitos reservados.
+            © {new Date().getFullYear()} Convecta · Marcações online para barbearias · Porto, Portugal
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="text-xs text-white/40 hover:text-mustard transition-colors inline-flex items-center min-h-[44px] py-2">
