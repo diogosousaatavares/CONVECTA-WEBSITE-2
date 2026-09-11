@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import { Helmet } from 'react-helmet-async';
-import { base44 } from "@/api/base44Client";
+import { enviarContacto } from "@/lib/contactos";
 import ScrollReveal from "@/components/ScrollReveal";
 import GradientTransition from "@/components/GradientTransition";
 import AmbientParticles from "@/components/AmbientParticles";
@@ -84,17 +84,11 @@ export default function Contacto() {
 
     setSending(true);
     try {
-      await base44.integrations.Core.SendEmail({
-        to: "geral@convecta.pt",
-        subject: `Novo pedido de contacto — ${sanitized.nome} (${sanitized.negocio})`,
-        body: `Nome: ${sanitized.nome}\nNegócio: ${sanitized.negocio}\nTelefone: ${sanitized.telefone}\nEmail: ${sanitized.email}\n\nMensagem:\n${sanitized.mensagem || "Sem mensagem adicional."}`,
-      });
-      try {
-        sessionStorage.setItem("convecta_last_submit", String(Date.now()));
-      } catch {}
+      await enviarContacto(sanitized);
+      try { sessionStorage.setItem("convecta_last_submit", String(Date.now())); } catch {}
       setSent(true);
-    } catch {
-      setSent(true);
+    } catch (e) {
+      setErrors({ form: e.message || "Não foi possível enviar. Tenta outra vez." });
     } finally {
       setSending(false);
     }

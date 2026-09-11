@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowRight, Send, CheckCircle } from "lucide-react";
 import { useContactModal } from "@/lib/ContactModalContext";
-import { base44 } from "@/api/base44Client";
+import { enviarContacto } from "@/lib/contactos";
 
 const STEPS = [
   { key: "nome", label: "Como te chamas?", placeholder: "O teu nome", type: "text", maxLength: 100 },
@@ -56,16 +56,14 @@ export default function ContactModal() {
       };
       setSending(true);
       try {
-        await base44.integrations.Core.SendEmail({
-          to: "geral@convecta.pt",
-          subject: `Novo pedido de contacto — ${sanitized.nome} (${sanitized.negocio})`,
-          body: `Nome: ${sanitized.nome}\nNegócio: ${sanitized.negocio}\nTelefone: ${sanitized.telefone}\nEmail: ${sanitized.email}\n\nMensagem:\n${sanitized.mensagem || "Sem mensagem adicional."}`,
-        });
-      } catch {
-        // Silently succeed — don't block the user if API fails
+        await enviarContacto(sanitized);
+        setSent(true);
+      } catch (e) {
+        // Antes falhava em silencio e dizia "enviado" na mesma. Um contacto
+        // que se perde sem ninguem saber e um cliente que nunca liga de volta.
+        setError(e.message || "Não foi possível enviar. Tenta outra vez.");
       }
       setSending(false);
-      setSent(true);
     }
   };
 

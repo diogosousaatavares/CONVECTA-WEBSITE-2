@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Instagram } from "lucide-react";
-import { base44 } from "@/api/base44Client";
 import ScrollReveal from "@/components/ScrollReveal";
 import InstagramCarousel from "@/components/instagram/InstagramCarousel";
 import staticImages from "@/data/instagramImages";
@@ -12,18 +11,11 @@ export default function InstagramSection() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // As fotos vivem em /public/instagram e na lista em data/instagramImages.
+  // Para trocar uma, troca-se o ficheiro; nao ha painel nem servico por tras.
   useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await base44.entities.InstagramImage.list("sort_order", 20);
-        setImages(data.length > 0 ? data.slice(0, 6) : staticImages.slice(0, 6));
-      } catch {
-        setImages(staticImages.slice(0, 6));
-      } finally {
-        setLoading(false);
-      }
-    };
-    load();
+    setImages(staticImages.slice(0, 6));
+    setLoading(false);
   }, []);
 
   return (

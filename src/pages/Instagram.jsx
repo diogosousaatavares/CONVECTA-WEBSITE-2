@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Instagram as InstagramIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import { base44 } from "@/api/base44Client";
 import ScrollReveal from "@/components/ScrollReveal";
 import InstagramCarousel from "@/components/instagram/InstagramCarousel";
-import InstagramAdmin from "@/components/instagram/InstagramAdmin";
 import CtaSection from "@/components/CtaSection";
-import { useIsAdmin } from "@/hooks/useIsAdmin";
 import staticImages from "@/data/instagramImages";
 import AmbientParticles from "@/components/AmbientParticles";
 
@@ -15,21 +12,11 @@ const INSTAGRAM_URL = "https://instagram.com/convecta.pt";
 export default function Instagram() {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const isAdmin = useIsAdmin();
-
-  const loadImages = async () => {
-    try {
-      const data = await base44.entities.InstagramImage.list("sort_order", 100);
-      setImages(data.length > 0 ? data : staticImages);
-    } catch {
-      setImages(staticImages);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // As fotos vivem em /public/instagram e em data/instagramImages. Trocar uma
+  // e trocar o ficheiro; deixou de haver painel de administracao no site.
   useEffect(() => {
-    loadImages();
+    setImages(staticImages);
+    setLoading(false);
   }, []);
 
   return (
@@ -118,7 +105,6 @@ export default function Instagram() {
             </div>
           )}
 
-          {isAdmin && <InstagramAdmin images={images} onRefresh={loadImages} />}
         </div>
       </section>
 
