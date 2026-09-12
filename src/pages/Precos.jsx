@@ -88,7 +88,7 @@ export default function Precos() {
                 <ul className="space-y-3">
                   {NAO_INCLUI.map((t) => (
                     <li key={t} className="flex items-start gap-3 text-sm text-dark/70 leading-relaxed">
-                      <span className="w-5 h-5 rounded-full bg-dark/10 flex items-center justify-center shrink-0 mt-0.5"><X size={12} strokeWidth={3} color="#111" /></span>
+                      <span className="w-5 h-5 rounded-full bg-ground/10 flex items-center justify-center shrink-0 mt-0.5"><X size={12} strokeWidth={3} color="#111" /></span>
                       {t}
                     </li>
                   ))}
@@ -103,12 +103,12 @@ export default function Precos() {
       </section>
 
       {/* A comparacao que interessa */}
-      <section style={{ backgroundColor: "#111111" }} className="py-20 lg:py-28 px-6 lg:px-12 text-white">
+      <section style={{ backgroundColor: "var(--cv-ground)" }} className="py-20 lg:py-28 px-6 lg:px-12 text-ink">
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
             <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">Contas de barbeiro</p>
-            <h2 className="font-heading text-3xl lg:text-5xl text-white mb-6 leading-tight">Quanto custa não ter marcações online?</h2>
-            <div className="space-y-5 text-white/65 text-base leading-relaxed">
+            <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-6 leading-tight">Quanto custa não ter marcações online?</h2>
+            <div className="space-y-5 text-ink-2 text-base leading-relaxed">
               <p>
                 Um corte de 15 € que fica por marcar porque o cliente escreveu no WhatsApp às 22h e tu só viste de manhã — e ele entretanto foi a outro lado — custa 15 €. Dois por mês pagam a Convecta. Uma hora marcada duas vezes por engano, um cliente que apareceu e outro que teve de esperar, custa mais do que dinheiro.
               </p>
@@ -120,7 +120,7 @@ export default function Precos() {
               </p>
             </div>
             <div className="mt-8">
-              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow inline-flex items-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}>
+              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow inline-flex items-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}>
                 Experimentar a demonstração <ArrowRight size={16} />
               </a>
             </div>

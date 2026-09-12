@@ -109,7 +109,7 @@ export default function ContactModal() {
             transition={{ type: "spring", damping: 26, stiffness: 300 }}
             className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto p-6 sm:p-10 rounded-2xl"
             style={{
-              backgroundColor: "#1a1a1a",
+              backgroundColor: "var(--cv-ground)",
               border: "1px solid rgba(254,233,109,0.12)",
               boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
             }}
@@ -117,7 +117,7 @@ export default function ContactModal() {
             {/* Close button */}
             <button
               onClick={handleClose}
-              className="absolute top-5 right-5 text-white/30 hover:text-white/80 transition-colors"
+              className="absolute top-5 right-5 text-ink-3 hover:text-ink transition-colors"
               aria-label="Fechar"
             >
               <X size={20} />
@@ -135,7 +135,7 @@ export default function ContactModal() {
                     >
                       <motion.div
                         className="h-full rounded-full"
-                        style={{ backgroundColor: "#fee96d" }}
+                        style={{ backgroundColor: "var(--cv-amarelo)" }}
                         animate={{ width: i < step ? "100%" : i === step ? "60%" : "0%" }}
                         transition={{ duration: 0.4, ease: "easeOut" }}
                       />
@@ -156,7 +156,7 @@ export default function ContactModal() {
                     transition={{ duration: 0.22, ease: "easeOut" }}
                   >
                     <h2
-                      className="font-heading text-2xl lg:text-3xl text-white mb-7 leading-tight"
+                      className="font-heading text-2xl lg:text-3xl text-ink mb-7 leading-tight"
                       style={{ letterSpacing: "-0.01em" }}
                     >
                       {currentStep.label}
@@ -181,7 +181,7 @@ export default function ContactModal() {
                         onChange={e => { setForm(f => ({ ...f, [currentStep.key]: e.target.value })); setError(""); }}
                         placeholder={currentStep.placeholder}
                         autoFocus
-                        className="w-full bg-transparent py-3 text-white text-base focus:outline-none resize-none transition-colors"
+                        className="w-full bg-transparent py-3 text-ink text-base focus:outline-none resize-none transition-colors"
                         style={{
                           borderBottom: `1.5px solid ${error ? "#ef4444" : "rgba(255,255,255,0.18)"}`,
                           caretColor: "#fee96d",
@@ -196,7 +196,7 @@ export default function ContactModal() {
                         onKeyDown={handleKeyDown}
                         placeholder={currentStep.placeholder}
                         autoFocus
-                        className="w-full bg-transparent py-3 text-white text-xl focus:outline-none transition-colors"
+                        className="w-full bg-transparent py-3 text-ink text-xl focus:outline-none transition-colors"
                         style={{
                           borderBottom: `1.5px solid ${error ? "#ef4444" : "rgba(255,255,255,0.18)"}`,
                           caretColor: "#fee96d",
@@ -236,7 +236,7 @@ export default function ContactModal() {
                     whileHover={{ scale: 1.04 }}
                     whileTap={{ scale: 0.97 }}
                     className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold rounded-sm disabled:opacity-50"
-                    style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
+                    style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}
                   >
                     {sending ? (
                       "A enviar..."
@@ -260,11 +260,11 @@ export default function ContactModal() {
                   animate={{ scale: 1 }}
                   transition={{ type: "spring", damping: 15, stiffness: 350, delay: 0.1 }}
                   className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
-                  style={{ backgroundColor: "#fee96d" }}
+                  style={{ backgroundColor: "var(--cv-amarelo)" }}
                 >
-                  <CheckCircle size={28} style={{ color: "#1a1a1a" }} />
+                  <CheckCircle size={28} style={{ color: "var(--cv-ink)" }} />
                 </motion.div>
-                <h3 className="font-heading text-2xl text-white mb-3">Recebemos o teu pedido!</h3>
+                <h3 className="font-heading text-2xl text-ink mb-3">Recebemos o teu pedido!</h3>
                 <p className="text-sm max-w-xs mx-auto mb-8" style={{ color: "rgba(255,255,255,0.45)", lineHeight: 1.7 }}>
                   Respondemos em dias úteis, normalmente no próprio dia, por telefone ou WhatsApp.
                 </p>
@@ -273,7 +273,7 @@ export default function ContactModal() {
                   whileTap={{ scale: 0.97 }}
                   onClick={handleClose}
                   className="px-7 py-3 text-sm font-bold rounded-sm"
-                  style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
+                  style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}
                 >
                   Fechar
                 </motion.button>

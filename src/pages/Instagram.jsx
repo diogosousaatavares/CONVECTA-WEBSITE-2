@@ -5,7 +5,6 @@ import ScrollReveal from "@/components/ScrollReveal";
 import InstagramCarousel from "@/components/instagram/InstagramCarousel";
 import CtaSection from "@/components/CtaSection";
 import staticImages from "@/data/instagramImages";
-import AmbientParticles from "@/components/AmbientParticles";
 import Seo from "@/components/Seo";
 import { SITE } from "@/lib/seo";
 
@@ -30,8 +29,7 @@ export default function Instagram() {
         noindex
       />
       {/* Hero — Profile layout */}
-      <section style={{ backgroundColor: "#1a1a1a" }} className="pt-32 pb-16 lg:pt-40 lg:pb-20 relative overflow-hidden">
-        <AmbientParticles count={6} />
+      <section style={{ backgroundColor: "var(--cv-ground)" }} className="pt-32 pb-16 lg:pt-40 lg:pb-20 relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-6 lg:px-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -54,12 +52,12 @@ export default function Instagram() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-lg font-medium mb-4 transition-colors hover:opacity-80"
-                style={{ color: "#fee96d" }}
+                style={{ color: "var(--cv-amarelo-texto)" }}
               >
                 <InstagramIcon size={18} />
                 {SITE.instagramHandle}
               </a>
-              <p className="text-sm text-white/50 max-w-xs mb-6 mx-auto md:mx-0">
+              <p className="text-sm text-ink-2 max-w-xs mb-6 mx-auto md:mx-0">
                 Marcações online e gestão para barbearias. Os teus clientes marcam sozinhos; tu só cortas. Experimenta a demonstração — o link está na bio.
               </p>
               <a
@@ -67,7 +65,7 @@ export default function Instagram() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold uppercase tracking-wide rounded-sm transition-all hover:scale-105"
-                style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
+                style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}
               >
                 <InstagramIcon size={16} />
                 Seguir no Instagram
@@ -81,18 +79,18 @@ export default function Instagram() {
       </section>
 
       {/* Grid */}
-      <section style={{ backgroundColor: "#1a1a1a" }} className="pb-24 lg:pb-32">
+      <section style={{ backgroundColor: "var(--cv-ground)" }} className="pb-24 lg:pb-32">
         <div className="max-w-5xl mx-auto px-6 lg:px-12">
           {loading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
               {Array.from({ length: 9 }).map((_, i) => (
-                <div key={i} className="aspect-square bg-white/5 animate-pulse rounded-sm" />
+                <div key={i} className="aspect-square bg-card animate-pulse rounded-sm" />
               ))}
             </div>
           ) : images.length > 0 ? (
             <InstagramCarousel images={images} />
           ) : (
-            <div className="text-center text-white/40 py-16">
+            <div className="text-center text-ink-3 py-16">
               <InstagramIcon size={48} className="mx-auto mb-4 opacity-30" />
               <p>Em breve novas publicações.</p>
             </div>

@@ -1,7 +1,6 @@
 import React from "react";
 import { ArrowRight, Smartphone, LayoutDashboard } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import AmbientParticles from "@/components/AmbientParticles";
 import { DEMO_CLIENTE_URL, DEMO_PAINEL_URL } from "@/lib/demo";
 
 /*
@@ -24,21 +23,14 @@ const PASSOS = [
 
 export default function DemoSection() {
   return (
-    <section id="demonstracao" style={{ backgroundColor: "#0d0d0d" }} className="relative overflow-hidden py-16 lg:py-28 border-t border-white/5">
-      <AmbientParticles count={6} />
-      <div className="max-w-6xl mx-auto px-6 lg:px-12 relative">
+    <section id="demonstracao" style={{ backgroundColor: "var(--cv-ground)", borderTop: "1px solid var(--cv-linha)" }} className="relative overflow-hidden py-16 lg:py-28">
+      <div className="cv-wrap relative">
         <ScrollReveal>
-          <div className="max-w-3xl mx-auto text-center mb-10 lg:mb-14">
-            <span className="inline-block text-[11px] font-bold uppercase tracking-[0.18em] mb-4"
-              style={{ color: "#fee96d" }}>
-              Demonstração ao vivo · sem registo · sem cartão
-            </span>
-            <h2 className="font-heading text-3xl lg:text-5xl text-white mb-5 leading-tight">
-              Experimenta as marcações online agora, com as tuas próprias mãos
-            </h2>
-            <p className="text-sm lg:text-lg text-white/55 leading-relaxed">
-              Não é um vídeo nem uma apresentação. É a Convecta a funcionar, numa barbearia de
-              demonstração aberta a toda a gente. Marca uma consulta como cliente, e depois vê-a
+          <div className="mb-10 lg:mb-14">
+            <p className="cv-olho">Demonstração ao vivo · sem registo</p>
+            <h2 className="cv-h2">Experimenta agora, com as tuas mãos.</h2>
+            <p className="cv-texto" style={{ marginTop: 16 }}>
+              Não é um vídeo. É a Convecta a funcionar. Marca como cliente e vê a marcação
               chegar ao painel do barbeiro.
             </p>
           </div>
@@ -48,11 +40,10 @@ export default function DemoSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 mb-10 lg:mb-14">
           {PASSOS.map((p, i) => (
             <ScrollReveal key={p.n} delay={i * 0.1} variant="fadeInUp">
-              <div className="h-full rounded-2xl p-6 lg:p-7"
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}>
-                <div className="font-heading text-4xl mb-3" style={{ color: "#fee96d", lineHeight: 1 }}>{p.n}</div>
-                <h3 className="font-heading text-lg lg:text-xl text-white mb-2">{p.t}</h3>
-                <p className="text-sm text-white/50 leading-relaxed">{p.d}</p>
+              <div className="h-full" style={{ borderTop: "1px solid var(--cv-linha)", paddingTop: 20 }}>
+                <div className="font-heading mb-3" style={{ color: "var(--cv-ink-3)", fontSize: "1.6rem", lineHeight: 1 }}>{p.n}</div>
+                <h3 className="cv-h3">{p.t}</h3>
+                <p className="cv-mini">{p.d}</p>
               </div>
             </ScrollReveal>
           ))}
@@ -63,8 +54,8 @@ export default function DemoSection() {
           <ScrollReveal variant="fadeInUp">
             <a href={DEMO_CLIENTE_URL} target="_blank" rel="noopener"
               className="group flex items-center gap-5 rounded-2xl p-6 lg:p-7 transition-transform hover:-translate-y-0.5"
-              style={{ background: "#fee96d", color: "#1a1a1a" }}>
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(26,26,26,0.1)" }}>
+              style={{ background: "var(--cv-ink)", color: "#fff", borderRadius: 18 }}>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(255,255,255,0.12)" }}>
                 <Smartphone size={22} />
               </div>
               <div className="flex-1 min-w-0">
@@ -78,22 +69,22 @@ export default function DemoSection() {
           <ScrollReveal variant="fadeInUp" delay={0.1}>
             <a href={DEMO_PAINEL_URL} target="_blank" rel="noopener"
               className="group flex items-center gap-5 rounded-2xl p-6 lg:p-7 transition-transform hover:-translate-y-0.5"
-              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(254,233,109,0.35)", color: "#fff" }}>
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(254,233,109,0.12)", color: "#fee96d" }}>
+              style={{ background: "var(--cv-card)", border: "1px solid var(--cv-linha)", color: "var(--cv-ink)", borderRadius: 18 }}>
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: "rgba(254,233,109,0.3)", color: "var(--cv-amarelo-texto)" }}>
                 <LayoutDashboard size={22} />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/45">O outro lado</div>
+                <div className="cv-olho" style={{ margin: 0 }}>O outro lado</div>
                 <div className="font-heading text-xl lg:text-2xl leading-tight">Entrar como barbeiro</div>
-                <div className="text-sm text-white/55 mt-1">O painel de gestão: agenda, caixa, clientes, relatórios.</div>
+                <div className="text-sm mt-1" style={{ color: "var(--cv-ink-2)" }}>O painel de gestão: agenda, caixa, clientes, relatórios.</div>
               </div>
-              <ArrowRight size={22} className="shrink-0 transition-transform group-hover:translate-x-1" style={{ color: "#fee96d" }} />
+              <ArrowRight size={22} className="shrink-0 transition-transform group-hover:translate-x-1" style={{ color: "var(--cv-ink-3)" }} />
             </a>
           </ScrollReveal>
         </div>
 
         <ScrollReveal>
-          <p className="text-center text-xs text-white/35 mt-8 max-w-xl mx-auto leading-relaxed">
+          <p className="text-xs mt-8 max-w-xl leading-relaxed" style={{ color: "var(--cv-ink-3)" }}>
             É uma barbearia partilhada: quem estiver a experimentar ao mesmo tempo vê as marcações uns dos
             outros. Os dados voltam ao início de hora a hora. Pedimos-te o nome e um contacto à entrada —
             é só para falarmos contigo depois.

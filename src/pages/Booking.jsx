@@ -8,8 +8,6 @@ import {
 } from "lucide-react";
 import Seo from "@/components/Seo";
 import ScrollReveal from "@/components/ScrollReveal";
-import AmbientParticles from "@/components/AmbientParticles";
-import GradientTransition from "@/components/GradientTransition";
 import { SITE, PRECO_DESDE_TEXTO, softwareLd, migalhasLd } from "@/lib/seo";
 
 /*
@@ -165,12 +163,12 @@ const GARANTIAS = [
 
 function Cartao({ icon: Icon, titulo, texto }) {
   return (
-    <article className="h-full p-6 lg:p-7 rounded-2xl bg-white/[0.04] border border-white/10 hover:border-[#fee96d]/40 transition-colors duration-300">
+    <article className="h-full p-6 lg:p-7 rounded-2xl bg-white/[0.04] border border-linha hover:border-[#fee96d]/40 transition-colors duration-300">
       <div className="w-11 h-11 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center mb-4 border border-[#fee96d]/20">
         <Icon size={20} />
       </div>
-      <h3 className="font-heading text-xl text-white mb-2 leading-snug">{titulo}</h3>
-      <p className="text-white/60 text-sm leading-relaxed">{texto}</p>
+      <h3 className="font-heading text-xl text-ink mb-2 leading-snug">{titulo}</h3>
+      <p className="text-ink-2 text-sm leading-relaxed">{texto}</p>
     </article>
   );
 }
@@ -182,7 +180,7 @@ export default function Funcionalidades() {
   ];
 
   return (
-    <main id="main-content" style={{ backgroundColor: "#1a1a1a" }} className="booking-page text-white min-h-screen overflow-hidden selection:bg-[#fee96d] selection:text-[#1a1a1a]">
+    <main id="main-content" style={{ backgroundColor: "var(--cv-ground)" }} className="booking-page text-ink min-h-screen overflow-hidden selection:bg-[#FEE96D]">
       <Seo
         titulo="Funcionalidades da app de marcações online para barbearias"
         descricao="Tudo o que a Convecta Booking faz: marcações online 24/7 pelo site da barbearia, agenda por barbeiro com notificações, confirmação automática, cartão de fidelidade digital, checkout, caixa, comissões, stock, relatórios e Excel para o contabilista."
@@ -192,30 +190,29 @@ export default function Funcionalidades() {
 
       {/* HERO */}
       <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 px-6 lg:px-12 overflow-hidden">
-        <AmbientParticles count={10} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#fee96d]/10 blur-[140px] pointer-events-none rounded-full" />
         <div className="max-w-7xl mx-auto relative z-10">
-          <nav aria-label="Caminho" className="text-xs text-white/40 mb-6 text-center">
-            <Link to="/" className="hover:text-white/70 transition-colors">Início</Link>
+          <nav aria-label="Caminho" className="text-xs text-ink-3 mb-6 text-center">
+            <Link to="/" className="hover:text-ink-2 transition-colors">Início</Link>
             <span className="mx-2">/</span>
-            <span className="text-white/60">Funcionalidades</span>
+            <span className="text-ink-2">Funcionalidades</span>
           </nav>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-3xl mx-auto text-center">
             <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">Convecta Booking · Funcionalidades</p>
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
               A app de marcações online para barbearias, por dentro.
             </h1>
-            <p className="text-white/70 text-base sm:text-lg leading-relaxed mb-4 max-w-2xl mx-auto font-light">
+            <p className="text-ink-2 text-base sm:text-lg leading-relaxed mb-4 max-w-2xl mx-auto font-light">
               A Convecta Booking tem duas partes: o site onde os teus clientes marcam e o painel onde tu geres a barbearia — agenda, clientes, caixa, comissões, stock, cartão de fidelidade e relatórios. Esta página diz o que existe e funciona hoje.
             </p>
-            <p className="text-white/45 text-sm leading-relaxed mb-10 max-w-xl mx-auto">
+            <p className="text-ink-3 text-sm leading-relaxed mb-10 max-w-xl mx-auto">
               Não acredites em nós: cada frase aqui pode ser confirmada na demonstração ao vivo, sem registo e sem cartão.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}>
+              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}>
                 <Smartphone size={16} /> Marcar como cliente
               </a>
-              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm bg-white/10 text-white hover:bg-white/20 border border-white/20 transition-all">
+              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-white/20 border border-white/20 transition-all">
                 <LayoutDashboard size={16} /> Entrar no painel
               </a>
             </div>
@@ -228,11 +225,11 @@ export default function Funcionalidades() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {GARANTIAS.map((g, i) => (
             <ScrollReveal key={g.titulo} delay={i * 0.06} variant="fadeInUp">
-              <div className="h-full p-5 rounded-xl bg-white/5 border border-[#fee96d]/20">
+              <div className="h-full p-5 rounded-xl bg-card border border-[#fee96d]/20">
                 <div className="flex items-center gap-2 text-[#fee96d] font-bold text-sm mb-1">
                   <g.icon size={18} /> <span>{g.titulo}</span>
                 </div>
-                <p className="text-white/60 text-xs leading-relaxed">{g.texto}</p>
+                <p className="text-ink-2 text-xs leading-relaxed">{g.texto}</p>
               </div>
             </ScrollReveal>
           ))}
@@ -240,14 +237,13 @@ export default function Funcionalidades() {
       </section>
 
       {/* PARA OS CLIENTES */}
-      <section style={{ backgroundColor: "#141414" }} className="relative py-20 lg:py-28 px-6 lg:px-12 border-t border-white/5">
-        <AmbientParticles count={6} />
+      <section style={{ backgroundColor: "#141414" }} className="relative py-20 lg:py-28 px-6 lg:px-12 border-t border-linha">
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
             <div className="max-w-3xl mb-10 lg:mb-14">
               <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">1 · O site de marcações dos teus clientes</p>
-              <h2 className="font-heading text-3xl lg:text-5xl text-white mb-4 leading-tight">Agendamento online que o teu cliente faz sozinho.</h2>
-              <p className="text-white/60 text-base lg:text-lg leading-relaxed">
+              <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Agendamento online que o teu cliente faz sozinho.</h2>
+              <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Nada de mensagens no WhatsApp a perguntar "tens hora?". O cliente vê as horas livres e marca. Tu sabes no segundo seguinte.
               </p>
             </div>
@@ -263,14 +259,13 @@ export default function Funcionalidades() {
       </section>
 
       {/* PARA O BARBEIRO */}
-      <section className="relative py-20 lg:py-28 px-6 lg:px-12 border-t border-white/5">
-        <AmbientParticles count={6} />
+      <section className="relative py-20 lg:py-28 px-6 lg:px-12 border-t border-linha">
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
             <div className="max-w-3xl mb-10 lg:mb-14">
               <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">2 · O painel de gestão da barbearia</p>
-              <h2 className="font-heading text-3xl lg:text-5xl text-white mb-4 leading-tight">Software de gestão para barbearias que cabe no telemóvel.</h2>
-              <p className="text-white/60 text-base lg:text-lg leading-relaxed">
+              <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Software de gestão para barbearias que cabe no telemóvel.</h2>
+              <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Abre no browser do telemóvel, do tablet ou do computador ao balcão. Tudo o que está abaixo grava na base de dados e aparece em todos os dispositivos.
               </p>
             </div>
@@ -278,16 +273,16 @@ export default function Funcionalidades() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {PARA_BARBEIROS.map((g, i) => (
               <ScrollReveal key={g.titulo} delay={i * 0.05} variant="fadeInUp">
-                <article className="h-full p-6 lg:p-7 rounded-2xl bg-white/[0.04] border border-white/10">
+                <article className="h-full p-6 lg:p-7 rounded-2xl bg-white/[0.04] border border-linha">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center border border-[#fee96d]/20">
                       <g.icon size={18} />
                     </div>
-                    <h3 className="font-heading text-2xl text-white">{g.titulo}</h3>
+                    <h3 className="font-heading text-2xl text-ink">{g.titulo}</h3>
                   </div>
                   <ul className="space-y-2.5">
                     {g.itens.map((it) => (
-                      <li key={it} className="flex items-start gap-3 text-sm text-white/70 leading-relaxed">
+                      <li key={it} className="flex items-start gap-3 text-sm text-ink-2 leading-relaxed">
                         <CheckCircle2 size={16} className="text-[#fee96d] shrink-0 mt-0.5" />
                         <span>{it}</span>
                       </li>
@@ -299,8 +294,6 @@ export default function Funcionalidades() {
           </div>
         </div>
       </section>
-
-      <GradientTransition from="#1a1a1a" to="#ffffff" />
 
       {/* O QUE MUDA — texto corrido, para quem quer perceber (e para o Google) */}
       <section className="bg-white py-20 lg:py-28 px-6 lg:px-12">
@@ -331,16 +324,14 @@ export default function Funcionalidades() {
         </div>
       </section>
 
-      <GradientTransition from="#ffffff" to="#1a1a1a" />
-
       {/* AINDA NAO */}
       <section className="relative py-20 lg:py-28 px-6 lg:px-12">
         <div className="max-w-6xl mx-auto">
           <ScrollReveal>
             <div className="max-w-3xl mb-10">
               <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">4 · Para não haver surpresas</p>
-              <h2 className="font-heading text-3xl lg:text-5xl text-white mb-4 leading-tight">O que a Convecta ainda não faz.</h2>
-              <p className="text-white/60 text-base lg:text-lg leading-relaxed">
+              <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">O que a Convecta ainda não faz.</h2>
+              <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Preferimos que saibas antes de assinar do que descobrires depois. Isto é o que nos perguntam e ainda não temos.
               </p>
             </div>
@@ -348,12 +339,12 @@ export default function Funcionalidades() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {AINDA_NAO.map((c, i) => (
               <ScrollReveal key={c.titulo} delay={i * 0.06} variant="fadeInUp">
-                <article className="h-full p-6 rounded-2xl bg-white/[0.03] border border-white/10">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 text-white/50 flex items-center justify-center mb-4 border border-white/10">
+                <article className="h-full p-6 rounded-2xl bg-white/[0.03] border border-linha">
+                  <div className="w-10 h-10 rounded-xl bg-card text-ink-2 flex items-center justify-center mb-4 border border-linha">
                     <c.icon size={18} />
                   </div>
-                  <h3 className="font-heading text-xl text-white mb-2">{c.titulo}</h3>
-                  <p className="text-white/55 text-sm leading-relaxed">{c.texto}</p>
+                  <h3 className="font-heading text-xl text-ink mb-2">{c.titulo}</h3>
+                  <p className="text-ink-2 text-sm leading-relaxed">{c.texto}</p>
                 </article>
               </ScrollReveal>
             ))}
@@ -362,28 +353,27 @@ export default function Funcionalidades() {
       </section>
 
       {/* CTA FINAL */}
-      <section className="relative py-24 lg:py-32 px-6 lg:px-12 border-t border-white/10 overflow-hidden">
-        <AmbientParticles count={8} />
+      <section className="relative py-24 lg:py-32 px-6 lg:px-12 border-t border-linha overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <ScrollReveal>
             <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">Cinco minutos chegam</p>
-            <h2 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
-              Vê tudo isto a funcionar,<br /><span style={{ color: "#fee96d" }}>com as tuas próprias mãos.</span>
+            <h2 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
+              Vê tudo isto a funcionar,<br /><span style={{ color: "var(--cv-amarelo-texto)" }}>com as tuas próprias mãos.</span>
             </h2>
-            <p className="text-white/70 text-base sm:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-10">
+            <p className="text-ink-2 text-base sm:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-10">
               Marca uma consulta como cliente na barbearia de demonstração. Depois entra no painel e vê-a chegar. Sem registo, sem cartão, sem ninguém a ligar-te a meio.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}>
+              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}>
                 <span>Experimentar a demonstração</span>
                 <ArrowRight size={18} />
               </a>
-              <Link to="/precos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-wide rounded-sm bg-white/10 text-white hover:bg-white/20 border border-white/20 transition-all duration-200">
+              <Link to="/precos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-white/20 border border-white/20 transition-all duration-200">
                 <span>Ver os preços: desde {PRECO_DESDE_TEXTO}/mês</span>
               </Link>
             </div>
-            <p className="text-center text-white/40 text-xs mt-4">
-              Preferes falar primeiro? <Link to="/contacto" className="text-white/60 underline underline-offset-2">Deixa-nos o teu contacto</Link>.
+            <p className="text-center text-ink-3 text-xs mt-4">
+              Preferes falar primeiro? <Link to="/contacto" className="text-ink-2 underline underline-offset-2">Deixa-nos o teu contacto</Link>.
             </p>
           </ScrollReveal>
         </div>

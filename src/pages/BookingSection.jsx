@@ -5,8 +5,6 @@ import { ArrowRight, Check, Smartphone, PhoneCall, Store, ListChecks, Share2, Ca
 import Seo from "@/components/Seo";
 import CtaSection from "@/components/CtaSection";
 import ScrollReveal from "@/components/ScrollReveal";
-import AmbientParticles from "@/components/AmbientParticles";
-import GradientTransition from "@/components/GradientTransition";
 import { SITE, PRECO_DESDE_TEXTO, migalhasLd, faqLd } from "@/lib/seo";
 
 /*
@@ -92,7 +90,7 @@ export default function ComoFunciona() {
   ];
 
   return (
-    <main id="main-content" style={{ backgroundColor: "#1a1a1a" }} className="booking-page text-white min-h-screen">
+    <main id="main-content" style={{ backgroundColor: "var(--cv-ground)" }} className="booking-page text-ink min-h-screen">
       <Seo
         titulo="Como funciona: da demonstração às marcações online na tua barbearia"
         descricao="Seis passos, sem burocracia: experimentas a demonstração, falamos 15 minutos, criamos a tua barbearia no próprio dia, carregas serviços e equipa, partilhas o link e os clientes começam a marcar online. Desde 19,99 €/mês, sem comissões."
@@ -101,23 +99,22 @@ export default function ComoFunciona() {
       />
 
       {/* HERO */}
-      <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 px-6 lg:px-12 text-center overflow-hidden border-b border-white/5">
-        <AmbientParticles count={10} />
+      <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 px-6 lg:px-12 text-center overflow-hidden border-b border-linha">
         <div className="max-w-4xl mx-auto relative z-10">
-          <nav aria-label="Caminho" className="text-xs text-white/40 mb-6">
-            <Link to="/" className="hover:text-white/70 transition-colors">Início</Link>
+          <nav aria-label="Caminho" className="text-xs text-ink-3 mb-6">
+            <Link to="/" className="hover:text-ink-2 transition-colors">Início</Link>
             <span className="mx-2">/</span>
-            <span className="text-white/60">Como funciona</span>
+            <span className="text-ink-2">Como funciona</span>
           </nav>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#fee96d] mb-4">Convecta Booking · Como funciona</p>
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-white mb-6 leading-tight">
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
               Da demonstração à primeira marcação online.
             </h1>
-            <p className="text-white/70 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
+            <p className="text-ink-2 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
               Não há proposta comercial, orçamento nem semanas de "implementação". Há uma chamada de 15 minutos e uma barbearia criada, em regra, no próprio dia. Isto é o caminho todo.
             </p>
-            <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow inline-flex items-center gap-2 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}>
+            <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow inline-flex items-center gap-2 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}>
               Começar pela demonstração <ArrowRight size={16} />
             </a>
           </motion.div>
@@ -130,7 +127,7 @@ export default function ComoFunciona() {
           <ol className="space-y-5">
             {PASSOS.map((p, i) => (
               <ScrollReveal key={p.n} delay={i * 0.05} variant="fadeInUp">
-                <li className="grid grid-cols-[auto_1fr] gap-5 lg:gap-8 p-6 lg:p-8 rounded-2xl bg-white/[0.04] border border-white/10">
+                <li className="grid grid-cols-[auto_1fr] gap-5 lg:gap-8 p-6 lg:p-8 rounded-2xl bg-white/[0.04] border border-linha">
                   <div className="flex flex-col items-center gap-3">
                     <span className="font-heading text-3xl text-[#fee96d] leading-none">{p.n}</span>
                     <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center border border-[#fee96d]/20">
@@ -138,11 +135,11 @@ export default function ComoFunciona() {
                     </div>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[11px] uppercase tracking-[0.18em] font-bold text-white/40 mb-1">{p.quem}</p>
-                    <h2 className="font-heading text-2xl lg:text-3xl text-white mb-2 leading-snug">{p.titulo}</h2>
-                    <p className="text-white/65 text-sm lg:text-base leading-relaxed">{p.texto}</p>
+                    <p className="text-[11px] uppercase tracking-[0.18em] font-bold text-ink-3 mb-1">{p.quem}</p>
+                    <h2 className="font-heading text-2xl lg:text-3xl text-ink mb-2 leading-snug">{p.titulo}</h2>
+                    <p className="text-ink-2 text-sm lg:text-base leading-relaxed">{p.texto}</p>
                     {p.link && (
-                      <a href={p.link.href} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 mt-3 text-sm font-bold text-[#fee96d] hover:text-white transition-colors">
+                      <a href={p.link.href} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 mt-3 text-sm font-bold text-[#fee96d] hover:text-ink transition-colors">
                         {p.link.label} <ArrowRight size={14} />
                       </a>
                     )}
@@ -154,17 +151,17 @@ export default function ComoFunciona() {
 
           <ScrollReveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
-              <div className="p-6 rounded-2xl border border-white/10 bg-white/[0.03]">
-                <h3 className="font-heading text-xl text-white mb-3">O que precisas de ter</h3>
-                <ul className="space-y-2 text-sm text-white/65">
+              <div className="p-6 rounded-2xl border border-linha bg-white/[0.03]">
+                <h3 className="font-heading text-xl text-ink mb-3">O que precisas de ter</h3>
+                <ul className="space-y-2 text-sm text-ink-2">
                   {["Um telemóvel ou computador com browser", "A lista de serviços, com duração e preço", "O horário da barbearia e de cada barbeiro", "O logótipo, se tiveres (senão, o nome chega)"].map((t) => (
                     <li key={t} className="flex items-start gap-2.5"><Check size={15} className="text-[#fee96d] shrink-0 mt-0.5" /> {t}</li>
                   ))}
                 </ul>
               </div>
               <div className="p-6 rounded-2xl border border-[#fee96d]/25 bg-[#fee96d]/[0.05]">
-                <h3 className="font-heading text-xl text-white mb-3">O que a Convecta trata</h3>
-                <ul className="space-y-2 text-sm text-white/65">
+                <h3 className="font-heading text-xl text-ink mb-3">O que a Convecta trata</h3>
+                <ul className="space-y-2 text-sm text-ink-2">
                   {[`O teu endereço em ${SITE.dominioApps} e o alojamento`, "O site dos teus clientes e o painel, com a tua marca", "As atualizações — sem custos extra, sem versões a comprar", "Suporte por telefone e WhatsApp, por quem fez a app"].map((t) => (
                     <li key={t} className="flex items-start gap-2.5"><Check size={15} className="text-[#fee96d] shrink-0 mt-0.5" /> {t}</li>
                   ))}
@@ -174,8 +171,6 @@ export default function ComoFunciona() {
           </ScrollReveal>
         </div>
       </section>
-
-      <GradientTransition from="#141414" to="#ffffff" />
 
       {/* UM DIA */}
       <section className="bg-white py-20 lg:py-28 px-6 lg:px-12">
@@ -209,25 +204,23 @@ export default function ComoFunciona() {
         </div>
       </section>
 
-      <GradientTransition from="#ffffff" to="#1a1a1a" />
-
       {/* PERGUNTAS */}
       <section className="py-20 px-6 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-2">Antes de começar</p>
-          <h2 className="font-heading text-3xl text-white mb-8">O que costumam perguntar nesta fase</h2>
+          <h2 className="font-heading text-3xl text-ink mb-8">O que costumam perguntar nesta fase</h2>
           <div className="space-y-4">
             {PERGUNTAS.map((p) => (
-              <details key={p.q} className="p-4 rounded-xl bg-white/5 border border-white/10 group cursor-pointer">
-                <summary className="text-white font-bold text-sm flex items-center justify-between gap-4">
+              <details key={p.q} className="p-4 rounded-xl bg-card border border-linha group cursor-pointer">
+                <summary className="text-ink font-bold text-sm flex items-center justify-between gap-4">
                   <span>{p.q}</span>
                   <span className="text-[#fee96d] group-open:rotate-180 transition-transform">↓</span>
                 </summary>
-                <p className="text-white/60 text-sm mt-3 leading-relaxed font-light">{p.a}</p>
+                <p className="text-ink-2 text-sm mt-3 leading-relaxed font-light">{p.a}</p>
               </details>
             ))}
           </div>
-          <p className="text-sm text-white/45 mt-6">
+          <p className="text-sm text-ink-3 mt-6">
             Mais respostas nas <Link to="/faq" className="text-[#fee96d] underline underline-offset-2">perguntas frequentes</Link>.
           </p>
         </div>

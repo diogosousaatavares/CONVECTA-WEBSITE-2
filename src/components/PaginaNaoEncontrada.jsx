@@ -4,7 +4,7 @@ import Seo from "@/components/Seo";
 
 export default function PaginaNaoEncontrada() {
   return (
-    <div style={{ minHeight: "100vh", background: "#111111", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
+    <div style={{ minHeight: "100vh", background: "var(--cv-ground)", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, textAlign: "center" }}>
       <Seo titulo="Página não encontrada" descricao="Este endereço não existe no site da Convecta." noindex />
       <div>
         <p style={{ fontSize: 12, letterSpacing: ".25em", textTransform: "uppercase", color: "rgba(255,255,255,.4)", marginBottom: 12 }}>404</p>

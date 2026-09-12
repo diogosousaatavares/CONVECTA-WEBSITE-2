@@ -9,8 +9,6 @@ import {
 } from "@/components/ui/accordion";
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
-import GradientTransition from "@/components/GradientTransition";
-import AmbientParticles from "@/components/AmbientParticles";
 import { DEMO_CLIENTE_URL } from "@/lib/demo";
 import { PLANOS, PRECO_DESDE_TEXTO, faqLd, migalhasLd } from "@/lib/seo";
 
@@ -100,26 +98,23 @@ export default function Faq() {
       />
 
       {/* Hero */}
-      <section style={{ backgroundColor: "#1a1a1a" }} className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden">
-        <AmbientParticles count={6} />
+      <section style={{ backgroundColor: "var(--cv-ground)" }} className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/40 mb-4">FAQ</p>
-            <h1 className="font-heading text-4xl lg:text-6xl text-white mb-4">
-              Perguntas <span style={{ color: "#fee96d" }}>frequentes</span>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-ink-3 mb-4">FAQ</p>
+            <h1 className="font-heading text-4xl lg:text-6xl text-ink mb-4">
+              Perguntas <span style={{ color: "var(--cv-amarelo-texto)" }}>frequentes</span>
             </h1>
-            <p className="text-lg text-white/50 max-w-xl mx-auto">
+            <p className="text-lg text-ink-2 max-w-xl mx-auto">
               O que os donos de barbearia nos perguntam antes de experimentar. Se a tua não estiver aqui, a demonstração responde a quase tudo.
             </p>
           </motion.div>
         </div>
       </section>
-
-      <GradientTransition from="#1a1a1a" to="#ffffff" />
 
       {/* FAQ Accordion */}
       <section className="bg-white py-24 lg:py-32">
@@ -140,8 +135,6 @@ export default function Faq() {
           </ScrollReveal>
         </div>
       </section>
-
-      <GradientTransition from="#ffffff" to="#1a1a1a" />
 
       {/* CTA */}
       <CtaSection

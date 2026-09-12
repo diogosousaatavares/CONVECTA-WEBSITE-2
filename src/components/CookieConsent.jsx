@@ -51,8 +51,8 @@ export default function CookieConsent() {
         }}
       >
         <div className="flex items-start gap-3 flex-1">
-          <Cookie size={20} className="shrink-0 mt-0.5" style={{ color: "#fee96d" }} />
-          <p className="text-xs sm:text-sm text-white/70 leading-relaxed">
+          <Cookie size={20} className="shrink-0 mt-0.5" style={{ color: "var(--cv-amarelo-texto)" }} />
+          <p className="text-xs sm:text-sm text-ink-2 leading-relaxed">
             Este site não usa cookies de publicidade nem de rastreio. Guarda no teu browser só o
             essencial: esta escolha e o facto de já teres preenchido o formulário da demonstração.{" "}
             <Link to="/privacidade" className="underline hover:text-mustard transition-colors">
@@ -64,7 +64,7 @@ export default function CookieConsent() {
           <button
             onClick={accept}
             className="flex-1 sm:flex-none px-5 py-2.5 text-xs font-bold uppercase tracking-wide rounded-sm transition-transform hover:scale-105"
-            style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
+            style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}
           >
             Entendi
           </button>

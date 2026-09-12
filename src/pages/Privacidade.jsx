@@ -34,11 +34,11 @@ export default function Privacidade() {
         ld={[migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Política de Privacidade", caminho: "/privacidade" }])]}
       />
 
-      <section style={{ backgroundColor: "#1a1a1a" }} className="pt-32 pb-16 lg:pt-40 lg:pb-20">
+      <section style={{ backgroundColor: "var(--cv-ground)" }} className="pt-32 pb-16 lg:pt-40 lg:pb-20">
         <div className="max-w-3xl mx-auto px-6 lg:px-12 text-center">
           <ScrollReveal>
-            <h1 className="font-heading text-3xl lg:text-4xl text-white">Política de Privacidade</h1>
-            <p className="text-white/45 text-sm mt-3">Última atualização: {ATUALIZADO}</p>
+            <h1 className="font-heading text-3xl lg:text-4xl text-ink">Política de Privacidade</h1>
+            <p className="text-ink-3 text-sm mt-3">Última atualização: {ATUALIZADO}</p>
           </ScrollReveal>
         </div>
       </section>

@@ -41,14 +41,14 @@ export default function Navbar() {
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
         style={{
-          backgroundColor: showSolid ? "rgba(26,26,26,0.92)" : "transparent",
-          backdropFilter: showSolid ? "blur(20px)" : "none",
-          WebkitBackdropFilter: showSolid ? "blur(20px)" : "none",
-          borderBottom: showSolid ? "1px solid rgba(254,233,109,0.1)" : "none",
+          backgroundColor: showSolid ? "rgba(251,250,248,0.9)" : "transparent",
+          backdropFilter: showSolid ? "blur(18px)" : "none",
+          WebkitBackdropFilter: showSolid ? "blur(18px)" : "none",
+          borderBottom: showSolid ? "1px solid var(--cv-linha)" : "none",
         }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20 lg:h-24">
           <Link to="/" aria-label="Convecta — Início">
-            <ConvectaLogo light />
+            <ConvectaLogo />
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">
@@ -56,12 +56,12 @@ export default function Navbar() {
               const Icon = link.icon;
               return (
                 <Link key={link.path} to={link.path}
-                  className="text-sm font-medium tracking-wide uppercase transition-colors relative flex items-center gap-1.5"
-                  style={{ color: location.pathname === link.path ? "#fee96d" : "rgba(255,255,255,0.7)" }}>
+                  className="text-sm font-medium transition-colors relative flex items-center gap-1.5"
+                  style={{ color: location.pathname === link.path ? "var(--cv-ink)" : "var(--cv-ink-2)" }}>
                   {Icon && <Icon size={14} />}
                   {link.label}
                   {location.pathname === link.path && (
-                    <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-mustard rounded-full" />
+                    <span className="absolute -bottom-1 left-0 right-0" style={{ height: 1, background: "var(--cv-ink)" }} />
                   )}
                 </Link>
               );
@@ -71,17 +71,18 @@ export default function Navbar() {
           <div className="hidden lg:block">
             <a
               href={DEMO_CLIENTE_URL} target="_blank" rel="noopener"
-              className="inline-flex items-center px-6 py-2.5 text-sm font-bold rounded-sm transition-all hover:scale-105"
-              style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
+              className="inline-flex items-center px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-80"
+              style={{ border: "1px solid var(--cv-ink)", borderRadius: 100, color: "var(--cv-ink)" }}
             >
-              Experimentar demo
+              Experimentar
             </a>
           </div>
 
           {/* Hamburger with animated icon */}
           <motion.button
             onClick={() => setMobileOpen(o => !o)}
-            className="lg:hidden text-white p-2 relative z-[110] min-w-[44px] min-h-[44px] flex items-center justify-center"
+            className="lg:hidden p-2 relative z-[110] min-w-[44px] min-h-[44px] flex items-center justify-center"
+            style={{ color: "var(--cv-ink)" }}
             aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
             whileTap={{ scale: 0.9 }}
           >
@@ -102,17 +103,18 @@ export default function Navbar() {
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="absolute inset-0 bg-black/70"
+              className="absolute inset-0"
+              style={{ background: "rgba(36,32,28,0.35)" }}
               onClick={() => setMobileOpen(false)}
             />
             <motion.div
               initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 300 }}
               className="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] p-6 sm:p-8 flex flex-col overflow-y-auto"
-              style={{ backgroundColor: "#1a1a1a", borderLeft: "1px solid rgba(254,233,109,0.1)" }}>
+              style={{ backgroundColor: "var(--cv-ground)", borderLeft: "1px solid var(--cv-linha)" }}>
 
               <div className="mb-10 mt-4">
-                <ConvectaLogo light />
+                <ConvectaLogo />
               </div>
 
               <div className="flex flex-col gap-2">
@@ -127,8 +129,8 @@ export default function Navbar() {
                       <Link to={link.path}
                         className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-base font-medium ${link.path === "/booking" ? "booking-nav-link" : ""}`}
                         style={{
-                          color: isActive ? "#fee96d" : "#fff",
-                          backgroundColor: isActive ? "rgba(254,233,109,0.08)" : "transparent",
+                          color: isActive ? "var(--cv-ink)" : "var(--cv-ink-2)",
+                          backgroundColor: isActive ? "rgba(36,32,28,0.05)" : "transparent",
                         }}>
                         {Icon && <Icon size={17} />}
                         {link.label}
@@ -142,8 +144,8 @@ export default function Navbar() {
                 <a
                   href={DEMO_CLIENTE_URL} target="_blank" rel="noopener"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full block text-center px-6 py-3.5 text-sm font-bold rounded-xl"
-                  style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
+                  className="w-full block text-center px-6 py-3.5 text-sm font-medium"
+                  style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}
                 >
                   Experimentar a demonstração
                 </a>

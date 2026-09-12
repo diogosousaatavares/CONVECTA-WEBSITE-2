@@ -5,8 +5,6 @@ import Seo from "@/components/Seo";
 import { migalhasLd } from "@/lib/seo";
 import { enviarContacto } from "@/lib/contactos";
 import ScrollReveal from "@/components/ScrollReveal";
-import GradientTransition from "@/components/GradientTransition";
-import AmbientParticles from "@/components/AmbientParticles";
 
 export default function Contacto() {
   const [form, setForm] = useState({ nome: "", negocio: "", telefone: "", email: "", mensagem: "" });
@@ -105,26 +103,23 @@ export default function Contacto() {
       />
 
       {/* Hero */}
-      <section style={{ backgroundColor: "#1a1a1a" }} className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden">
-        <AmbientParticles count={6} />
+      <section style={{ backgroundColor: "var(--cv-ground)" }} className="pt-32 pb-20 lg:pt-40 lg:pb-28 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/40 mb-4">Contacto</p>
-            <h1 className="font-heading text-4xl lg:text-6xl text-white mb-4">
-              Vamos <span style={{ color: "#fee96d" }}>falar.</span>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-ink-3 mb-4">Contacto</p>
+            <h1 className="font-heading text-4xl lg:text-6xl text-ink mb-4">
+              Vamos <span style={{ color: "var(--cv-amarelo-texto)" }}>falar.</span>
             </h1>
-            <p className="text-lg text-white/50 max-w-2xl mx-auto">
+            <p className="text-lg text-ink-2 max-w-2xl mx-auto">
               Sem compromisso, sem pressão. Quinze minutos ao telefone ou no WhatsApp para percebermos a tua barbearia e dizermos, sem rodeios, se a Convecta faz sentido para ti.
             </p>
           </motion.div>
         </div>
       </section>
-
-      <GradientTransition from="#1a1a1a" to="#ffffff" />
 
       {/* Form + Info */}
       <section className="bg-white py-24 lg:py-32">
@@ -137,7 +132,7 @@ export default function Contacto() {
                   <div className="text-center py-16">
                     <div
                       className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
-                      style={{ backgroundColor: "#fee96d" }}
+                      style={{ backgroundColor: "var(--cv-amarelo)" }}
                     >
                       <Send size={24} className="text-dark" />
                     </div>
@@ -254,7 +249,7 @@ export default function Contacto() {
                       type="submit"
                       disabled={sending}
                       className="btn-glow w-full py-4 text-sm font-bold uppercase tracking-wide rounded-sm disabled:opacity-50"
-                      style={{ backgroundColor: "#fee96d", color: "#1a1a1a" }}
+                      style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}
                     >
                       {sending ? "A enviar..." : "Falar Connosco"}
                     </button>
