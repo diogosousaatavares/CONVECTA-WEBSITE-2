@@ -23,8 +23,8 @@ const PROVAS = [
     titulo: "O telemóvel toca a cada marcação",
     texto: "A notificação chega ao teu telemóvel no segundo em que o cliente marca — com o nome, o serviço e a hora. Não é email, não é SMS: aparece no ecrã bloqueado.",
     imagem: "/provas/notificacao.jpg",
-    alt: "Notificação da Convecta no ecrã bloqueado de um iPhone: nova marcação de Diogo, corte simples, terça-feira às 10:00",
-    formato: "telemovel",
+    alt: "Aviso da Convecta no telemóvel: nova marcação, Diogo, corte simples, terça-feira 15 de setembro às 10:00",
+    formato: "detalhe",
   },
   {
     id: "personalizacao",
@@ -32,6 +32,7 @@ const PROVAS = [
     titulo: "O design é teu, e mudas quando quiseres",
     texto: "Cores, tipografia, logótipo, capa e fotos. Mudas no teu painel e vês o resultado num telemóvel, ao lado, antes de publicar. Não é um pedido que nos fazes.",
     imagem: "/provas/personalizacao.jpg",
+    imagemMovel: "/provas/personalizacao-m.jpg",
     alt: "Página O Meu Site no painel da Convecta, com os campos de cor e a pré-visualização da app num telemóvel",
     formato: "largo",
   },
@@ -42,7 +43,7 @@ const PROVAS = [
     texto: "A tua e a dos teus clientes. Guarda-se no ecrã principal e abre com um ícone — sem lojas de aplicações, sem downloads, sem esperas.",
     imagem: "/provas/instalada.jpg",
     alt: "Ecrã principal de um iPhone com os dois ícones da Convecta instalados: Marcações e Convecta Gestão",
-    formato: "telemovel",
+    formato: "detalhe",
   },
 ];
 
@@ -61,7 +62,14 @@ function Prova({ p, invertido }) {
         <p className="cv-texto" style={{ fontSize: "0.95rem" }}>{p.texto}</p>
       </div>
       <figure className={`at-figura at-${p.formato}`}>
-        <img src={p.imagem} alt={p.alt} loading="lazy" />
+        {p.imagemMovel ? (
+          <picture>
+            <source media="(max-width: 860px)" srcSet={p.imagemMovel} />
+            <img src={p.imagem} alt={p.alt} loading="lazy" />
+          </picture>
+        ) : (
+          <img src={p.imagem} alt={p.alt} loading="lazy" />
+        )}
       </figure>
     </div>
   );

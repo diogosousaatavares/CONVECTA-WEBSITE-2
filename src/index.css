@@ -1605,7 +1605,12 @@ html, body {
 
 .cv { background: var(--cv-ground); color: var(--cv-ink); }
 .cv-wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
-.cv-sec { padding: 84px 0; border-top: 1px solid var(--cv-linha); }
+.cv-sec {
+  /* padding-block, nao o atalho: quando a mesma caixa tem .cv-wrap e .cv-sec,
+     o atalho "padding: 84px 0" apagava as margens laterais do .cv-wrap e o
+     conteudo ficava colado as bordas do telemovel. */
+  padding-block: 84px; border-top: 1px solid var(--cv-linha);
+}
 .cv-olho {
   font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase;
   color: var(--cv-ink-3); font-weight: 500; margin: 0 0 18px;
@@ -1638,13 +1643,13 @@ html, body {
 .cv-btn-linha:hover { color: var(--cv-ink); }
 
 /* Três colunas separadas por um risco, não por três caixas com sombra. */
-.cv-tres { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 52px; }
+.cv-tres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 52px; }
 .cv-tres > div { padding: 0 28px; border-left: 1px solid var(--cv-linha); }
 .cv-tres > div:first-child { padding-left: 0; border-left: 0; }
 
 @media (max-width: 860px) {
   .cv-wrap { padding: 0 20px; }
-  .cv-sec { padding: 60px 0; }
+  .cv-sec { padding-block: 60px; }
   .cv-tres { grid-template-columns: 1fr; gap: 30px; margin-top: 36px; }
   .cv-tres > div,
   .cv-tres > div:first-child { padding: 0 0 0 18px; border-left: 1px solid var(--cv-linha); }
@@ -1661,7 +1666,7 @@ html, body {
 @media (max-width: 520px) { .cv-passos { grid-template-columns: 1fr; } }
 
 /* Planos */
-.cv-planos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 48px; align-items: stretch; }
+.cv-planos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 48px; align-items: stretch; }
 .cv-planos > div { display: flex; }
 .cv-planos > div > div { width: 100%; }
 .cv-incluido { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 28px; }
@@ -1687,7 +1692,8 @@ html, body {
 
 /* ── Acesso total: as provas ───────────────────────────────────────────── */
 .at-lista { display: flex; flex-direction: column; gap: 72px; margin: 56px 0 64px; }
-.at-prova { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; }
+.at-prova { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 52px; align-items: center; }
+.at-prova > * { min-width: 0; }
 .at-prova.at-invertida .at-texto { order: 2; }
 .at-ico {
   width: 40px; height: 40px; border-radius: 12px; margin-bottom: 18px;
@@ -1696,10 +1702,18 @@ html, body {
 }
 .at-figura { margin: 0; display: flex; justify-content: center; }
 .at-figura img { display: block; max-width: 100%; height: auto; }
+.at-figura picture { display: block; max-width: 100%; }
 /* Capturas de telemovel: moldura fina, como o aparelho */
 .at-telemovel img {
   width: 268px; border-radius: 26px; border: 1px solid var(--cv-linha);
   box-shadow: 0 40px 80px -46px rgba(36, 32, 28, 0.55);
+}
+/* Recortes grandes: o pormenor que prova a coisa, em tamanho que se le.
+   Uma captura de telemovel inteira, encolhida para 230 px, nao se le — e
+   o que interessa (o aviso, os icones) e so um pedaco dela. */
+.at-detalhe img, .at-detalhe picture {
+  width: 100%; border-radius: 16px; border: 1px solid var(--cv-linha);
+  box-shadow: 0 30px 64px -44px rgba(36, 32, 28, 0.5);
 }
 /* Capturas de ecra grande: cartao com sombra */
 .at-largo img {
@@ -1707,10 +1721,10 @@ html, body {
   box-shadow: 0 40px 80px -50px rgba(36, 32, 28, 0.5);
 }
 
-.at-mais { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; padding-top: 44px; border-top: 1px solid var(--cv-linha); }
+.at-mais { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; padding-top: 44px; border-top: 1px solid var(--cv-linha); }
 
 /* ── As duas portas para a demonstração ────────────────────────────────── */
-.at-portas { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 56px; }
+.at-portas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 56px; }
 .at-porta {
   position: relative; display: flex; flex-direction: column; gap: 5px;
   padding: 26px 56px 26px 26px; border-radius: 18px;
@@ -1727,7 +1741,7 @@ html, body {
 
 @media (max-width: 860px) {
   .at-lista { gap: 52px; margin: 40px 0 48px; }
-  .at-prova { grid-template-columns: 1fr; gap: 26px; }
+  .at-prova { grid-template-columns: minmax(0, 1fr); gap: 22px; }
   .at-prova.at-invertida .at-texto { order: 0; }
   .at-telemovel img { width: 230px; }
   .at-mais { grid-template-columns: 1fr; gap: 26px; }
@@ -1787,3 +1801,11 @@ html, body {
 /* nos telemoveis os cartoes ficam uns por baixo dos outros: a faixa vazia
    que alinha os topos no computador so faz falta la, aqui e buraco */
 @media (max-width: 860px) { .pr-faixa-vazia { display: none !important; } }
+
+/* Nos telemoveis a seccao das provas estava justa de mais: mais ar a volta
+   das imagens e entre cada prova. */
+@media (max-width: 860px) {
+  .at-lista { gap: 56px; margin: 36px 0 44px; }
+  .at-figura { margin-top: 4px; }
+  .at-detalhe img, .at-detalhe picture, .at-largo img { border-radius: 14px; }
+}
