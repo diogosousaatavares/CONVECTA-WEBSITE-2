@@ -2,9 +2,9 @@
  * A verdade do site, num sitio so.
  *
  * Tudo o que o Google, o WhatsApp e o Instagram leem sobre a Convecta sai
- * daqui: nome, contactos, morada, preco, o que a app faz. Quando o preco
- * mudar ou a morada mudar, muda-se aqui e todas as paginas seguem — nao ha
- * um "24,99" escrito a mao em cinco ficheiros a ficar para tras.
+ * daqui: nome, contactos, morada, precos, o que a app faz. Quando os precos
+ * mudarem ou a morada mudar, muda-se aqui e todas as paginas seguem — nao ha
+ * um preco escrito a mao em cinco ficheiros a ficar para tras.
  *
  * Regra desta lista: so entra o que existe e funciona hoje. Uma
  * funcionalidade prometida no Google e desmentida na demonstracao e um
@@ -19,7 +19,7 @@ export const SITE = {
   // nos resultados do Google quando uma pagina nao diz melhor.
   slogan: "Marcações online e gestão para barbearias",
   descricao:
-    "Software de marcações online e gestão para barbearias em Portugal. Os clientes marcam pelo site da barbearia, o barbeiro recebe a notificação no telemóvel e gere agenda, caixa, comissões, stock e cartão de fidelidade num só painel. 24,99 €/mês, sem comissões por marcação.",
+    "Software de marcações online e gestão para barbearias em Portugal. Os clientes marcam pelo site da barbearia, o barbeiro recebe a notificação no telemóvel e gere agenda, caixa, comissões, stock e cartão de fidelidade num só painel. Desde 19,99 €/mês, sem comissões por marcação.",
   email: "geral@convecta.pt",
   telefone: "+351 912 381 717",
   telefoneE164: "+351912381717",
@@ -38,10 +38,83 @@ export const SITE = {
   dominioApps: "marcacoes.app",
 };
 
-// O preco. Um so, para todas as barbearias, decidido pelo Diogo. Se um dia
-// houver planos, esta constante passa a ser uma lista — mas so um sitio.
-export const PRECO_MENSAL = 24.99;
-export const PRECO_MENSAL_TEXTO = "24,99 €";
+/*
+ * Os planos. Decisao do Diogo, setembro de 2026.
+ *
+ * A plataforma e a mesma nos tres: agenda, clientes, caixa, comissoes,
+ * produtos, stock, relatorios, fidelizacao e a pagina de marcacoes propria.
+ * O que muda e quantos profissionais cabem — e, no Business, um website
+ * feito pela Convecta dentro do sistema dela.
+ *
+ * Regra: nao se escreve um preco a mao em lado nenhum. Sai sempre daqui.
+ */
+export const PLANOS = [
+  {
+    id: "essencial",
+    nome: "Essencial",
+    preco: 19.99,
+    precoTexto: "19,99 €",
+    profissionais: 1,
+    profissionaisTexto: "1 profissional",
+    resumo: "Para quem trabalha sozinho.",
+    website: false,
+  },
+  {
+    id: "profissional",
+    nome: "Profissional",
+    preco: 29.99,
+    precoTexto: "29,99 €",
+    profissionais: 5,
+    profissionaisTexto: "Até 5 profissionais",
+    resumo: "Para uma equipa pequena.",
+    website: false,
+    destaque: true,
+  },
+  {
+    id: "business",
+    nome: "Business",
+    preco: 59.99,
+    precoTexto: "59,99 €",
+    profissionais: 15,
+    profissionaisTexto: "Até 15 profissionais",
+    resumo: "Para barbearias grandes, com website feito por nós.",
+    website: true,
+  },
+];
+
+/** O plano mais barato: e o numero que aparece no "a partir de". */
+export const PLANO_BASE = PLANOS[0];
+export const PRECO_DESDE = PLANO_BASE.preco;
+export const PRECO_DESDE_TEXTO = PLANO_BASE.precoTexto;
+
+/*
+ * O lembrete por WhatsApp esta decidido e vendido nos tres planos, mas ainda
+ * nao envia uma unica mensagem: falta a conta Meta Business verificada. Ate
+ * enviar mesmo, aparece no site marcado como "em breve" — prometer no site o
+ * que a demonstracao nao faz e uma reclamacao a caminho. Quando enviar,
+ * poe-se isto a true e a etiqueta desaparece sozinha.
+ */
+export const WHATSAPP_ATIVO = false;
+
+/** O que esta incluido em todos os planos, por ordem de importancia. */
+export const INCLUIDO_EM_TODOS = [
+  { texto: "Marcações online com endereço próprio" },
+  { texto: "Agenda por barbeiro, com notificações" },
+  { texto: "Clientes, histórico e aniversários" },
+  { texto: "Caixa, checkout e métodos de pagamento" },
+  { texto: "Comissões por profissional" },
+  { texto: "Produtos, stock e fornecedores" },
+  { texto: "Relatórios e Excel para o contabilista" },
+  { texto: "Cartão de fidelidade digital" },
+  { texto: "Controlo total do design da tua app: cores, tipografia, logótipo, capa e galeria, mudados por ti" },
+  { texto: "Avisos por WhatsApp ao cliente: lembrete 24 h antes de cada marcação", emBreve: !WHATSAPP_ATIVO },
+];
+
+// Compatibilidade: havia um preco unico e varias paginas liam estas duas
+// constantes. Continuam a existir, a apontar para o plano de entrada, para
+// nenhuma pagina ficar a mostrar um preco que ja nao existe.
+export const PRECO_MENSAL = PLANO_BASE.preco;
+export const PRECO_MENSAL_TEXTO = PLANO_BASE.precoTexto;
 
 // Google Analytics: vazio ate haver uma propriedade criada. Com isto vazio
 // nao se carrega nada — nem o script, nem cookies. Preenche-se com "G-…".
@@ -55,6 +128,7 @@ export const GA_ID = "";
 export const FUNCIONALIDADES = [
   "Marcações online 24/7 pelo site da barbearia, em três toques",
   "Endereço próprio com o nome, logótipo e cores da barbearia",
+  "Editor de design no painel: o dono escolhe cores, tipografia, capa, galeria e o que aparece — e vê o resultado num telemóvel antes de publicar",
   "Site de marcações instalável no telemóvel, sem lojas de apps",
   "Agenda por barbeiro, vista do dia e lista",
   "Notificação no telemóvel do barbeiro a cada marcação nova",
@@ -143,22 +217,33 @@ export function softwareLd() {
     inLanguage: "pt-PT",
     countryOfOrigin: { "@type": "Country", name: "Portugal" },
     audience: { "@type": "BusinessAudience", audienceType: "Barbearias e barbeiros" },
+    // Tres planos: o Google mostra "a partir de" com o intervalo de precos.
     offers: {
-      "@type": "Offer",
-      price: PRECO_MENSAL.toFixed(2),
+      "@type": "AggregateOffer",
       priceCurrency: "EUR",
+      lowPrice: PLANOS[0].preco.toFixed(2),
+      highPrice: PLANOS[PLANOS.length - 1].preco.toFixed(2),
+      offerCount: PLANOS.length,
       url: `${SITE.url}/precos`,
-      availability: "https://schema.org/InStock",
-      category: "Subscrição mensal por barbearia",
-      priceSpecification: {
-        "@type": "UnitPriceSpecification",
-        price: PRECO_MENSAL.toFixed(2),
+      offers: PLANOS.map(pl => ({
+        "@type": "Offer",
+        name: `Convecta Booking — ${pl.nome}`,
+        description: `${pl.profissionaisTexto}. ${pl.resumo}`,
+        price: pl.preco.toFixed(2),
         priceCurrency: "EUR",
-        unitText: "mês",
-        billingIncrement: 1,
-        referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
-      },
-      seller: { "@id": `${SITE.url}/#organization` },
+        url: `${SITE.url}/precos`,
+        availability: "https://schema.org/InStock",
+        category: "Subscrição mensal por barbearia",
+        priceSpecification: {
+          "@type": "UnitPriceSpecification",
+          price: pl.preco.toFixed(2),
+          priceCurrency: "EUR",
+          unitText: "mês",
+          billingIncrement: 1,
+          referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
+        },
+        seller: { "@id": `${SITE.url}/#organization` },
+      })),
     },
     provider: { "@id": `${SITE.url}/#organization` },
   };

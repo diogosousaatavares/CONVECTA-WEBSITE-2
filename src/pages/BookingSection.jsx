@@ -7,7 +7,7 @@ import CtaSection from "@/components/CtaSection";
 import ScrollReveal from "@/components/ScrollReveal";
 import AmbientParticles from "@/components/AmbientParticles";
 import GradientTransition from "@/components/GradientTransition";
-import { SITE, PRECO_MENSAL_TEXTO, migalhasLd, faqLd } from "@/lib/seo";
+import { SITE, PRECO_DESDE_TEXTO, migalhasLd, faqLd } from "@/lib/seo";
 
 /*
  * Como funciona.
@@ -82,7 +82,7 @@ const PERGUNTAS = [
   { q: "Preciso de saber de informática?", a: "Não. Se sabes usar o WhatsApp, sabes usar o painel. E a configuração inicial fazemo-la contigo ao telefone." },
   { q: "Tenho de instalar alguma coisa?", a: "Não. O painel abre no browser do telemóvel ou do computador, e podes guardá-lo no ecrã principal como uma app. Os teus clientes também não instalam nada." },
   { q: "E se já tenho clientes marcados noutro sítio?", a: "Podes começar a receber marcações novas na Convecta e ir fechando as antigas onde estão. Marcações feitas ao telefone lanças à mão no painel, em segundos." },
-  { q: "Quanto custa e quando começo a pagar?", a: `${PRECO_MENSAL_TEXTO} por mês, por barbearia, tudo incluído. Sem taxa de adesão e sem comissões por marcação. A mensalidade começa quando a tua barbearia fica ativa.` },
+  { q: "Quanto custa e quando começo a pagar?", a: `Desde ${PRECO_DESDE_TEXTO} por mês, por barbearia, conforme o número de profissionais. Sem taxa de adesão e sem comissões por marcação. A mensalidade começa quando a tua barbearia fica ativa.` },
 ];
 
 export default function ComoFunciona() {
@@ -95,7 +95,7 @@ export default function ComoFunciona() {
     <main id="main-content" style={{ backgroundColor: "#1a1a1a" }} className="booking-page text-white min-h-screen">
       <Seo
         titulo="Como funciona: da demonstração às marcações online na tua barbearia"
-        descricao="Seis passos, sem burocracia: experimentas a demonstração, falamos 15 minutos, criamos a tua barbearia no próprio dia, carregas serviços e equipa, partilhas o link e os clientes começam a marcar online. 24,99 €/mês, sem comissões."
+        descricao="Seis passos, sem burocracia: experimentas a demonstração, falamos 15 minutos, criamos a tua barbearia no próprio dia, carregas serviços e equipa, partilhas o link e os clientes começam a marcar online. Desde 19,99 €/mês, sem comissões."
         caminho="/como-funciona"
         ld={ld}
       />

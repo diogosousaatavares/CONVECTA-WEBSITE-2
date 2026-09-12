@@ -10,7 +10,7 @@ import MarqueeStrip from "@/components/MarqueeStrip";
 import HeroCanvas from "@/components/HeroCanvas";
 import GradientTransition from "@/components/GradientTransition";
 import DemoSection from "@/components/DemoSection";
-import { SITE, PRECO_MENSAL_TEXTO, organizacaoLd, websiteLd, softwareLd } from "@/lib/seo";
+import { SITE, PRECO_DESDE_TEXTO, PLANOS, organizacaoLd, websiteLd, softwareLd } from "@/lib/seo";
 import { DEMO_CLIENTE_URL } from "@/lib/demo";
 
 const processSteps = [
@@ -21,7 +21,7 @@ const processSteps = [
 ];
 
 const pillars = [
-  { emoji: "💸", title: "Sem comissões", desc: `Mensalidade fixa de ${PRECO_MENSAL_TEXTO}. Cada corte marcado é 100 % teu.` },
+  { emoji: "💸", title: "Sem comissões", desc: `Mensalidade fixa desde ${PRECO_DESDE_TEXTO}. Cada corte marcado é 100 % teu.` },
   { emoji: "🔓", title: "Sem fidelização", desc: "Sem período mínimo de permanência. Cancelas quando quiseres." },
   { emoji: "⚡", title: "A funcionar no próprio dia", desc: "Criamos a tua barbearia, o endereço e a conta. Em regra, no mesmo dia." },
   { emoji: "🎧", title: "Suporte por quem fez a app", desc: "Telefone ou WhatsApp, em dias úteis. Uma equipa pequena, do Porto." },
@@ -36,7 +36,7 @@ const faqItems = [
     q: "Como funciona o agendamento online numa barbearia?",
     a: "O cliente abre o site da tua barbearia no telemóvel, escolhe o serviço, o barbeiro e uma hora livre. A marcação entra na tua agenda nesse segundo e o teu telemóvel recebe uma notificação. Confirmas com dois toques — ou ligas a confirmação automática — e o cliente é avisado no telemóvel dele."
   },
-  { q: "Quanto custa?", a: `${PRECO_MENSAL_TEXTO} por mês, por barbearia, tudo incluído: site de marcações com endereço próprio, painel de gestão, notificações, cartão de fidelidade, caixa, relatórios, Excel para o contabilista e suporte. Sem taxa de adesão, sem comissões por marcação, sem fidelização.` },
+  { q: "Quanto custa?", a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três: marcações com endereço próprio, painel de gestão, notificações, cartão de fidelidade, caixa, relatórios, Excel para o contabilista e suporte. Sem taxa de adesão, sem comissões por marcação, sem fidelização.` },
   { q: "Em quanto tempo a minha barbearia fica a funcionar?", a: "Em regra, no próprio dia. Criamos a tua barbearia, o endereço e a conta de acesso; os serviços, preços e equipa carregas tu — ou carregamos contigo ao telefone, em vinte minutos." },
   { q: "Os meus clientes precisam de instalar uma app?", a: "Não. O site de marcações abre no browser de qualquer telemóvel e pode ser guardado no ecrã principal, onde fica como uma app com o nome e o logótipo da tua barbearia. A Convecta não aparece." },
   { q: "Posso experimentar antes de decidir?", a: "Sim, agora mesmo e sem falar com ninguém. Temos uma barbearia de demonstração aberta a toda a gente: marcas como cliente e vês a marcação chegar ao painel do barbeiro. Os dados voltam ao início de hora a hora." },
@@ -209,7 +209,7 @@ export default function Home() {
                 </h1>
                 {/* Subtitle */}
                 <p className="text-sm lg:text-[1.05rem] text-white/55 leading-relaxed mb-7 max-w-md">
-                  A Convecta é a app de marcações online e o software de gestão para barbearias em Portugal. Os clientes marcam pelo site da tua barbearia, o telemóvel toca, e a agenda, a caixa, as comissões e o cartão de fidelidade ficam tratados no mesmo sítio. {PRECO_MENSAL_TEXTO}/mês, sem comissões por marcação.
+                  A Convecta é a app de marcações online e o software de gestão para barbearias em Portugal. Os clientes marcam pelo site da tua barbearia, o telemóvel toca, e a agenda, a caixa, as comissões e o cartão de fidelidade ficam tratados no mesmo sítio. Desde {PRECO_DESDE_TEXTO}/mês, sem comissões por marcação.
                 </p>
                 {/* CTAs */}
                 <div className="flex flex-col sm:flex-row gap-3 mb-8 lg:mb-12">
@@ -249,7 +249,7 @@ export default function Home() {
                   { emoji:'📅', title:'Marcações 24h', sub:'O cliente marca sozinho' },
                   { emoji:'🔔', title:'O telemóvel toca', sub:'A cada marcação nova' },
                   { emoji:'🎟️', title:'Fidelidade digital', sub:'Carimbos e corte grátis' },
-                  { emoji:'💸', title:'0 % comissões', sub:`${PRECO_MENSAL_TEXTO}/mês, fixo` },
+                  { emoji:'💸', title:'0 % comissões', sub:`desde ${PRECO_DESDE_TEXTO}/mês` },
                 ].map(({ emoji, title, sub }) => (
                   <div key={title} style={{ background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.07)', borderRadius:12, padding:'12px 10px', display:'flex', flexDirection:'column', alignItems:'center', textAlign:'center', gap:6 }}>
                     <div style={{ width:36, height:36, borderRadius:10, border:'1.5px solid rgba(254,233,109,0.25)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'1.2rem' }}>
@@ -278,7 +278,7 @@ export default function Home() {
                 style={{ position:'absolute', bottom:-24, left:0, right:0, display:'flex', alignItems:'center', justifyContent:'space-between', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)', borderRadius:14, padding:'12px 20px', backdropFilter:'blur(8px)' }}
               >
                 {[
-                  { value:PRECO_MENSAL_TEXTO, label:'por mês, tudo incluído' },
+                  { value:PRECO_DESDE_TEXTO, label:'por mês, plano de entrada' },
                   { value:'0 %', label:'comissões por marcação' },
                   { value:'3 toques', label:'para o cliente marcar' },
                 ].map(({ value, label }, i) => (

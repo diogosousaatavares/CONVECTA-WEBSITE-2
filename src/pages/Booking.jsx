@@ -10,7 +10,7 @@ import Seo from "@/components/Seo";
 import ScrollReveal from "@/components/ScrollReveal";
 import AmbientParticles from "@/components/AmbientParticles";
 import GradientTransition from "@/components/GradientTransition";
-import { SITE, PRECO_MENSAL_TEXTO, softwareLd, migalhasLd } from "@/lib/seo";
+import { SITE, PRECO_DESDE_TEXTO, softwareLd, migalhasLd } from "@/lib/seo";
 
 /*
  * Funcionalidades.
@@ -319,7 +319,7 @@ export default function Funcionalidades() {
                 <strong className="text-dark">Gestão</strong> é o que acontece depois do corte. No checkout registas como pagou, o desconto e a gorjeta; a comissão do barbeiro e o carimbo do cliente ficam feitos no mesmo toque. No fim do dia fechas a caixa. No fim do mês, o Excel do contabilista sai com um botão. Os produtos que vendes ao balcão saem do stock.
               </p>
               <p>
-                Tudo isto por uma <strong className="text-dark">mensalidade fixa de {PRECO_MENSAL_TEXTO}</strong>, sem comissões por marcação, sem fidelização, para uma barbearia com um barbeiro ou com cinco. É um <strong className="text-dark">software de gestão para barbearias</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
+                Tudo isto por uma <strong className="text-dark">mensalidade fixa desde {PRECO_DESDE_TEXTO}</strong>, sem comissões por marcação, sem fidelização, num plano escolhido pelo tamanho da tua equipa. É um <strong className="text-dark">software de gestão para barbearias</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">
@@ -379,7 +379,7 @@ export default function Funcionalidades() {
                 <ArrowRight size={18} />
               </a>
               <Link to="/precos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-wide rounded-sm bg-white/10 text-white hover:bg-white/20 border border-white/20 transition-all duration-200">
-                <span>Ver o preço: {PRECO_MENSAL_TEXTO}/mês</span>
+                <span>Ver os preços: desde {PRECO_DESDE_TEXTO}/mês</span>
               </Link>
             </div>
             <p className="text-center text-white/40 text-xs mt-4">

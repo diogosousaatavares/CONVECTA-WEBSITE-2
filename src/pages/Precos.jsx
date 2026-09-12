@@ -5,19 +5,20 @@ import Seo from "@/components/Seo";
 import PricingSection from "@/components/PricingSection";
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
-import { SITE, PRECO_MENSAL, PRECO_MENSAL_TEXTO, migalhasLd, faqLd, softwareLd } from "@/lib/seo";
+import { SITE, PLANOS, PRECO_DESDE_TEXTO, migalhasLd, faqLd, softwareLd } from "@/lib/seo";
 
 /*
  * Precos.
  *
- * O preco e um so e esta escrito em lib/seo.js. Esta pagina explica o que
- * ele inclui, o que nao inclui, e o que custa nao ter marcacoes online — que
+ * Tres planos, escritos em lib/seo.js. Esta pagina explica o que eles
+ * incluem, o que nao incluem, e o que custa nao ter marcacoes online — que
  * e a comparacao que interessa a quem esta a decidir.
  */
 
 const INCLUI = [
   "Site de marcações online com endereço próprio (a-tua-barbearia.marcacoes.app)",
   "Painel de gestão para o telemóvel, tablet e computador",
+  "Controlo total do design: cores, tipografia, logótipo, capa e galeria, mudados por ti no painel",
   "Notificações no telemóvel: tuas a cada marcação, do cliente a cada confirmação",
   "Cartão de fidelidade digital, caixa, comissões, stock, relatórios",
   "Excel mensal para o contabilista",
@@ -26,13 +27,14 @@ const INCLUI = [
 ];
 
 const NAO_INCLUI = [
-  "Lembretes por SMS ou WhatsApp na véspera — não existem hoje; se vierem, serão um extra com preço à vista",
   "Pagamentos online pelo cliente — o cliente paga na barbearia, como sempre",
   "Um domínio próprio (o teu endereço em marcacoes.app está incluído)",
+  "Gestão de redes sociais, publicidade ou produção de conteúdos",
 ];
 
 const PERGUNTAS = [
-  { q: "O preço é mesmo igual para todas as barbearias?", a: `Sim: ${PRECO_MENSAL_TEXTO} por mês, por barbearia, com um barbeiro ou com cinco. Não há planos, escalões nem limites de marcações.` },
+  { q: "Qual é a diferença entre os três planos?", a: `A plataforma é exatamente a mesma nos três: agenda, clientes, caixa, comissões, produtos, stock, relatórios e fidelização. O que muda é quantos profissionais cabem — ${PLANOS.map(p => `${p.nome}, ${p.profissionaisTexto.toLowerCase()}, ${p.precoTexto}/mês`).join("; ")}. O Business inclui ainda um website da barbearia feito por nós. Não há limite de marcações em nenhum deles.` },
+  { q: "E se a minha equipa crescer?", a: "Mudas de plano e continuas com os mesmos dados, a mesma agenda e o mesmo endereço. Não se recomeça nada." },
   { q: "Há comissões por marcação?", a: "Não. Zero. Cada marcação que entra é tua por inteiro. A Convecta ganha a mensalidade e mais nada." },
   { q: "Há fidelização ou período mínimo?", a: "Não. Cancelas quando quiseres. Se saíres, os teus dados são apagados a pedido." },
   { q: "Como se paga?", a: "Por mês, com fatura. Combinamos o método contigo quando a barbearia fica ativa." },
@@ -49,8 +51,8 @@ export default function Precos() {
   return (
     <div className="pt-24" style={{ backgroundColor: "#F5F5F5" }}>
       <Seo
-        titulo={`Preços — ${PRECO_MENSAL_TEXTO}/mês, sem comissões por marcação`}
-        descricao={`A Convecta custa ${PRECO_MENSAL_TEXTO} por mês por barbearia, tudo incluído: site de marcações online, painel de gestão, notificações, cartão de fidelidade, caixa, comissões, relatórios e Excel para o contabilista. Sem taxa de adesão, sem comissões, sem fidelização.`}
+        titulo={`Preços — desde ${PRECO_DESDE_TEXTO}/mês, sem comissões por marcação`}
+        descricao={`Três planos, desde ${PRECO_DESDE_TEXTO} por mês por barbearia: ${PLANOS.map(p => `${p.nome} ${p.precoTexto} (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três — marcações online, agenda, caixa, comissões, stock, relatórios e fidelização. Sem taxa de adesão, sem comissões por marcação, sem fidelização.`}
         caminho="/precos"
         ld={ld}
       />
@@ -63,7 +65,7 @@ export default function Precos() {
           <ScrollReveal>
             <div className="text-center mb-12">
               <p className="text-xs uppercase tracking-[0.25em] font-bold text-dark/40 mb-4">Sem letras pequenas</p>
-              <h2 className="font-heading text-3xl lg:text-5xl text-dark leading-tight">O que os {PRECO_MENSAL_TEXTO} incluem — e o que não incluem</h2>
+              <h2 className="font-heading text-3xl lg:text-5xl text-dark leading-tight">O que a mensalidade inclui — e o que não inclui</h2>
             </div>
           </ScrollReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -114,7 +116,7 @@ export default function Precos() {
                 Nas plataformas de marcações que cobram comissão, cada cliente novo pode ficar-lhes com 20 % ou mais do serviço, e o cliente é "delas": vê outras barbearias ao lado da tua. Na Convecta, a mensalidade é fixa, o site é o da tua barbearia, e o cliente é teu.
               </p>
               <p>
-                {PRECO_MENSAL_TEXTO} por mês são cerca de {(PRECO_MENSAL / 30).toFixed(2).replace(".", ",")} € por dia. Menos do que o café e o pastel que pagas a quem vem esperar por uma hora que afinal já estava dada.
+                O plano de entrada são {PRECO_DESDE_TEXTO} por mês — cerca de {(PLANOS[0].preco / 30).toFixed(2).replace(".", ",")} € por dia. Menos do que o café e o pastel que pagas a quem vem esperar por uma hora que afinal já estava dada.
               </p>
             </div>
             <div className="mt-8">
@@ -147,7 +149,7 @@ export default function Precos() {
         </div>
       </section>
 
-      <CtaSection title="Um preço. Zero comissões. Experimenta primeiro." buttonText="Experimentar a demonstração" href={SITE.demoCliente} secondaryText="ou fala connosco" />
+      <CtaSection title="Zero comissões. Experimenta primeiro." buttonText="Experimentar a demonstração" href={SITE.demoCliente} secondaryText="ou fala connosco" />
     </div>
   );
 }

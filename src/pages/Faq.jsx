@@ -12,7 +12,7 @@ import CtaSection from "@/components/CtaSection";
 import GradientTransition from "@/components/GradientTransition";
 import AmbientParticles from "@/components/AmbientParticles";
 import { DEMO_CLIENTE_URL } from "@/lib/demo";
-import { PRECO_MENSAL_TEXTO, faqLd, migalhasLd } from "@/lib/seo";
+import { PLANOS, PRECO_DESDE_TEXTO, faqLd, migalhasLd } from "@/lib/seo";
 
 const faqs = [
   {
@@ -53,7 +53,7 @@ const faqs = [
   },
   {
     q: "Quanto custa? Há comissões por marcação?",
-    a: `${PRECO_MENSAL_TEXTO} por mês, por barbearia, tudo incluído. Sem comissões por marcação, sem taxa de adesão e sem fidelização — cancelas quando quiseres. O preço é o mesmo para todas as barbearias, tenhas um barbeiro ou cinco. Acresce IVA à taxa legal, quando aplicável.`,
+    a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três e não há limite de marcações em nenhum. Sem comissões por marcação, sem taxa de adesão e sem fidelização — cancelas quando quiseres. Acresce IVA à taxa legal, quando aplicável.`,
   },
   {
     q: "Quanto tempo até estar a funcionar?",
@@ -94,7 +94,7 @@ export default function Faq() {
     <div>
       <Seo
         titulo="Perguntas frequentes sobre marcações online para barbearias"
-        descricao="Como os teus clientes marcam online, como ficas a saber, cancelamentos, cartão de fidelidade, caixa, comissões, contabilista, preço (24,99 €/mês) e segurança dos dados. As respostas antes de experimentares a Convecta."
+        descricao="Como os teus clientes marcam online, como ficas a saber, cancelamentos, cartão de fidelidade, caixa, comissões, contabilista, preços (desde 19,99 €/mês) e segurança dos dados. As respostas antes de experimentares a Convecta."
         caminho="/faq"
         ld={[faqLd(faqs), migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Perguntas frequentes", caminho: "/faq" }])]}
       />
