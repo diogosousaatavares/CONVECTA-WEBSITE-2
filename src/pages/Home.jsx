@@ -9,6 +9,7 @@ import PricingSection from "@/components/PricingSection";
 import DemoSection from "@/components/DemoSection";
 import FundoLinhas from "@/components/FundoLinhas";
 import HeroDispositivos from "@/components/HeroDispositivos";
+import AcessoTotal from "@/components/AcessoTotal";
 import { SITE, PRECO_DESDE_TEXTO, PLANOS, organizacaoLd, websiteLd, softwareLd } from "@/lib/seo";
 import { DEMO_CLIENTE_URL } from "@/lib/demo";
 
@@ -132,7 +133,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 2. O que é ──────────────────────────────────────────── */}
+      {/* ── 2. Acesso total (as provas) ─────────────────────────── */}
+      <AcessoTotal />
+
+      {/* ── 3. O que é ──────────────────────────────────────────── */}
       <section className="cv-wrap cv-sec">
         <ScrollReveal>
           <p className="cv-olho">O que é</p>
@@ -154,10 +158,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 3. A demonstração ───────────────────────────────────── */}
+      {/* ── 4. A demonstração ───────────────────────────────────── */}
       <DemoSection />
 
-      {/* ── 4. Como funciona ────────────────────────────────────── */}
+      {/* ── 5. Como funciona ────────────────────────────────────── */}
       <section id="processo" className="cv-wrap cv-sec">
         <ScrollReveal>
           <p className="cv-olho">Como funciona</p>
@@ -176,10 +180,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 5. Planos ───────────────────────────────────────────── */}
+      {/* ── 6. Planos ───────────────────────────────────────────── */}
       <PricingSection />
 
-      {/* ── 6. Perguntas ────────────────────────────────────────── */}
+      {/* ── 7. Perguntas ────────────────────────────────────────── */}
       <section className="cv-wrap cv-sec">
         <ScrollReveal>
           <p className="cv-olho">Perguntas</p>
@@ -193,7 +197,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 7. Último apelo ─────────────────────────────────────── */}
+      {/* ── 8. Último apelo ─────────────────────────────────────── */}
       <CtaSection
         title="Pronto para deixar os teus clientes marcarem sozinhos?"
         buttonText="Experimentar a demonstração"

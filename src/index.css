@@ -1684,3 +1684,106 @@ html, body {
 .border-linha { border-color: var(--cv-linha); }
 .bg-ground { background-color: var(--cv-ground); }
 .bg-card { background-color: var(--cv-card); }
+
+/* ── Acesso total: as provas ───────────────────────────────────────────── */
+.at-lista { display: flex; flex-direction: column; gap: 72px; margin: 56px 0 64px; }
+.at-prova { display: grid; grid-template-columns: 1fr 1fr; gap: 52px; align-items: center; }
+.at-prova.at-invertida .at-texto { order: 2; }
+.at-ico {
+  width: 40px; height: 40px; border-radius: 12px; margin-bottom: 18px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(254, 233, 109, 0.3); color: var(--cv-amarelo-texto);
+}
+.at-figura { margin: 0; display: flex; justify-content: center; }
+.at-figura img { display: block; max-width: 100%; height: auto; }
+/* Capturas de telemovel: moldura fina, como o aparelho */
+.at-telemovel img {
+  width: 268px; border-radius: 26px; border: 1px solid var(--cv-linha);
+  box-shadow: 0 40px 80px -46px rgba(36, 32, 28, 0.55);
+}
+/* Capturas de ecra grande: cartao com sombra */
+.at-largo img {
+  width: 100%; border-radius: 14px; border: 1px solid var(--cv-linha);
+  box-shadow: 0 40px 80px -50px rgba(36, 32, 28, 0.5);
+}
+
+.at-mais { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; padding-top: 44px; border-top: 1px solid var(--cv-linha); }
+
+/* ── As duas portas para a demonstração ────────────────────────────────── */
+.at-portas { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 56px; }
+.at-porta {
+  position: relative; display: flex; flex-direction: column; gap: 5px;
+  padding: 26px 56px 26px 26px; border-radius: 18px;
+  background: var(--cv-card); border: 1px solid var(--cv-linha);
+  color: var(--cv-ink); text-decoration: none;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.at-porta:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -26px rgba(36, 32, 28, 0.4); }
+.at-porta-forte { background: var(--cv-ink); border-color: var(--cv-ink); color: #fff; }
+.at-porta-olho { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; opacity: 0.55; }
+.at-porta-titulo { font-family: var(--font-heading); font-size: 1.45rem; line-height: 1.15; }
+.at-porta-sub { font-size: 0.86rem; line-height: 1.55; opacity: 0.65; }
+.at-seta { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
+
+@media (max-width: 860px) {
+  .at-lista { gap: 52px; margin: 40px 0 48px; }
+  .at-prova { grid-template-columns: 1fr; gap: 26px; }
+  .at-prova.at-invertida .at-texto { order: 0; }
+  .at-telemovel img { width: 230px; }
+  .at-mais { grid-template-columns: 1fr; gap: 26px; }
+  .at-portas { grid-template-columns: 1fr; margin-top: 40px; }
+}
+
+/* ── Preços: o 3D suave, as garantias e o apelo ──────────────────── */
+.pr-esferas { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.pr-esfera { position: absolute; display: block; border-radius: 50%; }
+.pr-esfera-a {
+  left: -7%; top: 14%; width: 320px; height: 320px;
+  background: radial-gradient(circle at 36% 30%, #ffffff 0%, #f1eee9 46%, #e2ddd5 100%);
+  box-shadow: inset -22px -26px 62px rgba(36, 32, 28, 0.09), 0 40px 90px -60px rgba(36, 32, 28, 0.5);
+  opacity: 0.55;
+}
+.pr-esfera-b {
+  right: -5%; bottom: 8%; width: 220px; height: 220px;
+  background: radial-gradient(circle at 60% 34%, #fff7cf 0%, #fdf0ae 55%, #f6e392 100%);
+  box-shadow: inset -18px -20px 48px rgba(154, 122, 12, 0.16), 0 34px 80px -58px rgba(154, 122, 12, 0.55);
+  opacity: 0.5;
+}
+@media (max-width: 860px) { .pr-esferas { display: none; } }
+
+.pr-garantias {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  background: var(--cv-card); border: 1px solid var(--cv-linha);
+  border-radius: 18px; margin-top: 18px;
+}
+.pr-garantias > div {
+  display: flex; align-items: center; gap: 13px;
+  padding: 18px 20px; min-width: 0;
+  border-left: 1px solid var(--cv-linha);
+}
+.pr-garantias > div:first-child { border-left: 0; }
+.pr-garantia-ico {
+  width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+  border: 1px solid var(--cv-linha);
+  display: flex; align-items: center; justify-content: center;
+}
+
+.pr-apelo {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; flex-wrap: wrap;
+  margin-top: 40px; padding: 28px;
+  border: 1px solid var(--cv-linha); border-radius: 20px;
+  background: linear-gradient(180deg, rgba(254, 233, 109, 0.16) 0%, rgba(255, 255, 255, 0) 100%), var(--cv-card);
+}
+.pr-apelo-botoes { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+
+@media (max-width: 860px) {
+  .pr-garantias { grid-template-columns: 1fr; }
+  .pr-garantias > div { border-left: 0; border-top: 1px solid var(--cv-linha); }
+  .pr-garantias > div:first-child { border-top: 0; }
+  .pr-apelo { padding: 24px 20px; }
+}
+
+/* nos telemoveis os cartoes ficam uns por baixo dos outros: a faixa vazia
+   que alinha os topos no computador so faz falta la, aqui e buraco */
+@media (max-width: 860px) { .pr-faixa-vazia { display: none !important; } }

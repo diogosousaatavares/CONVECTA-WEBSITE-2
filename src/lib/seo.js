@@ -82,6 +82,29 @@ export const PLANOS = [
   },
 ];
 
+/*
+ * Pagamento anual: 15 % mais barato do que doze meses a pagar mes a mes.
+ * Decisao do Diogo, setembro de 2026. Serve o cashflow dele e prende menos
+ * o cliente do que uma fidelizacao — paga adiantado porque compensa, nao
+ * porque assinou um papel.
+ *
+ * Os numeros sao calculados, nao escritos a mao: mexe-se no desconto e tudo
+ * o resto segue.
+ */
+export const DESCONTO_ANUAL = 0.15;
+
+const euros = n => n.toFixed(2).replace(".", ",") + " €";
+
+PLANOS.forEach(pl => {
+  pl.precoAno = Math.round(pl.preco * 12 * (1 - DESCONTO_ANUAL) * 100) / 100;
+  pl.precoAnoTexto = euros(pl.precoAno);
+  // o que o mes fica a valer quando se paga o ano de uma vez
+  pl.precoMesAnual = Math.round((pl.precoAno / 12) * 100) / 100;
+  pl.precoMesAnualTexto = euros(pl.precoMesAnual);
+  pl.poupancaAno = Math.round((pl.preco * 12 - pl.precoAno) * 100) / 100;
+  pl.poupancaAnoTexto = euros(pl.poupancaAno);
+});
+
 /** O plano mais barato: e o numero que aparece no "a partir de". */
 export const PLANO_BASE = PLANOS[0];
 export const PRECO_DESDE = PLANO_BASE.preco;
