@@ -19,7 +19,8 @@ export default function HeroDispositivos() {
           background: "#0b0b0f", border: "1px solid rgba(36,32,28,0.12)", borderBottom: 0,
           boxShadow: "0 40px 80px -40px rgba(36,32,28,0.45)", overflow: "hidden",
         }}>
-          <video src="/laptop-demo.mp4" autoPlay loop muted playsInline
+          <video src="/laptop-demo.mp4" poster="/laptop-demo.jpg" autoPlay loop muted playsInline
+            preload="metadata" aria-label="O painel de gestão da Convecta a ser usado"
             style={{ width: "100%", height: "100%", objectFit: "fill", display: "block" }} />
         </div>
         {/* Base do portatil */}
@@ -40,7 +41,8 @@ export default function HeroDispositivos() {
           boxShadow: "0 30px 60px -28px rgba(36,32,28,0.5)", overflow: "hidden",
         }}>
           <div style={{ position: "absolute", top: 7, left: "50%", transform: "translateX(-50%)", width: "26%", height: 9, background: "#000", borderRadius: 5, zIndex: 2 }} />
-          <video src="/phone-demo.mp4" autoPlay loop muted playsInline
+          <video src="/phone-demo.mp4" poster="/phone-demo.jpg" autoPlay loop muted playsInline
+            preload="metadata" aria-label="A app de marcações do cliente, no telemóvel"
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
         </div>
       </div>

@@ -48,6 +48,25 @@ const { render } = await import(pathToFileURL(path.join(distSsr, "entry-server.j
 // A casca vazia para caminhos desconhecidos (404 desenhado pelo React).
 await writeFile(path.join(dist, "app.html"), modelo, "utf8");
 
+/*
+ * A pagina de 404, desenhada de verdade e gravada como dist/404.html.
+ *
+ * Antes, o vercel.json mandava qualquer endereco desconhecido para
+ * app.html — e o Vercel respondia 200. Para o Google isso e um "soft 404":
+ * uma pagina que diz "nao existe" mas se anuncia como valida, e que ele
+ * acaba por indexar. Com um 404.html no dist, o Vercel devolve o estado
+ * 404 a serio.
+ */
+{
+  const { html, helmet } = await render("/nao-existe");
+  const cabeca = [helmet.title.toString(), helmet.meta.toString(), helmet.link.toString()].join("\n  ");
+  const pagina = modelo
+    .replace(/<!-- seo:default -->[\s\S]*?<!-- \/seo:default -->/, cabeca)
+    .replace('<div id="root"></div>', `<div id="root">${html}</div>`);
+  await writeFile(path.join(dist, "404.html"), pagina, "utf8");
+  console.log("  pre-renderizado 404 → dist/404.html");
+}
+
 for (const rota of ROTAS) {
   const { html, helmet } = await render(rota);
   if (!html || html.length < 500) throw new Error(`Rota ${rota} desenhou HTML vazio`);

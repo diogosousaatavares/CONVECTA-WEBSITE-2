@@ -107,7 +107,7 @@ export default function ComoFunciona() {
             <span className="text-ink-2">Como funciona</span>
           </nav>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#fee96d] mb-4">Convecta Booking · Como funciona</p>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#8A6D0A] mb-4">Convecta Booking · Como funciona</p>
             <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
               Da demonstração à primeira marcação online.
             </h1>
@@ -122,15 +122,15 @@ export default function ComoFunciona() {
       </section>
 
       {/* OS SEIS PASSOS */}
-      <section style={{ backgroundColor: "#141414" }} className="py-20 lg:py-28 px-6 lg:px-12">
+      <section style={{ backgroundColor: "var(--cv-card)" }} className="py-20 lg:py-28 px-6 lg:px-12">
         <div className="max-w-5xl mx-auto">
           <ol className="space-y-5">
             {PASSOS.map((p, i) => (
               <ScrollReveal key={p.n} delay={i * 0.05} variant="fadeInUp">
-                <li className="grid grid-cols-[auto_1fr] gap-5 lg:gap-8 p-6 lg:p-8 rounded-2xl bg-white/[0.04] border border-linha">
+                <li className="grid grid-cols-[auto_1fr] gap-5 lg:gap-8 p-6 lg:p-8 rounded-2xl bg-card border border-linha">
                   <div className="flex flex-col items-center gap-3">
-                    <span className="font-heading text-3xl text-[#fee96d] leading-none">{p.n}</span>
-                    <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center border border-[#fee96d]/20">
+                    <span className="font-heading text-3xl text-[#8A6D0A] leading-none">{p.n}</span>
+                    <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#8A6D0A] flex items-center justify-center border border-[#fee96d]/20">
                       <p.icon size={18} />
                     </div>
                   </div>
@@ -139,7 +139,7 @@ export default function ComoFunciona() {
                     <h2 className="font-heading text-2xl lg:text-3xl text-ink mb-2 leading-snug">{p.titulo}</h2>
                     <p className="text-ink-2 text-sm lg:text-base leading-relaxed">{p.texto}</p>
                     {p.link && (
-                      <a href={p.link.href} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 mt-3 text-sm font-bold text-[#fee96d] hover:text-ink transition-colors">
+                      <a href={p.link.href} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 mt-3 text-sm font-bold text-[#8A6D0A] hover:text-ink transition-colors">
                         {p.link.label} <ArrowRight size={14} />
                       </a>
                     )}
@@ -151,11 +151,11 @@ export default function ComoFunciona() {
 
           <ScrollReveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
-              <div className="p-6 rounded-2xl border border-linha bg-white/[0.03]">
+              <div className="p-6 rounded-2xl border border-linha bg-card">
                 <h3 className="font-heading text-xl text-ink mb-3">O que precisas de ter</h3>
                 <ul className="space-y-2 text-sm text-ink-2">
                   {["Um telemóvel ou computador com browser", "A lista de serviços, com duração e preço", "O horário da barbearia e de cada barbeiro", "O logótipo, se tiveres (senão, o nome chega)"].map((t) => (
-                    <li key={t} className="flex items-start gap-2.5"><Check size={15} className="text-[#fee96d] shrink-0 mt-0.5" /> {t}</li>
+                    <li key={t} className="flex items-start gap-2.5"><Check size={15} className="text-[#8A6D0A] shrink-0 mt-0.5" /> {t}</li>
                   ))}
                 </ul>
               </div>
@@ -163,7 +163,7 @@ export default function ComoFunciona() {
                 <h3 className="font-heading text-xl text-ink mb-3">O que a Convecta trata</h3>
                 <ul className="space-y-2 text-sm text-ink-2">
                   {[`O teu endereço em ${SITE.dominioApps} e o alojamento`, "O site dos teus clientes e o painel, com a tua marca", "As atualizações — sem custos extra, sem versões a comprar", "Suporte por telefone e WhatsApp, por quem fez a app"].map((t) => (
-                    <li key={t} className="flex items-start gap-2.5"><Check size={15} className="text-[#fee96d] shrink-0 mt-0.5" /> {t}</li>
+                    <li key={t} className="flex items-start gap-2.5"><Check size={15} className="text-[#8A6D0A] shrink-0 mt-0.5" /> {t}</li>
                   ))}
                 </ul>
               </div>
@@ -176,29 +176,29 @@ export default function ComoFunciona() {
       <section className="bg-white py-20 lg:py-28 px-6 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
-            <p className="text-xs uppercase tracking-[0.25em] font-bold text-dark/40 mb-4">Depois de lançar</p>
-            <h2 className="font-heading text-3xl lg:text-5xl text-dark mb-4 leading-tight">Um dia com marcações online na barbearia</h2>
-            <p className="text-dark/60 text-base leading-relaxed mb-10">
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-ink-3 mb-4">Depois de lançar</p>
+            <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Um dia com marcações online na barbearia</h2>
+            <p className="text-ink-2 text-base leading-relaxed mb-10">
               Nomes e horas inventados; o que a app faz em cada momento é exatamente isto.
             </p>
           </ScrollReveal>
-          <ol className="relative border-l-2 border-dark/10 ml-3 space-y-8">
+          <ol className="relative border-l-2 border-linha ml-3 space-y-8">
             {UM_DIA.map((m, i) => (
               <ScrollReveal key={m.hora} delay={i * 0.04}>
                 <li className="pl-8 relative">
                   <span className="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-[#fee96d] border-2 border-white flex items-center justify-center">
                     <m.icon size={10} color="#111" />
                   </span>
-                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-dark/40 mb-1 tabular-nums">{m.hora}</p>
-                  <p className="text-dark/75 text-sm lg:text-base leading-relaxed">{m.texto}</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink-3 mb-1 tabular-nums">{m.hora}</p>
+                  <p className="text-ink-2 text-sm lg:text-base leading-relaxed">{m.texto}</p>
                 </li>
               </ScrollReveal>
             ))}
           </ol>
           <ScrollReveal>
             <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm">
-              <Link to="/funcionalidades" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1">Todas as funcionalidades <ArrowRight size={14} /></Link>
-              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1"><LayoutDashboard size={14} /> Ver o painel na demonstração</a>
+              <Link to="/funcionalidades" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1">Todas as funcionalidades <ArrowRight size={14} /></Link>
+              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1"><LayoutDashboard size={14} /> Ver o painel na demonstração</a>
             </div>
           </ScrollReveal>
         </div>
@@ -207,21 +207,21 @@ export default function ComoFunciona() {
       {/* PERGUNTAS */}
       <section className="py-20 px-6 lg:px-12">
         <div className="max-w-3xl mx-auto">
-          <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-2">Antes de começar</p>
+          <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-2">Antes de começar</p>
           <h2 className="font-heading text-3xl text-ink mb-8">O que costumam perguntar nesta fase</h2>
           <div className="space-y-4">
             {PERGUNTAS.map((p) => (
               <details key={p.q} className="p-4 rounded-xl bg-card border border-linha group cursor-pointer">
                 <summary className="text-ink font-bold text-sm flex items-center justify-between gap-4">
                   <span>{p.q}</span>
-                  <span className="text-[#fee96d] group-open:rotate-180 transition-transform">↓</span>
+                  <span className="text-[#8A6D0A] group-open:rotate-180 transition-transform">↓</span>
                 </summary>
                 <p className="text-ink-2 text-sm mt-3 leading-relaxed font-light">{p.a}</p>
               </details>
             ))}
           </div>
           <p className="text-sm text-ink-3 mt-6">
-            Mais respostas nas <Link to="/faq" className="text-[#fee96d] underline underline-offset-2">perguntas frequentes</Link>.
+            Mais respostas nas <Link to="/faq" className="text-[#8A6D0A] underline underline-offset-2">perguntas frequentes</Link>.
           </p>
         </div>
       </section>

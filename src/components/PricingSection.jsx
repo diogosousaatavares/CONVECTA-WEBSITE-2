@@ -20,7 +20,7 @@ import MarcaWhatsApp from "@/components/MarcaWhatsApp";
  */
 
 const GARANTIAS = [
-  { icon: Shield, titulo: "Sem fidelização", texto: "Cancelas quando quiseres." },
+  { icon: Shield, titulo: "Sem fidelização", texto: "No mensal cancelas quando quiseres.", textoAnual: "No anual o compromisso é de 12 meses — é o que paga o desconto." },
   { icon: Zap, titulo: "A funcionar no próprio dia", texto: "Em regra, ativa no dia em que falamos." },
   { icon: Headphones, titulo: "Suporte por quem fez a app", texto: "Resposta até 24 horas úteis." },
 ];
@@ -78,7 +78,8 @@ function Alternador({ anual, mudar }) {
 }
 
 /* ── um cartao ──────────────────────────────────────────────────── */
-function Cartao({ plano, anual }) {
+function Cartao({ plano, anual, nivelNome = "h3" }) {
+  const Nome = nivelNome;
   const destaque = !!plano.destaque;
   const valor = anual ? plano.precoMesAnualTexto : plano.precoTexto;
 
@@ -114,7 +115,7 @@ function Cartao({ plano, anual }) {
       </div>
 
       <div style={{ padding: "26px 26px 26px", display: "flex", flexDirection: "column", flex: 1 }}>
-        <h3 className="cv-h3" style={{ margin: 0 }}>{plano.nome}</h3>
+        <Nome className="cv-h3" style={{ margin: 0 }}>{plano.nome}</Nome>
         <p style={{ fontSize: "0.84rem", color: "var(--cv-ink-2)", margin: "5px 0 0" }}>{plano.resumo}</p>
 
         <div style={{ display: "flex", alignItems: "baseline", gap: 7, flexWrap: "wrap", marginTop: 22 }}>
@@ -194,6 +195,8 @@ function Item({ children, icone: Icone }) {
 /* ── a seccao ───────────────────────────────────────────────────── */
 export default function PricingSection({ nivelTitulo = "h2" }) {
   const Titulo = nivelTitulo;
+  // os titulos nao podem saltar niveis: h1 -> h2, h2 -> h3
+  const NivelNome = nivelTitulo === "h1" ? "h2" : "h3";
   const [anual, setAnual] = useState(false);
 
   return (
@@ -230,7 +233,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
               transition={{ duration: 0.45 }}
               style={{ display: "flex" }}
             >
-              <Cartao plano={plano} anual={anual} />
+              <Cartao plano={plano} anual={anual} nivelNome={NivelNome} />
             </motion.div>
           ))}
         </div>
@@ -247,7 +250,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
             borderRadius: 20, padding: "30px 28px", marginTop: 40,
           }}
         >
-          <h3 className="cv-h3" style={{ margin: 0 }}>Em qualquer um dos três</h3>
+          {React.createElement(NivelNome, { className: "cv-h3", style: { margin: 0 } }, "Em qualquer um dos três")}
           <p style={{ fontSize: "0.84rem", color: "var(--cv-ink-2)", margin: "6px 0 22px" }}>
             Sem módulos à parte, sem versão reduzida.
           </p>
@@ -262,7 +265,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
         </div>
 
         <div className="pr-garantias">
-          {GARANTIAS.map(g => (
+          {GARANTIAS.map(g => ({ ...g, texto: anual && g.textoAnual ? g.textoAnual : g.texto })).map(g => (
             <div key={g.titulo}>
               <div className="pr-garantia-ico"><g.icon size={16} strokeWidth={1.6} color="var(--cv-ink)" /></div>
               <div>
@@ -276,7 +279,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
         {/* o apelo: antes de escolher um plano, entra e ve */}
         <div className="pr-apelo">
           <div>
-            <h3 className="cv-h3" style={{ margin: 0 }}>Não decidas às escuras.</h3>
+            {React.createElement(NivelNome, { className: "cv-h3", style: { margin: 0 } }, "Não decidas às escuras.")}
             <p style={{ color: "var(--cv-ink-2)", fontSize: "0.9rem", margin: "6px 0 0", maxWidth: "42ch" }}>
               Entra na demonstração, marca como cliente e vê a marcação chegar ao painel.
               Sem registo e sem cartão.

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Seo from "@/components/Seo";
 import ScrollReveal from "@/components/ScrollReveal";
-import { SITE, PRECO_MENSAL_TEXTO, migalhasLd } from "@/lib/seo";
+import { SITE, PLANOS, DESCONTO_ANUAL, migalhasLd } from "@/lib/seo";
 
 /*
  * Termos e condicoes da Convecta Booking.
@@ -21,7 +21,7 @@ import { SITE, PRECO_MENSAL_TEXTO, migalhasLd } from "@/lib/seo";
 const ATUALIZADO = "11 de setembro de 2026";
 
 function H2({ children }) {
-  return <h2 className="font-heading text-2xl text-dark mt-10 mb-3">{children}</h2>;
+  return <h2 className="font-heading text-2xl text-ink mt-10 mb-3">{children}</h2>;
 }
 
 export default function Termos() {
@@ -44,17 +44,17 @@ export default function Termos() {
       </section>
 
       <section className="bg-white py-16 lg:py-24">
-        <div className="max-w-3xl mx-auto px-6 lg:px-12 text-sm text-dark/70 leading-relaxed">
+        <div className="max-w-3xl mx-auto px-6 lg:px-12 text-sm text-ink-2 leading-relaxed">
           <p>
             Estes termos regulam a utilização da Convecta Booking — o software de marcações online e gestão para barbearias disponibilizado pela Convecta ({SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal; {SITE.email}; {SITE.telefone}) — e deste site. Ao criar uma conta ou ao usar a demonstração, aceitas o que aqui está escrito. Escrevemo-lo para ser lido, não para ser assinado sem ler.
           </p>
 
           <H2>1. O que é o serviço</H2>
           <p>
-            A Convecta Booking é um serviço de software por subscrição ("SaaS"). Inclui: um site de marcações online com endereço próprio em {SITE.dominioApps} e a marca da barbearia, onde os clientes da barbearia marcam; um painel de gestão para a barbearia (agenda, clientes, equipa, checkout, caixa, comissões, produtos e stock, cartão de fidelidade, relatórios e exportação para o contabilista); notificações no telemóvel; alojamento, manutenção e atualizações; e suporte. A lista exata do que existe está na página de <Link to="/funcionalidades" className="underline underline-offset-2 text-dark">funcionalidades</Link>, que prevalece sobre qualquer outra descrição.
+            A Convecta Booking é um serviço de software por subscrição ("SaaS"). Inclui: um site de marcações online com endereço próprio em {SITE.dominioApps} e a marca da barbearia, onde os clientes da barbearia marcam; um painel de gestão para a barbearia (agenda, clientes, equipa, checkout, caixa, comissões, produtos e stock, cartão de fidelidade, relatórios e exportação para o contabilista); notificações no telemóvel; alojamento, manutenção e atualizações; e suporte. A lista exata do que existe está na página de <Link to="/funcionalidades" className="underline underline-offset-2 text-ink">funcionalidades</Link>, que prevalece sobre qualquer outra descrição.
           </p>
           <p>
-            O serviço não inclui: lembretes por SMS ou WhatsApp, pagamentos online pelos clientes da barbearia, nem um domínio próprio da barbearia. Se algum destes vier a existir, será apresentado como opção, com o respetivo preço, antes de ser cobrado.
+            O serviço não inclui: lembretes por SMS, pagamentos online pelos clientes da barbearia, nem um domínio próprio da barbearia. Se algum destes vier a existir, será apresentado como opção, com o respetivo preço, antes de ser cobrado. Os avisos por WhatsApp ao cliente estão previstos em todos os planos e são anunciados no site como “em breve”: enquanto essa indicação se mantiver, não fazem parte do serviço contratado e a sua ausência não dá direito a redução do preço.
           </p>
 
           <H2>2. Conta e acesso</H2>
@@ -64,7 +64,23 @@ export default function Termos() {
 
           <H2>3. Preço e pagamento</H2>
           <p>
-            O preço é {PRECO_MENSAL_TEXTO} por mês, por barbearia, ao qual acresce IVA à taxa legal em vigor quando aplicável. Não há taxa de adesão, não há comissões sobre as marcações e não há limites de marcações, de clientes ou de barbeiros. A mensalidade começa a contar no dia em que a barbearia fica ativa e é faturada mensalmente. O método de pagamento é combinado com a barbearia; a fatura é emitida com os dados fornecidos.
+            O preço depende do plano contratado, por barbearia, e acresce IVA à taxa legal em vigor quando aplicável:{" "}
+            {PLANOS.map((pl, i) => (
+              <React.Fragment key={pl.id}>
+                {i > 0 ? (i === PLANOS.length - 1 ? " e " : ", ") : ""}
+                <strong>{pl.nome}</strong> {pl.precoTexto}/mês ({pl.profissionaisTexto.toLowerCase()})
+              </React.Fragment>
+            ))}. O plano escolhido e o número de profissionais incluídos ficam registados na adesão.
+            Não há taxa de adesão, não há comissões sobre as marcações e não há limite de marcações
+            nem de clientes. O que cada plano limita é o número de profissionais; a barbearia pode
+            mudar de plano a qualquer momento, com o preço novo a aplicar-se ao período seguinte.
+          </p>
+          <p>
+            O pagamento pode ser mensal ou anual. No pagamento anual, os doze meses são faturados de
+            uma vez, com um desconto de {Math.round(DESCONTO_ANUAL * 100)} % sobre o preço mensal; nesse caso, e só nesse caso, existe um
+            compromisso de doze meses e o cancelamento antecipado não dá direito a devolução do
+            período já faturado. A mensalidade começa a contar no dia em que a barbearia fica ativa.
+            O método de pagamento é combinado com a barbearia; a fatura é emitida com os dados fornecidos.
           </p>
           <p>
             Em caso de atraso no pagamento superior a 15 dias, e depois de aviso, a Convecta pode suspender o acesso ao painel e ao site de marcações até à regularização. Os dados não são apagados durante a suspensão.
@@ -75,12 +91,12 @@ export default function Termos() {
 
           <H2>4. Duração e cancelamento</H2>
           <p>
-            Não há período mínimo de permanência nem fidelização. A barbearia pode cancelar quando quiser, por e-mail ou telefone, com efeito no fim do mês em curso; não há devolução de mensalidades já faturadas. A Convecta pode cessar o serviço com 60 dias de aviso, ou de imediato em caso de uso abusivo, ilegal ou de incumprimento grave. Quando o serviço termina, a barbearia pode pedir uma cópia dos seus dados (em Excel) e, depois, o seu apagamento.
+            No pagamento mensal não há período mínimo de permanência nem fidelização: a barbearia pode cancelar quando quiser, por e-mail ou telefone, com efeito no fim do mês em curso; não há devolução de mensalidades já faturadas. No pagamento anual, o compromisso é de doze meses, nos termos da cláusula 3. A Convecta pode cessar o serviço com 60 dias de aviso, ou de imediato em caso de uso abusivo, ilegal ou de incumprimento grave. Quando o serviço termina, a barbearia pode pedir uma cópia dos seus dados (em Excel) e, depois, o seu apagamento.
           </p>
 
           <H2>5. O que a barbearia se compromete a fazer</H2>
           <p>
-            Usar o serviço para gerir a sua própria atividade, de forma lícita. Fornecer dados verdadeiros. Informar os seus clientes de que as marcações e os dados são geridos com a Convecta, nos termos da <Link to="/privacidade" className="underline underline-offset-2 text-dark">política de privacidade</Link>. Não tentar aceder a dados de outras barbearias, não sobrecarregar o serviço deliberadamente e não o usar para enviar comunicações não solicitadas.
+            Usar o serviço para gerir a sua própria atividade, de forma lícita. Fornecer dados verdadeiros. Informar os seus clientes de que as marcações e os dados são geridos com a Convecta, nos termos da <Link to="/privacidade" className="underline underline-offset-2 text-ink">política de privacidade</Link>. Não tentar aceder a dados de outras barbearias, não sobrecarregar o serviço deliberadamente e não o usar para enviar comunicações não solicitadas.
           </p>
 
           <H2>6. Dados dos clientes da barbearia</H2>

@@ -1596,11 +1596,13 @@ html, body {
   --cv-ground: #FBFAF8;   /* branco quente — branco de folha é duro */
   --cv-card:   #FFFFFF;
   --cv-ink:    #24201C;   /* quase preto, mas quente */
-  --cv-ink-2:  #6F6862;
-  --cv-ink-3:  #A39B93;
+  --cv-ink-2:  #5F5852;   /* 6,7:1 no fundo — texto corrido secundário */
+  --cv-ink-3:  #767068;   /* 4,7:1 — o mínimo legal para texto pequeno.
+                             O #A39B93 que aqui estava dava 2,6:1: bonito
+                             e ilegível. */
   --cv-linha:  rgba(36, 32, 28, 0.09);
   --cv-amarelo: #FEE96D;
-  --cv-amarelo-texto: #9A7A0C;  /* o amarelo não se lê em texto pequeno */
+  --cv-amarelo-texto: #8A6D0A;  /* o amarelo não se lê em texto pequeno */
 }
 
 .cv { background: var(--cv-ground); color: var(--cv-ink); }
@@ -1734,7 +1736,9 @@ html, body {
 }
 .at-porta:hover { transform: translateY(-2px); box-shadow: 0 18px 40px -26px rgba(36, 32, 28, 0.4); }
 .at-porta-forte { background: var(--cv-ink); border-color: var(--cv-ink); color: #fff; }
-.at-porta-olho { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; opacity: 0.55; }
+.at-porta-olho { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; opacity: 0.78; }
+/* no cartao escuro o branco a 0,78 chega; no claro precisa de mais corpo */
+.at-porta:not(.at-porta-forte) .at-porta-olho { opacity: 1; color: var(--cv-ink-2); }
 .at-porta-titulo { font-family: var(--font-heading); font-size: 1.45rem; line-height: 1.15; }
 .at-porta-sub { font-size: 0.86rem; line-height: 1.55; opacity: 0.65; }
 .at-seta { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
@@ -1809,3 +1813,24 @@ html, body {
   .at-figura { margin-top: 4px; }
   .at-detalhe img, .at-detalhe picture, .at-largo img { border-radius: 14px; }
 }
+
+/* ── Alvos de toque ───────────────────────────────────────────────────
+   No telemóvel um link de 20 px de altura falha-se. As recomendações de
+   acessibilidade pedem 44 px; aqui garante-se isso no rodapé, no menu e
+   nas ligações de texto, sem mudar o desenho — cresce a área, não a letra. */
+@media (max-width: 860px) {
+  .cv-btn-linha,
+  footer a,
+  nav a,
+  .menu-telemovel a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  footer li { margin-bottom: 0; }
+}
+
+/* ── Sem JavaScript o site não pode ficar em branco ───────────────────
+   O conteúdo abaixo do herói entra com uma animação que começa em
+   opacity:0. Se o JavaScript não carregar, isso deixava metade do site
+   invisível. Esta regra desliga a animação nesse caso. */

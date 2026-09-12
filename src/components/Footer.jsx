@@ -20,7 +20,7 @@ export default function Footer() {
 
           {/* Plataforma */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--cv-ink-3)" }}>Plataforma</h4>
+            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--cv-ink-3)" }}>Plataforma</p>
             <div className="flex flex-col gap-3">
               <Link to="/funcionalidades" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Funcionalidades
@@ -39,7 +39,7 @@ export default function Footer() {
 
           {/* Empresa */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--cv-ink-3)" }}>Empresa</h4>
+            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--cv-ink-3)" }}>Empresa</p>
             <div className="flex flex-col gap-3">
               <Link to="/faq" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Perguntas Frequentes
@@ -58,7 +58,7 @@ export default function Footer() {
 
           {/* Contact & Social */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--cv-ink-3)" }}>Contacto</h4>
+            <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--cv-ink-3)" }}>Contacto</p>
             <div className="flex flex-col gap-3">
               <a href={`mailto:${SITE.email}`} className="text-sm hover:opacity-70 transition-colors flex items-center gap-2" style={{ color: "var(--cv-ink-2)" }}>
                 <Mail size={14} className="text-mustard" />

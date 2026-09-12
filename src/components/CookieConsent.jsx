@@ -43,11 +43,11 @@ export default function CookieConsent() {
       <div
         className="max-w-3xl mx-auto rounded-sm p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6"
         style={{
-          backgroundColor: "rgba(26,26,26,0.97)",
+          backgroundColor: "rgba(255,255,255,0.97)",
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)",
-          border: "1px solid rgba(254,233,109,0.25)",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+          border: "1px solid var(--cv-linha)",
+          boxShadow: "0 20px 60px -30px rgba(36,32,28,0.45)",
         }}
       >
         <div className="flex items-start gap-3 flex-1">
@@ -55,7 +55,7 @@ export default function CookieConsent() {
           <p className="text-xs sm:text-sm text-ink-2 leading-relaxed">
             Este site não usa cookies de publicidade nem de rastreio. Guarda no teu browser só o
             essencial: esta escolha e o facto de já teres preenchido o formulário da demonstração.{" "}
-            <Link to="/privacidade" className="underline hover:text-mustard transition-colors">
+            <Link to="/privacidade" className="underline text-ink transition-colors">
               Saber mais
             </Link>
           </p>

@@ -136,8 +136,8 @@ const PARA_BARBEIROS = [
 const AINDA_NAO = [
   {
     icon: Ban,
-    titulo: "Lembretes por SMS ou WhatsApp",
-    texto: "Hoje não há lembretes automáticos na véspera. As notificações no telemóvel (marcação recebida, confirmada, cancelada) existem e são grátis. Lembretes por WhatsApp custam dinheiro por mensagem; se os incluirmos, será como extra, com o preço à vista.",
+    titulo: "Lembretes na véspera, por WhatsApp",
+    texto: "Ainda não estão a funcionar. Estão prometidos nos três planos, sem custo extra, e o site marca-os como \"em breve\" até ao dia em que enviarem mesmo. O que já funciona hoje são as notificações no telemóvel — marcação recebida, confirmada, cancelada — e essas são imediatas. Lembretes por SMS não estão previstos.",
   },
   {
     icon: Ban,
@@ -163,8 +163,8 @@ const GARANTIAS = [
 
 function Cartao({ icon: Icon, titulo, texto }) {
   return (
-    <article className="h-full p-6 lg:p-7 rounded-2xl bg-white/[0.04] border border-linha hover:border-[#fee96d]/40 transition-colors duration-300">
-      <div className="w-11 h-11 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center mb-4 border border-[#fee96d]/20">
+    <article className="h-full p-6 lg:p-7 rounded-2xl bg-card border border-linha hover:border-[#fee96d]/40 transition-colors duration-300">
+      <div className="w-11 h-11 rounded-xl bg-[#fee96d]/10 text-[#8A6D0A] flex items-center justify-center mb-4 border border-[#fee96d]/20">
         <Icon size={20} />
       </div>
       <h3 className="font-heading text-xl text-ink mb-2 leading-snug">{titulo}</h3>
@@ -198,7 +198,7 @@ export default function Funcionalidades() {
             <span className="text-ink-2">Funcionalidades</span>
           </nav>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-3xl mx-auto text-center">
-            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">Convecta Booking · Funcionalidades</p>
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">Convecta Booking · Funcionalidades</p>
             <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
               A app de marcações online para barbearias, por dentro.
             </h1>
@@ -212,7 +212,7 @@ export default function Funcionalidades() {
               <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}>
                 <Smartphone size={16} /> Marcar como cliente
               </a>
-              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-white/20 border border-white/20 transition-all">
+              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-[#F2EFEA] border border-linha transition-all">
                 <LayoutDashboard size={16} /> Entrar no painel
               </a>
             </div>
@@ -226,7 +226,7 @@ export default function Funcionalidades() {
           {GARANTIAS.map((g, i) => (
             <ScrollReveal key={g.titulo} delay={i * 0.06} variant="fadeInUp">
               <div className="h-full p-5 rounded-xl bg-card border border-[#fee96d]/20">
-                <div className="flex items-center gap-2 text-[#fee96d] font-bold text-sm mb-1">
+                <div className="flex items-center gap-2 text-[#8A6D0A] font-bold text-sm mb-1">
                   <g.icon size={18} /> <span>{g.titulo}</span>
                 </div>
                 <p className="text-ink-2 text-xs leading-relaxed">{g.texto}</p>
@@ -237,11 +237,11 @@ export default function Funcionalidades() {
       </section>
 
       {/* PARA OS CLIENTES */}
-      <section style={{ backgroundColor: "#141414" }} className="relative py-20 lg:py-28 px-6 lg:px-12 border-t border-linha">
+      <section style={{ backgroundColor: "var(--cv-card)" }} className="relative py-20 lg:py-28 px-6 lg:px-12 border-t border-linha">
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
             <div className="max-w-3xl mb-10 lg:mb-14">
-              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">1 · O site de marcações dos teus clientes</p>
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">1 · O site de marcações dos teus clientes</p>
               <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Agendamento online que o teu cliente faz sozinho.</h2>
               <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Nada de mensagens no WhatsApp a perguntar "tens hora?". O cliente vê as horas livres e marca. Tu sabes no segundo seguinte.
@@ -263,7 +263,7 @@ export default function Funcionalidades() {
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
             <div className="max-w-3xl mb-10 lg:mb-14">
-              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">2 · O painel de gestão da barbearia</p>
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">2 · O painel de gestão da barbearia</p>
               <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Software de gestão para barbearias que cabe no telemóvel.</h2>
               <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Abre no browser do telemóvel, do tablet ou do computador ao balcão. Tudo o que está abaixo grava na base de dados e aparece em todos os dispositivos.
@@ -273,9 +273,9 @@ export default function Funcionalidades() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {PARA_BARBEIROS.map((g, i) => (
               <ScrollReveal key={g.titulo} delay={i * 0.05} variant="fadeInUp">
-                <article className="h-full p-6 lg:p-7 rounded-2xl bg-white/[0.04] border border-linha">
+                <article className="h-full p-6 lg:p-7 rounded-2xl bg-card border border-linha">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#fee96d] flex items-center justify-center border border-[#fee96d]/20">
+                    <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#8A6D0A] flex items-center justify-center border border-[#fee96d]/20">
                       <g.icon size={18} />
                     </div>
                     <h3 className="font-heading text-2xl text-ink">{g.titulo}</h3>
@@ -283,7 +283,7 @@ export default function Funcionalidades() {
                   <ul className="space-y-2.5">
                     {g.itens.map((it) => (
                       <li key={it} className="flex items-start gap-3 text-sm text-ink-2 leading-relaxed">
-                        <CheckCircle2 size={16} className="text-[#fee96d] shrink-0 mt-0.5" />
+                        <CheckCircle2 size={16} className="text-[#8A6D0A] shrink-0 mt-0.5" />
                         <span>{it}</span>
                       </li>
                     ))}
@@ -299,26 +299,26 @@ export default function Funcionalidades() {
       <section className="bg-white py-20 lg:py-28 px-6 lg:px-12">
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
-            <p className="text-xs uppercase tracking-[0.25em] font-bold text-dark/40 mb-4">3 · Na prática</p>
-            <h2 className="font-heading text-3xl lg:text-5xl text-dark mb-8 leading-tight">O que muda numa barbearia com marcações online</h2>
-            <div className="space-y-5 text-dark/70 text-base leading-relaxed">
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-ink-3 mb-4">3 · Na prática</p>
+            <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-8 leading-tight">O que muda numa barbearia com marcações online</h2>
+            <div className="space-y-5 text-ink-2 text-base leading-relaxed">
               <p>
-                <strong className="text-dark">Marcações online</strong> quer dizer que a agenda deixa de viver no teu telemóvel e nas conversas do WhatsApp. Passa a viver num sítio onde o cliente marca sozinho, a qualquer hora, e onde tu só tens de confirmar — ou nem isso, se ligares a confirmação automática. Cada marcação chega com nome, serviço e hora, e o teu telemóvel avisa-te.
+                <strong className="text-ink">Marcações online</strong> quer dizer que a agenda deixa de viver no teu telemóvel e nas conversas do WhatsApp. Passa a viver num sítio onde o cliente marca sozinho, a qualquer hora, e onde tu só tens de confirmar — ou nem isso, se ligares a confirmação automática. Cada marcação chega com nome, serviço e hora, e o teu telemóvel avisa-te.
               </p>
               <p>
-                <strong className="text-dark">Agendamento automático</strong> não é o cliente ser atendido por um robô: é a agenda saber que horas estão livres, quanto dura cada serviço, que barbeiro está de folga e a que horas fechas — e só mostrar ao cliente o que realmente pode marcar. Duas pessoas não conseguem ficar com a mesma hora no mesmo barbeiro, nem que tentem ao mesmo segundo.
+                <strong className="text-ink">Agendamento automático</strong> não é o cliente ser atendido por um robô: é a agenda saber que horas estão livres, quanto dura cada serviço, que barbeiro está de folga e a que horas fechas — e só mostrar ao cliente o que realmente pode marcar. Duas pessoas não conseguem ficar com a mesma hora no mesmo barbeiro, nem que tentem ao mesmo segundo.
               </p>
               <p>
-                <strong className="text-dark">Gestão</strong> é o que acontece depois do corte. No checkout registas como pagou, o desconto e a gorjeta; a comissão do barbeiro e o carimbo do cliente ficam feitos no mesmo toque. No fim do dia fechas a caixa. No fim do mês, o Excel do contabilista sai com um botão. Os produtos que vendes ao balcão saem do stock.
+                <strong className="text-ink">Gestão</strong> é o que acontece depois do corte. No checkout registas como pagou, o desconto e a gorjeta; a comissão do barbeiro e o carimbo do cliente ficam feitos no mesmo toque. No fim do dia fechas a caixa. No fim do mês, o Excel do contabilista sai com um botão. Os produtos que vendes ao balcão saem do stock.
               </p>
               <p>
-                Tudo isto por uma <strong className="text-dark">mensalidade fixa desde {PRECO_DESDE_TEXTO}</strong>, sem comissões por marcação, sem fidelização, num plano escolhido pelo tamanho da tua equipa. É um <strong className="text-dark">software de gestão para barbearias</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
+                Tudo isto por uma <strong className="text-ink">mensalidade fixa desde {PRECO_DESDE_TEXTO}</strong>, sem comissões por marcação, sem fidelização, num plano escolhido pelo tamanho da tua equipa. É um <strong className="text-ink">software de gestão para barbearias</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">
-              <Link to="/precos" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1">Ver o preço <ArrowRight size={14} /></Link>
-              <Link to="/como-funciona" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1">Como funciona, passo a passo <ArrowRight size={14} /></Link>
-              <Link to="/faq" className="inline-flex items-center gap-1.5 font-bold text-dark border-b-2 border-[#fee96d] py-1">Perguntas frequentes <ArrowRight size={14} /></Link>
+              <Link to="/precos" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1">Ver o preço <ArrowRight size={14} /></Link>
+              <Link to="/como-funciona" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1">Como funciona, passo a passo <ArrowRight size={14} /></Link>
+              <Link to="/faq" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1">Perguntas frequentes <ArrowRight size={14} /></Link>
             </div>
           </ScrollReveal>
         </div>
@@ -329,7 +329,7 @@ export default function Funcionalidades() {
         <div className="max-w-6xl mx-auto">
           <ScrollReveal>
             <div className="max-w-3xl mb-10">
-              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">4 · Para não haver surpresas</p>
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">4 · Para não haver surpresas</p>
               <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">O que a Convecta ainda não faz.</h2>
               <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Preferimos que saibas antes de assinar do que descobrires depois. Isto é o que nos perguntam e ainda não temos.
@@ -339,7 +339,7 @@ export default function Funcionalidades() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {AINDA_NAO.map((c, i) => (
               <ScrollReveal key={c.titulo} delay={i * 0.06} variant="fadeInUp">
-                <article className="h-full p-6 rounded-2xl bg-white/[0.03] border border-linha">
+                <article className="h-full p-6 rounded-2xl bg-card border border-linha">
                   <div className="w-10 h-10 rounded-xl bg-card text-ink-2 flex items-center justify-center mb-4 border border-linha">
                     <c.icon size={18} />
                   </div>
@@ -356,7 +356,7 @@ export default function Funcionalidades() {
       <section className="relative py-24 lg:py-32 px-6 lg:px-12 border-t border-linha overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <ScrollReveal>
-            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#fee96d] mb-4">Cinco minutos chegam</p>
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">Cinco minutos chegam</p>
             <h2 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
               Vê tudo isto a funcionar,<br /><span style={{ color: "var(--cv-amarelo-texto)" }}>com as tuas próprias mãos.</span>
             </h2>
@@ -368,7 +368,7 @@ export default function Funcionalidades() {
                 <span>Experimentar a demonstração</span>
                 <ArrowRight size={18} />
               </a>
-              <Link to="/precos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-white/20 border border-white/20 transition-all duration-200">
+              <Link to="/precos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-[#F2EFEA] border border-linha transition-all duration-200">
                 <span>Ver os preços: desde {PRECO_DESDE_TEXTO}/mês</span>
               </Link>
             </div>

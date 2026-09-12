@@ -13,8 +13,15 @@ import { MessageCircle } from "lucide-react";
 
 const VERDE = "#25D366";
 
+/*
+ * Enquanto o ficheiro oficial nao estiver em public/marcas/whatsapp.svg,
+ * nem vale a pena pedi-lo: dava um 404 em cada visita. Poe la o ficheiro e
+ * muda esta linha para true.
+ */
+const TEM_FICHEIRO_OFICIAL = false;
+
 export default function MarcaWhatsApp({ tamanho = 22, comNome = false }) {
-  const [semFicheiro, setSemFicheiro] = useState(false);
+  const [semFicheiro, setSemFicheiro] = useState(!TEM_FICHEIRO_OFICIAL);
 
   const simbolo = semFicheiro ? (
     <span

@@ -17,6 +17,8 @@ export default function ConvectaLogo({ light = false, size = "default" }) {
     <img
       src={light ? CLARO : ESCURO}
       alt="Convecta"
+      width="640"
+      height="160"
       className={`${altura} w-auto`}
     />
   );

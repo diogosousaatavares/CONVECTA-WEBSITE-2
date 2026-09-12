@@ -134,10 +134,10 @@ export default function Contacto() {
                       className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6"
                       style={{ backgroundColor: "var(--cv-amarelo)" }}
                     >
-                      <Send size={24} className="text-dark" />
+                      <Send size={24} className="text-ink" />
                     </div>
-                    <h3 className="font-heading text-2xl text-dark mb-3">Recebemos o teu pedido.</h3>
-                    <p className="text-dark/50 text-sm max-w-md mx-auto">
+                    <h3 className="font-heading text-2xl text-ink mb-3">Recebemos o teu pedido.</h3>
+                    <p className="text-ink-3 text-sm max-w-md mx-auto">
                       Respondemos em dias úteis, normalmente no próprio dia, por telefone ou WhatsApp.
                     </p>
                   </div>
@@ -159,7 +159,7 @@ export default function Contacto() {
                     )}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label htmlFor="nome" className="text-xs font-bold uppercase tracking-wider text-dark/40 mb-2 block">
+                        <label htmlFor="nome" className="text-xs font-bold uppercase tracking-wider text-ink-3 mb-2 block">
                           Nome
                         </label>
                         <input
@@ -170,13 +170,13 @@ export default function Contacto() {
                           maxLength={100}
                           value={form.nome}
                           onChange={handleChange}
-                          className="w-full bg-transparent border-b border-dark/15 py-3 text-dark text-sm focus:outline-none focus:border-mustard transition-colors"
+                          className="w-full bg-transparent border-b border-linha py-3 text-ink text-sm focus:outline-none focus:border-mustard transition-colors"
                           placeholder="O teu nome"
                         />
                         {errors.nome && <p className="text-xs text-red-500 mt-1">{errors.nome}</p>}
                       </div>
                       <div>
-                        <label htmlFor="negocio" className="text-xs font-bold uppercase tracking-wider text-dark/40 mb-2 block">
+                        <label htmlFor="negocio" className="text-xs font-bold uppercase tracking-wider text-ink-3 mb-2 block">
                           Barbearia
                         </label>
                         <input
@@ -187,7 +187,7 @@ export default function Contacto() {
                           maxLength={100}
                           value={form.negocio}
                           onChange={handleChange}
-                          className="w-full bg-transparent border-b border-dark/15 py-3 text-dark text-sm focus:outline-none focus:border-mustard transition-colors"
+                          className="w-full bg-transparent border-b border-linha py-3 text-ink text-sm focus:outline-none focus:border-mustard transition-colors"
                           placeholder="Nome da tua barbearia"
                         />
                         {errors.negocio && <p className="text-xs text-red-500 mt-1">{errors.negocio}</p>}
@@ -195,7 +195,7 @@ export default function Contacto() {
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label htmlFor="telefone" className="text-xs font-bold uppercase tracking-wider text-dark/40 mb-2 block">
+                        <label htmlFor="telefone" className="text-xs font-bold uppercase tracking-wider text-ink-3 mb-2 block">
                           Telefone
                         </label>
                         <input
@@ -206,13 +206,13 @@ export default function Contacto() {
                           maxLength={20}
                           value={form.telefone}
                           onChange={handleChange}
-                          className="w-full bg-transparent border-b border-dark/15 py-3 text-dark text-sm focus:outline-none focus:border-mustard transition-colors"
+                          className="w-full bg-transparent border-b border-linha py-3 text-ink text-sm focus:outline-none focus:border-mustard transition-colors"
                           placeholder="+351 ..."
                         />
                         {errors.telefone && <p className="text-xs text-red-500 mt-1">{errors.telefone}</p>}
                       </div>
                       <div>
-                        <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-dark/40 mb-2 block">
+                        <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-ink-3 mb-2 block">
                           Email
                         </label>
                         <input
@@ -223,15 +223,15 @@ export default function Contacto() {
                           maxLength={150}
                           value={form.email}
                           onChange={handleChange}
-                          className="w-full bg-transparent border-b border-dark/15 py-3 text-dark text-sm focus:outline-none focus:border-mustard transition-colors"
+                          className="w-full bg-transparent border-b border-linha py-3 text-ink text-sm focus:outline-none focus:border-mustard transition-colors"
                           placeholder="o-teu@email.com"
                         />
                         {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
                       </div>
                     </div>
                     <div>
-                      <label htmlFor="mensagem" className="text-xs font-bold uppercase tracking-wider text-dark/40 mb-2 block">
-                        Mensagem <span className="text-dark/20">(opcional)</span>
+                      <label htmlFor="mensagem" className="text-xs font-bold uppercase tracking-wider text-ink-3 mb-2 block">
+                        Mensagem <span className="text-ink-3">(opcional)</span>
                       </label>
                       <textarea
                         id="mensagem"
@@ -240,7 +240,7 @@ export default function Contacto() {
                         maxLength={2000}
                         value={form.mensagem}
                         onChange={handleChange}
-                        className="w-full bg-transparent border-b border-dark/15 py-3 text-dark text-sm focus:outline-none focus:border-mustard transition-colors resize-none"
+                        className="w-full bg-transparent border-b border-linha py-3 text-ink text-sm focus:outline-none focus:border-mustard transition-colors resize-none"
                         placeholder="Quantos barbeiros, como marcas hoje, o que te faz perder tempo…"
                       />
                       {errors.mensagem && <p className="text-xs text-red-500 mt-1">{errors.mensagem}</p>}
@@ -264,21 +264,21 @@ export default function Contacto() {
                 <div className="bg-light p-8 rounded-sm sticky top-28">
                   <div className="flex items-center gap-3 mb-6">
                     <Clock size={16} className="text-mustard" />
-                    <span className="text-xs font-bold uppercase tracking-wider text-dark/60">
+                    <span className="text-xs font-bold uppercase tracking-wider text-ink-2">
                       Resposta em dias úteis, até 24 h
                     </span>
                   </div>
 
                   <div className="flex flex-col gap-5 mb-8">
-                    <a href="mailto:geral@convecta.pt" className="flex items-center gap-3 text-sm text-dark/70 hover:text-dark transition-colors">
+                    <a href="mailto:geral@convecta.pt" className="flex items-center gap-3 text-sm text-ink-2 hover:text-ink transition-colors">
                       <Mail size={16} className="text-mustard shrink-0" />
                       geral@convecta.pt
                     </a>
-                    <a href="tel:+351912381717" className="flex items-center gap-3 text-sm text-dark/70 hover:text-dark transition-colors">
+                    <a href="tel:+351912381717" className="flex items-center gap-3 text-sm text-ink-2 hover:text-ink transition-colors">
                       <Phone size={16} className="text-mustard shrink-0" />
                       +351 912 381 717
                     </a>
-                    <span className="flex items-start gap-3 text-sm text-dark/70">
+                    <span className="flex items-start gap-3 text-sm text-ink-2">
                       <MapPin size={16} className="text-mustard shrink-0 mt-0.5" />
                       Rua Faria Guimarães, nº 69, 4000-206 Porto
                     </span>
@@ -286,25 +286,25 @@ export default function Contacto() {
                       href="https://instagram.com/convecta.pt"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-3 text-sm text-dark/70 hover:text-dark transition-colors"
+                      className="flex items-center gap-3 text-sm text-ink-2 hover:text-ink transition-colors"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-mustard"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
                       @convecta.pt
                     </a>
                   </div>
 
-                  <div className="border-t border-dark/10 pt-6">
-                    <p className="text-xs text-dark/40 mb-4 text-center">Ou fala connosco diretamente por:</p>
+                  <div className="border-t border-linha pt-6">
+                    <p className="text-xs text-ink-2 mb-4 text-center">Ou fala connosco diretamente por:</p>
                     <div className="flex gap-3">
                       <a
                         href="mailto:geral@convecta.pt"
-                        className="flex-1 text-center py-2.5 text-xs font-bold uppercase tracking-wider border border-dark/15 rounded-sm text-dark hover:border-dark transition-colors"
+                        className="flex-1 text-center py-2.5 text-xs font-bold uppercase tracking-wider border border-linha rounded-sm text-ink hover:border-dark transition-colors"
                       >
                         Enviar Email
                       </a>
                       <a
                         href="tel:+351912381717"
-                        className="flex-1 text-center py-2.5 text-xs font-bold uppercase tracking-wider border border-dark/15 rounded-sm text-dark hover:border-dark transition-colors"
+                        className="flex-1 text-center py-2.5 text-xs font-bold uppercase tracking-wider border border-linha rounded-sm text-ink hover:border-dark transition-colors"
                       >
                         Ligar Agora
                       </a>

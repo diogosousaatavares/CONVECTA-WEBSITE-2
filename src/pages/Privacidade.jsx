@@ -21,7 +21,7 @@ import { SITE, migalhasLd } from "@/lib/seo";
 const ATUALIZADO = "11 de setembro de 2026";
 
 function H2({ children }) {
-  return <h2 className="font-heading text-2xl text-dark mt-10 mb-3">{children}</h2>;
+  return <h2 className="font-heading text-2xl text-ink mt-10 mb-3">{children}</h2>;
 }
 
 export default function Privacidade() {
@@ -44,25 +44,25 @@ export default function Privacidade() {
       </section>
 
       <section className="bg-white py-16 lg:py-24">
-        <div className="max-w-3xl mx-auto px-6 lg:px-12 text-sm text-dark/70 leading-relaxed">
+        <div className="max-w-3xl mx-auto px-6 lg:px-12 text-sm text-ink-2 leading-relaxed">
           <p>
             A Convecta leva a sério os dados das pessoas que passam por aqui: quem visita este site, as barbearias que usam a Convecta Booking, e os clientes dessas barbearias que marcam pelo site delas. Esta política explica, em linguagem corrente, que dados existem, para que servem, onde ficam e o que podes fazer em relação a eles. Cumpre o Regulamento Geral sobre a Proteção de Dados (RGPD) e a Lei n.º 58/2019.
           </p>
 
           <H2>1. Quem é responsável</H2>
           <p>
-            O responsável pelo tratamento é a Convecta, com sede em {SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal. Para qualquer assunto relacionado com dados pessoais, escreve para <a href={`mailto:${SITE.email}`} className="underline underline-offset-2 text-dark">{SITE.email}</a> ou liga para {SITE.telefone}.
+            O responsável pelo tratamento é a Convecta, com sede em {SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal. Para qualquer assunto relacionado com dados pessoais, escreve para <a href={`mailto:${SITE.email}`} className="underline underline-offset-2 text-ink">{SITE.email}</a> ou liga para {SITE.telefone}.
           </p>
 
           <H2>2. Três situações diferentes</H2>
           <p>
-            <strong className="text-dark">a) Visitas este site (convecta.pt).</strong> Se preencheres o formulário de contacto ou o formulário de entrada na demonstração, guardamos o que escreveres: nome, nome da barbearia, telemóvel, e-mail e mensagem. Servem para te responder e para falarmos contigo sobre a Convecta — a finalidade é essa e mais nenhuma. Fundamento: diligências pré-contratuais a teu pedido e o nosso interesse legítimo em responder a quem nos contacta. Guardamos estes pedidos até 12 meses depois do último contacto; se te tornares cliente, passam para a tua ficha.
+            <strong className="text-ink">a) Visitas este site (convecta.pt).</strong> Se preencheres o formulário de contacto ou o formulário de entrada na demonstração, guardamos o que escreveres: nome, nome da barbearia, telemóvel, e-mail e mensagem. Servem para te responder e para falarmos contigo sobre a Convecta — a finalidade é essa e mais nenhuma. Fundamento: diligências pré-contratuais a teu pedido e o nosso interesse legítimo em responder a quem nos contacta. Guardamos estes pedidos até 12 meses depois do último contacto; se te tornares cliente, passam para a tua ficha.
           </p>
           <p>
-            <strong className="text-dark">b) A tua barbearia usa a Convecta Booking.</strong> Para criar e manter a tua conta tratamos os dados do negócio e do responsável: nome, NIF, morada, e-mail, telemóvel, dados de faturação e o histórico de pagamentos da mensalidade. Fundamento: execução do contrato e obrigações legais (faturação e contabilidade). Os dados de faturação são conservados pelos prazos exigidos por lei, mesmo depois de deixares de ser cliente.
+            <strong className="text-ink">b) A tua barbearia usa a Convecta Booking.</strong> Para criar e manter a tua conta tratamos os dados do negócio e do responsável: nome, NIF, morada, e-mail, telemóvel, dados de faturação e o histórico de pagamentos da mensalidade. Fundamento: execução do contrato e obrigações legais (faturação e contabilidade). Os dados de faturação são conservados pelos prazos exigidos por lei, mesmo depois de deixares de ser cliente.
           </p>
           <p>
-            <strong className="text-dark">c) És cliente de uma barbearia que usa a Convecta.</strong> Quando marcas no site de uma barbearia, os teus dados — nome, telemóvel, e-mail, as tuas marcações, os carimbos do cartão de fidelidade e, se a barbearia os registar, notas sobre as tuas preferências — pertencem à barbearia. A barbearia é a responsável pelo tratamento; a Convecta é a subcontratante que guarda e processa esses dados por conta dela, só para fazer a app funcionar. Nunca usamos os dados dos clientes das barbearias para fins nossos, não os contactamos e não os vendemos. Para exercer os teus direitos sobre esses dados, fala com a barbearia; se precisares, ajudamos.
+            <strong className="text-ink">c) És cliente de uma barbearia que usa a Convecta.</strong> Quando marcas no site de uma barbearia, os teus dados — nome, telemóvel, e-mail, as tuas marcações, os carimbos do cartão de fidelidade e, se a barbearia os registar, notas sobre as tuas preferências — pertencem à barbearia. A barbearia é a responsável pelo tratamento; a Convecta é a subcontratante que guarda e processa esses dados por conta dela, só para fazer a app funcionar. Nunca usamos os dados dos clientes das barbearias para fins nossos, não os contactamos e não os vendemos. Para exercer os teus direitos sobre esses dados, fala com a barbearia; se precisares, ajudamos.
           </p>
 
           <H2>3. Notificações no telemóvel</H2>
@@ -95,7 +95,7 @@ export default function Privacidade() {
 
           <H2>8. Os teus direitos</H2>
           <p>
-            Tens direito a saber que dados temos sobre ti, a corrigi-los, a pedir que os apaguemos, a limitar ou opor-te ao tratamento, e a recebê-los num formato que possas levar para outro lado. Para isso escreve para <a href={`mailto:${SITE.email}`} className="underline underline-offset-2 text-dark">{SITE.email}</a>; respondemos no prazo de um mês. Se achares que não tratámos bem os teus dados, podes apresentar reclamação à Comissão Nacional de Proteção de Dados (CNPD), em cnpd.pt.
+            Tens direito a saber que dados temos sobre ti, a corrigi-los, a pedir que os apaguemos, a limitar ou opor-te ao tratamento, e a recebê-los num formato que possas levar para outro lado. Para isso escreve para <a href={`mailto:${SITE.email}`} className="underline underline-offset-2 text-ink">{SITE.email}</a>; respondemos no prazo de um mês. Se achares que não tratámos bem os teus dados, podes apresentar reclamação à Comissão Nacional de Proteção de Dados (CNPD), em cnpd.pt.
           </p>
 
           <H2>9. Segurança</H2>
@@ -113,7 +113,7 @@ export default function Privacidade() {
             Quando esta política mudar, a data no topo muda também. Se a alteração for relevante para as barbearias clientes, avisamo-las por e-mail antes de entrar em vigor.
           </p>
 
-          <p className="mt-10 text-xs text-dark/45">
+          <p className="mt-10 text-xs text-ink-3">
             Ver também os <Link to="/termos" className="underline underline-offset-2">Termos e Condições</Link>.
           </p>
         </div>

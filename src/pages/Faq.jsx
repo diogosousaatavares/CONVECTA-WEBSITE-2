@@ -120,13 +120,16 @@ export default function Faq() {
       <section className="bg-white py-24 lg:py-32">
         <div className="max-w-3xl mx-auto px-6 lg:px-12">
           <ScrollReveal>
+            {/* O acordeao do Radix desenha cada pergunta como <h3>. Sem um
+                <h2> antes, a pagina saltava de h1 para h3. */}
+            <h2 className="sr-only">Perguntas e respostas</h2>
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="border-b border-dark/10">
-                  <AccordionTrigger className="text-left font-heading text-lg text-dark py-6 hover:no-underline hover:text-dark/70">
+                <AccordionItem key={i} value={`faq-${i}`} className="border-b border-linha">
+                  <AccordionTrigger className="text-left font-heading text-lg text-ink py-6 hover:no-underline hover:text-ink-2">
                     {faq.q}
                   </AccordionTrigger>
-                  <AccordionContent className="text-sm text-dark/60 leading-relaxed pb-6">
+                  <AccordionContent className="text-sm text-ink-2 leading-relaxed pb-6">
                     {faq.a}
                   </AccordionContent>
                 </AccordionItem>

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta name="robots" content="index, follow, max-image-preview:large" />
-  <meta name="theme-color" content="#111111" />
+  <meta name="theme-color" content="#FBFAF8" />
   <meta name="application-name" content="Convecta" />
   <meta name="apple-mobile-web-app-title" content="Convecta" />
   <meta name="format-detection" content="telephone=yes" />
@@ -42,6 +42,17 @@
   <!-- /seo:default -->
 
   <!-- Icones: o "C" da marca, gerado a partir do logotipo novo -->
+  <noscript>
+    <style>
+      /* O conteúdo entra com uma animação que começa em opacity:0. Sem
+         JavaScript essa animação nunca corre e metade do site ficava em
+         branco. Aqui força-se tudo a aparecer. */
+      [style*="opacity: 0"], [style*="opacity:0"] {
+        opacity: 1 !important; filter: none !important; transform: none !important;
+      }
+    </style>
+  </noscript>
+
   <link rel="icon" href="/favicon.ico" sizes="48x48" />
   <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />

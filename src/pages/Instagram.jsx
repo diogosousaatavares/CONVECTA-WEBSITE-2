@@ -39,12 +39,15 @@ export default function Instagram() {
           >
             {/* Left: Profile */}
             <div className="flex-1 text-center md:text-left">
+              {/* A pagina nao tinha titulo nenhum: quem usa leitor de ecra
+                  chegava aqui sem saber onde estava. */}
+              <h1 className="sr-only">A Convecta no Instagram</h1>
               <div className="flex justify-center md:justify-start mb-5">
                 <div
                   className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden shrink-0"
                   style={{ border: "2px solid rgba(254,233,109,0.4)" }}
                 >
-                  <img src="/brand/convecta-avatar.jpg" alt="Convecta — software de marcações online para barbearias" loading="lazy" className="w-full h-full object-cover" />
+                  <img src="/brand/convecta-avatar.jpg" alt="Convecta — software de marcações online para barbearias" width="200" height="200" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                 </div>
               </div>
               <a

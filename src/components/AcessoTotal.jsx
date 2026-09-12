@@ -23,6 +23,7 @@ const PROVAS = [
     titulo: "O telemóvel toca a cada marcação",
     texto: "A notificação chega ao teu telemóvel no segundo em que o cliente marca — com o nome, o serviço e a hora. Não é email, não é SMS: aparece no ecrã bloqueado.",
     imagem: "/provas/notificacao.jpg",
+    larg: 1212, alt2: 424,
     alt: "Aviso da Convecta no telemóvel: nova marcação, Diogo, corte simples, terça-feira 15 de setembro às 10:00",
     formato: "detalhe",
   },
@@ -33,6 +34,7 @@ const PROVAS = [
     texto: "Cores, tipografia, logótipo, capa e fotos. Mudas no teu painel e vês o resultado num telemóvel, ao lado, antes de publicar. Não é um pedido que nos fazes.",
     imagem: "/provas/personalizacao.jpg",
     imagemMovel: "/provas/personalizacao-m.jpg",
+    larg: 1400, alt2: 872,
     alt: "Página O Meu Site no painel da Convecta, com os campos de cor e a pré-visualização da app num telemóvel",
     formato: "largo",
   },
@@ -42,6 +44,7 @@ const PROVAS = [
     titulo: "Fica no ecrã principal, como uma app",
     texto: "A tua e a dos teus clientes. Guarda-se no ecrã principal e abre com um ícone — sem lojas de aplicações, sem downloads, sem esperas.",
     imagem: "/provas/instalada.jpg",
+    larg: 680, alt2: 408,
     alt: "Ecrã principal de um iPhone com os dois ícones da Convecta instalados: Marcações e Convecta Gestão",
     formato: "detalhe",
   },
@@ -65,10 +68,10 @@ function Prova({ p, invertido }) {
         {p.imagemMovel ? (
           <picture>
             <source media="(max-width: 860px)" srcSet={p.imagemMovel} />
-            <img src={p.imagem} alt={p.alt} loading="lazy" />
+            <img src={p.imagem} alt={p.alt} width={p.larg} height={p.alt2} loading="lazy" decoding="async" />
           </picture>
         ) : (
-          <img src={p.imagem} alt={p.alt} loading="lazy" />
+          <img src={p.imagem} alt={p.alt} width={p.larg} height={p.alt2} loading="lazy" decoding="async" />
         )}
       </figure>
     </div>

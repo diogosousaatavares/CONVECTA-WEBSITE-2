@@ -6,7 +6,7 @@ module.exports = {
     extend: {
       colors: {
         mustard: '#fee96d',
-        dark: '#1a1a1a',
+        dark: '#24201C',
         light: '#f5f5f5',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

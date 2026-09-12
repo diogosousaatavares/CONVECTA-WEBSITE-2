@@ -92,14 +92,17 @@ export default function InstagramCarousel({ images }) {
               <img
                 src={img.image_url}
                 alt="Publicação Convecta no Instagram"
+                width="600"
+                height="600"
                 loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
                 draggable={false}
               />
               {isActive && (
                 <div
                   className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300"
-                  style={{ backgroundColor: "rgba(26,26,26,0.5)" }}
+                  style={{ backgroundColor: "rgba(36,32,28,0.55)" }}
                 >
                   <ArrowUpRight size={26} className="text-mustard" strokeWidth={2} />
                 </div>
@@ -121,13 +124,13 @@ export default function InstagramCarousel({ images }) {
         </button>
 
         {/* Dots */}
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center">
           {images.map((_, i) => (
             <button
               key={i}
               onClick={() => handleManualNav(() => setActive(i))}
               aria-label={`Ir para post ${i + 1}`}
-              className="rounded-full transition-all duration-300"
+              className="rounded-full transition-all duration-300 relative before:absolute before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-11 before:h-11 before:content-[''] mx-1.5"
               style={{
                 width: i === active ? "18px" : "6px",
                 height: "6px",
