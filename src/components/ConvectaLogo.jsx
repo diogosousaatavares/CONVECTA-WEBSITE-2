@@ -8,11 +8,11 @@ import React from "react";
  * a versao escura passa a ser a normal; a clara fica para quando houver
  * mesmo um fundo escuro por tras.
  */
-const ESCURO = "/brand/convecta-logo-escuro.png";
-const CLARO = "/brand/convecta-logo.png";
+const ESCURO = "/brand/convecta-logo-novo.png";
+const CLARO = "/brand/convecta-logo-novo-claro.png";
 
 export default function ConvectaLogo({ light = false, size = "default" }) {
-  const altura = size === "small" ? "h-10" : "h-14";
+  const altura = size === "small" ? "h-7" : "h-9";
   return (
     <img
       src={light ? CLARO : ESCURO}

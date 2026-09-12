@@ -7,6 +7,8 @@ import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
 import PricingSection from "@/components/PricingSection";
 import DemoSection from "@/components/DemoSection";
+import FundoLinhas from "@/components/FundoLinhas";
+import HeroDispositivos from "@/components/HeroDispositivos";
 import { SITE, PRECO_DESDE_TEXTO, PLANOS, organizacaoLd, websiteLd, softwareLd } from "@/lib/seo";
 import { DEMO_CLIENTE_URL } from "@/lib/demo";
 
@@ -81,38 +83,6 @@ function Pergunta({ q, a }) {
   );
 }
 
-/* O telemovel do hero, desenhado a linha. Antes era uma caixa preta com
-   um canvas por tras; aqui e um contorno, e mostra o que interessa: a
-   pagina onde o cliente marca. */
-function Telemovel() {
-  const servicos = [
-    ["Corte de cabelo", "30 min", "15,00 €"],
-    ["Corte + barba", "45 min", "22,00 €"],
-    ["Barba", "20 min", "9,00 €"],
-  ];
-  return (
-    <div style={{
-      justifySelf: "center", width: 272, aspectRatio: "9 / 18.5",
-      border: "1px solid var(--cv-linha)", borderRadius: 34, background: "var(--cv-card)",
-      padding: "14px 13px", boxShadow: "0 30px 70px -40px rgba(36,32,28,0.35)",
-    }}>
-      <div style={{ height: 5, width: 64, background: "var(--cv-linha)", borderRadius: 100, margin: "2px auto 18px" }} />
-      <div style={{ fontFamily: "var(--font-heading)", fontSize: 17, color: "var(--cv-ink)" }}>A tua barbearia</div>
-      <div style={{ fontSize: 11, color: "var(--cv-ink-2)", marginBottom: 18 }}>Marcações online</div>
-      <div style={{ fontSize: 9.5, letterSpacing: "0.16em", textTransform: "uppercase", color: "var(--cv-ink-3)" }}>Serviços</div>
-      {servicos.map(([nome, dur, preco]) => (
-        <div key={nome} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "11px 0", borderTop: "1px solid var(--cv-linha)", fontSize: 11.5 }}>
-          <span style={{ color: "var(--cv-ink-2)" }}>{nome}<br /><span style={{ color: "var(--cv-ink-3)" }}>{dur}</span></span>
-          <span style={{ color: "var(--cv-ink)", fontWeight: 600 }}>{preco}</span>
-        </div>
-      ))}
-      <div style={{ marginTop: 16, background: "var(--cv-amarelo)", color: "var(--cv-ink)", borderRadius: 100, padding: 11, textAlign: "center", fontSize: 12, fontWeight: 600 }}>
-        Marcar agora
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
   const ld = [organizacaoLd(), websiteLd(), softwareLd()];
 
@@ -126,7 +96,9 @@ export default function Home() {
       />
 
       {/* ── 1. Hero ─────────────────────────────────────────────── */}
-      <section id="solucoes" className="cv-wrap" style={{ paddingTop: 96, paddingBottom: 88 }}>
+      <section id="solucoes" style={{ position: "relative", overflow: "hidden" }}>
+        <FundoLinhas />
+        <div className="cv-wrap" style={{ position: "relative", zIndex: 1, paddingTop: 96, paddingBottom: 88 }}>
         <div className="cv-hero-grid">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: "easeOut" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 26 }}>
@@ -155,7 +127,8 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <Telemovel />
+          <HeroDispositivos />
+        </div>
         </div>
       </section>
 

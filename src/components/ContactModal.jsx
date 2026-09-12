@@ -143,7 +143,7 @@ export default function ContactModal() {
                   ))}
                 </div>
 
-                <p className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: "rgba(255,255,255,0.25)" }}>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: "var(--cv-ink-3)" }}>
                   Passo {step + 1} de {STEPS.length}
                 </p>
 
@@ -183,7 +183,7 @@ export default function ContactModal() {
                         autoFocus
                         className="w-full bg-transparent py-3 text-ink text-base focus:outline-none resize-none transition-colors"
                         style={{
-                          borderBottom: `1.5px solid ${error ? "#ef4444" : "rgba(255,255,255,0.18)"}`,
+                          borderBottom: `1.5px solid ${error ? "#ef4444" : "var(--cv-linha)"}`,
                           caretColor: "#fee96d",
                         }}
                       />
@@ -198,7 +198,7 @@ export default function ContactModal() {
                         autoFocus
                         className="w-full bg-transparent py-3 text-ink text-xl focus:outline-none transition-colors"
                         style={{
-                          borderBottom: `1.5px solid ${error ? "#ef4444" : "rgba(255,255,255,0.18)"}`,
+                          borderBottom: `1.5px solid ${error ? "#ef4444" : "var(--cv-linha)"}`,
                           caretColor: "#fee96d",
                         }}
                       />
@@ -222,9 +222,9 @@ export default function ContactModal() {
                     <button
                       onClick={() => { setStep(s => s - 1); setError(""); }}
                       className="text-sm transition-colors"
-                      style={{ color: "rgba(255,255,255,0.35)" }}
-                      onMouseEnter={e => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
-                      onMouseLeave={e => e.currentTarget.style.color = "rgba(255,255,255,0.35)"}
+                      style={{ color: "var(--cv-ink-3)" }}
+                      onMouseEnter={e => e.currentTarget.style.color = "var(--cv-ink)"}
+                      onMouseLeave={e => e.currentTarget.style.color = "var(--cv-ink-3)"}
                     >
                       ← Voltar
                     </button>
@@ -265,7 +265,7 @@ export default function ContactModal() {
                   <CheckCircle size={28} style={{ color: "var(--cv-ink)" }} />
                 </motion.div>
                 <h3 className="font-heading text-2xl text-ink mb-3">Recebemos o teu pedido!</h3>
-                <p className="text-sm max-w-xs mx-auto mb-8" style={{ color: "rgba(255,255,255,0.45)", lineHeight: 1.7 }}>
+                <p className="text-sm max-w-xs mx-auto mb-8" style={{ color: "var(--cv-ink-2)", lineHeight: 1.7 }}>
                   Respondemos em dias úteis, normalmente no próprio dia, por telefone ou WhatsApp.
                 </p>
                 <motion.button

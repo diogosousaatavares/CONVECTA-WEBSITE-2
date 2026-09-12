@@ -108,7 +108,7 @@ export default function Footer() {
           className="font-heading whitespace-nowrap leading-none text-center"
           style={{
             fontSize: "clamp(5rem, 16vw, 14rem)",
-            color: "rgba(255,255,255,0.04)",
+            color: "rgba(36,32,28,0.04)",
             marginBottom: "clamp(-2rem, -4vw, -3rem)",
           }}
         >
