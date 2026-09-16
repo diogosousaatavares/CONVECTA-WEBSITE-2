@@ -89,6 +89,7 @@ export default function Footer() {
         <div style={{ borderColor: "var(--cv-linha)" }} className="mt-16 pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs" style={{ color: "var(--cv-ink-3)" }}>
             © {new Date().getFullYear()} Convecta · Marcações online para barbearias · Porto, Portugal
+            <br />{SITE.titular} · NIF {SITE.nif} · IVA: regime de isenção (art. 53.º do CIVA)
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
             <a href="https://www.livroreclamacoes.pt" target="_blank" rel="noopener noreferrer" className="text-xs  hover:text-mustard transition-colors inline-flex items-center min-h-[44px] py-2">

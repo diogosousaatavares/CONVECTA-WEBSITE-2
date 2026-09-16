@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import Seo from "@/components/Seo";
-import { migalhasLd } from "@/lib/seo";
+import { SITE, migalhasLd } from "@/lib/seo";
 import { enviarContacto } from "@/lib/contactos";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -97,7 +97,7 @@ export default function Contacto() {
     <div>
       <Seo
         titulo="Contacto — Fala com a Convecta sobre marcações online para a tua barbearia"
-        descricao="Fala com quem fez a Convecta: telefone +351 912 381 717, geral@convecta.pt ou o formulário. Respondemos em dias úteis, normalmente no próprio dia. Porto, Portugal."
+        descricao="Fala com quem fez a Convecta: telefone +351 914 874 725, geral@convecta.pt ou o formulário. Respondemos em dias úteis, normalmente no próprio dia. Porto, Portugal."
         caminho="/contacto"
         ld={[migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Contacto", caminho: "/contacto" }])]}
       />
@@ -274,13 +274,13 @@ export default function Contacto() {
                       <Mail size={16} className="text-mustard shrink-0" />
                       geral@convecta.pt
                     </a>
-                    <a href="tel:+351912381717" className="flex items-center gap-3 text-sm text-ink-2 hover:text-ink transition-colors">
+                    <a href="tel:+351914874725" className="flex items-center gap-3 text-sm text-ink-2 hover:text-ink transition-colors">
                       <Phone size={16} className="text-mustard shrink-0" />
-                      +351 912 381 717
+                      +351 914 874 725
                     </a>
                     <span className="flex items-start gap-3 text-sm text-ink-2">
                       <MapPin size={16} className="text-mustard shrink-0 mt-0.5" />
-                      Rua Faria Guimarães, nº 69, 4000-206 Porto
+                      {SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}
                     </span>
                     <a
                       href="https://instagram.com/convecta.pt"
@@ -303,7 +303,7 @@ export default function Contacto() {
                         Enviar Email
                       </a>
                       <a
-                        href="tel:+351912381717"
+                        href="tel:+351914874725"
                         className="flex-1 text-center py-2.5 text-xs font-bold uppercase tracking-wider border border-linha rounded-sm text-ink hover:border-dark transition-colors"
                       >
                         Ligar Agora

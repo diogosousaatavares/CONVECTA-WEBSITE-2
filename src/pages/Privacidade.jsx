@@ -51,7 +51,7 @@ export default function Privacidade() {
 
           <H2>1. Quem é responsável</H2>
           <p>
-            O responsável pelo tratamento é a Convecta, com sede em {SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal. Para qualquer assunto relacionado com dados pessoais, escreve para <a href={`mailto:${SITE.email}`} className="underline underline-offset-2 text-ink">{SITE.email}</a> ou liga para {SITE.telefone}.
+            O responsável pelo tratamento é {SITE.titular}, empresário em nome individual, NIF {SITE.nif}, que opera sob a marca Convecta, com morada em {SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal. Para qualquer assunto relacionado com dados pessoais, escreve para <a href={`mailto:${SITE.email}`} className="underline underline-offset-2 text-ink">{SITE.email}</a> ou liga para {SITE.telefone}.
           </p>
 
           <H2>2. Três situações diferentes</H2>

@@ -46,7 +46,7 @@ export default function Termos() {
       <section className="bg-white py-16 lg:py-24">
         <div className="max-w-3xl mx-auto px-6 lg:px-12 text-sm text-ink-2 leading-relaxed">
           <p>
-            Estes termos regulam a utilização da Convecta Booking — o software de marcações online e gestão para barbearias disponibilizado pela Convecta ({SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal; {SITE.email}; {SITE.telefone}) — e deste site. Ao criar uma conta ou ao usar a demonstração, aceitas o que aqui está escrito. Escrevemo-lo para ser lido, não para ser assinado sem ler.
+            Estes termos regulam a utilização da Convecta Booking — o software de marcações online e gestão para barbearias disponibilizado por {SITE.titular}, empresário em nome individual, NIF {SITE.nif}, sob a marca Convecta ({SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal; {SITE.email}; {SITE.telefone}) — e deste site. Ao criar uma conta ou ao usar a demonstração, aceitas o que aqui está escrito. Escrevemo-lo para ser lido, não para ser assinado sem ler.
           </p>
 
           <H2>1. O que é o serviço</H2>
@@ -64,7 +64,7 @@ export default function Termos() {
 
           <H2>3. Preço e pagamento</H2>
           <p>
-            O preço depende do plano contratado, por barbearia, e acresce IVA à taxa legal em vigor quando aplicável:{" "}
+            O preço depende do plano contratado, por barbearia. A Convecta está no regime de isenção de IVA (artigo 53.º do CIVA): os preços são finais e a fatura não acresce IVA. Se o enquadramento mudar, o IVA passa a acrescer à taxa legal a partir do período seguinte, com aviso prévio. Os planos:{" "}
             {PLANOS.map((pl, i) => (
               <React.Fragment key={pl.id}>
                 {i > 0 ? (i === PLANOS.length - 1 ? " e " : ", ") : ""}

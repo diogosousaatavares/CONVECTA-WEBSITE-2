@@ -20,10 +20,14 @@ export const SITE = {
   slogan: "Marcações online e gestão para barbearias",
   descricao:
     "Software de marcações online e gestão para barbearias em Portugal. Os clientes marcam pelo site da barbearia, o barbeiro recebe a notificação no telemóvel e gere agenda, caixa, comissões, stock e cartão de fidelidade num só painel. Desde 19,99 €/mês, sem comissões por marcação.",
+  // Quem esta por tras da marca, para o rodape, os Termos e a Privacidade
+  // (Decreto-Lei 7/2004: nome, NIF, morada e email tem de estar no site).
+  titular: "Diogo Borges de Sousa Tavares",
+  nif: "262760860",
   email: "geral@convecta.pt",
-  telefone: "+351 912 381 717",
-  telefoneE164: "+351912381717",
-  morada: { rua: "Rua Faria Guimarães, 69", codigoPostal: "4000-206", cidade: "Porto", pais: "PT" },
+  telefone: "+351 914 874 725",
+  telefoneE164: "+351914874725",
+  morada: { rua: "Rua 31 de Janeiro, 454", codigoPostal: "4445-006", cidade: "Alfena", pais: "PT" },
   instagram: "https://www.instagram.com/convecta.pt",
   instagramHandle: "@convecta.pt",
   imagem: "https://convecta.pt/og-image.png",
@@ -111,11 +115,16 @@ export const PRECO_DESDE = PLANO_BASE.preco;
 export const PRECO_DESDE_TEXTO = PLANO_BASE.precoTexto;
 
 /*
- * O lembrete por WhatsApp esta decidido e vendido nos tres planos, mas ainda
- * nao envia uma unica mensagem: falta a conta Meta Business verificada. Ate
- * enviar mesmo, aparece no site marcado como "em breve" — prometer no site o
- * que a demonstracao nao faz e uma reclamacao a caminho. Quando enviar,
- * poe-se isto a true e a etiqueta desaparece sozinha.
+ * O lembrete por WhatsApp saiu do produto a 16/09/2026.
+ *
+ * Esteve aqui meses como "em breve" a espera de uma conta Meta verificada. Em
+ * vez disso construiu-se o aviso por notificacao e por email, que funciona
+ * hoje, e que e melhor negocio para quem compra: no WhatsApp cada lembrete
+ * custa 1,4 centimos ao barbeiro e sai-lhe do lucro; assim custa zero.
+ *
+ * A constante fica porque ha paginas que a leem. Fica a false e sem nada
+ * marcado como "em breve": uma promessa que nao se vai cumprir e pior do que
+ * nao prometer nada.
  */
 export const WHATSAPP_ATIVO = false;
 
@@ -130,7 +139,7 @@ export const INCLUIDO_EM_TODOS = [
   { texto: "Relatórios e Excel para o contabilista" },
   { texto: "Cartão de fidelidade digital" },
   { texto: "Controlo total do design da tua app: cores, tipografia, logótipo, capa e galeria, mudados por ti" },
-  { texto: "Avisos por WhatsApp ao cliente: lembrete 24 h antes de cada marcação", emBreve: !WHATSAPP_ATIVO },
+  { texto: "Avisos ao cliente antes do corte: notificação no telemóvel, ou email. Sem custo por mensagem" },
 ];
 
 // Compatibilidade: havia um preco unico e varias paginas liam estas duas

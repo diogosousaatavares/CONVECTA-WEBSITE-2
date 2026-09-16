@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Shield, Zap, ArrowRight, Headphones, Users, Globe } from "lucide-react";
+import { Check, Shield, Zap, ArrowRight, Headphones, Users, Globe, Bell } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PLANOS, INCLUIDO_EM_TODOS, DESCONTO_ANUAL } from "@/lib/seo";
 import { DEMO_CLIENTE_URL, DEMO_PAINEL_URL } from "@/lib/demo";
@@ -144,7 +144,7 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
 
         <ul style={{ listStyle: "none", padding: 0, margin: "0 0 22px", display: "flex", flexDirection: "column", gap: 9, flex: 1 }}>
           <Item>A plataforma completa, sem cortes</Item>
-          <Item icone={MarcaWhatsApp}>Notificações no telemóvel e avisos por WhatsApp</Item>
+          <Item icone={Bell}>Avisos ao cliente antes do corte, sem custo por mensagem</Item>
           {plano.website && (
             <Item icone={Globe}><strong>Website da barbearia feito por nós</strong></Item>
           )}

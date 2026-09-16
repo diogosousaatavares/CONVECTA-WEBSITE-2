@@ -52,7 +52,7 @@ const PROVAS = [
 
 const MAIS = [
   { Icone: BarChart3, t: "Relatórios", d: "Receita, ocupação, serviços, profissionais e Excel para o contabilista." },
-  { Icone: MessageCircle, t: "Avisos por WhatsApp", d: "Lembrete ao cliente 24 h antes da marcação.", emBreve: !WHATSAPP_ATIVO },
+  { Icone: MessageCircle, t: "Avisos antes do corte", d: "Notificação no telemóvel do cliente, ou email. Sem custo por mensagem." },
 ];
 
 function Prova({ p, invertido }) {

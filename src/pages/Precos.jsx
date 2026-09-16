@@ -38,7 +38,7 @@ const PERGUNTAS = [
   { q: "Há comissões por marcação?", a: "Não. Zero. Cada marcação que entra é tua por inteiro. A Convecta ganha a mensalidade e mais nada." },
   { q: "Há fidelização ou período mínimo?", a: "No plano mensal não: cancelas quando quiseres. Se escolheres pagar o ano de uma vez, aí sim, o compromisso é de doze meses — é o que paga o desconto. Se saíres, os teus dados são apagados a pedido." },
   { q: "Como se paga?", a: `Por mês ou por ano, com fatura. No anual pagas os doze meses de uma vez com ${Math.round(DESCONTO_ANUAL * 100)} % de desconto — é o único caso em que há compromisso de um ano. No mensal cancelas quando quiseres. Combinamos o método contigo quando a barbearia fica ativa.` },
-  { q: "O preço inclui IVA?", a: "O valor apresentado é sem IVA; acresce IVA à taxa legal em vigor, quando aplicável. A fatura discrimina tudo." },
+  { q: "O preço inclui IVA?", a: "O preço que vês é o que pagas. A Convecta está no regime de isenção de IVA (artigo 53.º do CIVA), por isso a fatura não acresce IVA — vem com a menção «IVA – regime de isenção». Se um dia o enquadramento mudar, avisamos antes e a mudança só se aplica ao período seguinte." },
 ];
 
 export default function Precos() {
