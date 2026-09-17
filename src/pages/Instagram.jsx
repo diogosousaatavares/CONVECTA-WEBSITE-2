@@ -61,7 +61,7 @@ export default function Instagram() {
                 {SITE.instagramHandle}
               </a>
               <p className="text-sm text-ink-2 max-w-xs mb-6 mx-auto md:mx-0">
-                Marcações online e gestão para barbearias. Os teus clientes marcam sozinhos; tu só cortas. Experimenta a demonstração — o link está na bio.
+                Marcações online e gestão para barbearias. Os teus clientes marcam sozinhos; tu só cortas. Começa grátis — o link está na bio.
               </p>
               <a
                 href={INSTAGRAM_URL}
@@ -105,8 +105,8 @@ export default function Instagram() {
       {/* CTA */}
       <CtaSection
         title="Vê a Convecta a funcionar, não só em fotografias."
-        buttonText="Experimentar a demonstração"
-        href={SITE.demoCliente}
+        buttonText="Começar grátis"
+        to="/comecar"
         secondaryText="ou fala connosco"
       />
     </div>

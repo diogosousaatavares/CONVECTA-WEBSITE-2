@@ -29,7 +29,7 @@ export default function Termos() {
     <div>
       <Seo
         titulo="Termos e Condições"
-        descricao="As condições de utilização da Convecta Booking: o que inclui a subscrição mensal, preço, pagamento, cancelamento sem fidelização, responsabilidades da barbearia e da Convecta, e a demonstração pública."
+        descricao="As condições de utilização da Convecta Booking: o que inclui a subscrição mensal, preço, pagamento, cancelamento sem fidelização, o período de experiência, e as responsabilidades da barbearia e da Convecta."
         caminho="/termos"
         ld={[migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Termos e Condições", caminho: "/termos" }])]}
       />
@@ -46,7 +46,7 @@ export default function Termos() {
       <section className="bg-white py-16 lg:py-24">
         <div className="max-w-3xl mx-auto px-6 lg:px-12 text-sm text-ink-2 leading-relaxed">
           <p>
-            Estes termos regulam a utilização da Convecta Booking — o software de marcações online e gestão para barbearias disponibilizado por {SITE.titular}, empresário em nome individual, NIF {SITE.nif}, sob a marca Convecta ({SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal; {SITE.email}; {SITE.telefone}) — e deste site. Ao criar uma conta ou ao usar a demonstração, aceitas o que aqui está escrito. Escrevemo-lo para ser lido, não para ser assinado sem ler.
+            Estes termos regulam a utilização da Convecta Booking — o software de marcações online e gestão para barbearias disponibilizado por {SITE.titular}, empresário em nome individual, NIF {SITE.nif}, sob a marca Convecta ({SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal; {SITE.email}; {SITE.telefone}) — e deste site. Ao criar uma conta, aceitas o que aqui está escrito. Escrevemo-lo para ser lido, não para ser assinado sem ler.
           </p>
 
           <H2>1. O que é o serviço</H2>
@@ -79,8 +79,7 @@ export default function Termos() {
             O pagamento pode ser mensal ou anual. No pagamento anual, os doze meses são faturados de
             uma vez, com um desconto de {Math.round(DESCONTO_ANUAL * 100)} % sobre o preço mensal; nesse caso, e só nesse caso, existe um
             compromisso de doze meses e o cancelamento antecipado não dá direito a devolução do
-            período já faturado. A mensalidade começa a contar no dia em que a barbearia fica ativa.
-            O método de pagamento é combinado com a barbearia; a fatura é emitida com os dados fornecidos.
+            período já faturado. O pagamento é feito por cartão, através da Stripe; a Convecta nunca vê nem guarda os dados do cartão. A fatura é emitida com os dados fornecidos no registo.
           </p>
           <p>
             Em caso de atraso no pagamento superior a 15 dias, e depois de aviso, a Convecta pode suspender o acesso ao painel e ao site de marcações até à regularização. Os dados não são apagados durante a suspensão.
@@ -114,9 +113,9 @@ export default function Termos() {
             O software, o design e os textos da Convecta Booking são propriedade da Convecta. A barbearia recebe uma licença de utilização, não exclusiva e não transmissível, enquanto a subscrição estiver ativa. A marca, o logótipo, as fotografias e os dados da barbearia continuam a ser dela. A Convecta pode indicar o nome da barbearia como cliente, salvo pedido em contrário.
           </p>
 
-          <H2>9. A demonstração pública</H2>
+          <H2>9. O período de experiência</H2>
           <p>
-            A barbearia de demonstração é partilhada por toda a gente e é reposta de hora a hora. Serve para experimentar; não deve ser usada para marcações reais nem para guardar dados reais de terceiros. Tudo o que lá é feito pode ser visto por outras pessoas a experimentar ao mesmo tempo e é apagado sem aviso.
+            Criar a conta e montar a barbearia não custa nada e não exige cartão. Para começar a receber marcações, a barbearia regista um cartão e entra num período de experiência de 7 dias, durante o qual não é cobrado nenhum valor. No fim desses 7 dias, se a subscrição não tiver sido cancelada, o cartão é cobrado pelo plano escolhido e a mensalidade passa a contar a partir daí. O cancelamento durante o período de experiência faz-se pela própria barbearia, no painel, e não tem custo. Uma barbearia que não registe cartão mantém o acesso ao painel, mas não recebe marcações.
           </p>
 
           <H2>10. Responsabilidade</H2>

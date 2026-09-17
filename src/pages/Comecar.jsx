@@ -117,7 +117,7 @@ export default function Comecar() {
 
     setAEnviar(true);
     try {
-      const { error } = await supabase().auth.signUp({
+      const { data, error } = await supabase().auth.signUp({
         email: conta.email.trim().toLowerCase(),
         password: conta.password,
         options: {
@@ -156,6 +156,28 @@ export default function Comecar() {
         }
         return;
       }
+      /*
+       * O Supabase, de proposito, NAO diz "esse email ja existe". Devolve um
+       * sucesso falso, sem enviar nada — para ninguem usar este formulario
+       * para descobrir quem tem conta, testando emails um a um. O sinal que
+       * deixa e este: um utilizador sem identidades. Sem isto, a pessoa via
+       * "vai ao teu email" para um email que nunca ia sair, e ficava a espera.
+       */
+      if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
+        setErro('Já existe uma conta com esse email. Entra no painel com ela — ou, se te esqueceste da palavra-passe, recupera-a lá.');
+        return;
+      }
+
+      /*
+       * Se veio uma sessao, a confirmacao de email esta desligada no Supabase
+       * e a pessoa ja esta dentro. Mostrar "vai ao teu email" seria mentir:
+       * leva-se logo para o painel, que trata do resto.
+       */
+      if (data?.session) {
+        window.location.href = `${PAINEL}/entrar`;
+        return;
+      }
+
       setFeito(true);
     } catch (e) {
       setErro(e.message || 'Não foi possível criar a conta.');

@@ -9,8 +9,8 @@ import PricingSection from "@/components/PricingSection";
 import FundoLinhas from "@/components/FundoLinhas";
 import HeroDispositivos from "@/components/HeroDispositivos";
 import AcessoTotal from "@/components/AcessoTotal";
+import BotaoComecar from "@/components/BotaoComecar";
 import { SITE, PRECO_DESDE_TEXTO, PLANOS, organizacaoLd, websiteLd, softwareLd } from "@/lib/seo";
-import { DEMO_CLIENTE_URL } from "@/lib/demo";
 
 /*
  * A pagina inicial.
@@ -116,14 +116,16 @@ export default function Home() {
             </p>
 
             <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
-              <a className="cv-btn" href={DEMO_CLIENTE_URL} target="_blank" rel="noopener">
-                Experimentar a demonstração <ArrowRight size={15} />
-              </a>
+              <BotaoComecar grande>Começar grátis</BotaoComecar>
               <Link className="cv-btn-linha" to="/precos">Ver os planos</Link>
             </div>
 
+            {/* A linha por baixo do botao responde a pergunta que trava toda a
+                gente no momento de carregar: "quanto e que isto me custa
+                agora?". Dizer "nada" aqui vale mais do que qualquer adjectivo
+                no proprio botao. */}
             <p style={{ marginTop: 30, fontSize: 13, color: "var(--cv-ink-3)" }}>
-              Sem registo para experimentar · Planos desde {PRECO_DESDE_TEXTO}/mês
+              Sem cartão para começar · 7 dias à experiência · Planos desde {PRECO_DESDE_TEXTO}/mês
             </p>
           </motion.div>
 
@@ -198,8 +200,8 @@ export default function Home() {
       {/* ── 8. Último apelo ─────────────────────────────────────── */}
       <CtaSection
         title="Pronto para deixar os teus clientes marcarem sozinhos?"
-        buttonText="Experimentar a demonstração"
-        href={DEMO_CLIENTE_URL}
+        buttonText="Começar grátis"
+        to="/comecar"
         secondaryText="ou fala connosco"
       />
     </div>

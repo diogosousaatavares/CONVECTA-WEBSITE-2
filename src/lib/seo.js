@@ -47,7 +47,9 @@ export const SITE = {
  *
  * A plataforma e a mesma nos tres: agenda, clientes, caixa, comissoes,
  * produtos, stock, relatorios, fidelizacao e a pagina de marcacoes propria.
- * O que muda e quantos profissionais cabem — e, no Business, um website
+ * O que muda e quantos profissionais cabem — e, no Business, a personalizacao
+ * completa do site da barbearia (que ja existe em <slug>.marcacoes.app; nao e um
+ * site desenhado de raiz, e o contrato nao pode prometer isso)
  * feito pela Convecta dentro do sistema dela.
  *
  * Regra: nao se escreve um preco a mao em lado nenhum. Sai sempre daqui.
@@ -81,7 +83,7 @@ export const PLANOS = [
     precoTexto: "59,99 €",
     profissionais: 15,
     profissionaisTexto: "Até 15 profissionais",
-    resumo: "Para barbearias grandes, com website feito por nós.",
+    resumo: "Para barbearias grandes, com o site totalmente personalizado.",
     website: true,
   },
 ];

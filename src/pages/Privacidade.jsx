@@ -56,7 +56,7 @@ export default function Privacidade() {
 
           <H2>2. Três situações diferentes</H2>
           <p>
-            <strong className="text-ink">a) Visitas este site (convecta.pt).</strong> Se preencheres o formulário de contacto ou o formulário de entrada na demonstração, guardamos o que escreveres: nome, nome da barbearia, telemóvel, e-mail e mensagem. Servem para te responder e para falarmos contigo sobre a Convecta — a finalidade é essa e mais nenhuma. Fundamento: diligências pré-contratuais a teu pedido e o nosso interesse legítimo em responder a quem nos contacta. Guardamos estes pedidos até 12 meses depois do último contacto; se te tornares cliente, passam para a tua ficha.
+            <strong className="text-ink">a) Visitas este site (convecta.pt).</strong> Se preencheres o formulário de contacto, guardamos o que escreveres: nome, nome da barbearia, telemóvel, e-mail e mensagem. Servem para te responder e para falarmos contigo sobre a Convecta — a finalidade é essa e mais nenhuma. Fundamento: diligências pré-contratuais a teu pedido e o nosso interesse legítimo em responder a quem nos contacta. Guardamos estes pedidos até 12 meses depois do último contacto; se te tornares cliente, passam para a tua ficha.
           </p>
           <p>
             <strong className="text-ink">b) A tua barbearia usa a Convecta Booking.</strong> Para criar e manter a tua conta tratamos os dados do negócio e do responsável: nome, NIF, morada, e-mail, telemóvel, dados de faturação e o histórico de pagamentos da mensalidade. Fundamento: execução do contrato e obrigações legais (faturação e contabilidade). Os dados de faturação são conservados pelos prazos exigidos por lei, mesmo depois de deixares de ser cliente.
@@ -78,14 +78,17 @@ export default function Privacidade() {
             Estes fornecedores são subcontratantes no sentido do RGPD e estão obrigados, por contrato, a tratar os dados apenas segundo as nossas instruções e com medidas de segurança adequadas. Não transferimos dados para fora da União Europeia, salvo se um fornecedor o fizer ao abrigo das garantias previstas no RGPD (por exemplo, cláusulas contratuais-tipo).
           </p>
 
-          <H2>5. A barbearia de demonstração</H2>
+          <H2>5. O registo e o pagamento</H2>
           <p>
-            A demonstração pública em demo.marcacoes.app é uma barbearia partilhada, aberta a toda a gente: quem estiver a experimentar ao mesmo tempo vê as marcações uns dos outros. Por isso pedimos que não coloques dados reais de terceiros lá dentro. Tudo o que é feito na demonstração é apagado de hora a hora. O nome e o contacto que pedimos à entrada ficam guardados como pedido de contacto (ponto 2a).
+            Ao criares a conta da tua barbearia em convecta.pt/comecar, guardamos o nome da barbearia, o teu nome, e-mail, telefone, morada e NIF. Servem para criar a barbearia, para te contactar sobre ela e para emitir a fatura — a finalidade é essa. Fundamento: execução do contrato.
+          </p>
+          <p>
+            O pagamento é feito por cartão através da Stripe Payments Europe, Ltd. (Irlanda), que é subcontratante no sentido do RGPD. Os dados do cartão são escritos numa página da Stripe e nunca passam pelos nossos servidores; a Convecta guarda apenas um identificador do cliente e da subscrição na Stripe, o estado do pagamento e as datas relevantes. A Stripe trata os dados segundo a sua própria política de privacidade e as garantias do RGPD.
           </p>
 
           <H2>6. Cookies e armazenamento no browser</H2>
           <p>
-            Este site não usa cookies de publicidade nem de rastreio entre sites. Usa o armazenamento do browser para coisas pequenas e técnicas: lembrar que já respondeste ao aviso de cookies, lembrar que já preencheste o formulário da demonstração, e manter a sessão iniciada nas apps. Se um dia ligarmos uma ferramenta de estatísticas (como o Google Analytics), atualizamos esta página e pedimos consentimento antes de a carregar.
+            Este site não usa cookies de publicidade nem de rastreio entre sites. Usa o armazenamento do browser para coisas pequenas e técnicas: lembrar que já respondeste ao aviso de cookies e manter a sessão iniciada nas apps. Se um dia ligarmos uma ferramenta de estatísticas (como o Google Analytics), atualizamos esta página e pedimos consentimento antes de a carregar.
           </p>
 
           <H2>7. Durante quanto tempo</H2>

@@ -145,7 +145,7 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
           <Item>A plataforma completa, sem cortes</Item>
           <Item icone={Bell}>Avisos ao cliente antes do corte, sem custo por mensagem</Item>
           {plano.website && (
-            <Item icone={Globe}><strong>Website da barbearia feito por nós</strong></Item>
+            <Item icone={Globe}><strong>Personalização completa do site da barbearia</strong></Item>
           )}
         </ul>
 

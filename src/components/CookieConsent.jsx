@@ -54,7 +54,7 @@ export default function CookieConsent() {
           <Cookie size={20} className="shrink-0 mt-0.5" style={{ color: "var(--cv-amarelo-texto)" }} />
           <p className="text-xs sm:text-sm text-ink-2 leading-relaxed">
             Este site não usa cookies de publicidade nem de rastreio. Guarda no teu browser só o
-            essencial: esta escolha e o facto de já teres preenchido o formulário da demonstração.{" "}
+            essencial: esta escolha.{" "}
             <Link to="/privacidade" className="underline text-ink transition-colors">
               Saber mais
             </Link>
