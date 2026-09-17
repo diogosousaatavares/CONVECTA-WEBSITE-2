@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check, Smartphone, PhoneCall, Store, ListChecks, Share2, CalendarCheck, BellRing, Wallet, Stamp, FileSpreadsheet, LayoutDashboard } from "lucide-react";
 import Seo from "@/components/Seo";
+import BotaoComecar from "@/components/BotaoComecar";
 import CtaSection from "@/components/CtaSection";
 import ScrollReveal from "@/components/ScrollReveal";
 import { SITE, PRECO_DESDE_TEXTO, migalhasLd, faqLd } from "@/lib/seo";
@@ -22,31 +23,31 @@ const PASSOS = [
   {
     icon: Smartphone,
     n: "01",
-    titulo: "Experimentas a demonstração",
-    quem: "Tu · 5 minutos",
-    texto: "Entras na barbearia de demonstração como cliente e marcas uma consulta. Depois entras no painel como barbeiro e vês essa marcação chegar. Sem registo, sem cartão. Pedimos só o teu nome e um contacto à entrada.",
-    link: { href: SITE.demoCliente, label: "Abrir a demonstração", externo: true },
+    titulo: "Crias a tua barbearia",
+    quem: "Tu · 2 minutos",
+    texto: `Dizes quantos barbeiros são, o nome da barbearia e o teu email. O plano escolhe-se sozinho pelo tamanho da equipa. O site nasce logo, com o teu nome, em a-tua-barbearia.${SITE.dominioApps}. Sem cartão.`,
+    link: { to: "/comecar", label: "Começar grátis" },
   },
   {
-    icon: PhoneCall,
+    icon: ListChecks,
     n: "02",
-    titulo: "Falamos",
-    quem: "Nós e tu · 15 minutos, telefone ou WhatsApp",
-    texto: "Percebemos a tua barbearia: quantos barbeiros, que serviços e preços, o horário, com que antecedência queres receber marcações, até quando o cliente pode cancelar sozinho, quantos carimbos dão um corte grátis. Não há proposta nem orçamento: o preço é um só.",
+    titulo: "Montas a casa",
+    quem: "Tu · 15 minutos, no painel",
+    texto: "Barbeiros com os seus horários, serviços com duração e preço, o logótipo e as cores, o horário de abertura. Podes fazer tudo isto antes de dar o cartão — e ver o site a mudar enquanto escreves.",
   },
   {
     icon: Store,
     n: "03",
-    titulo: "Criamos a tua barbearia",
-    quem: `Nós · em regra, no próprio dia`,
-    texto: `Criamos o teu endereço (a-tua-barbearia.${SITE.dominioApps}), o painel, a tua conta de acesso, e afinamos o logótipo, as cores e a foto de capa contigo. Quando acabamos, o site dos teus clientes já abre.`,
+    titulo: "Registas o cartão",
+    quem: "Tu · 1 minuto, na Stripe",
+    texto: "Quando quiseres começar a receber marcações, registas o cartão. Tens 7 dias à experiência e só depois é cobrado. Se cancelares até lá, não pagas nada — e cancelas sozinho no painel, sem telefonemas.",
   },
   {
-    icon: ListChecks,
+    icon: PhoneCall,
     n: "04",
-    titulo: "Carregas a equipa e os serviços",
-    quem: "Tu, ou nós contigo ao telefone · 20 minutos",
-    texto: "Barbeiros com os seus horários, serviços com duração e preço, comissões se as houver. Se já tens uma lista de clientes, ajudamos a passá-la. Se preferires, fazemos isto por ti na chamada.",
+    titulo: "Ligas as notificações no telemóvel",
+    quem: "Tu · 2 minutos",
+    texto: "Pões a app no ecrã principal e autorizas as notificações. É isto que faz o telemóvel tocar quando um cliente marca. O painel avisa-te enquanto não estiver feito.",
   },
   {
     icon: Share2,
@@ -92,8 +93,8 @@ export default function ComoFunciona() {
   return (
     <main id="main-content" style={{ backgroundColor: "var(--cv-ground)" }} className="booking-page text-ink min-h-screen">
       <Seo
-        titulo="Como funciona: da demonstração às marcações online na tua barbearia"
-        descricao="Seis passos, sem burocracia: experimentas a demonstração, falamos 15 minutos, criamos a tua barbearia no próprio dia, carregas serviços e equipa, partilhas o link e os clientes começam a marcar online. Desde 19,99 €/mês, sem comissões."
+        titulo="Como funciona: do registo às marcações online na tua barbearia"
+        descricao="Seis passos, sem burocracia: crias a tua barbearia em dois minutos, montas serviços e equipa, registas o cartão com 7 dias à experiência, ligas as notificações, partilhas o link e os clientes começam a marcar online. Desde 19,99 €/mês, sem comissões."
         caminho="/como-funciona"
         ld={ld}
       />
@@ -109,14 +110,12 @@ export default function ComoFunciona() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#8A6D0A] mb-4">Convecta Booking · Como funciona</p>
             <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
-              Da demonstração à primeira marcação online.
+              Do registo à primeira marcação online.
             </h1>
             <p className="text-ink-2 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
               Não há proposta comercial, orçamento nem semanas de "implementação". Há uma chamada de 15 minutos e uma barbearia criada, em regra, no próprio dia. Isto é o caminho todo.
             </p>
-            <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow inline-flex items-center gap-2 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}>
-              Começar pela demonstração <ArrowRight size={16} />
-            </a>
+            <BotaoComecar grande>Começar grátis</BotaoComecar>
           </motion.div>
         </div>
       </section>
@@ -139,9 +138,9 @@ export default function ComoFunciona() {
                     <h2 className="font-heading text-2xl lg:text-3xl text-ink mb-2 leading-snug">{p.titulo}</h2>
                     <p className="text-ink-2 text-sm lg:text-base leading-relaxed">{p.texto}</p>
                     {p.link && (
-                      <a href={p.link.href} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 mt-3 text-sm font-bold text-[#8A6D0A] hover:text-ink transition-colors">
+                      <Link to={p.link.to} className="inline-flex items-center gap-1.5 mt-3 text-sm font-bold text-[#8A6D0A] hover:text-ink transition-colors">
                         {p.link.label} <ArrowRight size={14} />
-                      </a>
+                      </Link>
                     )}
                   </div>
                 </li>
@@ -198,7 +197,7 @@ export default function ComoFunciona() {
           <ScrollReveal>
             <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm">
               <Link to="/funcionalidades" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1">Todas as funcionalidades <ArrowRight size={14} /></Link>
-              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1"><LayoutDashboard size={14} /> Ver o painel na demonstração</a>
+              <Link to="/comecar" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1"><LayoutDashboard size={14} /> Criar a minha barbearia</Link>
             </div>
           </ScrollReveal>
         </div>
@@ -226,7 +225,7 @@ export default function ComoFunciona() {
         </div>
       </section>
 
-      <CtaSection title="O primeiro passo demora cinco minutos." buttonText="Experimentar a demonstração" href={SITE.demoCliente} secondaryText="ou fala connosco primeiro" />
+      <CtaSection title="O primeiro passo demora dois minutos." buttonText="Começar grátis" to="/comecar" secondaryText="ou fala connosco primeiro" />
     </main>
   );
 }

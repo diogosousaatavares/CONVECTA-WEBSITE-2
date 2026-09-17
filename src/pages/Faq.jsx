@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/accordion";
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
-import { DEMO_CLIENTE_URL } from "@/lib/demo";
 import { PLANOS, PRECO_DESDE_TEXTO, faqLd, migalhasLd } from "@/lib/seo";
 
 const faqs = [
@@ -19,7 +18,7 @@ const faqs = [
   },
   {
     q: "Posso experimentar antes de decidir?",
-    a: "Sim, e sem falar com ninguém. Temos uma barbearia de demonstração aberta a toda a gente: entras como cliente, marcas uma consulta, e depois entras como barbeiro e vês essa marcação chegar ao painel. Não pede registo nem cartão — só o teu nome e um contacto, para falarmos contigo depois. Os dados voltam ao início de hora a hora.",
+    a: "Sim, e sem falar com ninguém. Crias a tua barbearia em dois minutos — o site nasce logo com o teu nome — e montas os serviços, os horários e as cores sem dar cartão nenhum. Quando quiseres começar a receber marcações, registas o cartão e tens 7 dias à experiência. Se cancelares até lá, não pagas nada, e cancelas sozinho no painel.",
   },
   {
     q: "Como é que os meus clientes marcam?",
@@ -67,7 +66,7 @@ const faqs = [
   },
   {
     q: "Já uso outra agenda. Vale a pena mudar?",
-    a: "Se a tua agenda é o papel ou o WhatsApp, o que ganhas é o telemóvel a tocar a cada marcação e zero marcações em cima umas das outras. Se já usas outro sistema, experimenta a demonstração ao lado dele durante dez minutos — é a comparação mais honesta que te podemos oferecer.",
+    a: "Se a tua agenda é o papel ou o WhatsApp, o que ganhas é o telemóvel a tocar a cada marcação e zero marcações em cima umas das outras. Se já usas outro sistema, monta a tua barbearia aqui em dois minutos e compara os dois lado a lado durante os 7 dias — é a comparação mais honesta que te podemos oferecer.",
   },
   {
     q: "E se precisar de ajuda?",
@@ -92,7 +91,7 @@ export default function Faq() {
     <div>
       <Seo
         titulo="Perguntas frequentes sobre marcações online para barbearias"
-        descricao="Como os teus clientes marcam online, como ficas a saber, cancelamentos, cartão de fidelidade, caixa, comissões, contabilista, preços (desde 19,99 €/mês) e segurança dos dados. As respostas antes de experimentares a Convecta."
+        descricao="Como os teus clientes marcam online, como ficas a saber, cancelamentos, cartão de fidelidade, caixa, comissões, contabilista, preços (desde 19,99 €/mês) e segurança dos dados. As respostas antes de criares a tua barbearia na Convecta."
         caminho="/faq"
         ld={[faqLd(faqs), migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Perguntas frequentes", caminho: "/faq" }])]}
       />
@@ -110,7 +109,7 @@ export default function Faq() {
               Perguntas <span style={{ color: "var(--cv-amarelo-texto)" }}>frequentes</span>
             </h1>
             <p className="text-lg text-ink-2 max-w-xl mx-auto">
-              O que os donos de barbearia nos perguntam antes de experimentar. Se a tua não estiver aqui, a demonstração responde a quase tudo.
+              O que os donos de barbearia nos perguntam antes de experimentar. Se a tua não estiver aqui, criar a tua barbearia responde a quase tudo — e não custa nada.
             </p>
           </motion.div>
         </div>
@@ -141,9 +140,9 @@ export default function Faq() {
 
       {/* CTA */}
       <CtaSection
-        title="A resposta mais rápida é experimentar."
-        buttonText="Experimentar a demonstração"
-        href={DEMO_CLIENTE_URL}
+        title="A resposta mais rápida é criar a tua."
+        buttonText="Começar grátis"
+        to="/comecar"
         secondaryText="ou fala connosco"
       />
     </div>

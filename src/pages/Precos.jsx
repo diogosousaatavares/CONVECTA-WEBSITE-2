@@ -5,6 +5,7 @@ import Seo from "@/components/Seo";
 import PricingSection from "@/components/PricingSection";
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
+import BotaoComecar from "@/components/BotaoComecar";
 import { SITE, PLANOS, DESCONTO_ANUAL, PRECO_DESDE_TEXTO, migalhasLd, faqLd, softwareLd } from "@/lib/seo";
 
 /*
@@ -33,11 +34,11 @@ const NAO_INCLUI = [
 ];
 
 const PERGUNTAS = [
-  { q: "Qual é a diferença entre os três planos?", a: `A plataforma é exatamente a mesma nos três: agenda, clientes, caixa, comissões, produtos, stock, relatórios e fidelização. O que muda é quantos profissionais cabem — ${PLANOS.map(p => `${p.nome}, ${p.profissionaisTexto.toLowerCase()}, ${p.precoTexto}/mês`).join("; ")}. O Business inclui ainda um website da barbearia feito por nós. Não há limite de marcações em nenhum deles.` },
+  { q: "Qual é a diferença entre os três planos?", a: `A plataforma é exatamente a mesma nos três: agenda, clientes, caixa, comissões, produtos, stock, relatórios e fidelização. O que muda é quantos profissionais cabem — ${PLANOS.map(p => `${p.nome}, ${p.profissionaisTexto.toLowerCase()}, ${p.precoTexto}/mês`).join("; ")}. O Business inclui ainda a personalização completa do site da barbearia. Não há limite de marcações em nenhum deles.` },
   { q: "E se a minha equipa crescer?", a: "Mudas de plano e continuas com os mesmos dados, a mesma agenda e o mesmo endereço. Não se recomeça nada." },
   { q: "Há comissões por marcação?", a: "Não. Zero. Cada marcação que entra é tua por inteiro. A Convecta ganha a mensalidade e mais nada." },
   { q: "Há fidelização ou período mínimo?", a: "No plano mensal não: cancelas quando quiseres. Se escolheres pagar o ano de uma vez, aí sim, o compromisso é de doze meses — é o que paga o desconto. Se saíres, os teus dados são apagados a pedido." },
-  { q: "Como se paga?", a: `Por mês ou por ano, com fatura. No anual pagas os doze meses de uma vez com ${Math.round(DESCONTO_ANUAL * 100)} % de desconto — é o único caso em que há compromisso de um ano. No mensal cancelas quando quiseres. Combinamos o método contigo quando a barbearia fica ativa.` },
+  { q: "Como se paga?", a: `Por mês ou por ano, com fatura. No anual pagas os doze meses de uma vez com ${Math.round(DESCONTO_ANUAL * 100)} % de desconto — é o único caso em que há compromisso de um ano. No mensal cancelas quando quiseres. Com cartão, pela Stripe: registas o cartão no painel, tens 7 dias à experiência, e só depois é cobrado. Cancelas sozinho no painel, quando quiseres.` },
   { q: "O preço inclui IVA?", a: "O preço que vês é o que pagas. A Convecta está no regime de isenção de IVA (artigo 53.º do CIVA), por isso a fatura não acresce IVA — vem com a menção «IVA – regime de isenção». Se um dia o enquadramento mudar, avisamos antes e a mudança só se aplica ao período seguinte." },
 ];
 
@@ -120,9 +121,7 @@ export default function Precos() {
               </p>
             </div>
             <div className="mt-8">
-              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow inline-flex items-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}>
-                Experimentar a demonstração <ArrowRight size={16} />
-              </a>
+              <BotaoComecar grande>Começar grátis</BotaoComecar>
             </div>
           </ScrollReveal>
         </div>
@@ -149,7 +148,7 @@ export default function Precos() {
         </div>
       </section>
 
-      <CtaSection title="Zero comissões. Experimenta primeiro." buttonText="Experimentar a demonstração" href={SITE.demoCliente} secondaryText="ou fala connosco" />
+      <CtaSection title="Zero comissões. Começa hoje, sem cartão." buttonText="Começar grátis" to="/comecar" secondaryText="ou fala connosco" />
     </div>
   );
 }

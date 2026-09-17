@@ -7,6 +7,7 @@ import {
   Globe, Stamp, Ban, MonitorSmartphone, ListChecks, Percent, Lock, Download,
 } from "lucide-react";
 import Seo from "@/components/Seo";
+import BotaoComecar from "@/components/BotaoComecar";
 import ScrollReveal from "@/components/ScrollReveal";
 import { SITE, PRECO_DESDE_TEXTO, softwareLd, migalhasLd } from "@/lib/seo";
 
@@ -206,15 +207,11 @@ export default function Funcionalidades() {
               A Convecta Booking tem duas partes: o site onde os teus clientes marcam e o painel onde tu geres a barbearia — agenda, clientes, caixa, comissões, stock, cartão de fidelidade e relatórios. Esta página diz o que existe e funciona hoje.
             </p>
             <p className="text-ink-3 text-sm leading-relaxed mb-10 max-w-xl mx-auto">
-              Não acredites em nós: cada frase aqui pode ser confirmada na demonstração ao vivo, sem registo e sem cartão.
+              Não acredites em nós: cada frase aqui pode ser confirmada na tua própria barbearia, em dois minutos e sem cartão.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}>
-                <Smartphone size={16} /> Marcar como cliente
-              </a>
-              <a href={SITE.demoPainel} target="_blank" rel="noopener" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-[#F2EFEA] border border-linha transition-all">
-                <LayoutDashboard size={16} /> Entrar no painel
-              </a>
+              <BotaoComecar grande>Começar grátis</BotaoComecar>
+              <Link to="/precos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 text-sm font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-[#F2EFEA] border border-linha transition-all" style={{ borderRadius: 100 }}>Ver os planos</Link>
             </div>
           </motion.div>
         </div>
@@ -361,13 +358,10 @@ export default function Funcionalidades() {
               Vê tudo isto a funcionar,<br /><span style={{ color: "var(--cv-amarelo-texto)" }}>com as tuas próprias mãos.</span>
             </h2>
             <p className="text-ink-2 text-base sm:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-10">
-              Marca uma consulta como cliente na barbearia de demonstração. Depois entra no painel e vê-a chegar. Sem registo, sem cartão, sem ninguém a ligar-te a meio.
+              Monta a tua barbearia em dois minutos: o site nasce com o teu nome, metes os teus serviços, e só depois decides. Sem cartão para começar, sem ninguém a ligar-te a meio.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href={SITE.demoCliente} target="_blank" rel="noopener" className="btn-glow w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-sm font-bold uppercase tracking-wide rounded-sm" style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}>
-                <span>Experimentar a demonstração</span>
-                <ArrowRight size={18} />
-              </a>
+              <BotaoComecar grande>Começar grátis</BotaoComecar>
               <Link to="/precos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-[#F2EFEA] border border-linha transition-all duration-200">
                 <span>Ver os preços: desde {PRECO_DESDE_TEXTO}/mês</span>
               </Link>
