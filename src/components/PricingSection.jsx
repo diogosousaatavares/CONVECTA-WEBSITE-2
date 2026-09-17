@@ -20,7 +20,7 @@ import MarcaWhatsApp from "@/components/MarcaWhatsApp";
 
 const GARANTIAS = [
   { icon: Shield, titulo: "Sem fidelização", texto: "No mensal cancelas quando quiseres.", textoAnual: "No anual o compromisso é de 12 meses — é o que paga o desconto." },
-  { icon: Zap, titulo: "A funcionar no próprio dia", texto: "Em regra, ativa no dia em que falamos." },
+  { icon: Zap, titulo: "No ar em dois minutos", texto: "Crias a conta e o site nasce logo. Sem esperar por ninguém." },
   { icon: Headphones, titulo: "Suporte por quem fez a app", texto: "Resposta até 24 horas úteis." },
 ];
 

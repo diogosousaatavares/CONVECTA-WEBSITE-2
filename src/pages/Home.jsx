@@ -24,10 +24,10 @@ import { SITE, PRECO_DESDE_TEXTO, PLANOS, organizacaoLd, websiteLd, softwareLd }
  */
 
 const PASSOS = [
-  { n: "01", t: "Experimentas", d: "Entras na barbearia de demonstração e marcas como cliente. Cinco minutos, sem registo." },
-  { n: "02", t: "Falamos", d: "Quinze minutos: serviços, equipa, horários, regras de cancelamento." },
-  { n: "03", t: "Lançamos", d: "Criamos a barbearia e o endereço. Em regra, no próprio dia." },
-  { n: "04", t: "Mandas tu", d: "Serviços, preços, equipa, horários, cores e fotos — tudo no teu painel." },
+  { n: "01", t: "Crias a barbearia", d: "Quantos barbeiros são, o nome e o teu email. Dois minutos, sem cartão. O site nasce logo, com o teu nome." },
+  { n: "02", t: "Montas a casa", d: "Serviços, preços, equipa, horários, cores e fotos — tudo no teu painel, e vês o site a mudar enquanto escreves." },
+  { n: "03", t: "Ligas as marcações", d: "Quando estiver ao teu gosto, dás o cartão. Sete dias à experiência; cancelas quando quiseres." },
+  { n: "04", t: "Os clientes marcam", d: "Partilhas o endereço no Instagram e no WhatsApp. O telemóvel toca a cada marcação." },
 ];
 
 const PILARES = [
@@ -159,13 +159,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 4. A demonstração ───────────────────────────────────── */}
-
-      {/* ── 5. Como funciona ────────────────────────────────────── */}
+            {/* ── 5. Como funciona ────────────────────────────────────── */}
       <section id="processo" className="cv-wrap cv-sec">
         <ScrollReveal>
           <p className="cv-olho">Como funciona</p>
-          <h2 className="cv-h2">Da demonstração à primeira marcação.</h2>
+          <h2 className="cv-h2">Da conta à primeira marcação. Sem falar connosco.</h2>
         </ScrollReveal>
         <div className="cv-passos">
           {PASSOS.map((p, i) => (
@@ -187,7 +185,7 @@ export default function Home() {
       <section className="cv-wrap cv-sec">
         <ScrollReveal>
           <p className="cv-olho">Perguntas</p>
-          <h2 className="cv-h2">O que nos perguntam antes de experimentar.</h2>
+          <h2 className="cv-h2">O que nos perguntam antes de começar.</h2>
         </ScrollReveal>
         <div style={{ marginTop: 40, maxWidth: 720 }}>
           {PERGUNTAS.map(p => <Pergunta key={p.q} {...p} />)}
