@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import ConvectaLogo from "@/components/ConvectaLogo";
 import { SITE } from "@/lib/seo";
-import { DEMO_CLIENTE_URL } from "@/lib/demo";
 
 export default function Footer() {
   return (
@@ -31,9 +30,9 @@ export default function Footer() {
               <Link to="/precos" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Preços
               </Link>
-              <a href={DEMO_CLIENTE_URL} target="_blank" rel="noopener" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
-                Demonstração ao vivo
-              </a>
+              <Link to="/comecar" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
+                Começar
+              </Link>
             </div>
           </div>
 

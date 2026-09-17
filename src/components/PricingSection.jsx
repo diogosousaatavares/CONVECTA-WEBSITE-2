@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { Check, Shield, Zap, ArrowRight, Headphones, Users, Globe, Bell } from "lucide-react";
 import { Link } from "react-router-dom";
 import { PLANOS, INCLUIDO_EM_TODOS, DESCONTO_ANUAL } from "@/lib/seo";
-import { DEMO_CLIENTE_URL, DEMO_PAINEL_URL } from "@/lib/demo";
 import FundoLinhas from "@/components/FundoLinhas";
 import MarcaWhatsApp from "@/components/MarcaWhatsApp";
 
@@ -280,22 +279,25 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
           ))}
         </div>
 
-        {/* o apelo: antes de escolher um plano, entra e ve */}
+        {/* O apelo. Ate aqui mandava-o ver uma barbearia de outra pessoa:
+            agora monta-se a dele, com o nome dele. Ver a casa dos outros nao
+            prende ninguem; ver a propria, prende. */}
         <div className="pr-apelo">
           <div>
-            {React.createElement(NivelNome, { className: "cv-h3", style: { margin: 0 } }, "Não decidas às escuras.")}
-            <p style={{ color: "var(--cv-ink-2)", fontSize: "0.9rem", margin: "6px 0 0", maxWidth: "42ch" }}>
-              Entra na demonstração, marca como cliente e vê a marcação chegar ao painel.
-              Sem registo e sem cartão.
+            {React.createElement(NivelNome, { className: "cv-h3", style: { margin: 0 } }, "Vê-a com o teu nome, hoje.")}
+            <p style={{ color: "var(--cv-ink-2)", fontSize: "0.9rem", margin: "6px 0 0", maxWidth: "46ch" }}>
+              Em dois minutos tens a tua barbearia montada e o teu site no ar.
+              O cartão só é pedido quando quiseres começar a receber marcações —
+              e são 7 dias à experiência.
             </p>
           </div>
           <div className="pr-apelo-botoes">
-            <a className="cv-btn" href={DEMO_CLIENTE_URL} target="_blank" rel="noopener">
-              Entrar como cliente <ArrowRight size={15} />
-            </a>
-            <a className="cv-btn-linha" href={DEMO_PAINEL_URL} target="_blank" rel="noopener">
-              Ver o painel do barbeiro
-            </a>
+            <Link className="cv-btn" to="/comecar">
+              Começar grátis <ArrowRight size={15} />
+            </Link>
+            <Link className="cv-btn-linha" to="/funcionalidades">
+              Ver tudo o que faz
+            </Link>
           </div>
         </div>
       </div>

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Bell, MessageCircle, BarChart3, Palette, Smartphone, Check } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import { WHATSAPP_ATIVO } from "@/lib/seo";
-import { DEMO_CLIENTE_URL, DEMO_PAINEL_URL } from "@/lib/demo";
 
 /*
  * "Acesso total a tudo" — a seccao logo a seguir ao hero.
@@ -118,21 +117,23 @@ export default function AcessoTotal() {
         </div>
       </ScrollReveal>
 
-      {/* O convite: duas portas, não um botão */}
+      {/* Duas portas continuam a ser duas, mas já não levam à casa de
+          outra pessoa: uma monta a dele, a outra mostra o que a plataforma
+          faz a quem ainda quer ler antes de decidir. */}
       <ScrollReveal>
         <div className="at-portas">
-          <a className="at-porta at-porta-forte" href={DEMO_CLIENTE_URL} target="_blank" rel="noopener">
-            <span className="at-porta-olho">Começa aqui</span>
-            <span className="at-porta-titulo">Entrar como cliente</span>
-            <span className="at-porta-sub">Marca uma consulta na barbearia de demonstração. Três toques.</span>
+          <Link className="at-porta at-porta-forte" to="/comecar">
+            <span className="at-porta-olho">Dois minutos</span>
+            <span className="at-porta-titulo">Montar a minha barbearia</span>
+            <span className="at-porta-sub">O teu site no ar hoje, com o teu nome. Sem cartão para começar.</span>
             <ArrowRight size={18} className="at-seta" />
-          </a>
-          <a className="at-porta" href={DEMO_PAINEL_URL} target="_blank" rel="noopener">
-            <span className="at-porta-olho">O outro lado</span>
-            <span className="at-porta-titulo">Entrar como barbeiro</span>
-            <span className="at-porta-sub">Vê a marcação chegar ao painel. Confirma, cobra, carimba.</span>
+          </Link>
+          <Link className="at-porta" to="/funcionalidades">
+            <span className="at-porta-olho">Antes de decidir</span>
+            <span className="at-porta-titulo">Ver o que faz</span>
+            <span className="at-porta-sub">Agenda, clientes, caixa, comissões, avisos. Tudo o que está lá dentro.</span>
             <ArrowRight size={18} className="at-seta" />
-          </a>
+          </Link>
         </div>
         <p style={{ textAlign: "center", fontSize: 13, color: "var(--cv-ink-3)", marginTop: 18 }}>
           Sem registo, sem cartão, sem nos pedires nada. Ou <Link to="/precos" style={{ borderBottom: "1px solid var(--cv-linha)" }}>vê os planos</Link>.

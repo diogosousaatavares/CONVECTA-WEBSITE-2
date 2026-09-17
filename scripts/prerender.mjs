@@ -28,6 +28,7 @@ const ROTAS = [
   "/funcionalidades",
   "/como-funciona",
   "/precos",
+  "/comecar",
   "/faq",
   "/contacto",
   "/instagram",

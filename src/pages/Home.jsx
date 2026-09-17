@@ -6,7 +6,6 @@ import Seo from "@/components/Seo";
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
 import PricingSection from "@/components/PricingSection";
-import DemoSection from "@/components/DemoSection";
 import FundoLinhas from "@/components/FundoLinhas";
 import HeroDispositivos from "@/components/HeroDispositivos";
 import AcessoTotal from "@/components/AcessoTotal";
@@ -159,7 +158,6 @@ export default function Home() {
       </section>
 
       {/* ── 4. A demonstração ───────────────────────────────────── */}
-      <DemoSection />
 
       {/* ── 5. Como funciona ────────────────────────────────────── */}
       <section id="processo" className="cv-wrap cv-sec">
