@@ -28,10 +28,24 @@ export default function Navbar() {
 
   useEffect(() => { setMobileOpen(false); }, [location.pathname]);
 
-  // Prevent body scroll when menu is open
+  // Com o menu aberto, a pagina de tras nao mexe. O iOS ignora o
+  // `overflow: hidden` so no body — tem de ir tambem no <html>.
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    const v = mobileOpen ? "hidden" : "";
+    document.body.style.overflow = v;
+    document.documentElement.style.overflow = v;
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
+  // Escape fecha, como qualquer painel.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setMobileOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [mobileOpen]);
 
   const showSolid = !isHome || scrolled;
@@ -106,17 +120,32 @@ export default function Navbar() {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
               className="absolute inset-0"
-              style={{ background: "rgba(36,32,28,0.35)" }}
+              style={{ background: "rgba(36,32,28,0.35)", touchAction: "none" }}
               onClick={() => setMobileOpen(false)}
+              onTouchEnd={(e) => { e.preventDefault(); setMobileOpen(false); }}
+              aria-hidden="true"
             />
             <motion.div
               initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 300 }}
+              role="dialog" aria-modal="true" aria-label="Menu"
               className="absolute right-0 top-0 bottom-0 w-80 max-w-[85vw] p-6 sm:p-8 flex flex-col overflow-y-auto"
-              style={{ backgroundColor: "var(--cv-ground)", borderLeft: "1px solid var(--cv-linha)" }}>
+              style={{ backgroundColor: "var(--cv-ground)", borderLeft: "1px solid var(--cv-linha)", overscrollBehavior: "contain" }}>
 
-              <div className="mb-10 mt-4">
+              {/* O botao da barra fica escondido por baixo deste painel
+                  (a barra e um contexto de empilhamento proprio, z-50, e o
+                  painel esta a z-100). Por isso o X vive AQUI, onde se ve. */}
+              <div className="mb-10 mt-2 flex items-center justify-between">
                 <ConvectaLogo />
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(false)}
+                  aria-label="Fechar menu"
+                  className="min-w-[44px] min-h-[44px] -mr-2 flex items-center justify-center rounded-full"
+                  style={{ color: "var(--cv-ink)" }}
+                >
+                  <X size={26} />
+                </button>
               </div>
 
               <div className="flex flex-col gap-2">
@@ -129,7 +158,8 @@ export default function Navbar() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.05 + 0.1 }}>
                       <Link to={link.path}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-base font-medium ${link.path === "/booking" ? "booking-nav-link" : ""}`}
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors text-base font-medium"
                         style={{
                           color: isActive ? "var(--cv-ink)" : "var(--cv-ink-2)",
                           backgroundColor: isActive ? "rgba(36,32,28,0.05)" : "transparent",
