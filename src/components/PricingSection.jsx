@@ -150,7 +150,11 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
           )}
         </ul>
 
-        <Link to="/contacto" style={{ textDecoration: "none" }}>
+        {/* Ate aqui o botao mandava para o formulario de contacto: alguem
+            interessado tinha de escrever um email e esperar por resposta. A
+            maior parte nao escreve. Agora vai direito ao registo, ja com o
+            plano e o periodo que ele estava a olhar. */}
+        <Link to={`/comecar?plano=${plano.id}&periodo=${anual ? "anual" : "mensal"}`} style={{ textDecoration: "none" }}>
           <motion.span
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

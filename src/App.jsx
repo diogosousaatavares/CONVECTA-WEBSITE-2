@@ -29,6 +29,7 @@ const Instagram = lazy(() => import('@/pages/Instagram'));
 const Privacidade = lazy(() => import('@/pages/Privacidade'));
 const Termos = lazy(() => import('@/pages/Termos'));
 const Precos = lazy(() => import('@/pages/Precos'));
+const Comecar = lazy(() => import('@/pages/Comecar'));
 const Funcionalidades = lazy(() => import('@/pages/Booking'));
 const ComoFunciona = lazy(() => import('@/pages/BookingSection'));
 
@@ -59,6 +60,10 @@ const Paginas = () => {
           <Route path="/funcionalidades" element={<Funcionalidades />} />
           <Route path="/como-funciona" element={<ComoFunciona />} />
           <Route path="/precos" element={<Precos />} />
+          {/* O registo da barbearia. Fica dentro do SiteLayout de proposito:
+              quem hesita a meio do formulario tem de poder ir aos Precos ou
+              aos Termos e voltar, em vez de ficar preso num ecra sem saida. */}
+          <Route path="/comecar" element={<Comecar />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/instagram" element={<Instagram />} />
