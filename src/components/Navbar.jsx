@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { DEMO_CLIENTE_URL } from "@/lib/demo";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -69,13 +68,16 @@ export default function Navbar() {
           </div>
 
           <div className="hidden lg:block">
-            <a
-              href={DEMO_CLIENTE_URL} target="_blank" rel="noopener"
-              className="inline-flex items-center px-5 py-2.5 text-sm font-medium transition-opacity hover:opacity-80"
-              style={{ border: "1px solid var(--cv-ink)", borderRadius: 100, color: "var(--cv-ink)" }}
+            {/* Cheio, nao contornado. Este e o unico botao da barra e e o
+                que paga o site: um botao de contorno le-se como secundario e
+                perde-se ao lado do menu. */}
+            <Link
+              to="/comecar"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold transition-opacity hover:opacity-85"
+              style={{ backgroundColor: "var(--cv-amarelo)", color: "var(--cv-amarelo-texto)", borderRadius: 100 }}
             >
-              Experimentar
-            </a>
+              Começar grátis
+            </Link>
           </div>
 
           {/* Hamburger with animated icon */}
@@ -141,14 +143,14 @@ export default function Navbar() {
               </div>
 
               <div className="mt-auto">
-                <a
-                  href={DEMO_CLIENTE_URL} target="_blank" rel="noopener"
+                <Link
+                  to="/comecar"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full block text-center px-6 py-3.5 text-sm font-medium"
-                  style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}
+                  className="w-full block text-center px-6 py-3.5 text-sm font-semibold"
+                  style={{ backgroundColor: "var(--cv-amarelo)", color: "var(--cv-amarelo-texto)", borderRadius: 100 }}
                 >
-                  Experimentar a demonstração
-                </a>
+                  Começar grátis
+                </Link>
               </div>
             </motion.div>
           </div>

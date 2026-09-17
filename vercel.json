@@ -3,17 +3,17 @@
   "redirects": [
     {
       "source": "/demo",
-      "destination": "https://demo.marcacoes.app",
+      "destination": "/comecar",
       "permanent": false
     },
     {
       "source": "/demonstracao",
-      "destination": "https://demo.marcacoes.app",
+      "destination": "/comecar",
       "permanent": false
     },
     {
       "source": "/painel",
-      "destination": "https://administrador.marcacoes.app/entrar?demo=1",
+      "destination": "https://administrador.marcacoes.app/entrar",
       "permanent": false
     },
     {
@@ -73,6 +73,10 @@
     {
       "source": "/termos",
       "destination": "/termos.html"
+    },
+    {
+      "source": "/comecar",
+      "destination": "/comecar.html"
     }
   ],
   "headers": [
