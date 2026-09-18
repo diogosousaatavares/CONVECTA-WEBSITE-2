@@ -60,14 +60,20 @@ const CSS = `
 }
 `;
 
-export default function BotaoComecar({ children = "Começar grátis", grande = false, to = "/comecar", ...resto }) {
+export default function BotaoComecar({ children = "Começar grátis", grande = false, to = "/comecar", origem = "", onClick, ...resto }) {
+  // Cada clique fica registado com o sitio de onde veio (hero, precos,
+  // fecho...). E o que diz qual dos botoes esta a pagar o site.
+  const aoClicar = (e) => {
+    try { window.trackEvent?.("comecar_click", { origem: origem || (typeof window !== "undefined" ? window.location.pathname : "") }); } catch {}
+    onClick?.(e);
+  };
   return (
     <>
       {/* Em linha de propósito: o site é pré-desenhado no build, e regras que
           só chegassem depois do javascript arrancar davam um salto visível na
           primeira pintura — logo no botão que mais interessa. */}
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
-      <Link to={to} className={`cv-comecar${grande ? " cv-comecar-grande" : ""}`} {...resto}>
+      <Link to={to} onClick={aoClicar} className={`cv-comecar${grande ? " cv-comecar-grande" : ""}`} {...resto}>
         {children} <ArrowRight size={18} strokeWidth={2.5} />
       </Link>
     </>

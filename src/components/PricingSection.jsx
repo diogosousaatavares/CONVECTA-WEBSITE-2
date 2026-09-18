@@ -241,7 +241,12 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
           ))}
         </div>
 
-        <p style={{ textAlign: "center", fontSize: "0.76rem", color: "var(--cv-ink-3)", margin: "20px 0 0" }}>
+        {/* A ancora. 19,99 € e abstracto; "um corte por mes" e uma conta que
+            qualquer barbeiro faz de cabeca — e que lhe da razao para pagar. */}
+        <p style={{ textAlign: "center", fontSize: "1.02rem", fontWeight: 600, color: "var(--cv-ink)", margin: "26px 0 0" }}>
+          Paga-se com uma marcação por mês. As outras são todas tuas.
+        </p>
+        <p style={{ textAlign: "center", fontSize: "0.76rem", color: "var(--cv-ink-3)", margin: "10px 0 0" }}>
           Preço por barbearia. Acresce IVA à taxa legal, quando aplicável.
           Sem comissões por marcação e sem taxa de adesão.
         </p>

@@ -64,7 +64,7 @@ export default function Navbar() {
             <ConvectaLogo />
           </Link>
 
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => {
               const Icon = link.icon;
               return (
@@ -81,7 +81,7 @@ export default function Navbar() {
             })}
           </div>
 
-          <div className="hidden lg:block">
+          <div className="hidden md:block">
             {/* Cheio, nao contornado. Este e o unico botao da barra e e o
                 que paga o site: um botao de contorno le-se como secundario e
                 perde-se ao lado do menu. */}
@@ -97,7 +97,7 @@ export default function Navbar() {
           {/* Hamburger with animated icon */}
           <motion.button
             onClick={() => setMobileOpen(o => !o)}
-            className="lg:hidden p-2 relative z-[110] min-w-[44px] min-h-[44px] flex items-center justify-center"
+            className="md:hidden p-2 relative z-[110] min-w-[44px] min-h-[44px] flex items-center justify-center"
             style={{ color: "var(--cv-ink)" }}
             aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
             whileTap={{ scale: 0.9 }}
