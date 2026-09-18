@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronDown, ExternalLink, MessageCircle, CalendarX, BookOpen } from "lucide-react";
+import { ArrowRight, ChevronDown, MessageCircle, CalendarX, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Seo from "@/components/Seo";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -140,18 +140,19 @@ export default function Home() {
 
             <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
               <BotaoComecar grande origem="hero">Começar grátis</BotaoComecar>
-              {/* A segunda saida ja nao e "ver os planos" (o preco esta na linha
-                  de baixo): e VER o produto do lado do cliente, sem registo. Um
-                  barbeiro desconfiado quer marcar um corte antes de dar dados. */}
-              <a
+              {/* A segunda saida volta a ser o preco. Durante um tempo foi a
+                  demonstracao publica — VER o produto antes de dar dados, que e
+                  o que um barbeiro desconfiado quer. Mas a demonstracao deixou
+                  de existir, e um botao que promete mostrar uma barbearia a
+                  funcionar e nao mostra nada custa mais do que nao ter botao
+                  nenhum: quem carrega ali era exactamente quem estava quase. */}
+              <Link
                 className="cv-btn-linha"
-                href={SITE.demoCliente}
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => { try { window.trackEvent?.("ver_barbearia_click", { origem: "hero" }); } catch {} }}
+                to="/precos"
+                onClick={() => { try { window.trackEvent?.("ver_precos_click", { origem: "hero" }); } catch {} }}
               >
-                Ver uma barbearia a funcionar <ExternalLink size={14} style={{ marginLeft: 6, verticalAlign: -2 }} />
-              </a>
+                Ver os planos <ArrowRight size={14} style={{ marginLeft: 6, verticalAlign: -2 }} />
+              </Link>
             </div>
 
             {/* A linha por baixo do botao responde a pergunta que trava toda a

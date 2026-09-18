@@ -35,10 +35,12 @@ export const SITE = {
   imagemAltura: 630,
   logo: "https://convecta.pt/brand/convecta-logo.png",
   // Onde vive a app (nao e este site). Os clientes de cada barbearia entram
-  // em <barbearia>.marcacoes.app; a demonstracao publica e uma barbearia
-  // como as outras.
-  demoCliente: "https://demo.marcacoes.app",
-  demoPainel: "https://administrador.marcacoes.app/entrar?demo=1",
+  // em <barbearia>.marcacoes.app.
+  //
+  // Aqui viviam o `demoCliente` e o `demoPainel`, os dois enderecos da
+  // demonstracao publica. A demonstracao acabou, e os enderecos sairam daqui
+  // de proposito: enquanto uma constante existe, mais cedo ou mais tarde
+  // alguem volta a pendura-la num botao. Sem constante nao ha botao.
   dominioApps: "marcacoes.app",
 };
 
