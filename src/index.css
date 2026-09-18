@@ -1834,3 +1834,87 @@ html, body {
    O conteúdo abaixo do herói entra com uma animação que começa em
    opacity:0. Se o JavaScript não carregar, isso deixava metade do site
    invisível. Esta regra desliga a animação nesse caso. */
+
+/* ══════════════════════════════════════════════════════════════════════
+   TELEMÓVEL — a passagem de 18 de Setembro de 2026
+   ══════════════════════════════════════════════════════════════════════
+
+   Medido no site no ar, num ecrã de 390 px. O que se encontrou:
+
+     · nenhuma página trasborda para o lado (isso já estava resolvido);
+     · a página inicial tinha 12 400 px de altura — quinze ecrãs. Só o
+       bloco dos planos ocupava 3 359 px, um terço da página;
+     · seis manchas do fundo a animar para sempre, num ecrã onde nem se
+       vêem;
+     · as perguntas que se abrem tinham 20 px de altura para carregar.
+
+   O que muda aqui em baixo é só telemóvel. No computador nada se mexe.
+   ────────────────────────────────────────────────────────────────────── */
+
+/* ── 1. Os planos deixam de ser uma torre e passam a arrastar-se ───────
+   Três cartões empilhados são 1 500 px de scroll e, pior, tornam a
+   comparação impossível: quando chegas ao terceiro já não te lembras do
+   primeiro. Lado a lado, com o cartão seguinte a espreitar na margem,
+   compara-se com o polegar — e poupam-se mil pixéis de página. */
+@media (max-width: 860px) {
+  .cv-planos {
+    grid-template-columns: repeat(3, 82vw);
+    gap: 14px;
+    /* sangra até às bordas do ecrã: é o que faz perceber que há mais ao lado */
+    margin-inline: -20px;
+    padding: 10px 20px 22px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .cv-planos::-webkit-scrollbar { display: none; }
+  .cv-planos > div { scroll-snap-align: center; }
+
+  /* Numa fila, o cartão do meio já não precisa de subir 8 px para se
+     distinguir — tem o anel amarelo e a faixa. A subida só desalinhava. */
+  .cv-planos > div > div { transform: none !important; }
+
+  /* E a faixa vazia volta: sem ela os três cartões começam a alturas
+     diferentes e a fila fica torta. Vale os 38 px que custa. */
+  .cv-planos .pr-faixa-vazia { display: flex !important; }
+}
+
+/* ── 2. O fundo pára de animar no telemóvel ────────────────────────────
+   Seis camadas do tamanho do ecrã, fixas, a mexer para sempre. Num
+   telemóvel isso é bateria e é a página a engasgar no scroll — por uma
+   decoração que, num ecrã de seis polegadas, ninguém distingue.
+   Ficam três, quietas: a cor mantém-se, o custo desaparece. */
+@media (max-width: 860px) {
+  .cv-aurora .cv-orbe { animation: none !important; }
+  .cv-aurora .cv-orbe:nth-child(n + 4) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cv-aurora .cv-orbe { animation: none !important; }
+}
+
+/* ── 3. As perguntas que se abrem ganham dedo ──────────────────────────
+   O <summary> tinha 20 px de altura. O dedo de um adulto tem 45. Quem
+   falha duas vezes desiste da pergunta — e a pergunta existe justamente
+   para tirar a dúvida que trava a compra. */
+@media (max-width: 860px) {
+  details > summary {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* ── 4. Respirar um pouco menos ────────────────────────────────────────
+   84 px entre secções é bonito num monitor. Num telemóvel é meio ecrã
+   de nada, quinze vezes seguidas. */
+@media (max-width: 560px) {
+  .cv-sec { padding-block: 52px; }
+  .at-lista { gap: 46px; }
+}
+
+/* ── 5. A barra de baixo não pode tapar o fim da página ────────────────
+   Quando a barra do «Começar grátis» está no ecrã, come 68 px ao fundo
+   — e o fundo é onde está o rodapé. */
+body.cv-com-barra { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }

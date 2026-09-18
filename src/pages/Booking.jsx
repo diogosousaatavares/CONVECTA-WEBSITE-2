@@ -10,6 +10,7 @@ import Seo from "@/components/Seo";
 import BotaoComecar from "@/components/BotaoComecar";
 import ScrollReveal from "@/components/ScrollReveal";
 import { SITE, PRECO_DESDE_TEXTO, softwareLd, migalhasLd } from "@/lib/seo";
+import BarraComecarFixa from "@/components/BarraComecarFixa";
 
 /*
  * Funcionalidades.
@@ -372,6 +373,10 @@ export default function Funcionalidades() {
           </ScrollReveal>
         </div>
       </section>
+
+      {/* No telemóvel esta página tem oito ecrãs: o botão tem de
+          voltar sozinho quando o de cima já saiu de vista. */}
+      <BarraComecarFixa />
     </main>
   );
 }

@@ -7,6 +7,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
 import BotaoComecar from "@/components/BotaoComecar";
 import { SITE, PLANOS, DESCONTO_ANUAL, PRECO_DESDE_TEXTO, migalhasLd, faqLd, softwareLd } from "@/lib/seo";
+import BarraComecarFixa from "@/components/BarraComecarFixa";
 
 /*
  * Precos.
@@ -149,6 +150,10 @@ export default function Precos() {
       </section>
 
       <CtaSection title="Zero comissões. Começa hoje, sem cartão." buttonText="Começar grátis" to="/comecar" secondaryText="ou fala connosco" />
+
+      {/* No telemóvel esta página tem dez ecrãs: o botão tem de
+          voltar sozinho quando o de cima já saiu de vista. */}
+      <BarraComecarFixa />
     </div>
   );
 }

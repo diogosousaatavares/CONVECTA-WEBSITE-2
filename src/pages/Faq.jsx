@@ -10,6 +10,7 @@ import {
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
 import { PLANOS, PRECO_DESDE_TEXTO, faqLd, migalhasLd } from "@/lib/seo";
+import BarraComecarFixa from "@/components/BarraComecarFixa";
 
 const faqs = [
   {
@@ -145,6 +146,10 @@ export default function Faq() {
         to="/comecar"
         secondaryText="ou fala connosco"
       />
+
+      {/* No telemóvel esta página tem oito ecrãs: o botão tem de
+          voltar sozinho quando o de cima já saiu de vista. */}
+      <BarraComecarFixa />
     </div>
   );
 }

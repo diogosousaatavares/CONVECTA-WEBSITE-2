@@ -9,23 +9,43 @@ import { PRECO_DESDE_TEXTO } from "@/lib/seo";
  * No computador o «Começar grátis» está sempre na barra de cima. No telemóvel
  * a barra tem só o menu, e a partir do primeiro scroll o botão desaparece —
  * a pessoa lê tudo, convence-se, e não tem onde carregar. Esta barra aparece
- * quando o hero sai de vista e fica no fundo, onde o polegar está.
+ * quando o topo sai de vista e fica no fundo, onde o polegar está.
  *
- * Recebe o elemento a vigiar por `alvo` (o id do hero): enquanto ele estiver
- * visível não há barra, para não haver dois botões iguais no mesmo ecrã.
+ * ── Duas maneiras de saber quando aparecer ───────────────────────────────
+ *
+ * Com `alvo`, vigia-se esse elemento (o herói da página inicial tem id
+ * «solucoes»): enquanto ele estiver à vista não há barra, para não haver
+ * dois botões iguais no mesmo ecrã. É o modo certo, porque a barra aparece
+ * exactamente quando o outro botão desaparece.
+ *
+ * Sem `alvo` — ou quando o elemento não existe — usa-se a altura do scroll.
+ * As páginas longas (preços, funcionalidades, como funciona, perguntas) não
+ * têm um id no herói, e estar certo a 600 px vale infinitamente mais do que
+ * estar perfeito em nenhuma delas: numa página de dez ecrãs, quem lê até ao
+ * meio não tem nada em que carregar.
  */
-export default function BarraComecarFixa({ alvo = "solucoes" }) {
+export default function BarraComecarFixa({ alvo }) {
   const [visivel, setVisivel] = useState(false);
 
   useEffect(() => {
-    const el = document.getElementById(alvo);
-    if (!el || typeof IntersectionObserver === "undefined") return;
-    const obs = new IntersectionObserver(([e]) => setVisivel(!e.isIntersecting), { threshold: 0.05 });
-    obs.observe(el);
-    return () => obs.disconnect();
+    const el = alvo ? document.getElementById(alvo) : null;
+
+    if (el && typeof IntersectionObserver !== "undefined") {
+      const obs = new IntersectionObserver(([e]) => setVisivel(!e.isIntersecting), { threshold: 0.05 });
+      obs.observe(el);
+      return () => obs.disconnect();
+    }
+
+    // Sem alvo: 600 px é pouco mais do que um ecrã de telemóvel — já passou
+    // o primeiro botão, e ainda falta quase tudo por ler.
+    const aoRolar = () => setVisivel(window.scrollY > 600);
+    aoRolar();
+    window.addEventListener("scroll", aoRolar, { passive: true });
+    return () => window.removeEventListener("scroll", aoRolar);
   }, [alvo]);
 
-  // O WhatsApp flutuante sobe para não ficar por baixo desta barra.
+  // O WhatsApp flutuante sobe para não ficar por baixo desta barra, e o
+  // corpo da página ganha espaço em baixo para o rodapé não ficar tapado.
   useEffect(() => {
     document.body.classList.toggle("cv-com-barra", visivel);
     return () => document.body.classList.remove("cv-com-barra");

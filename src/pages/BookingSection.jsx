@@ -7,6 +7,7 @@ import BotaoComecar from "@/components/BotaoComecar";
 import CtaSection from "@/components/CtaSection";
 import ScrollReveal from "@/components/ScrollReveal";
 import { SITE, PRECO_DESDE_TEXTO, migalhasLd, faqLd } from "@/lib/seo";
+import BarraComecarFixa from "@/components/BarraComecarFixa";
 
 /*
  * Como funciona.
@@ -226,6 +227,10 @@ export default function ComoFunciona() {
       </section>
 
       <CtaSection title="O primeiro passo demora dois minutos." buttonText="Começar grátis" to="/comecar" secondaryText="ou fala connosco primeiro" />
+
+      {/* No telemóvel esta página tem oito ecrãs: o botão tem de
+          voltar sozinho quando o de cima já saiu de vista. */}
+      <BarraComecarFixa />
     </main>
   );
 }
