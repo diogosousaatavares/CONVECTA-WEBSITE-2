@@ -20,7 +20,7 @@ import MarcaWhatsApp from "@/components/MarcaWhatsApp";
 
 const GARANTIAS = [
   { icon: Shield, titulo: "Sem fidelização", texto: "No mensal cancelas quando quiseres.", textoAnual: "No anual o compromisso é de 12 meses — é o que paga o desconto." },
-  { icon: Zap, titulo: "A funcionar no próprio dia", texto: "Em regra, ativa no dia em que falamos." },
+  { icon: Zap, titulo: "No ar em dois minutos", texto: "Crias a conta e o site nasce logo. Sem esperar por ninguém." },
   { icon: Headphones, titulo: "Suporte por quem fez a app", texto: "Resposta até 24 horas úteis." },
 ];
 
@@ -241,7 +241,12 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
           ))}
         </div>
 
-        <p style={{ textAlign: "center", fontSize: "0.76rem", color: "var(--cv-ink-3)", margin: "20px 0 0" }}>
+        {/* A ancora. 19,99 € e abstracto; "um corte por mes" e uma conta que
+            qualquer barbeiro faz de cabeca — e que lhe da razao para pagar. */}
+        <p style={{ textAlign: "center", fontSize: "1.02rem", fontWeight: 600, color: "var(--cv-ink)", margin: "26px 0 0" }}>
+          Paga-se com uma marcação por mês. As outras são todas tuas.
+        </p>
+        <p style={{ textAlign: "center", fontSize: "0.76rem", color: "var(--cv-ink-3)", margin: "10px 0 0" }}>
           Preço por barbearia. Acresce IVA à taxa legal, quando aplicável.
           Sem comissões por marcação e sem taxa de adesão.
         </p>

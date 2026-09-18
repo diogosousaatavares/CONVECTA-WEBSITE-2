@@ -52,6 +52,7 @@ function slugDe(nome) {
 }
 
 const PAINEL = 'https://administrador.marcacoes.app';
+const ETAPAS = ['Plano', 'Barbearia', 'Conta'];
 
 const campo = {
   width: '100%', padding: '12px 14px', borderRadius: 10, fontSize: 15,
@@ -104,6 +105,20 @@ export default function Comecar() {
 
   const b = (k, v) => setBarbearia(x => ({ ...x, [k]: v }));
   const c = (k, v) => setConta(x => ({ ...x, [k]: v }));
+
+  /*
+   * Mudar de passo passa por aqui, para cada passo ficar registado. E a
+   * unica maneira de saber ONDE se perde gente: se 100 escolhem o plano e 30
+   * escrevem o nome, o problema e o passo 2, nao o site.
+   */
+  const avancar = (n) => {
+    setErro('');
+    if (n === 3 && !barbearia.nome.trim()) return setErro('Escreve o nome da barbearia.');
+    if (n === 3 && !slug) return setErro('Esse nome não dá um endereço válido. Usa letras e números.');
+    try { window.trackEvent?.('comecar_passo', { passo: n, plano: planoId, barbeiros }); } catch { /* sem analytics */ }
+    setPasso(n);
+    window.scrollTo?.({ top: 0, behavior: 'smooth' });
+  };
 
   async function registar() {
     setErro('');
@@ -178,6 +193,7 @@ export default function Comecar() {
         return;
       }
 
+      try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo }); } catch { /* sem analytics */ }
       setFeito(true);
     } catch (e) {
       setErro(e.message || 'Não foi possível criar a conta.');
@@ -217,8 +233,8 @@ export default function Comecar() {
             border: '1px solid var(--cv-linha)', background: 'var(--cv-card)',
             fontSize: 14, lineHeight: 1.6,
           }}>
-            O teu endereço vai ser <strong>{slug}.marcacoes.app</strong> — e ainda o podes
-            mudar depois, connosco.
+            O teu endereço vai ser <strong>{slug}.marcacoes.app</strong>. Telefone, morada e NIF
+            preenches no painel, quando quiseres.
           </div>
           <p style={{ ...ajuda, marginTop: 24 }}>
             Não chegou em poucos minutos? <Link to="/contacto">Fala connosco</Link> e
@@ -240,17 +256,28 @@ export default function Comecar() {
       />
       <main style={{ maxWidth: 620, margin: '0 auto', padding: '64px 20px 120px' }}>
 
-        <div style={{ fontSize: 13, fontWeight: 600, opacity: .6, letterSpacing: .6 }}>
-          PASSO {passo} DE 3
-        </div>
-        <div style={{ display: 'flex', gap: 6, margin: '10px 0 32px' }}>
-          {[1, 2, 3].map(n => (
-            <div key={n} style={{
-              height: 3, flex: 1, borderRadius: 2,
-              background: n <= passo ? 'var(--cv-amarelo)' : 'var(--cv-linha)',
-            }} />
-          ))}
-        </div>
+        {/* Os tres passos com nome: "Passo 2 de 3" diz quanto falta, mas nao
+            diz o que vem. Saber que o proximo e "Conta" tira a pergunta
+            "o que e que me vao pedir a seguir?", que e a que faz fechar. */}
+        <ol style={{ display: 'flex', gap: 6, margin: '0 0 10px', padding: 0, listStyle: 'none' }} aria-label={`Passo ${passo} de 3`}>
+          {ETAPAS.map((nome, i) => {
+            const n = i + 1;
+            const feitoJa = n < passo, actual = n === passo;
+            return (
+              <li key={nome} style={{ flex: 1 }} aria-current={actual ? 'step' : undefined}>
+                <div style={{ height: 3, borderRadius: 2, background: n <= passo ? 'var(--cv-amarelo)' : 'var(--cv-linha)' }} />
+                <div style={{ fontSize: 12, fontWeight: actual ? 700 : 600, marginTop: 8, opacity: actual ? 1 : feitoJa ? .8 : .45, display: 'flex', alignItems: 'center', gap: 4 }}>
+                  {feitoJa && <Check size={12} />}{nome}
+                </div>
+              </li>
+            );
+          })}
+        </ol>
+        {/* As garantias do hero desaparecem quando se entra aqui. Repetem-se,
+            numa linha, para nao parecer que o registo e onde a armadilha esta. */}
+        <p style={{ fontSize: 12, opacity: .6, margin: '0 0 30px' }}>
+          Sem cartão para começar · 7 dias grátis · cancelas sozinho no painel
+        </p>
 
         {/* ── 1. Quantos barbeiros ────────────────────────────────────── */}
         {passo === 1 && (
@@ -338,7 +365,7 @@ export default function Comecar() {
               </div>
             </div>
 
-            <Botao onClick={() => setPasso(2)} style={{ marginTop: 28 }}>
+            <Botao onClick={() => avancar(2)} style={{ marginTop: 28 }}>
               Continuar <ArrowRight size={17} />
             </Botao>
           </section>
@@ -347,42 +374,36 @@ export default function Comecar() {
         {/* ── 2. A barbearia ──────────────────────────────────────────── */}
         {passo === 2 && (
           <section>
-            <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>A tua barbearia</h1>
+            <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>Como se chama a tua barbearia?</h1>
             <p style={{ fontSize: 15, opacity: .8, margin: '0 0 28px', lineHeight: 1.6 }}>
-              Podes mudar tudo isto depois, dentro do painel.
+              O nome curto, o que dizes ao telefone. É só isto — o resto preenches no painel, quando quiseres.
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              <div>
-                <label style={rotulo}>Nome da barbearia *</label>
-                <input style={campo} value={barbearia.nome} placeholder="RC Cuts"
-                       onChange={e => b('nome', e.target.value)} />
-                {/* O nome decide o endereco. Mostra-lo enquanto ele escreve
-                    evita a surpresa de ficar com um endereco que nao esperava. */}
-                <div style={ajuda}>
-                  {slug
-                    ? <>O teu site vai ser <strong>{slug}.marcacoes.app</strong></>
-                    : <>O endereço do site nasce do nome — escreve o nome curto, o que dizes ao telefone.</>}
-                </div>
-              </div>
+            <label style={rotulo}>Nome da barbearia</label>
+            <input
+              style={{ ...campo, fontSize: 18, padding: '14px 16px' }}
+              value={barbearia.nome}
+              placeholder="RC Cuts"
+              autoFocus
+              onChange={e => b('nome', e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter') avancar(3); }}
+            />
 
-              <div>
-                <label style={rotulo}>Telefone</label>
-                <input style={campo} value={barbearia.telefone} placeholder="220 000 000"
-                       onChange={e => b('telefone', e.target.value)} />
+            {/* O momento. O nome vira endereco enquanto ele escreve — e a
+                primeira vez que ve a coisa dele com o nome dele. Telefone,
+                morada e NIF sairam daqui: cada campo a mais, mesmo opcional,
+                e gente que fecha o separador. Pedem-se la dentro. */}
+            <div style={{
+              marginTop: 16, padding: '18px 20px', borderRadius: 14,
+              border: `1px solid ${slug ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
+              background: 'var(--cv-card)', transition: 'border-color .2s',
+            }}>
+              <div style={{ fontSize: 12, fontWeight: 600, opacity: .65, letterSpacing: .6 }}>O TEU SITE VAI SER</div>
+              <div style={{ fontSize: 'clamp(18px, 4.5vw, 24px)', fontWeight: 700, marginTop: 6, wordBreak: 'break-all', color: slug ? 'var(--cv-ink)' : 'var(--cv-ink-3)' }}>
+                {slug || 'a-tua-barbearia'}<span style={{ opacity: .55, fontWeight: 500 }}>.marcacoes.app</span>
               </div>
-
-              <div>
-                <label style={rotulo}>Morada</label>
-                <input style={campo} value={barbearia.morada} placeholder="Rua Exemplo 12, Porto"
-                       onChange={e => b('morada', e.target.value)} />
-              </div>
-
-              <div>
-                <label style={rotulo}>NIF</label>
-                <input style={campo} value={barbearia.nif} placeholder="500000000" inputMode="numeric"
-                       onChange={e => b('nif', e.target.value)} />
-                <div style={ajuda}>Para a factura. Se não o tiveres à mão agora, acrescentas depois.</div>
+              <div style={{ ...ajuda, marginTop: 8 }}>
+                {slug ? 'É este o endereço que vais partilhar no Instagram e no WhatsApp.' : 'Escreve o nome e vê o endereço nascer.'}
               </div>
             </div>
 
@@ -393,7 +414,7 @@ export default function Comecar() {
               }}>
                 <ArrowLeft size={16} /> Voltar
               </button>
-              <Botao onClick={() => barbearia.nome.trim() ? setPasso(3) : setErro('Escreve o nome da barbearia.')}>
+              <Botao onClick={() => avancar(3)}>
                 Continuar <ArrowRight size={17} />
               </Botao>
             </div>

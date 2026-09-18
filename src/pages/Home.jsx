@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, ExternalLink, MessageCircle, CalendarX, BookOpen } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Seo from "@/components/Seo";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -10,6 +10,7 @@ import FundoLinhas from "@/components/FundoLinhas";
 import HeroDispositivos from "@/components/HeroDispositivos";
 import AcessoTotal from "@/components/AcessoTotal";
 import BotaoComecar from "@/components/BotaoComecar";
+import BarraComecarFixa from "@/components/BarraComecarFixa";
 import { SITE, PRECO_DESDE_TEXTO, PLANOS, organizacaoLd, websiteLd, softwareLd } from "@/lib/seo";
 
 /*
@@ -24,10 +25,32 @@ import { SITE, PRECO_DESDE_TEXTO, PLANOS, organizacaoLd, websiteLd, softwareLd }
  */
 
 const PASSOS = [
-  { n: "01", t: "Experimentas", d: "Entras na barbearia de demonstração e marcas como cliente. Cinco minutos, sem registo." },
-  { n: "02", t: "Falamos", d: "Quinze minutos: serviços, equipa, horários, regras de cancelamento." },
-  { n: "03", t: "Lançamos", d: "Criamos a barbearia e o endereço. Em regra, no próprio dia." },
-  { n: "04", t: "Mandas tu", d: "Serviços, preços, equipa, horários, cores e fotos — tudo no teu painel." },
+  { n: "01", t: "Crias a barbearia", d: "Quantos barbeiros são, o nome e o teu email. Dois minutos, sem cartão. O site nasce logo, com o teu nome." },
+  { n: "02", t: "Montas a casa", d: "Serviços, preços, equipa, horários, cores e fotos — tudo no teu painel, e vês o site a mudar enquanto escreves." },
+  { n: "03", t: "Ligas as marcações", d: "Quando estiver ao teu gosto, dás o cartão. Sete dias à experiência; cancelas quando quiseres." },
+  { n: "04", t: "Os clientes marcam", d: "Partilhas o endereço no Instagram e no WhatsApp. O telemóvel toca a cada marcação." },
+];
+
+/*
+ * Quase toda a gente que chega aqui ja marca de alguma forma. Falar-lhe da
+ * forma que usa e falar-lhe da dor que tem — e mais do que listar funcoes.
+ */
+const ORIGENS = [
+  {
+    icone: MessageCircle,
+    t: "Vens do WhatsApp ou do Instagram",
+    d: "Cada marcação é uma conversa: «tens às 15?», «e às 16?», «afinal não posso». Aqui o cliente só vê horas livres e marca sozinho. Tu recebes a notificação, e a conversa acabou.",
+  },
+  {
+    icone: BookOpen,
+    t: "Vens de uma app com comissões",
+    d: "Numa plataforma partilhada os teus clientes vêem a concorrência ao lado, e cada cliente novo pode custar-te uma comissão. Aqui o site é só teu, os clientes são teus, e o preço é fixo — sem comissão por marcação.",
+  },
+  {
+    icone: CalendarX,
+    t: "Vens da agenda em papel",
+    d: "Funciona até ao dia em que alguém não aparece e ninguém avisou. Aqui o cliente recebe um lembrete antes do corte, desmarca sozinho se precisar, e a hora volta a ficar livre para outro.",
+  },
 ];
 
 const PILARES = [
@@ -38,24 +61,24 @@ const PILARES = [
 
 const PERGUNTAS = [
   {
-    q: "A Convecta é uma app de marcações online para barbearias?",
-    a: "Sim. Os clientes marcam pelo site da barbearia e o barbeiro gere agenda, clientes, caixa, comissões, stock, cartão de fidelidade e relatórios num painel só. Sem comissões por marcação.",
+    q: "Já uso outra agenda. Vale a pena mudar?",
+    a: "Se pagas comissão por marcação ou os teus clientes te encontram ao lado da concorrência, sim. Aqui o site é só teu e o preço é fixo. Os teus clientes e o histórico vêm connosco: entregas a lista como a tiveres — folha de cálculo, exportação da outra app, agenda em papel fotografada — e nós carregamos.",
   },
   {
-    q: "O meu cliente precisa de instalar alguma app?",
-    a: "Não. Abre o link da tua barbearia no telemóvel e marca. Se quiser, guarda o site no ecrã principal e fica com um ícone, como uma app.",
+    q: "E se o cliente quiser desmarcar?",
+    a: "Desmarca sozinho pelo site, dentro do prazo que tu definires. Recebes o aviso no telemóvel e a hora volta a ficar livre para outro cliente marcar.",
+  },
+  {
+    q: "Os dados dos meus clientes estão seguros?",
+    a: "São teus e só teus: ficam numa base de dados protegida, com cópias automáticas, e exportas tudo para Excel quando quiseres. Não os vendemos nem os usamos para mais nada.",
+  },
+  {
+    q: "Serve para quem trabalha sozinho?",
+    a: "Serve — é para isso que existe o Essencial. A plataforma é a mesma dos planos maiores; só cabe um profissional.",
   },
   {
     q: "Quanto custa?",
-    a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três.`,
-  },
-  {
-    q: "Consigo mudar o aspeto da minha página?",
-    a: "Consegues, sozinho e quando quiseres: cores, tipografia, logótipo, capa, fotos e o que aparece. Vês o resultado num telemóvel antes de publicar.",
-  },
-  {
-    q: "E se eu já tiver clientes e histórico?",
-    a: "Trazemo-los connosco. Entregas a lista como a tiveres — folha de cálculo, agenda em papel fotografada — e nós carregamos.",
+    a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. Sem comissões por marcação, e os primeiros 7 dias são grátis.`,
   },
 ];
 
@@ -111,13 +134,24 @@ export default function Home() {
             </h1>
 
             <p className="cv-texto" style={{ margin: "22px 0 32px", maxWidth: "44ch" }}>
-              A agenda, os clientes, a caixa, as comissões e o cartão de fidelidade no mesmo sítio.
-              Os clientes marcam pelo site da tua barbearia, e o teu telemóvel toca.
+              Deixas de atender o telefone a meio do corte. Os clientes marcam pelo site da
+              tua barbearia, o telemóvel toca, e a agenda, a caixa e as comissões ficam no mesmo sítio.
             </p>
 
             <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
-              <BotaoComecar grande>Começar grátis</BotaoComecar>
-              <Link className="cv-btn-linha" to="/precos">Ver os planos</Link>
+              <BotaoComecar grande origem="hero">Começar grátis</BotaoComecar>
+              {/* A segunda saida ja nao e "ver os planos" (o preco esta na linha
+                  de baixo): e VER o produto do lado do cliente, sem registo. Um
+                  barbeiro desconfiado quer marcar um corte antes de dar dados. */}
+              <a
+                className="cv-btn-linha"
+                href={SITE.demoCliente}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => { try { window.trackEvent?.("ver_barbearia_click", { origem: "hero" }); } catch {} }}
+              >
+                Ver uma barbearia a funcionar <ExternalLink size={14} style={{ marginLeft: 6, verticalAlign: -2 }} />
+              </a>
             </div>
 
             {/* A linha por baixo do botao responde a pergunta que trava toda a
@@ -159,13 +193,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 4. A demonstração ───────────────────────────────────── */}
-
-      {/* ── 5. Como funciona ────────────────────────────────────── */}
+            {/* ── 5. Como funciona ────────────────────────────────────── */}
       <section id="processo" className="cv-wrap cv-sec">
         <ScrollReveal>
           <p className="cv-olho">Como funciona</p>
-          <h2 className="cv-h2">Da demonstração à primeira marcação.</h2>
+          <h2 className="cv-h2">Da conta à primeira marcação. Sem falar connosco.</h2>
         </ScrollReveal>
         <div className="cv-passos">
           {PASSOS.map((p, i) => (
@@ -178,6 +210,33 @@ export default function Home() {
             </ScrollReveal>
           ))}
         </div>
+        {/* Ha quem prefira fazer isto com alguem ao lado. E uma opcao, nao um
+            passo — dito assim, quem quer ir sozinho nao se assusta. */}
+        <p className="cv-mini" style={{ marginTop: 28 }}>
+          Preferes que montemos contigo? <Link to="/contacto" style={{ color: "var(--cv-ink)", fontWeight: 600 }}>Marca 15 minutos</Link> — é grátis e sem compromisso.
+        </p>
+      </section>
+
+      {/* ── 5b. De onde vens ────────────────────────────────────── */}
+      <section className="cv-wrap cv-sec">
+        <ScrollReveal>
+          <p className="cv-olho">De onde vens</p>
+          <h2 className="cv-h2">Já marcas de alguma maneira. Isto é o que muda.</h2>
+        </ScrollReveal>
+        <div className="cv-tres">
+          {ORIGENS.map((o, i) => {
+            const Icone = o.icone;
+            return (
+              <ScrollReveal key={o.t} delay={i * 0.08} variant="fadeInUp">
+                <div>
+                  <Icone size={22} style={{ color: "var(--cv-ink-3)", marginBottom: 12 }} />
+                  <h3 className="cv-h3">{o.t}</h3>
+                  <p className="cv-mini">{o.d}</p>
+                </div>
+              </ScrollReveal>
+            );
+          })}
+        </div>
       </section>
 
       {/* ── 6. Planos ───────────────────────────────────────────── */}
@@ -187,7 +246,7 @@ export default function Home() {
       <section className="cv-wrap cv-sec">
         <ScrollReveal>
           <p className="cv-olho">Perguntas</p>
-          <h2 className="cv-h2">O que nos perguntam antes de experimentar.</h2>
+          <h2 className="cv-h2">O que nos perguntam antes de começar.</h2>
         </ScrollReveal>
         <div style={{ marginTop: 40, maxWidth: 720 }}>
           {PERGUNTAS.map(p => <Pergunta key={p.q} {...p} />)}
@@ -202,8 +261,11 @@ export default function Home() {
         title="Pronto para deixar os teus clientes marcarem sozinhos?"
         buttonText="Começar grátis"
         to="/comecar"
-        secondaryText="ou fala connosco"
+        secondaryText="ou manda-nos uma mensagem no WhatsApp"
+        secondaryWhatsApp
       />
+
+      <BarraComecarFixa alvo="solucoes" />
     </div>
   );
 }

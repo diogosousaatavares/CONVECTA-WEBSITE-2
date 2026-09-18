@@ -25,8 +25,8 @@ import { ArrowRight } from "lucide-react";
 
 const CSS = `
 @keyframes cvRespira {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(249,212,7,.45), 0 10px 30px -12px rgba(249,212,7,.55); }
-  50%      { box-shadow: 0 0 0 14px rgba(249,212,7,0), 0 16px 40px -12px rgba(249,212,7,.75); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(254,233,109,.45), 0 10px 30px -12px rgba(254,233,109,.55); }
+  50%      { box-shadow: 0 0 0 14px rgba(254,233,109,0), 0 16px 40px -12px rgba(254,233,109,.75); }
 }
 @keyframes cvReflexo {
   0%   { transform: translateX(-130%) skewX(-18deg); }
@@ -54,20 +54,26 @@ const CSS = `
 .cv-comecar-grande { padding: 19px 36px; font-size: 1.06rem; }
 
 @media (prefers-reduced-motion: reduce) {
-  .cv-comecar { animation: none; box-shadow: 0 10px 30px -12px rgba(249,212,7,.6); }
+  .cv-comecar { animation: none; box-shadow: 0 10px 30px -12px rgba(254,233,109,.6); }
   .cv-comecar::after { animation: none; display: none; }
   .cv-comecar:hover { transform: none; }
 }
 `;
 
-export default function BotaoComecar({ children = "Começar grátis", grande = false, to = "/comecar", ...resto }) {
+export default function BotaoComecar({ children = "Começar grátis", grande = false, to = "/comecar", origem = "", onClick, ...resto }) {
+  // Cada clique fica registado com o sitio de onde veio (hero, precos,
+  // fecho...). E o que diz qual dos botoes esta a pagar o site.
+  const aoClicar = (e) => {
+    try { window.trackEvent?.("comecar_click", { origem: origem || (typeof window !== "undefined" ? window.location.pathname : "") }); } catch {}
+    onClick?.(e);
+  };
   return (
     <>
       {/* Em linha de propósito: o site é pré-desenhado no build, e regras que
           só chegassem depois do javascript arrancar davam um salto visível na
           primeira pintura — logo no botão que mais interessa. */}
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
-      <Link to={to} className={`cv-comecar${grande ? " cv-comecar-grande" : ""}`} {...resto}>
+      <Link to={to} onClick={aoClicar} className={`cv-comecar${grande ? " cv-comecar-grande" : ""}`} {...resto}>
         {children} <ArrowRight size={18} strokeWidth={2.5} />
       </Link>
     </>

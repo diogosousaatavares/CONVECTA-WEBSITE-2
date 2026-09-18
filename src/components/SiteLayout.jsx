@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import ScrollProgressBar from "@/components/ScrollProgressBar";
 import CookieConsent from "@/components/CookieConsent";
 import AmbientBackground from "@/components/AmbientBackground";
+import WhatsAppFlutuante from "@/components/WhatsAppFlutuante";
 
 /*
  * O cursor desenhado a mao (CustomCursor) saiu daqui.
@@ -26,6 +27,7 @@ export default function SiteLayout() {
       </main>
       <Footer />
       <CookieConsent />
+      <WhatsAppFlutuante />
     </div>
   );
 }
