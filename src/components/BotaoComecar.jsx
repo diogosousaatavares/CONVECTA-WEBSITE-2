@@ -25,8 +25,8 @@ import { ArrowRight } from "lucide-react";
 
 const CSS = `
 @keyframes cvRespira {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(249,212,7,.45), 0 10px 30px -12px rgba(249,212,7,.55); }
-  50%      { box-shadow: 0 0 0 14px rgba(249,212,7,0), 0 16px 40px -12px rgba(249,212,7,.75); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(254,233,109,.45), 0 10px 30px -12px rgba(254,233,109,.55); }
+  50%      { box-shadow: 0 0 0 14px rgba(254,233,109,0), 0 16px 40px -12px rgba(254,233,109,.75); }
 }
 @keyframes cvReflexo {
   0%   { transform: translateX(-130%) skewX(-18deg); }
@@ -54,7 +54,7 @@ const CSS = `
 .cv-comecar-grande { padding: 19px 36px; font-size: 1.06rem; }
 
 @media (prefers-reduced-motion: reduce) {
-  .cv-comecar { animation: none; box-shadow: 0 10px 30px -12px rgba(249,212,7,.6); }
+  .cv-comecar { animation: none; box-shadow: 0 10px 30px -12px rgba(254,233,109,.6); }
   .cv-comecar::after { animation: none; display: none; }
   .cv-comecar:hover { transform: none; }
 }

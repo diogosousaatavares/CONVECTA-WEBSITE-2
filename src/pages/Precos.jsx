@@ -76,7 +76,7 @@ export default function Precos() {
                 <ul className="space-y-3">
                   {INCLUI.map((t) => (
                     <li key={t} className="flex items-start gap-3 text-sm text-ink-2 leading-relaxed">
-                      <span className="w-5 h-5 rounded-full bg-[#fee96d] flex items-center justify-center shrink-0 mt-0.5"><Check size={12} strokeWidth={3} color="#111" /></span>
+                      <span className="w-5 h-5 rounded-full bg-[var(--cv-amarelo)] flex items-center justify-center shrink-0 mt-0.5"><Check size={12} strokeWidth={3} color="#111" /></span>
                       {t}
                     </li>
                   ))}
@@ -107,7 +107,7 @@ export default function Precos() {
       <section style={{ backgroundColor: "var(--cv-ground)" }} className="py-20 lg:py-28 px-6 lg:px-12 text-ink">
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
-            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">Contas de barbeiro</p>
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">Contas de barbeiro</p>
             <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-6 leading-tight">Quanto custa não ter marcações online?</h2>
             <div className="space-y-5 text-ink-2 text-base leading-relaxed">
               <p>
@@ -138,7 +138,7 @@ export default function Precos() {
                 <details key={p.q} className="p-4 rounded-xl bg-light border border-linha group cursor-pointer">
                   <summary className="text-ink font-bold text-sm flex items-center justify-between gap-4">
                     <span>{p.q}</span>
-                    <span className="text-[#8A6D0A] group-open:rotate-180 transition-transform">↓</span>
+                    <span className="text-[var(--cv-amarelo-texto)] group-open:rotate-180 transition-transform">↓</span>
                   </summary>
                   <p className="text-ink-2 text-sm mt-3 leading-relaxed">{p.a}</p>
                 </details>

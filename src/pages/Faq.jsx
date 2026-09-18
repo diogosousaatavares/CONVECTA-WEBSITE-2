@@ -106,7 +106,7 @@ export default function Faq() {
           >
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-ink-3 mb-4">FAQ</p>
             <h1 className="font-heading text-4xl lg:text-6xl text-ink mb-4">
-              Perguntas <span style={{ color: "var(--cv-amarelo-texto)" }}>frequentes</span>
+              Perguntas <span className="cv-marca">frequentes</span>
             </h1>
             <p className="text-lg text-ink-2 max-w-xl mx-auto">
               O que os donos de barbearia nos perguntam antes de experimentar. Se a tua não estiver aqui, criar a tua barbearia responde a quase tudo — e não custa nada.

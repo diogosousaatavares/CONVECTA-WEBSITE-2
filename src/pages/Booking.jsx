@@ -164,8 +164,8 @@ const GARANTIAS = [
 
 function Cartao({ icon: Icon, titulo, texto }) {
   return (
-    <article className="h-full p-6 lg:p-7 rounded-2xl bg-card border border-linha hover:border-[#fee96d]/40 transition-colors duration-300">
-      <div className="w-11 h-11 rounded-xl bg-[#fee96d]/10 text-[#8A6D0A] flex items-center justify-center mb-4 border border-[#fee96d]/20">
+    <article className="h-full p-6 lg:p-7 rounded-2xl bg-card border border-linha hover:border-[var(--cv-amarelo)]/40 transition-colors duration-300">
+      <div className="w-11 h-11 rounded-xl bg-[var(--cv-amarelo)]/10 text-[var(--cv-amarelo-texto)] flex items-center justify-center mb-4 border border-[var(--cv-amarelo)]/20">
         <Icon size={20} />
       </div>
       <h3 className="font-heading text-xl text-ink mb-2 leading-snug">{titulo}</h3>
@@ -181,7 +181,7 @@ export default function Funcionalidades() {
   ];
 
   return (
-    <main id="main-content" style={{ backgroundColor: "var(--cv-ground)" }} className="booking-page text-ink min-h-screen overflow-hidden selection:bg-[#FEE96D]">
+    <main id="main-content" style={{ backgroundColor: "var(--cv-ground)" }} className="booking-page text-ink min-h-screen overflow-hidden selection:bg-[var(--cv-amarelo)]">
       <Seo
         titulo="Funcionalidades da app de marcações online para barbearias"
         descricao="Tudo o que a Convecta Booking faz: marcações online 24/7 pelo site da barbearia, agenda por barbeiro com notificações, confirmação automática, cartão de fidelidade digital, checkout, caixa, comissões, stock, relatórios e Excel para o contabilista."
@@ -191,7 +191,7 @@ export default function Funcionalidades() {
 
       {/* HERO */}
       <section className="relative pt-32 pb-16 lg:pt-40 lg:pb-20 px-6 lg:px-12 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[#fee96d]/10 blur-[140px] pointer-events-none rounded-full" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-[var(--cv-amarelo)]/10 blur-[140px] pointer-events-none rounded-full" />
         <div className="max-w-7xl mx-auto relative z-10">
           <nav aria-label="Caminho" className="text-xs text-ink-3 mb-6 text-center">
             <Link to="/" className="hover:text-ink-2 transition-colors">Início</Link>
@@ -199,7 +199,7 @@ export default function Funcionalidades() {
             <span className="text-ink-2">Funcionalidades</span>
           </nav>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-3xl mx-auto text-center">
-            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">Convecta Booking · Funcionalidades</p>
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">Convecta Booking · Funcionalidades</p>
             <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
               A app de marcações online para barbearias, por dentro.
             </h1>
@@ -222,8 +222,8 @@ export default function Funcionalidades() {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {GARANTIAS.map((g, i) => (
             <ScrollReveal key={g.titulo} delay={i * 0.06} variant="fadeInUp">
-              <div className="h-full p-5 rounded-xl bg-card border border-[#fee96d]/20">
-                <div className="flex items-center gap-2 text-[#8A6D0A] font-bold text-sm mb-1">
+              <div className="h-full p-5 rounded-xl bg-card border border-[var(--cv-amarelo)]/20">
+                <div className="flex items-center gap-2 text-[var(--cv-amarelo-texto)] font-bold text-sm mb-1">
                   <g.icon size={18} /> <span>{g.titulo}</span>
                 </div>
                 <p className="text-ink-2 text-xs leading-relaxed">{g.texto}</p>
@@ -238,7 +238,7 @@ export default function Funcionalidades() {
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
             <div className="max-w-3xl mb-10 lg:mb-14">
-              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">1 · O site de marcações dos teus clientes</p>
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">1 · O site de marcações dos teus clientes</p>
               <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Agendamento online que o teu cliente faz sozinho.</h2>
               <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Nada de mensagens no WhatsApp a perguntar "tens hora?". O cliente vê as horas livres e marca. Tu sabes no segundo seguinte.
@@ -260,7 +260,7 @@ export default function Funcionalidades() {
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
             <div className="max-w-3xl mb-10 lg:mb-14">
-              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">2 · O painel de gestão da barbearia</p>
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">2 · O painel de gestão da barbearia</p>
               <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Software de gestão para barbearias que cabe no telemóvel.</h2>
               <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Abre no browser do telemóvel, do tablet ou do computador ao balcão. Tudo o que está abaixo grava na base de dados e aparece em todos os dispositivos.
@@ -272,7 +272,7 @@ export default function Funcionalidades() {
               <ScrollReveal key={g.titulo} delay={i * 0.05} variant="fadeInUp">
                 <article className="h-full p-6 lg:p-7 rounded-2xl bg-card border border-linha">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl bg-[#fee96d]/10 text-[#8A6D0A] flex items-center justify-center border border-[#fee96d]/20">
+                    <div className="w-10 h-10 rounded-xl bg-[var(--cv-amarelo)]/10 text-[var(--cv-amarelo-texto)] flex items-center justify-center border border-[var(--cv-amarelo)]/20">
                       <g.icon size={18} />
                     </div>
                     <h3 className="font-heading text-2xl text-ink">{g.titulo}</h3>
@@ -280,7 +280,7 @@ export default function Funcionalidades() {
                   <ul className="space-y-2.5">
                     {g.itens.map((it) => (
                       <li key={it} className="flex items-start gap-3 text-sm text-ink-2 leading-relaxed">
-                        <CheckCircle2 size={16} className="text-[#8A6D0A] shrink-0 mt-0.5" />
+                        <CheckCircle2 size={16} className="text-[var(--cv-amarelo-texto)] shrink-0 mt-0.5" />
                         <span>{it}</span>
                       </li>
                     ))}
@@ -313,9 +313,9 @@ export default function Funcionalidades() {
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">
-              <Link to="/precos" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1">Ver o preço <ArrowRight size={14} /></Link>
-              <Link to="/como-funciona" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1">Como funciona, passo a passo <ArrowRight size={14} /></Link>
-              <Link to="/faq" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[#fee96d] py-1">Perguntas frequentes <ArrowRight size={14} /></Link>
+              <Link to="/precos" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[var(--cv-amarelo)] py-1">Ver o preço <ArrowRight size={14} /></Link>
+              <Link to="/como-funciona" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[var(--cv-amarelo)] py-1">Como funciona, passo a passo <ArrowRight size={14} /></Link>
+              <Link to="/faq" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[var(--cv-amarelo)] py-1">Perguntas frequentes <ArrowRight size={14} /></Link>
             </div>
           </ScrollReveal>
         </div>
@@ -326,7 +326,7 @@ export default function Funcionalidades() {
         <div className="max-w-6xl mx-auto">
           <ScrollReveal>
             <div className="max-w-3xl mb-10">
-              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">4 · Para não haver surpresas</p>
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">4 · Para não haver surpresas</p>
               <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">O que a Convecta ainda não faz.</h2>
               <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Preferimos que saibas antes de assinar do que descobrires depois. Isto é o que nos perguntam e ainda não temos.
@@ -353,9 +353,9 @@ export default function Funcionalidades() {
       <section className="relative py-24 lg:py-32 px-6 lg:px-12 border-t border-linha overflow-hidden">
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <ScrollReveal>
-            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[#8A6D0A] mb-4">Cinco minutos chegam</p>
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">Cinco minutos chegam</p>
             <h2 className="font-heading text-3xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
-              Vê tudo isto a funcionar,<br /><span style={{ color: "var(--cv-amarelo-texto)" }}>com as tuas próprias mãos.</span>
+              Vê tudo isto a funcionar,<br />com as tuas <span className="cv-marca">próprias mãos.</span>
             </h2>
             <p className="text-ink-2 text-base sm:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-10">
               Monta a tua barbearia em dois minutos: o site nasce com o teu nome, metes os teus serviços, e só depois decides. Sem cartão para começar, sem ninguém a ligar-te a meio.

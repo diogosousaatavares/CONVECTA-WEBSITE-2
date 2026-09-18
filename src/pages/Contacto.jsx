@@ -112,7 +112,7 @@ export default function Contacto() {
           >
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-ink-3 mb-4">Contacto</p>
             <h1 className="font-heading text-4xl lg:text-6xl text-ink mb-4">
-              Vamos <span style={{ color: "var(--cv-amarelo-texto)" }}>falar.</span>
+              Vamos <span className="cv-marca">falar.</span>
             </h1>
             <p className="text-lg text-ink-2 max-w-2xl mx-auto">
               Sem compromisso, sem pressão. Quinze minutos ao telefone ou no WhatsApp para percebermos a tua barbearia e dizermos, sem rodeios, se a Convecta faz sentido para ti.
