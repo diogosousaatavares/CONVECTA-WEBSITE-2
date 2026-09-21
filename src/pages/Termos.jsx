@@ -18,7 +18,7 @@ import { SITE, PLANOS, DESCONTO_ANUAL, migalhasLd } from "@/lib/seo";
  * diferentes. Texto a rever por advogado antes de ser dado por definitivo.
  */
 
-const ATUALIZADO = "21 de setembro de 2026";
+const ATUALIZADO = "11 de setembro de 2026";
 
 function H2({ children }) {
   return <h2 className="font-heading text-2xl text-ink mt-10 mb-3">{children}</h2>;
@@ -96,9 +96,6 @@ export default function Termos() {
           <H2>5. O que a barbearia se compromete a fazer</H2>
           <p>
             Usar o serviço para gerir a sua própria atividade, de forma lícita. Fornecer dados verdadeiros. Informar os seus clientes de que as marcações e os dados são geridos com a Convecta, nos termos da <Link to="/privacidade" className="underline underline-offset-2 text-ink">política de privacidade</Link>. Não tentar aceder a dados de outras barbearias, não sobrecarregar o serviço deliberadamente e não o usar para enviar comunicações não solicitadas.
-          </p>
-          <p>
-            <strong className="text-ink">Pagamentos por MB WAY.</strong> Se a barbearia ligar o pagamento por MB WAY, os clientes enviam o dinheiro diretamente para o número que ela indicar. A Convecta não intermedeia nem recebe esses pagamentos: limita-se a mostrar o número e o valor e a registar o que a barbearia confirmar. Cabe à barbearia confirmar só os pagamentos que efetivamente recebeu, emitir a respetiva fatura, informar os clientes, antes de pagarem, das condições de cancelamento e devolução, fazer as devoluções que forem devidas, e respeitar os limites e as condições do seu banco e do serviço MB WAY. A Convecta não responde por pagamentos não recebidos, enviados para o número errado ou por devolver.
           </p>
 
           <H2>6. Dados dos clientes da barbearia</H2>

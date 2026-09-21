@@ -18,7 +18,7 @@ import { SITE, migalhasLd } from "@/lib/seo";
  * escrito.
  */
 
-const ATUALIZADO = "21 de setembro de 2026";
+const ATUALIZADO = "11 de setembro de 2026";
 
 function H2({ children }) {
   return <h2 className="font-heading text-2xl text-ink mt-10 mb-3">{children}</h2>;
@@ -86,43 +86,32 @@ export default function Privacidade() {
             O pagamento é feito por cartão através da Stripe Payments Europe, Ltd. (Irlanda), que é subcontratante no sentido do RGPD. Os dados do cartão são escritos numa página da Stripe e nunca passam pelos nossos servidores; a Convecta guarda apenas um identificador do cliente e da subscrição na Stripe, o estado do pagamento e as datas relevantes. A Stripe trata os dados segundo a sua própria política de privacidade e as garantias do RGPD.
           </p>
 
-          <H2>6. Pagamentos por MB WAY às barbearias</H2>
-          <p>
-            Algumas barbearias deixam os clientes pagar uma marcação ou um pack por MB WAY. Nesse caso, a app mostra o número de telemóvel que a barbearia escolheu e o valor a pagar. <strong className="text-ink">O dinheiro vai diretamente do cliente para a barbearia</strong>: a Convecta não recebe, não guarda nem movimenta esse dinheiro, e não tem acesso à conta bancária de ninguém.
-          </p>
-          <p>
-            Para a barbearia confirmar o pagamento, o cliente pode anexar uma imagem do comprovativo (um «print»). Essa imagem pode conter o nome e o número de telemóvel de quem pagou, a data, o valor e o banco. Fica guardada numa pasta privada, a que só a barbearia tem acesso, e é apagada automaticamente <strong className="text-ink">90 dias</strong> depois de a barbearia confirmar ou recusar o pagamento. Guardamos também o registo do pagamento (valor, data e se foi confirmado), que faz parte do histórico da marcação. A barbearia é a responsável por estes dados; a Convecta trata-os como subcontratante, como os restantes dados dos clientes da barbearia (ponto 2-c). Fundamento: execução do contrato entre o cliente e a barbearia.
-          </p>
-          <p>
-            A confirmação de um pagamento, a fatura e qualquer devolução são da responsabilidade da barbearia.
-          </p>
-
-          <H2>7. Cookies e armazenamento no browser</H2>
+          <H2>6. Cookies e armazenamento no browser</H2>
           <p>
             Este site não usa cookies de publicidade nem de rastreio entre sites. Usa o armazenamento do browser para coisas pequenas e técnicas: lembrar que já respondeste ao aviso de cookies e manter a sessão iniciada nas apps. Se um dia ligarmos uma ferramenta de estatísticas (como o Google Analytics), atualizamos esta página e pedimos consentimento antes de a carregar.
           </p>
 
-          <H2>8. Durante quanto tempo</H2>
+          <H2>7. Durante quanto tempo</H2>
           <p>
-            Pedidos de contacto: até 12 meses após o último contacto. Dados de conta da barbearia: enquanto for cliente, e depois pelos prazos legais de faturação. Dados dos clientes das barbearias: enquanto a barbearia for cliente da Convecta; quando uma barbearia sai, os seus dados são apagados a pedido, depois de lhe entregarmos uma cópia se a quiser. Subscrições de notificações: até seres tu a desligá-las ou até deixarem de funcionar. Comprovativos de pagamentos por MB WAY: 90 dias depois de a barbearia tratar o pagamento.
+            Pedidos de contacto: até 12 meses após o último contacto. Dados de conta da barbearia: enquanto for cliente, e depois pelos prazos legais de faturação. Dados dos clientes das barbearias: enquanto a barbearia for cliente da Convecta; quando uma barbearia sai, os seus dados são apagados a pedido, depois de lhe entregarmos uma cópia se a quiser. Subscrições de notificações: até seres tu a desligá-las ou até deixarem de funcionar.
           </p>
 
-          <H2>9. Os teus direitos</H2>
+          <H2>8. Os teus direitos</H2>
           <p>
             Tens direito a saber que dados temos sobre ti, a corrigi-los, a pedir que os apaguemos, a limitar ou opor-te ao tratamento, e a recebê-los num formato que possas levar para outro lado. Para isso escreve para <a href={`mailto:${SITE.email}`} className="underline underline-offset-2 text-ink">{SITE.email}</a>; respondemos no prazo de um mês. Se achares que não tratámos bem os teus dados, podes apresentar reclamação à Comissão Nacional de Proteção de Dados (CNPD), em cnpd.pt.
           </p>
 
-          <H2>10. Segurança</H2>
+          <H2>9. Segurança</H2>
           <p>
             Usamos as medidas que são razoáveis para uma empresa da nossa dimensão: acesso à base de dados restrito por regras por linha, chaves de acesso separadas por função, ligações cifradas, palavras-passe guardadas de forma irreversível, cópias de segurança e registo de quem apaga o quê. Nenhum sistema é infalível; se houver um incidente que afete os teus dados, avisamos-te e avisamos a CNPD nos prazos legais.
           </p>
 
-          <H2>11. Menores</H2>
+          <H2>10. Menores</H2>
           <p>
             Os serviços da Convecta destinam-se a empresas e a adultos. Uma barbearia pode registar marcações de menores acompanhados; a responsabilidade por esses dados é dela, como responsável pelo tratamento.
           </p>
 
-          <H2>12. Alterações</H2>
+          <H2>11. Alterações</H2>
           <p>
             Quando esta política mudar, a data no topo muda também. Se a alteração for relevante para as barbearias clientes, avisamo-las por e-mail antes de entrar em vigor.
           </p>
