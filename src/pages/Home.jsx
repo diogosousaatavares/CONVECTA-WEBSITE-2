@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronDown, MessageCircle, CalendarX, BookOpen } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Seo from "@/components/Seo";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -24,41 +24,6 @@ import { SITE, PRECO_DESDE_TEXTO, PLANOS, organizacaoLd, websiteLd, softwareLd }
  *
  * Regra deste ficheiro: se uma frase ja foi dita noutro bloco, sai.
  */
-
-const PASSOS = [
-  { n: "01", t: "Crias a barbearia", d: "Quantos barbeiros são, o nome e o teu email. Dois minutos, sem cartão. O site nasce logo, com o teu nome." },
-  { n: "02", t: "Montas a casa", d: "Serviços, preços, equipa, horários, cores e fotos — tudo no teu painel, e vês o site a mudar enquanto escreves." },
-  { n: "03", t: "Ligas as marcações", d: "Quando estiver ao teu gosto, dás o cartão. Sete dias à experiência; cancelas quando quiseres." },
-  { n: "04", t: "Os clientes marcam", d: "Partilhas o endereço no Instagram e no WhatsApp. O telemóvel toca a cada marcação." },
-];
-
-/*
- * Quase toda a gente que chega aqui ja marca de alguma forma. Falar-lhe da
- * forma que usa e falar-lhe da dor que tem — e mais do que listar funcoes.
- */
-const ORIGENS = [
-  {
-    icone: MessageCircle,
-    t: "Vens do WhatsApp ou do Instagram",
-    d: "Cada marcação é uma conversa: «tens às 15?», «e às 16?», «afinal não posso». Aqui o cliente só vê horas livres e marca sozinho. Tu recebes a notificação, e a conversa acabou.",
-  },
-  {
-    icone: BookOpen,
-    t: "Vens de uma app com comissões",
-    d: "Numa plataforma partilhada os teus clientes vêem a concorrência ao lado, e cada cliente novo pode custar-te uma comissão. Aqui o site é só teu, os clientes são teus, e o preço é fixo — sem comissão por marcação.",
-  },
-  {
-    icone: CalendarX,
-    t: "Vens da agenda em papel",
-    d: "Funciona até ao dia em que alguém não aparece e ninguém avisou. Aqui o cliente recebe um lembrete antes do corte, desmarca sozinho se precisar, e a hora volta a ficar livre para outro.",
-  },
-];
-
-const PILARES = [
-  { t: "Marcações 24 horas", d: "O cliente escolhe serviço, profissional e hora. Só vê horas livres." },
-  { t: "O telemóvel toca", d: "A cada marcação nova. Confirmas em dois toques, ou deixas confirmar sozinho." },
-  { t: "O design é teu", d: "Cores, tipografia, logótipo, capa e fotos. Mudas no painel e vês antes de publicar." },
-];
 
 const PERGUNTAS = [
   {
@@ -178,74 +143,6 @@ export default function Home() {
 
       {/* ── 4. Acesso total (as provas) ─────────────────────────── */}
       <AcessoTotal />
-
-      {/* ── 3. O que é ──────────────────────────────────────────── */}
-      <section className="cv-wrap cv-sec">
-        <ScrollReveal>
-          <p className="cv-olho">O que é</p>
-          <h2 className="cv-h2">Duas apps. Um só sistema.</h2>
-          <p className="cv-texto" style={{ marginTop: 16 }}>
-            Uma página onde o teu cliente marca, e um painel onde geres tudo — agenda, caixa,
-            comissões, stock, fidelização e relatórios. Feitos para trabalhar juntos.
-          </p>
-        </ScrollReveal>
-        <div className="cv-tres">
-          {PILARES.map((p, i) => (
-            <ScrollReveal key={p.t} delay={i * 0.08} variant="fadeInUp">
-              <div>
-                <h3 className="cv-h3">{p.t}</h3>
-                <p className="cv-mini">{p.d}</p>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-      </section>
-
-            {/* ── 5. Como funciona ────────────────────────────────────── */}
-      <section id="processo" className="cv-wrap cv-sec">
-        <ScrollReveal>
-          <p className="cv-olho">Como funciona</p>
-          <h2 className="cv-h2">Da conta à primeira marcação. Sem falar connosco.</h2>
-        </ScrollReveal>
-        <div className="cv-passos">
-          {PASSOS.map((p, i) => (
-            <ScrollReveal key={p.n} delay={i * 0.08} variant="fadeInUp">
-              <div>
-                <p style={{ fontFamily: "var(--font-heading)", fontSize: "1.6rem", color: "var(--cv-ink-3)", margin: "0 0 14px" }}>{p.n}</p>
-                <h3 className="cv-h3">{p.t}</h3>
-                <p className="cv-mini">{p.d}</p>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-        {/* Ha quem prefira fazer isto com alguem ao lado. E uma opcao, nao um
-            passo — dito assim, quem quer ir sozinho nao se assusta. */}
-        <p className="cv-mini" style={{ marginTop: 28 }}>
-          Preferes que montemos contigo? <Link to="/contacto" style={{ color: "var(--cv-ink)", fontWeight: 600 }}>Marca 15 minutos</Link> — é grátis e sem compromisso.
-        </p>
-      </section>
-
-      {/* ── 5b. De onde vens ────────────────────────────────────── */}
-      <section className="cv-wrap cv-sec">
-        <ScrollReveal>
-          <p className="cv-olho">De onde vens</p>
-          <h2 className="cv-h2">Já marcas de alguma maneira. Isto é o que muda.</h2>
-        </ScrollReveal>
-        <div className="cv-tres">
-          {ORIGENS.map((o, i) => {
-            const Icone = o.icone;
-            return (
-              <ScrollReveal key={o.t} delay={i * 0.08} variant="fadeInUp">
-                <div>
-                  <Icone size={22} style={{ color: "var(--cv-ink-3)", marginBottom: 12 }} />
-                  <h3 className="cv-h3">{o.t}</h3>
-                  <p className="cv-mini">{o.d}</p>
-                </div>
-              </ScrollReveal>
-            );
-          })}
-        </div>
-      </section>
 
       {/* ── 6. Planos ───────────────────────────────────────────── */}
       <PricingSection />
