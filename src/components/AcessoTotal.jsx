@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Bell, MessageCircle, BarChart3, Palette, Smartphone, Check, Play } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
@@ -191,23 +191,18 @@ export default function AcessoTotal() {
 /*
  * O video em que o Diogo fala.
  *
- * Estava a arrancar sozinho, sem som e sem botoes: quem passava via uma
- * pessoa a mexer a boca em silencio durante dois minutos. E descarregava 11 MB
- * a toda a gente, mesmo a quem nunca o ia ver.
+ * Esta no YouTube, nao no nosso alojamento: o YouTube baixa a qualidade a
+ * quem tem rede fraca, e assim o video arranca em vez de ficar a carregar.
  *
- * Agora comeca parado, com uma imagem e um botao de play. So quando alguem
- * carrega e que o video e descarregado — e ai comeca com som, porque o
- * browser deixa: houve um clique.
+ * Mas o YouTube poe cookies de rastreio mal aparece na pagina, e o site diz
+ * que nao usa nenhuns. Por isso a pagina mostra so uma imagem com um botao
+ * de play; o YouTube so entra quando alguem carrega. Quem nao carregar nao
+ * apanha cookie nenhum — e a pagina continua leve.
  */
+const YT_ID = "96XY7C_AlTQ";
+
 function VideoComSom() {
   const [aPassar, setAPassar] = useState(false);
-  const ref = useRef(null);
-
-  const comecar = () => {
-    setAPassar(true);
-    // O elemento so existe depois de desenhado; toca-se a seguir.
-    setTimeout(() => { const v = ref.current; if (v) { v.muted = false; v.play().catch(() => {}); } }, 0);
-  };
 
   const caixa = {
     position: "relative",
@@ -219,48 +214,47 @@ function VideoComSom() {
     background: "#000",
   };
 
-  if (!aPassar) {
+  if (aPassar) {
     return (
-      <button
-        type="button"
-        onClick={comecar}
-        aria-label="Ver o video: o que a Convecta faz, em dois minutos"
-        style={{ ...caixa, width: "100%", padding: 0, cursor: "pointer", display: "block" }}
-      >
-        <img
-          src="/duas-apps-poster.jpg"
-          alt=""
-          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+      <div style={caixa}>
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1&hl=pt`}
+          title="Convecta — marcações online e gestão para barbearias"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          style={{ width: "100%", height: "100%", border: 0, display: "block" }}
         />
-        <span style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.28)" }} />
-        <span style={{
-          position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
-          width: 76, height: 76, borderRadius: "50%", background: "var(--cv-amarelo, #F5D142)",
-          display: "grid", placeItems: "center", boxShadow: "0 8px 30px rgba(0,0,0,0.45)",
-        }}>
-          <Play size={30} fill="#111" stroke="#111" style={{ marginLeft: 4 }} />
-        </span>
-        <span style={{
-          position: "absolute", left: 14, bottom: 14, padding: "6px 12px", borderRadius: 999,
-          background: "rgba(0,0,0,0.6)", color: "#fff", fontSize: "0.78rem", fontWeight: 600,
-        }}>
-          2 min · com som
-        </span>
-      </button>
+      </div>
     );
   }
 
   return (
-    <div style={caixa}>
-      <video
-        ref={ref}
-        src="/duas-apps-720.mp4"
-        poster="/duas-apps-poster.jpg"
-        controls
-        playsInline
-        preload="auto"
-        style={{ width: "100%", height: "100%", objectFit: "contain", display: "block", background: "#000" }}
+    <button
+      type="button"
+      onClick={() => setAPassar(true)}
+      aria-label="Ver o vídeo: o que a Convecta faz"
+      style={{ ...caixa, width: "100%", padding: 0, cursor: "pointer", display: "block" }}
+    >
+      <img
+        src="/duas-apps-poster.jpg"
+        alt=""
+        loading="lazy"
+        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
       />
-    </div>
+      <span style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.28)" }} />
+      <span style={{
+        position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)",
+        width: 76, height: 76, borderRadius: "50%", background: "var(--cv-amarelo, #F5D142)",
+        display: "grid", placeItems: "center", boxShadow: "0 8px 30px rgba(0,0,0,0.45)",
+      }}>
+        <Play size={30} fill="#111" stroke="#111" style={{ marginLeft: 4 }} />
+      </span>
+      <span style={{
+        position: "absolute", left: 14, bottom: 14, padding: "6px 12px", borderRadius: 999,
+        background: "rgba(0,0,0,0.6)", color: "#fff", fontSize: "0.78rem", fontWeight: 600,
+      }}>
+        2 min · com som
+      </span>
+    </button>
   );
 }
