@@ -97,6 +97,67 @@ export default function AcessoTotal() {
         ))}
       </div>
 
+
+      {/* ── Vídeo: Duas apps. Um só sistema. ── */}
+      <ScrollReveal>
+        <div style={{ margin: "56px 0 48px" }}>
+          {/* Heading */}
+          <div style={{ textAlign: "center", marginBottom: 24 }}>
+            <p style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: "italic", fontSize: "clamp(1.2rem, 3vw, 2rem)", color: "var(--cv-ink-1)", lineHeight: 1.25, margin: "0 0 8px" }}>
+              Duas apps. Um só sistema.
+            </p>
+            <p style={{ fontSize: "0.85rem", color: "var(--cv-ink-3)", margin: 0 }}>
+              Tu geres. O teu cliente marca.
+            </p>
+          </div>
+
+          {/* Video */}
+          <div style={{
+            borderRadius: 16,
+            overflow: "hidden",
+            border: "1px solid var(--cv-linha)",
+            boxShadow: "0 12px 48px rgba(0,0,0,0.1)",
+            aspectRatio: "16/9",
+            background: "#000",
+          }}>
+            <video
+              src="/duas-apps-video.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          </div>
+
+          {/* Social CTA */}
+          <div style={{ textAlign: "center", marginTop: 28 }}>
+            <a
+              href="https://www.instagram.com/convectabooking"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 10,
+                padding: "11px 24px", borderRadius: 8,
+                background: "linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)",
+                color: "#fff", fontWeight: 700, fontSize: "0.88rem",
+                textDecoration: "none", boxShadow: "0 4px 20px rgba(188,24,136,0.25)",
+                transition: "transform 0.2s, box-shadow 0.2s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.transform="scale(1.03)"; }}
+              onMouseLeave={e => { e.currentTarget.style.transform="scale(1)"; }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="12" cy="12" r="4"/>
+                <circle cx="17.5" cy="6.5" r="0.5" fill="#fff" stroke="none"/>
+              </svg>
+              Seguir @convectabooking no Instagram
+            </a>
+          </div>
+        </div>
+      </ScrollReveal>
+
       <ScrollReveal>
         <div className="at-mais">
           {MAIS.map(m => (
