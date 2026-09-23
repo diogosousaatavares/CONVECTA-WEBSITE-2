@@ -28,6 +28,7 @@ const Contacto = lazy(() => import('@/pages/Contacto'));
 const Instagram = lazy(() => import('@/pages/Instagram'));
 const Privacidade = lazy(() => import('@/pages/Privacidade'));
 const Termos = lazy(() => import('@/pages/Termos'));
+const AcordoRgpd = lazy(() => import('@/pages/AcordoRgpd'));
 const Precos = lazy(() => import('@/pages/Precos'));
 const Comecar = lazy(() => import('@/pages/Comecar'));
 const Funcionalidades = lazy(() => import('@/pages/Booking'));
@@ -69,6 +70,7 @@ const Paginas = () => {
           <Route path="/instagram" element={<Instagram />} />
           <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/termos" element={<Termos />} />
+          <Route path="/acordo-rgpd" element={<AcordoRgpd />} />
           {/* Redirects para URLs antigas. /demo e /demonstracao saem para a
               app de demonstracao antes de chegar aqui (vercel.json). */}
           <Route path="/servicos" element={<Navigate to="/funcionalidades" replace />} />

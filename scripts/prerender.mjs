@@ -34,6 +34,7 @@ const ROTAS = [
   "/instagram",
   "/privacidade",
   "/termos",
+  "/acordo-rgpd",
 ];
 
 const modelo = await readFile(path.join(dist, "index.html"), "utf8");

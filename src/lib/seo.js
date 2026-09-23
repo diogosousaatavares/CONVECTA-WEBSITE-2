@@ -314,3 +314,7 @@ export function faqLd(perguntas) {
 export function grafoLd(...blocos) {
   return { "@context": "https://schema.org", "@graph": blocos.filter(Boolean) };
 }
+
+// Versão do acordo de subcontratação (RGPD) em /acordo-rgpd. Sobe quando o
+// acordo mudar de fundo — as barbearias voltam a aceitar no painel.
+export const VERSAO_ACORDO = "1.0";

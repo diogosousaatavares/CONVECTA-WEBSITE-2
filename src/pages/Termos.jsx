@@ -100,7 +100,7 @@ export default function Termos() {
 
           <H2>6. Dados dos clientes da barbearia</H2>
           <p>
-            Os dados dos clientes finais (nome, contacto, marcações, carimbos, notas) pertencem à barbearia, que é a responsável pelo seu tratamento. A Convecta trata-os como subcontratante, apenas para prestar o serviço e segundo as instruções da barbearia, guarda-os em servidores na União Europeia, não os usa para fins próprios nem os cede a terceiros, e apaga-os quando o serviço termina, depois de os devolver se a barbearia o pedir. Estes termos, juntamente com a política de privacidade, constituem o acordo de subcontratação previsto no artigo 28.º do RGPD; a pedido, formalizamos um documento autónomo.
+            Os dados dos clientes finais (nome, contacto, marcações, carimbos, notas) pertencem à barbearia, que é a responsável pelo seu tratamento. A Convecta trata-os como subcontratante, apenas para prestar o serviço e segundo as instruções da barbearia, guarda-os em servidores na União Europeia, não os usa para fins próprios nem os cede a terceiros, e apaga-os quando o serviço termina, depois de os devolver se a barbearia o pedir. O acordo de subcontratação previsto no artigo 28.º do RGPD está no <Link to="/acordo-rgpd" className="underline underline-offset-2 text-ink">Acordo de subcontratação de dados</Link>, que faz parte destes termos e que a barbearia aceita ao criar a conta.
           </p>
 
           <H2>7. Disponibilidade, suporte e alterações</H2>

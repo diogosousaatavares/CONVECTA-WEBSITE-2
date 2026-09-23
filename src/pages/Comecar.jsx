@@ -3,6 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Check, Mail, AlertTriangle } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, DESCONTO_ANUAL } from '@/lib/seo';
+import { VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
 
 /*
@@ -94,6 +95,9 @@ export default function Comecar() {
 
   const [barbearia, setBarbearia] = useState({ nome: '', telefone: '', morada: '', nif: '' });
   const [conta, setConta] = useState({ nome: '', email: '', password: '' });
+  // Aceitação dos Termos, da Privacidade e do acordo RGPD (art. 28.º).
+  // Tem de ser um gesto da pessoa — uma caixa por marcar, não um texto.
+  const [aceita, setAceita] = useState(false);
 
   const [aEnviar, setAEnviar] = useState(false);
   const [erro, setErro] = useState('');
@@ -128,6 +132,7 @@ export default function Comecar() {
     if (!conta.nome.trim()) return setErro('Escreve o teu nome.');
     if (!conta.email.includes('@')) return setErro('Escreve um email válido.');
     if (conta.password.length < 8) return setErro('A palavra-passe tem de ter pelo menos 8 caracteres.');
+    if (!aceita) return setErro('Para criar a conta tens de aceitar os Termos, a Política de Privacidade e o Acordo de subcontratação.');
     if (!temSupabase()) return setErro('O registo não está disponível neste momento. Fala connosco pelo WhatsApp.');
 
     setAEnviar(true);
@@ -151,6 +156,9 @@ export default function Comecar() {
             morada: barbearia.morada.trim(),
             nif: barbearia.nif.replace(/\D/g, ''),
             nome_responsavel: conta.nome.trim(),
+            // Prova da aceitação do acordo RGPD: que versão e quando.
+            acordo_rgpd_versao: VERSAO_ACORDO,
+            acordo_rgpd_aceite_em: new Date().toISOString(),
           },
           // O link do email leva-o para o PAINEL, não de volta para aqui. É
           // lá que ele vai trabalhar, e é lá que a barbearia é criada.
@@ -479,10 +487,15 @@ export default function Comecar() {
 
             {erro && <Aviso texto={erro} />}
 
-            <p style={{ ...ajuda, marginTop: 20 }}>
-              Ao criar a conta aceitas os <Link to="/termos">Termos</Link> e a{' '}
-              <Link to="/privacidade">Política de Privacidade</Link>.
-            </p>
+            <label style={{ ...ajuda, marginTop: 20, display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer' }}>
+              <input type="checkbox" checked={aceita} onChange={e => { setAceita(e.target.checked); setErro(''); }}
+                style={{ width: 18, height: 18, marginTop: 2, flexShrink: 0, accentColor: '#1a1714' }} />
+              <span>
+                Li e aceito os <Link to="/termos" target="_blank">Termos</Link>, a{' '}
+                <Link to="/privacidade" target="_blank">Política de Privacidade</Link> e o{' '}
+                <Link to="/acordo-rgpd" target="_blank">Acordo de subcontratação de dados (RGPD)</Link>.
+              </span>
+            </label>
           </section>
         )}
       </main>
