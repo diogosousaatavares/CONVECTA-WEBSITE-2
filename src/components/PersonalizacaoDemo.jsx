@@ -3,7 +3,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import BotaoComecar from "@/components/BotaoComecar";
 
 // O editor do painel («O Meu Site»), tal e qual, a mexer no site verdadeiro
-// da Rasta Village. Vive no painel (administrador.marcacoes.app/personalizar)
+// da barbearia de demonstração (convectacutts). Vive no painel (administrador.marcacoes.app/personalizar)
 // e aparece aqui numa moldura: é o mesmo código, por isso nunca fica
 // diferente do que o barbeiro vai ter. Não grava nada.
 const DEMO = "https://administrador.marcacoes.app/personalizar";
@@ -21,7 +21,7 @@ export default function PersonalizacaoDemo() {
         <p className="cv-texto" style={{ marginTop: 16, maxWidth: 640 }}>
           Nas apps de marcações que já conheces, o teu cliente marca ao lado da concorrência.
           Aqui vê o teu nome, o teu logótipo e as tuas cores — e és tu que escolhes cada peça.
-          Experimenta o editor que vais ter no teu painel, no site verdadeiro da Rasta Village:
+          Experimenta o editor que vais ter no teu painel, num site de barbearia a funcionar:
           toca num título, num botão, num ícone, e muda-lhe a cor.
         </p>
       </ScrollReveal>
@@ -29,8 +29,7 @@ export default function PersonalizacaoDemo() {
       <div style={{ marginTop: 28, borderRadius: 22, overflow: "hidden", background: "#0B0B0C",
         border: "1px solid rgba(0,0,0,.12)", boxShadow: "0 30px 70px -30px rgba(0,0,0,.45)" }}>
         {aberta ? (
-          <iframe src={DEMO} title="Experimenta a personalização" loading="lazy"
-            style={{ display: "block", width: "100%", height: "min(1000px, 92vh)", minHeight: 640, border: 0 }} />
+          <iframe className="pd-moldura" src={DEMO} title="Experimenta a personalização" loading="lazy" />
         ) : (
           <div style={{ display: "grid", placeItems: "center", textAlign: "center", padding: "72px 20px", color: "#EDE8DF" }}>
             <div style={{ maxWidth: 440 }}>

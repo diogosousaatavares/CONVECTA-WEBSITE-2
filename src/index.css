@@ -1918,3 +1918,12 @@ html, body {
    Quando a barra do «Começar grátis» está no ecrã, come 68 px ao fundo
    — e o fundo é onde está o rodapé. */
 body.cv-com-barra { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
+
+
+/* Demonstração da personalização. No telemóvel ocupa o ecrã inteiro: o
+   telemóvel de exemplo fica em cima e os controlos por baixo, dentro da
+   moldura. */
+.pd-moldura { display: block; width: 100%; height: min(1000px, 92vh); min-height: 640px; border: 0; }
+@media (max-width: 767px) {
+  .pd-moldura { height: calc(100svh - 64px); min-height: 560px; }
+}

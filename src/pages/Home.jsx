@@ -8,7 +8,7 @@ import CtaSection from "@/components/CtaSection";
 import PricingSection from "@/components/PricingSection";
 import FundoLinhas from "@/components/FundoLinhas";
 import HeroDispositivos from "@/components/HeroDispositivos";
-import AcessoTotal from "@/components/AcessoTotal";
+import AcessoTotal, { VideoApps } from "@/components/AcessoTotal";
 import PersonalizacaoDemo from "@/components/PersonalizacaoDemo";
 import BotaoComecar from "@/components/BotaoComecar";
 import BarraComecarFixa from "@/components/BarraComecarFixa";
@@ -170,11 +170,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── 2. Acesso total (as provas) ─────────────────────────── */}
-      <AcessoTotal />
+      {/* ── 2. O vídeo: logo a seguir ao topo ─────────────────────── */}
+      <VideoApps />
 
-      {/* ── 2b. Personalização — o ponto forte, para experimentar ──── */}
+      {/* ── 3. Personalização — o ponto forte, para experimentar ──── */}
       <PersonalizacaoDemo />
+
+      {/* ── 4. Acesso total (as provas) ─────────────────────────── */}
+      <AcessoTotal />
 
       {/* ── 3. O que é ──────────────────────────────────────────── */}
       <section className="cv-wrap cv-sec">
