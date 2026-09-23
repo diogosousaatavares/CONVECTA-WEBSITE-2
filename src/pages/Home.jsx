@@ -9,6 +9,7 @@ import PricingSection from "@/components/PricingSection";
 import FundoLinhas from "@/components/FundoLinhas";
 import HeroDispositivos from "@/components/HeroDispositivos";
 import AcessoTotal from "@/components/AcessoTotal";
+import PersonalizacaoDemo from "@/components/PersonalizacaoDemo";
 import BotaoComecar from "@/components/BotaoComecar";
 import BarraComecarFixa from "@/components/BarraComecarFixa";
 import { SITE, PRECO_DESDE_TEXTO, PLANOS, organizacaoLd, websiteLd, softwareLd } from "@/lib/seo";
@@ -171,6 +172,9 @@ export default function Home() {
 
       {/* ── 2. Acesso total (as provas) ─────────────────────────── */}
       <AcessoTotal />
+
+      {/* ── 2b. Personalização — o ponto forte, para experimentar ──── */}
+      <PersonalizacaoDemo />
 
       {/* ── 3. O que é ──────────────────────────────────────────── */}
       <section className="cv-wrap cv-sec">
