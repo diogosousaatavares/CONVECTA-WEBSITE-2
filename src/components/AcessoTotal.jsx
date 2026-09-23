@@ -117,7 +117,7 @@ export default function AcessoTotal() {
           {/* Social CTA */}
           <div style={{ textAlign: "center", marginTop: 28 }}>
             <a
-              href="https://www.instagram.com/convectabooking"
+              href="https://www.instagram.com/convecta.pt"
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -136,7 +136,7 @@ export default function AcessoTotal() {
                 <circle cx="12" cy="12" r="4"/>
                 <circle cx="17.5" cy="6.5" r="0.5" fill="#fff" stroke="none"/>
               </svg>
-              Seguir @convectabooking no Instagram
+              Seguir @convecta.pt no Instagram
             </a>
           </div>
         </div>
