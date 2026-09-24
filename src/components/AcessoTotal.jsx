@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Bell, MessageCircle, BarChart3, Palette, Smartphone, Check, Play } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
-import { WHATSAPP_ATIVO } from "@/lib/seo";
 
 /*
  * "Acesso total a tudo" — a seccao logo a seguir ao hero.

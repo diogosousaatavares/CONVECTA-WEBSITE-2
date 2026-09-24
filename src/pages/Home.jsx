@@ -99,7 +99,13 @@ export default function Home() {
               Os teus clientes marcam sozinhos. <span className="cv-marca">Tu só cortas.</span>
             </h1>
 
-            <p className="cv-texto" style={{ margin: "22px 0 32px", maxWidth: "44ch" }}>
+            {/* A frase de definicao: o H1 vende, esta explica. E a mesma frase
+                em todo o lado (site, schema, perfis) — e o que separa esta
+                Convecta das outras Convectas e o que uma IA cita. */}
+            <p style={{ margin: "18px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--cv-ink)", maxWidth: "52ch", fontWeight: 500 }}>
+              A Convecta Booking é um software de marcações online e gestão para barbearias em Portugal.
+            </p>
+            <p className="cv-texto" style={{ margin: "14px 0 32px", maxWidth: "44ch" }}>
               Deixas de atender o telefone a meio do corte. Os clientes marcam pelo site da
               tua barbearia, o telemóvel toca, e a agenda, a caixa e as comissões ficam no mesmo sítio.
             </p>

@@ -16,6 +16,7 @@
 import { readFile, writeFile, rm, mkdir, cp } from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { CAMINHOS_CONTEUDO } from "../src/conteudo/caminhos.js";
 
 const raiz = process.cwd();
 const dist = path.join(raiz, process.env.DIST_DIR || "dist");
@@ -35,6 +36,7 @@ const ROTAS = [
   "/privacidade",
   "/termos",
   "/acordo-rgpd",
+  ...CAMINHOS_CONTEUDO,
 ];
 
 const modelo = await readFile(path.join(dist, "index.html"), "utf8");
@@ -89,6 +91,8 @@ for (const rota of ROTAS) {
   if (atributosHtml) pagina = pagina.replace('<html lang="pt-PT">', `<html ${atributosHtml}>`);
 
   const ficheiro = rota === "/" ? "index.html" : `${rota.slice(1)}.html`;
+  // Rotas com pasta (/comparar/fresha, /blog/…): a pasta tem de existir.
+  await mkdir(path.dirname(path.join(dist, ficheiro)), { recursive: true });
   await writeFile(path.join(dist, ficheiro), pagina, "utf8");
   console.log(`  pre-renderizado ${rota} → dist/${ficheiro} (${(pagina.length / 1024).toFixed(0)} KB)`);
 }

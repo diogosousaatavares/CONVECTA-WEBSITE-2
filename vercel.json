@@ -77,6 +77,82 @@
     {
       "source": "/comecar",
       "destination": "/comecar.html"
+    },
+    {
+      "source": "/software-para-barbearias",
+      "destination": "/software-para-barbearias.html"
+    },
+    {
+      "source": "/sobre",
+      "destination": "/sobre.html"
+    },
+    {
+      "source": "/agenda-online-barbearia",
+      "destination": "/agenda-online-barbearia.html"
+    },
+    {
+      "source": "/marcacoes-online-barbearia",
+      "destination": "/marcacoes-online-barbearia.html"
+    },
+    {
+      "source": "/gestao-barbearia",
+      "destination": "/gestao-barbearia.html"
+    },
+    {
+      "source": "/gestao-clientes-barbearia",
+      "destination": "/gestao-clientes-barbearia.html"
+    },
+    {
+      "source": "/comissoes-barbeiros",
+      "destination": "/comissoes-barbeiros.html"
+    },
+    {
+      "source": "/app-para-barbearia",
+      "destination": "/app-para-barbearia.html"
+    },
+    {
+      "source": "/comparar/fresha",
+      "destination": "/comparar/fresha.html"
+    },
+    {
+      "source": "/comparar/treatwell",
+      "destination": "/comparar/treatwell.html"
+    },
+    {
+      "source": "/comparar/booksy",
+      "destination": "/comparar/booksy.html"
+    },
+    {
+      "source": "/comparar/buk",
+      "destination": "/comparar/buk.html"
+    },
+    {
+      "source": "/comparar/zappy",
+      "destination": "/comparar/zappy.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog.html"
+    },
+    {
+      "source": "/blog/melhores-softwares-marcacoes-barbearias-portugal",
+      "destination": "/blog/melhores-softwares-marcacoes-barbearias-portugal.html"
+    },
+    {
+      "source": "/blog/marketplace-ou-agenda-propria",
+      "destination": "/blog/marketplace-ou-agenda-propria.html"
+    },
+    {
+      "source": "/blog/quanto-custa-software-marcacoes-barbearia",
+      "destination": "/blog/quanto-custa-software-marcacoes-barbearia.html"
+    },
+    {
+      "source": "/blog/como-reduzir-faltas-marcacoes-barbearia",
+      "destination": "/blog/como-reduzir-faltas-marcacoes-barbearia.html"
+    },
+    {
+      "source": "/blog/como-calcular-comissoes-barbeiros",
+      "destination": "/blog/como-calcular-comissoes-barbeiros.html"
     }
   ],
   "headers": [

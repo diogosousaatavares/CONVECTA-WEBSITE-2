@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <ConvectaLogo />
             <p className="mt-4 text-sm leading-relaxed font-body" style={{ color: "var(--cv-ink-2)" }}>
-              Marcações online e gestão para barbearias. O site onde os teus clientes marcam e o painel onde tu geres a barbearia. Feito no Porto.
+              Convecta Booking — software de marcações online e gestão para barbearias em Portugal. O site onde os teus clientes marcam e o painel onde tu geres a barbearia. Feito em Alfena, Porto.
             </p>
           </div>
 
@@ -21,8 +21,17 @@ export default function Footer() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--cv-ink-3)" }}>Plataforma</p>
             <div className="flex flex-col gap-3">
+              <Link to="/software-para-barbearias" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
+                Software para barbearias
+              </Link>
               <Link to="/funcionalidades" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Funcionalidades
+              </Link>
+              <Link to="/agenda-online-barbearia" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
+                Agenda online
+              </Link>
+              <Link to="/app-para-barbearia" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
+                A app da tua barbearia
               </Link>
               <Link to="/como-funciona" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Como Funciona
@@ -40,6 +49,12 @@ export default function Footer() {
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--cv-ink-3)" }}>Empresa</p>
             <div className="flex flex-col gap-3">
+              <Link to="/sobre" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
+                Sobre a Convecta
+              </Link>
+              <Link to="/blog" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
+                Blog e comparações
+              </Link>
               <Link to="/faq" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Perguntas Frequentes
               </Link>

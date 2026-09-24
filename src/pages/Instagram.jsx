@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Instagram as InstagramIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import ScrollReveal from "@/components/ScrollReveal";
 import InstagramCarousel from "@/components/instagram/InstagramCarousel";
 import CtaSection from "@/components/CtaSection";
 import staticImages from "@/data/instagramImages";

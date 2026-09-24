@@ -33,6 +33,8 @@ const Precos = lazy(() => import('@/pages/Precos'));
 const Comecar = lazy(() => import('@/pages/Comecar'));
 const Funcionalidades = lazy(() => import('@/pages/Booking'));
 const ComoFunciona = lazy(() => import('@/pages/BookingSection'));
+const Conteudo = lazy(() => import('@/pages/Conteudo'));
+import { CAMINHOS_CONTEUDO } from '@/conteudo/caminhos';
 
 // E um site publico: nao ha login, nao ha utilizadores, nao ha nada a
 // esperar antes de mostrar a pagina. O AuthProvider do Base44 que aqui estava
@@ -71,6 +73,10 @@ const Paginas = () => {
           <Route path="/privacidade" element={<Privacidade />} />
           <Route path="/termos" element={<Termos />} />
           <Route path="/acordo-rgpd" element={<AcordoRgpd />} />
+          {/* Paginas de conteudo: pilar, funcionalidades, comparacoes, blog,
+              sobre. O texto vive em src/conteudo; uma rota por caminho para
+              a pre-renderizacao saber que existem. */}
+          {CAMINHOS_CONTEUDO.map((c) => <Route key={c} path={c} element={<Conteudo />} />)}
           {/* Redirects para URLs antigas. /demo e /demonstracao saem para a
               app de demonstracao antes de chegar aqui (vercel.json). */}
           <Route path="/servicos" element={<Navigate to="/funcionalidades" replace />} />

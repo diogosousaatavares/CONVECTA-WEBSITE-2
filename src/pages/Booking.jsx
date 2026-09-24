@@ -2,9 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight, Smartphone, LayoutDashboard, CalendarDays, BellRing, CheckCircle2, Clock3,
-  Users, UserCog, Wallet, Package, BarChart3, FileSpreadsheet, Settings, ShieldCheck,
-  Globe, Stamp, Ban, MonitorSmartphone, ListChecks, Percent, Lock, Download,
+  ArrowRight, CalendarDays, BellRing, CheckCircle2, Clock3,
+  Users, UserCog, Wallet, Package, BarChart3, Settings, ShieldCheck,
+  Globe, Stamp, Ban, MonitorSmartphone, Percent, Lock, Download,
 } from "lucide-react";
 import Seo from "@/components/Seo";
 import BotaoComecar from "@/components/BotaoComecar";
@@ -138,8 +138,8 @@ const PARA_BARBEIROS = [
 const AINDA_NAO = [
   {
     icon: Ban,
-    titulo: "Lembretes na véspera, por WhatsApp",
-    texto: "Ainda não estão a funcionar. Estão prometidos nos três planos, sem custo extra, e o site marca-os como \"em breve\" até ao dia em que enviarem mesmo. O que já funciona hoje são as notificações no telemóvel — marcação recebida, confirmada, cancelada — e essas são imediatas. Lembretes por SMS não estão previstos.",
+    titulo: "Lembretes por SMS ou WhatsApp",
+    texto: "Não existem. O que existe, e funciona desde setembro de 2026, é o aviso ao cliente antes do corte por notificação no telemóvel e por email, sem custo por mensagem — além das notificações imediatas de marcação recebida, confirmada e cancelada. SMS e WhatsApp não estão previstos: cada mensagem custaria dinheiro ao barbeiro, e o aviso por notificação chega da mesma forma.",
   },
   {
     icon: Ban,

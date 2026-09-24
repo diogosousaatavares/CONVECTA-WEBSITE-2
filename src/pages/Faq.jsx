@@ -1,15 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Seo from "@/components/Seo";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
-import { PLANOS, PRECO_DESDE_TEXTO, faqLd, migalhasLd } from "@/lib/seo";
+import { PLANOS, faqLd, migalhasLd } from "@/lib/seo";
 import BarraComecarFixa from "@/components/BarraComecarFixa";
 
 const faqs = [
@@ -27,7 +21,7 @@ const faqs = [
   },
   {
     q: "Como fico a saber que entrou uma marcação?",
-    a: "O telemóvel toca. Recebes uma notificação com o nome do cliente, o serviço e a hora, e a marcação aparece na agenda nesse segundo. Confirmas com dois toques — ou ligas a confirmação automática e nem isso precisas. O cliente também recebe uma notificação no telemóvel quando confirmas. Lembretes na véspera por SMS ou WhatsApp ainda não existem — dizemo-lo aqui para não o descobrires depois.",
+    a: "O telemóvel toca. Recebes uma notificação com o nome do cliente, o serviço e a hora, e a marcação aparece na agenda nesse segundo. Confirmas com dois toques — ou ligas a confirmação automática e nem isso precisas. O cliente também recebe uma notificação no telemóvel quando confirmas. Antes do corte, o cliente recebe um aviso por notificação e por email, sem custo por mensagem. Lembretes por SMS ou WhatsApp não existem — dizemo-lo aqui para não o descobrires depois.",
   },
   {
     q: "Podem entrar duas marcações à mesma hora?",
@@ -120,21 +114,21 @@ export default function Faq() {
       <section className="bg-white py-24 lg:py-32">
         <div className="max-w-3xl mx-auto px-6 lg:px-12">
           <ScrollReveal>
-            {/* O acordeao do Radix desenha cada pergunta como <h3>. Sem um
-                <h2> antes, a pagina saltava de h1 para h3. */}
+            {/* <details> em vez do acordeao do Radix: as respostas ficam no
+                HTML que o Google le (o acordeao so as desenhava ao abrir, e o
+                FAQPage do schema deixava de bater certo com a pagina). */}
             <h2 className="sr-only">Perguntas e respostas</h2>
-            <Accordion type="single" collapsible className="w-full">
+            <div className="w-full">
               {faqs.map((faq, i) => (
-                <AccordionItem key={i} value={`faq-${i}`} className="border-b border-linha">
-                  <AccordionTrigger className="text-left font-heading text-lg text-ink py-6 hover:no-underline hover:text-ink-2">
-                    {faq.q}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm text-ink-2 leading-relaxed pb-6">
-                    {faq.a}
-                  </AccordionContent>
-                </AccordionItem>
+                <details key={i} className="border-b border-linha group">
+                  <summary className="text-left font-heading text-lg text-ink py-6 cursor-pointer list-none flex items-start justify-between gap-4 hover:text-ink-2">
+                    <span>{faq.q}</span>
+                    <span className="text-[var(--cv-amarelo-texto)] group-open:rotate-180 transition-transform mt-1 shrink-0">↓</span>
+                  </summary>
+                  <p className="text-sm text-ink-2 leading-relaxed pb-6 m-0">{faq.a}</p>
+                </details>
               ))}
-            </Accordion>
+            </div>
           </ScrollReveal>
         </div>
       </section>

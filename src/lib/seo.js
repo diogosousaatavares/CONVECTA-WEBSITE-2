@@ -173,7 +173,6 @@ export const FUNCIONALIDADES = [
   "Cancelamento pelo cliente até ao prazo definido pela barbearia",
   "Sem marcações sobrepostas: garantido pela base de dados",
   "Reagendamento e marcações manuais no painel",
-  "Lista de espera",
   "Ficha de cliente com histórico, gastos e carimbos",
   "Aniversários dos clientes",
   "Barbeiros com horários próprios, comissão em percentagem e desempenho",
@@ -186,7 +185,11 @@ export const FUNCIONALIDADES = [
   "Relatórios de marcações, clientes, profissionais, financeiro, serviços e produtos",
   "Relatório mensal em Excel pronto para o contabilista",
   "Dados guardados na União Europeia, isolados por barbearia",
-  "Demonstração pública ao vivo, sem registo",
+  "Bloqueio de horas na agenda (almoço, folga) e marcação manual a partir de qualquer hora livre",
+  "Checkout com os produtos levados na mesma conta",
+  "Cada barbeiro entra com a conta dele e mexe só na coluna dele; o dono escolhe se vê a agenda toda",
+  "Aviso ao cliente antes do corte por notificação e email, sem custo por mensagem",
+  "Lista de espera por hora, com confirmação em 1 hora, e aviso de vaga de última hora a todos os clientes",
 ];
 
 const enderecoLd = {
@@ -210,7 +213,6 @@ export function organizacaoLd() {
     email: SITE.email,
     telephone: SITE.telefoneE164,
     address: enderecoLd,
-    areaServed: { "@type": "Country", name: "Portugal" },
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "sales",
@@ -219,7 +221,14 @@ export function organizacaoLd() {
       availableLanguage: ["Portuguese"],
       areaServed: "PT",
     },
+    // So perfis que existem mesmo. Quando houver LinkedIn, YouTube, Capterra
+    // ou G2, entram aqui — e em mais lado nenhum.
     sameAs: [SITE.instagram],
+    founder: { "@type": "Person", name: SITE.titular, alternateName: "Diogo Tavares", url: `${SITE.url}/sobre` },
+    slogan: SITE.slogan,
+    knowsAbout: ["Marcações online para barbearias", "Gestão de barbearias", "Software para barbearias em Portugal"],
+    // Onde a Convecta vai as barbearias configurar; o resto e a distancia.
+    areaServed: [{ "@type": "Country", name: "Portugal" }],
   };
 }
 
@@ -244,7 +253,7 @@ export function softwareLd() {
     alternateName: "Convecta",
     applicationCategory: "BusinessApplication",
     applicationSubCategory: "Agendamento online para barbearias",
-    operatingSystem: "Web (browser em telemóvel, tablet e computador)",
+    operatingSystem: "Web, iOS, Android (aplicação web instalável, sem lojas de apps)",
     url: `${SITE.url}/funcionalidades`,
     image: SITE.imagem,
     description:

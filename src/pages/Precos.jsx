@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import Seo from "@/components/Seo";
 import PricingSection from "@/components/PricingSection";
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
 import BotaoComecar from "@/components/BotaoComecar";
-import { SITE, PLANOS, DESCONTO_ANUAL, PRECO_DESDE_TEXTO, migalhasLd, faqLd, softwareLd } from "@/lib/seo";
+import { PLANOS, DESCONTO_ANUAL, PRECO_DESDE_TEXTO, migalhasLd, faqLd, softwareLd } from "@/lib/seo";
 import BarraComecarFixa from "@/components/BarraComecarFixa";
 
 /*

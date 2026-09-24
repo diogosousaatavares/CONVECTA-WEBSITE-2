@@ -5,10 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import ConvectaLogo from "@/components/ConvectaLogo";
 
 const navLinks = [
+  { label: "Software", path: "/software-para-barbearias" },
   { label: "Funcionalidades", path: "/funcionalidades" },
   { label: "Como Funciona", path: "/como-funciona" },
   { label: "Preços", path: "/precos" },
-  { label: "FAQ", path: "/faq" },
+  { label: "Blog", path: "/blog" },
   { label: "Contacto", path: "/contacto" },
 ];
 
