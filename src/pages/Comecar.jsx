@@ -124,6 +124,45 @@ export default function Comecar() {
     window.scrollTo?.({ top: 0, behavior: 'smooth' });
   };
 
+  // O que a barbearia é: o mesmo objeto vai no registo e no caminho da conta já existente.
+  function dadosDaBarbearia() {
+    return {
+      nome_barbearia: barbearia.nome.trim(),
+      slug,
+      barbeiros,
+      plano: planoId,
+      periodo,
+      telefone: barbearia.telefone.trim(),
+      morada: barbearia.morada.trim(),
+      nif: barbearia.nif.replace(/\D/g, ''),
+      nome_responsavel: conta.nome.trim(),
+      // Prova da aceitação do acordo RGPD: que versão e quando.
+      acordo_rgpd_versao: VERSAO_ACORDO,
+      acordo_rgpd_aceite_em: new Date().toISOString(),
+    };
+  }
+
+  /*
+   * O email já tem conta (cliente de uma barbearia, por exemplo). Uma conta
+   * é uma pessoa; a pessoa pode ter a barbearia dela. Entra-se com a
+   * palavra-passe dessa conta e pede-se à função registar-barbearia que a
+   * crie nessa conta. Devolve true se ficou tratado (feito ou com erro dito).
+   */
+  async function criarComContaExistente() {
+    const sb = supabase();
+    const { error: erroEntrar } = await sb.auth.signInWithPassword({ email: conta.email.trim().toLowerCase(), password: conta.password });
+    if (erroEntrar) return false;
+    const { data, error } = await sb.functions.invoke('registar-barbearia', { body: dadosDaBarbearia() });
+    let motivo = data?.erro;
+    if (error && !motivo) { try { motivo = (await error.context?.json())?.erro; } catch { motivo = ''; } motivo = motivo || error.message; }
+    await sb.auth.signOut().catch(() => {});
+    if (motivo) { setErro(motivo); return true; }
+    if (data?.jaExistia) { setErro(`Essa conta já tem a barbearia «${data.nome || data.slug}». Entra no painel para a usares.`); return true; }
+    try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo, contaExistente: true }); } catch { /* sem analytics */ }
+    window.location.href = `${PAINEL}/entrar`;
+    return true;
+  }
+
   async function registar() {
     setErro('');
 
@@ -146,20 +185,7 @@ export default function Comecar() {
            * chegam ao outro lado sem existir uma tabela de "registos
            * pendentes" a encher-se de gente que nunca confirmou o email.
            */
-          data: {
-            nome_barbearia: barbearia.nome.trim(),
-            slug,
-            barbeiros,
-            plano: planoId,
-            periodo,
-            telefone: barbearia.telefone.trim(),
-            morada: barbearia.morada.trim(),
-            nif: barbearia.nif.replace(/\D/g, ''),
-            nome_responsavel: conta.nome.trim(),
-            // Prova da aceitação do acordo RGPD: que versão e quando.
-            acordo_rgpd_versao: VERSAO_ACORDO,
-            acordo_rgpd_aceite_em: new Date().toISOString(),
-          },
+          data: dadosDaBarbearia(),
           // O link do email leva-o para o PAINEL, não de volta para aqui. É
           // lá que ele vai trabalhar, e é lá que a barbearia é criada.
           emailRedirectTo: `${PAINEL}/entrar`,
@@ -169,7 +195,11 @@ export default function Comecar() {
       if (error) {
         const m = (error.message || '').toLowerCase();
         if (/already registered|already been registered|user already/.test(m)) {
-          setErro('Já existe uma conta com esse email. Entra no painel, ou usa outro email.');
+          // Já tem conta (por exemplo, como cliente de uma barbearia). Não é
+          // razão para não abrir a dele: entra com a palavra-passe dessa
+          // conta e a barbearia é criada nela.
+          if (await criarComContaExistente()) return;
+          setErro('Já existe uma conta com esse email. Se a palavra-passe que escreveste é a dessa conta, tenta outra vez; se te esqueceste, recupera-a no painel.');
         } else if (/rate|too many/.test(m)) {
           setErro('Já foram feitas várias tentativas. Espera um minuto e tenta outra vez.');
         } else if (/password/.test(m)) {
@@ -187,7 +217,8 @@ export default function Comecar() {
        * "vai ao teu email" para um email que nunca ia sair, e ficava a espera.
        */
       if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
-        setErro('Já existe uma conta com esse email. Entra no painel com ela — ou, se te esqueceste da palavra-passe, recupera-a lá.');
+        if (await criarComContaExistente()) return;
+        setErro('Já existe uma conta com esse email. Se a palavra-passe que escreveste é a dessa conta, tenta outra vez; se te esqueceste, recupera-a no painel.');
         return;
       }
 
