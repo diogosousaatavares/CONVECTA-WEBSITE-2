@@ -45,7 +45,7 @@ const faqs = [
   },
   {
     q: "Quanto custa? Há comissões por marcação?",
-    a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três e não há limite de marcações em nenhum. Sem comissões por marcação, sem taxa de adesão e sem fidelização — cancelas quando quiseres. Acresce IVA à taxa legal, quando aplicável.`,
+    a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três e não há limite de marcações em nenhum. Sem comissões por marcação e sem taxa de adesão. No plano mensal não há fidelização: cancelas quando quiseres (no anual o compromisso é de doze meses, que é o que paga o desconto). Os preços são finais — a Convecta está no regime de isenção de IVA (art. 53.º do CIVA), por isso não acresce IVA.`,
   },
   {
     q: "Quanto tempo até estar a funcionar?",

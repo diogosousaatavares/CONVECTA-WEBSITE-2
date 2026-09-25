@@ -383,8 +383,9 @@ export default function Comecar() {
                 ))}
               </div>
 
-              {/* Um barbeiro sozinho pode querer o Business pela personalizacao.
-                  Impor-lhe o Essencial e perder a venda maior. */}
+              {/* Quem chega por um plano pode querer outro: os planos so
+                  diferem no numero de profissionais, e o tamanho da equipa
+                  e coisa que ele sabe melhor do que nos. */}
               <div style={{ ...ajuda, marginTop: 14 }}>
                 Podes escolher outro:{' '}
                 {PLANOS.filter(p => p.id !== planoId).map((p, i) => (

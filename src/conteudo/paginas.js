@@ -79,11 +79,11 @@ export const PILAR = {
       "No fim do corte fazes o checkout: serviço, produtos, método de pagamento. A caixa, a comissão do barbeiro e o stock ficam certos sozinhos.",
       "No fim do mês carregas num botão e sai o Excel para o contabilista.",
     ] },
-    p("Os primeiros 7 dias são à experiência, sem cartão. Vê o passo a passo em [Como funciona](/como-funciona)."),
+    p("Montar a barbearia não exige cartão nenhum. Para começares a receber marcações registas o cartão e tens 7 dias à experiência, sem seres cobrado — se cancelares até lá, não pagas nada. Vê o passo a passo em [Como funciona](/como-funciona)."),
     h2("Perguntas frequentes", "faq"),
     { tipo: "faq", itens: [
       { q: "Qual é o melhor software de marcações para barbearia em Portugal?", a: "Depende do que precisas. Se queres clientes novos de uma montra e não te importas de pagar comissão, um marketplace (Fresha, Treatwell, Booksy). Se queres o teu próprio site de marcações e gestão da barbearia com mensalidade fixa e sem comissões, a Convecta é feita para isso. Fizemos uma lista honesta, com a Convecta na mesma grelha que os outros, em [Melhores softwares de marcações para barbearias em Portugal](/blog/melhores-softwares-marcacoes-barbearias-portugal)." },
-      { q: "Há software de marcações grátis para barbearia?", a: "Há planos grátis noutros programas (BUK e EasyWeek tinham, a " + VERIFICADO_TEXTO + "), normalmente limitados a um colaborador ou a poucas marcações. A Convecta não tem plano grátis: tem 7 dias à experiência sem cartão, e depois " + PRECO_DESDE_TEXTO + "/mês no plano de entrada, com tudo incluído." },
+      { q: "Há software de marcações grátis para barbearia?", a: "Há planos grátis noutros programas (BUK e EasyWeek tinham, a " + VERIFICADO_TEXTO + "), normalmente limitados a um colaborador ou a poucas marcações. A Convecta não tem plano grátis: montar a barbearia não exige cartão e, quando registas o cartão para receberes marcações, tens 7 dias à experiência sem seres cobrado, e depois " + PRECO_DESDE_TEXTO + "/mês no plano de entrada, com tudo incluído." },
       { q: "Os clientes precisam de instalar alguma app?", a: "Não. Marcam pelo site da barbearia no browser do telemóvel. Se quiserem, guardam-no no ecrã principal e fica lá como uma app, com o teu nome e logótipo. Criam conta uma vez, com o email, para verem as marcações e receberem os avisos." },
       { q: "A Convecta manda lembretes por SMS ou WhatsApp?", a: "Não. Os avisos ao cliente — marcação confirmada, cancelada, e o aviso antes do corte — vão por notificação no telemóvel e por email, sem custo por mensagem. SMS e WhatsApp não existem na Convecta hoje." },
       { q: "Serve para uma barbearia com vários barbeiros?", a: "Sim. Cada barbeiro tem a coluna dele na agenda, o horário dele e a comissão dele. Pode entrar no painel com a conta dele e ver a agenda, os clientes e a conta de comissões dele — sem ver o financeiro da casa. O dono escolhe se ele vê a agenda toda ou só a coluna dele." },
@@ -93,7 +93,7 @@ export const PILAR = {
     h2("Quem faz a Convecta", "quem"),
     p(`A Convecta é feita por ${SITE.titular}, em Alfena, no concelho de Valongo, distrito do Porto. Visita as barbearias, configura o sistema com o dono e dá suporte por telefone e WhatsApp em dias úteis. Mais em [Sobre a Convecta](/sobre).`),
   ],
-  fecho: { titulo: "Experimenta na tua barbearia. 7 dias, sem cartão, sem comissões." },
+  fecho: { titulo: "Experimenta na tua barbearia. 7 dias à experiência, sem comissões." },
 };
 
 /* ───────────────────────────── Sobre ───────────────────────────── */
@@ -316,7 +316,7 @@ export const APP = funcionalidade({
     h2("O que o cliente vê"),
     lista(TEMAS.app),
     h2("Tu escolhes o design"),
-    p("No painel há um editor: cores, tipografia, logótipo, capa, galeria, o que aparece e o que não aparece. Mudas, vês o resultado num telemóvel desenhado no ecrã, e publicas quando gostares. Não precisas de um designer nem de nos pedir nada. No plano Business, a personalização completa é feita pela Convecta contigo."),
+    p("No painel há um editor: cores, tipografia, logótipo, capa, galeria, o que aparece e o que não aparece. Mudas, vês o resultado num telemóvel desenhado no ecrã, e publicas quando gostares. Não precisas de um designer nem de nos pedir nada. O editor está em todos os planos — não é um extra do plano de cima."),
     { tipo: "imagem", src: "/provas/personalizacao.jpg", alt: "Editor de design no painel da Convecta, com a pré-visualização do site da barbearia num telemóvel", largura: 1200, altura: 800, legenda: "O editor de design no painel: mudas as cores e vês o site do cliente a mudar ao lado." },
     h2("Como se instala"),
     p("O cliente abre o site da barbearia no telemóvel e escolhe «Adicionar ao ecrã principal» (no iPhone, pelo botão de partilha; no Android, o próprio browser sugere). A partir daí abre em ecrã inteiro, com o teu ícone, e recebe notificações. É uma PWA — a mesma tecnologia que muitas apps grandes usam — e funciona em iPhone e Android."),
@@ -366,7 +366,7 @@ const comparacao = ({ chave, caminho, descricao, lead, intro, quando, tabela, fa
       { tipo: "ligacoes", itens: COMPARACOES_LIGACOES.filter((l) => l.caminho !== caminho) },
       p("A visão completa do que a Convecta faz está em [Software para barbearias](/software-para-barbearias); os planos em [Preços](/precos)."),
     ],
-    fecho: { titulo: "Sem comissões. Sem contrato. 7 dias à experiência." },
+    fecho: { titulo: "Sem comissões. Sem fidelização no mensal. 7 dias à experiência." },
   };
 };
 

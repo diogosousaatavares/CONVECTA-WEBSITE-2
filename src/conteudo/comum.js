@@ -69,7 +69,7 @@ export const NAO_FAZ = [
   "Marketplace: a Convecta não traz clientes novos de uma montra; traz os teus para marcarem sozinhos.",
 ];
 
-export const PRECO_FRASE = `Três planos por barbearia, ${PLANOS_TEXTO}; desde ${PRECO_DESDE_TEXTO}/mês, ${Math.round(DESCONTO_ANUAL * 100)} % mais barato no anual, sem comissões por marcação nem por cliente novo, 7 dias à experiência sem cartão.`;
+export const PRECO_FRASE = `Três planos por barbearia, ${PLANOS_TEXTO}; desde ${PRECO_DESDE_TEXTO}/mês, ${Math.round(DESCONTO_ANUAL * 100)} % mais barato no anual, sem comissões por marcação nem por cliente novo. Montar a barbearia não exige cartão; para começar a receber marcações regista-se o cartão e há 7 dias à experiência, sem ser cobrado nada.`;
 
 /*
  * Concorrentes. Verificado nas paginas oficiais a 24 set 2026. Tudo o que

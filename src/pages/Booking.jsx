@@ -310,7 +310,7 @@ export default function Funcionalidades() {
                 <strong className="text-ink">Gestão</strong> é o que acontece depois do corte. No checkout registas como pagou, o desconto e a gorjeta; a comissão do barbeiro e o carimbo do cliente ficam feitos no mesmo toque. No fim do dia fechas a caixa. No fim do mês, o Excel do contabilista sai com um botão. Os produtos que vendes ao balcão saem do stock.
               </p>
               <p>
-                Tudo isto por uma <strong className="text-ink">mensalidade fixa desde {PRECO_DESDE_TEXTO}</strong>, sem comissões por marcação, sem fidelização, num plano escolhido pelo tamanho da tua equipa. É um <strong className="text-ink">software de gestão para barbearias</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
+                Tudo isto por uma <strong className="text-ink">mensalidade fixa desde {PRECO_DESDE_TEXTO}</strong>, sem comissões por marcação, sem fidelização no mensal, num plano escolhido pelo tamanho da tua equipa. É um <strong className="text-ink">software de gestão para barbearias</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">

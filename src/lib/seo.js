@@ -48,11 +48,13 @@ export const SITE = {
  * Os planos. Decisao do Diogo, setembro de 2026.
  *
  * A plataforma e a mesma nos tres: agenda, clientes, caixa, comissoes,
- * produtos, stock, relatorios, fidelizacao e a pagina de marcacoes propria.
- * O que muda e quantos profissionais cabem — e, no Business, a personalizacao
- * completa do site da barbearia (que ja existe em <slug>.marcacoes.app; nao e um
- * site desenhado de raiz, e o contrato nao pode prometer isso)
- * feito pela Convecta dentro do sistema dela.
+ * produtos, stock, relatorios, fidelizacao, a personalizacao do site e a
+ * pagina de marcacoes propria. A UNICA coisa que muda e quantos
+ * profissionais cabem.
+ *
+ * O Business deixou de ter "personalizacao completa" como extra (25/09/2026):
+ * o editor de design esta no painel de todas as barbearias, em qualquer
+ * plano, por isso anuncia-lo como exclusivo era falso.
  *
  * Regra: nao se escreve um preco a mao em lado nenhum. Sai sempre daqui.
  */
@@ -65,7 +67,6 @@ export const PLANOS = [
     profissionais: 1,
     profissionaisTexto: "1 profissional",
     resumo: "Para quem trabalha sozinho.",
-    website: false,
   },
   {
     id: "profissional",
@@ -75,7 +76,6 @@ export const PLANOS = [
     profissionais: 5,
     profissionaisTexto: "Até 5 profissionais",
     resumo: "Para uma equipa pequena.",
-    website: false,
     destaque: true,
   },
   {
@@ -85,8 +85,7 @@ export const PLANOS = [
     precoTexto: "59,99 €",
     profissionais: 15,
     profissionaisTexto: "Até 15 profissionais",
-    resumo: "Para barbearias grandes, com o site totalmente personalizado.",
-    website: true,
+    resumo: "Para barbearias grandes.",
   },
 ];
 

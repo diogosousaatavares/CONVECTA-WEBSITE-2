@@ -9,7 +9,7 @@ const defaultItems = [
   "Caixa e Comissões",
   "Excel para o Contabilista",
   "Desde 19,99 € por Mês",
-  "Sem Fidelização",
+  "Sem Fidelização no Mensal",
   "Feito no Porto",
 ];
 

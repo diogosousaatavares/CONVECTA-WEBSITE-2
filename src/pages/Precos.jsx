@@ -35,7 +35,7 @@ const NAO_INCLUI = [
 ];
 
 const PERGUNTAS = [
-  { q: "Qual é a diferença entre os três planos?", a: `A plataforma é exatamente a mesma nos três: agenda, clientes, caixa, comissões, produtos, stock, relatórios e fidelização. O que muda é quantos profissionais cabem — ${PLANOS.map(p => `${p.nome}, ${p.profissionaisTexto.toLowerCase()}, ${p.precoTexto}/mês`).join("; ")}. O Business inclui ainda a personalização completa do site da barbearia. Não há limite de marcações em nenhum deles.` },
+  { q: "Qual é a diferença entre os três planos?", a: `A plataforma é exatamente a mesma nos três: agenda, clientes, caixa, comissões, produtos, stock, relatórios e fidelização. O que muda é quantos profissionais cabem — ${PLANOS.map(p => `${p.nome}, ${p.profissionaisTexto.toLowerCase()}, ${p.precoTexto}/mês`).join("; ")}. Não há limite de marcações em nenhum deles, e a personalização do site está em todos.` },
   { q: "E se a minha equipa crescer?", a: "Mudas de plano e continuas com os mesmos dados, a mesma agenda e o mesmo endereço. Não se recomeça nada." },
   { q: "Há comissões por marcação?", a: "Não. Zero. Cada marcação que entra é tua por inteiro. A Convecta ganha a mensalidade e mais nada." },
   { q: "Há fidelização ou período mínimo?", a: "No plano mensal não: cancelas quando quiseres. Se escolheres pagar o ano de uma vez, aí sim, o compromisso é de doze meses — é o que paga o desconto. Se saíres, os teus dados são apagados a pedido." },
@@ -54,7 +54,7 @@ export default function Precos() {
     <div className="pt-24" style={{ backgroundColor: "var(--cv-ground)" }}>
       <Seo
         titulo={`Preços — desde ${PRECO_DESDE_TEXTO}/mês, sem comissões por marcação`}
-        descricao={`Três planos, desde ${PRECO_DESDE_TEXTO} por mês por barbearia: ${PLANOS.map(p => `${p.nome} ${p.precoTexto} (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três — marcações online, agenda, caixa, comissões, stock, relatórios e fidelização. Sem taxa de adesão, sem comissões por marcação, sem fidelização.`}
+        descricao={`Três planos, desde ${PRECO_DESDE_TEXTO} por mês por barbearia: ${PLANOS.map(p => `${p.nome} ${p.precoTexto} (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três — marcações online, agenda, caixa, comissões, stock, relatórios e fidelização. Sem taxa de adesão, sem comissões por marcação e sem fidelização no plano mensal.`}
         caminho="/precos"
         ld={ld}
       />

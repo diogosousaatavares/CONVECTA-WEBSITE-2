@@ -144,9 +144,7 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
         <ul style={{ listStyle: "none", padding: 0, margin: "0 0 22px", display: "flex", flexDirection: "column", gap: 9, flex: 1 }}>
           <Item>A plataforma completa, sem cortes</Item>
           <Item icone={Bell}>Avisos ao cliente antes do corte, sem custo por mensagem</Item>
-          {plano.website && (
-            <Item icone={Globe}><strong>Personalização completa do site da barbearia</strong></Item>
-          )}
+          <Item icone={Globe}>Site da barbearia com as tuas cores e o teu logótipo</Item>
         </ul>
 
         {/* Ate aqui o botao mandava para o formulario de contacto: alguem
@@ -247,7 +245,8 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
           Paga-se com uma marcação por mês. As outras são todas tuas.
         </p>
         <p style={{ textAlign: "center", fontSize: "0.82rem", color: "var(--cv-ink-3)", margin: "10px 0 0" }}>
-          Preço por barbearia. Acresce IVA à taxa legal, quando aplicável.
+          Preço por barbearia e final: a Convecta está no regime de isenção de IVA
+          (art. 53.º do CIVA), por isso não acresce IVA à fatura.
           Sem comissões por marcação e sem taxa de adesão.
         </p>
 
