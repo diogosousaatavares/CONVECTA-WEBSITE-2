@@ -41,7 +41,7 @@ const PASSOS = [
     n: "03",
     titulo: "Registas o cartão",
     quem: "Tu · 1 minuto, na Stripe",
-    texto: "Quando quiseres começar a receber marcações, registas o cartão. Tens 7 dias à experiência e só depois é cobrado. Se cancelares até lá, não pagas nada — e cancelas sozinho no painel, sem telefonemas.",
+    texto: "Quando quiseres começar a receber marcações, registas o cartão. Tens um mês à experiência e só depois é cobrado. Se cancelares até lá, não pagas nada — e cancelas sozinho no painel, sem telefonemas.",
   },
   {
     icon: PhoneCall,
@@ -95,7 +95,7 @@ export default function ComoFunciona() {
     <main id="main-content" style={{ backgroundColor: "var(--cv-ground)" }} className="booking-page text-ink min-h-screen">
       <Seo
         titulo="Como funciona: do registo às marcações online na tua barbearia"
-        descricao="Seis passos, sem burocracia: crias a tua barbearia em dois minutos, montas serviços e equipa, registas o cartão com 7 dias à experiência, ligas as notificações, partilhas o link e os clientes começam a marcar online. Desde 19,99 €/mês, sem comissões."
+        descricao="Seis passos, sem burocracia: crias a tua barbearia em dois minutos, montas serviços e equipa, registas o cartão com um mês à experiência, ligas as notificações, partilhas o link e os clientes começam a marcar online. Desde 19,99 €/mês, sem comissões."
         caminho="/como-funciona"
         ld={ld}
       />

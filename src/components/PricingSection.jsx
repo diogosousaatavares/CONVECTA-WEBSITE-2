@@ -292,7 +292,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
             <p style={{ color: "var(--cv-ink-2)", fontSize: "0.9rem", margin: "6px 0 0", maxWidth: "46ch" }}>
               Em dois minutos tens a tua barbearia montada e o teu site no ar.
               O cartão só é pedido quando quiseres começar a receber marcações —
-              e são 7 dias à experiência.
+              e é um mês à experiência.
             </p>
           </div>
           <div className="pr-apelo-botoes">

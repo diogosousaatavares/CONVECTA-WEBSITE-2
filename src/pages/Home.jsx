@@ -44,7 +44,7 @@ const PERGUNTAS = [
   },
   {
     q: "Quanto custa?",
-    a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. Sem comissões por marcação, e os primeiros 7 dias são grátis.`,
+    a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. Sem comissões por marcação, e o primeiro mês é grátis.`,
   },
 ];
 
@@ -132,7 +132,7 @@ export default function Home() {
                 agora?". Dizer "nada" aqui vale mais do que qualquer adjectivo
                 no proprio botao. */}
             <p style={{ marginTop: 30, fontSize: 13, color: "var(--cv-ink-3)" }}>
-              Sem cartão para começar · 7 dias à experiência · Planos desde {PRECO_DESDE_TEXTO}/mês
+              Sem cartão para começar · 1 mês à experiência · Planos desde {PRECO_DESDE_TEXTO}/mês
             </p>
           </motion.div>
 

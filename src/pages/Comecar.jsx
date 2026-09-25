@@ -289,7 +289,7 @@ export default function Comecar() {
     <>
       <Seo
         titulo="Começar"
-        descricao="Cria a conta da tua barbearia. 7 dias à experiência, sem pagar nada hoje."
+        descricao="Cria a conta da tua barbearia. 1 mês à experiência, sem pagar nada hoje."
         caminho="/comecar"
         noindex
       />
@@ -315,7 +315,7 @@ export default function Comecar() {
         {/* As garantias do hero desaparecem quando se entra aqui. Repetem-se,
             numa linha, para nao parecer que o registo e onde a armadilha esta. */}
         <p style={{ fontSize: 12, opacity: .6, margin: '0 0 30px' }}>
-          Sem cartão para começar · 7 dias grátis · cancelas sozinho no painel
+          Sem cartão para começar · 1 mês grátis · cancelas sozinho no painel
         </p>
 
         {/* ── 1. Quantos barbeiros ────────────────────────────────────── */}
@@ -499,7 +499,7 @@ export default function Comecar() {
                 <Check size={18} style={{ color: 'var(--cv-amarelo)', flexShrink: 0, marginTop: 2 }} />
                 <div>
                   <strong>Hoje não pagas nada.</strong> Criar a conta é grátis e o cartão
-                  só é pedido lá dentro, depois de veres o painel montado. São 7 dias à
+                  só é pedido lá dentro, depois de veres o painel montado. É um mês à
                   experiência, e cancelas sozinho se não gostares.
                 </div>
               </div>

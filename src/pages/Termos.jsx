@@ -115,7 +115,7 @@ export default function Termos() {
 
           <H2>9. O período de experiência</H2>
           <p>
-            Criar a conta e montar a barbearia não custa nada e não exige cartão. Para começar a receber marcações, a barbearia regista um cartão e entra num período de experiência de 7 dias, durante o qual não é cobrado nenhum valor. No fim desses 7 dias, se a subscrição não tiver sido cancelada, o cartão é cobrado pelo plano escolhido e a mensalidade passa a contar a partir daí. O cancelamento durante o período de experiência faz-se pela própria barbearia, no painel, e não tem custo. Uma barbearia que não registe cartão mantém o acesso ao painel, mas não recebe marcações.
+            Criar a conta e montar a barbearia não custa nada e não exige cartão. Para começar a receber marcações, a barbearia regista um cartão e entra num período de experiência de 30 dias, durante o qual não é cobrado nenhum valor. No fim desses 30 dias, se a subscrição não tiver sido cancelada, o cartão é cobrado pelo plano escolhido e a mensalidade passa a contar a partir daí. O cancelamento durante o período de experiência faz-se pela própria barbearia, no painel, e não tem custo. Uma barbearia que não registe cartão mantém o acesso ao painel, mas não recebe marcações.
           </p>
 
           <H2>10. Responsabilidade</H2>
