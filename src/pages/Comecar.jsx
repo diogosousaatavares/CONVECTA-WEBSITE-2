@@ -94,7 +94,7 @@ export default function Comecar() {
   );
 
   const [barbearia, setBarbearia] = useState({ nome: '', telefone: '', morada: '', nif: '' });
-  const [conta, setConta] = useState({ nome: '', email: '', password: '' });
+  const [conta, setConta] = useState({ nome: '', email: '', telefone: '', password: '' });
   // Aceitação dos Termos, da Privacidade e do acordo RGPD (art. 28.º).
   // Tem de ser um gesto da pessoa — uma caixa por marcar, não um texto.
   const [aceita, setAceita] = useState(false);
@@ -102,6 +102,26 @@ export default function Comecar() {
   const [aEnviar, setAEnviar] = useState(false);
   const [erro, setErro] = useState('');
   const [feito, setFeito] = useState(false);
+
+  /*
+   * O TELEMÓVEL DO RESPONSÁVEL É OBRIGATÓRIO.
+   *
+   * Não é burocracia: sem número não há como falar com quem montou a conta,
+   * e uma barbearia que monta e não activa morre calada. O telefone DA LOJA
+   * não serve — atende quem estiver ao balcão.
+   *
+   * Aceita-se 9 dígitos portugueses (9…), com ou sem +351 e com ou sem
+   * espaços, e números estrangeiros com indicativo. Recusa-se o resto: um
+   * número mal escrito é o mesmo que não ter número.
+   */
+  const telefoneLimpo = t => String(t || '').replace(/[\s.\-()]/g, '');
+  function telefoneValido(t) {
+    const n = telefoneLimpo(t);
+    if (/^(\+351|00351)?9\d{8}$/.test(n)) return true;       // telemóvel português
+    if (/^(\+351|00351)?2\d{8}$/.test(n)) return true;       // fixo português
+    if (/^\+\d{8,15}$/.test(n)) return true;                 // estrangeiro com indicativo
+    return false;
+  }
 
   const planoId = planoEscolhido || planoPara(barbeiros);
   const plano = useMemo(() => PLANOS.find(p => p.id === planoId) || PLANOS[1], [planoId]);
@@ -136,6 +156,11 @@ export default function Comecar() {
       morada: barbearia.morada.trim(),
       nif: barbearia.nif.replace(/\D/g, ''),
       nome_responsavel: conta.nome.trim(),
+      // O número de quem manda na conta. Obrigatório desde 30/09/2026.
+      telefone_responsavel: telefoneLimpo(conta.telefone),
+      // Marca a versão do formulário: é o que permite à função exigir o
+      // número aos registos novos sem trancar quem ficou a meio do anterior.
+      registo_versao: 2,
       // Prova da aceitação do acordo RGPD: que versão e quando.
       acordo_rgpd_versao: VERSAO_ACORDO,
       acordo_rgpd_aceite_em: new Date().toISOString(),
@@ -170,6 +195,8 @@ export default function Comecar() {
     if (!slug) return setErro('Esse nome não dá um endereço válido. Usa letras e números.');
     if (!conta.nome.trim()) return setErro('Escreve o teu nome.');
     if (!conta.email.includes('@')) return setErro('Escreve um email válido.');
+    if (!conta.telefone.trim()) return setErro('Escreve o teu telemóvel — é por aí que falamos contigo se alguma coisa correr mal.');
+    if (!telefoneValido(conta.telefone)) return setErro('Esse número não parece certo. Escreve os 9 dígitos, por exemplo 912 345 678.');
     if (conta.password.length < 8) return setErro('A palavra-passe tem de ter pelo menos 8 caracteres.');
     if (!aceita) return setErro('Para criar a conta tens de aceitar os Termos, a Política de Privacidade e o Acordo de subcontratação.');
     if (!temSupabase()) return setErro('O registo não está disponível neste momento. Fala connosco pelo WhatsApp.');
@@ -481,6 +508,13 @@ export default function Comecar() {
                 <input style={campo} type="email" value={conta.email} placeholder="rui@exemplo.pt"
                        autoComplete="email" onChange={e => c('email', e.target.value)} />
                 <div style={ajuda}>Vamos enviar-te um link de confirmação para aqui.</div>
+              </div>
+              <div>
+                <label style={rotulo}>Telemóvel *</label>
+                <input style={campo} type="tel" inputMode="tel" value={conta.telefone}
+                       placeholder="912 345 678" autoComplete="tel"
+                       onChange={e => c('telefone', e.target.value)} />
+                <div style={ajuda}>Só para falarmos contigo se alguma coisa correr mal na montagem. Não vai para lado nenhum.</div>
               </div>
               <div>
                 <label style={rotulo}>Palavra-passe *</label>
