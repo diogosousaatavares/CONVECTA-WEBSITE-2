@@ -15,6 +15,21 @@ export const PLANOS_TEXTO = PLANOS.map((p) => `${p.nome} (${p.profissionaisTexto
 
 export const AUTOR = "Diogo Tavares";
 
+/*
+ * QUANTOS DIAS DURA O PERIODO A EXPERIENCIA.
+ *
+ * A fonte da verdade e' o Stripe — convecta-superadmin, supabase/functions/
+ * criar-sessao-pagamento, `trial_period_days`. O site tem de dizer
+ * exactamente o mesmo numero: se prometer um mes e o Stripe cobrar aos
+ * catorze dias, e' uma queixa, nao um mal-entendido.
+ *   7 dias ate 26/09/2026 · 30 dias ate 30/09/2026 · 14 desde entao.
+ *
+ * Usa-se TESTE_TEXTO em vez de escrever o numero a mao. Foi por se escrever
+ * a mao que este numero ficou em catorze sitios diferentes.
+ */
+export const TESTE_DIAS = 14;
+export const TESTE_TEXTO = `${TESTE_DIAS} dias`;
+
 // O que a Convecta faz, por tema. Cada linha existe e grava no painel hoje.
 export const TEMAS = {
   agenda: [
@@ -69,7 +84,7 @@ export const NAO_FAZ = [
   "Marketplace: a Convecta não traz clientes novos de uma montra; traz os teus para marcarem sozinhos.",
 ];
 
-export const PRECO_FRASE = `Três planos por barbearia, ${PLANOS_TEXTO}; desde ${PRECO_DESDE_TEXTO}/mês, ${Math.round(DESCONTO_ANUAL * 100)} % mais barato no anual, sem comissões por marcação nem por cliente novo. Montar a barbearia não exige cartão; para começar a receber marcações regista-se o cartão e há um mês à experiência, sem ser cobrado nada.`;
+export const PRECO_FRASE = `Três planos por barbearia, ${PLANOS_TEXTO}; desde ${PRECO_DESDE_TEXTO}/mês, ${Math.round(DESCONTO_ANUAL * 100)} % mais barato no anual, sem comissões por marcação nem por cliente novo. Montar a barbearia não exige cartão; para começar a receber marcações regista-se o cartão e há ${TESTE_TEXTO} à experiência, sem ser cobrado nada.`;
 
 /*
  * Concorrentes. Verificado nas paginas oficiais a 24 set 2026. Tudo o que
@@ -185,6 +200,6 @@ export const CONVECTA_GRELHA = {
     "Site de marcações com o nome da barbearia, instalável no telemóvel.",
     "Agenda, caixa, comissões, stock, relatórios, Excel e cartão de fidelidade em todos os planos.",
     "Avisos por notificação e email, sem custo por mensagem. Sem SMS nem WhatsApp.",
-    "Sem pagamentos online, sem faturação certificada, sem plano grátis (1 mês à experiência).",
+    `Sem pagamentos online, sem faturação certificada, sem plano grátis (${TESTE_TEXTO} à experiência).`,
   ],
 };

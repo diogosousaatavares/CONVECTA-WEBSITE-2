@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     q: "Posso experimentar antes de decidir?",
-    a: "Sim, e sem falar com ninguém. Crias a tua barbearia em dois minutos — o site nasce logo com o teu nome — e montas os serviços, os horários e as cores sem dar cartão nenhum. Quando quiseres começar a receber marcações, registas o cartão e tens um mês à experiência. Se cancelares até lá, não pagas nada, e cancelas sozinho no painel.",
+    a: "Sim, e sem falar com ninguém. Crias a tua barbearia em dois minutos — o site nasce logo com o teu nome — e montas os serviços, os horários e as cores sem dar cartão nenhum. Quando quiseres começar a receber marcações, registas o cartão e tens 14 dias à experiência. Se cancelares até lá, não pagas nada, e cancelas sozinho no painel.",
   },
   {
     q: "Como é que os meus clientes marcam?",
