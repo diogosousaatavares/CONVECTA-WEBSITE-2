@@ -99,15 +99,23 @@ export default function Home() {
               Os teus clientes marcam sozinhos. <span className="cv-marca">Tu só cortas.</span>
             </h1>
 
-            {/* A frase de definicao: o H1 vende, esta explica. E a mesma frase
-                em todo o lado (site, schema, perfis) — e o que separa esta
-                Convecta das outras Convectas e o que uma IA cita. */}
-            <p style={{ margin: "18px 0 0", fontSize: 14, lineHeight: 1.6, color: "var(--cv-ink)", maxWidth: "52ch", fontWeight: 500 }}>
-              A Convecta Booking é um software de marcações online e gestão para barbearias em Portugal.
-            </p>
-            <p className="cv-texto" style={{ margin: "14px 0 32px", maxWidth: "44ch" }}>
-              Deixas de atender o telefone a meio do corte. Os clientes marcam pelo site da
-              tua barbearia, o telemóvel toca, e a agenda, a caixa e as comissões ficam no mesmo sítio.
+            {/*
+              Estavam aqui dois paragrafos. O primeiro era a frase de
+              definicao — «A Convecta Booking e um software de marcacoes
+              online e gestao para barbearias em Portugal» — e dizia, por
+              outras palavras, exactamente o que o sobrolho tres linhas acima
+              ja diz. Lida em voz alta a seguir ao titulo, era repeticao.
+              Continua escrita, e continua a contar para quem a procura: esta
+              em DEFINICAO (conteudo/comum.js), na descricao da pagina e no
+              corpo de /software-para-barbearias. So deixou de estar duas
+              vezes no mesmo ecra.
+
+              O segundo tinha tres ideias numa frase: o telefone, o site, e a
+              agenda com a caixa e as comissoes. As duas ultimas sao o que o
+              titulo ja promete. Fica a primeira, que e a unica que doi.
+            */}
+            <p className="cv-texto" style={{ margin: "20px 0 34px", maxWidth: "26ch" }}>
+              Deixas de atender o telefone a meio do corte.
             </p>
 
             <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
@@ -131,7 +139,7 @@ export default function Home() {
                 gente no momento de carregar: "quanto e que isto me custa
                 agora?". Dizer "nada" aqui vale mais do que qualquer adjectivo
                 no proprio botao. */}
-            <p style={{ marginTop: 30, fontSize: 13, color: "var(--cv-ink-3)" }}>
+            <p style={{ marginTop: 30, fontSize: 15, color: "var(--cv-ink-3)" }}>
               Sem cartão para começar · 14 dias à experiência · Planos desde {PRECO_DESDE_TEXTO}/mês
             </p>
           </motion.div>
