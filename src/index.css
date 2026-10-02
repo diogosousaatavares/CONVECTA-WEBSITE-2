@@ -1923,7 +1923,16 @@ body.cv-com-barra { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
 /* Demonstração da personalização. No telemóvel ocupa o ecrã inteiro: o
    telemóvel de exemplo fica em cima e os controlos por baixo, dentro da
    moldura. */
-.pd-moldura { display: block; width: 100%; height: min(1000px, 92vh); min-height: 640px; border: 0; }
+/* So o telemovel. A altura e a do aparelho mais o interruptor em cima e a
+   linha de instrucao em baixo: o telemovel de 300px de largura tem 629px de
+   altura, e sobram ~90px para os dois. Sem moldura nem fundo — o telemovel
+   ja traz a dele, e outra caixa a volta era a caixa a mais. */
+.pd-telemovel {
+  display: block; width: 100%; max-width: 420px; margin: 26px auto 0;
+  height: 730px; border: 0; background: transparent; color-scheme: light;
+}
 @media (max-width: 767px) {
-  .pd-moldura { height: calc(100svh - 64px); min-height: 560px; }
+  /* Ca dentro o telemovel mede-se pela altura do ecra, por isso a moldura
+     acompanha em vez de mandar. */
+  .pd-telemovel { height: min(720px, calc(100svh - 150px)); min-height: 520px; margin-top: 20px; }
 }
