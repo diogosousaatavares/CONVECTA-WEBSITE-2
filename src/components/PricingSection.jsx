@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Shield, Zap, ArrowRight, Headphones, Users, Globe, Bell } from "lucide-react";
+import { Check, Shield, Zap, ArrowRight, Headphones, Users } from "lucide-react";
 import { Link } from "react-router-dom";
-import { PLANOS, INCLUIDO_EM_TODOS, DESCONTO_ANUAL } from "@/lib/seo";
+import { PLANOS, DESCONTO_ANUAL } from "@/lib/seo";
 import FundoLinhas from "@/components/FundoLinhas";
 import MarcaWhatsApp from "@/components/MarcaWhatsApp";
 
@@ -115,16 +115,16 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
 
       <div style={{ padding: "26px 26px 26px", display: "flex", flexDirection: "column", flex: 1 }}>
         <Nome className="cv-h3" style={{ margin: 0 }}>{plano.nome}</Nome>
-        <p style={{ fontSize: "0.84rem", color: "var(--cv-ink-2)", margin: "5px 0 0" }}>{plano.resumo}</p>
+        <p style={{ fontSize: "1rem", color: "var(--cv-ink-2)", margin: "5px 0 0" }}>{plano.resumo}</p>
 
         <div style={{ display: "flex", alignItems: "baseline", gap: 7, flexWrap: "wrap", marginTop: 22 }}>
           <span style={{ fontFamily: "var(--font-heading)", fontSize: "2.6rem", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
             {valor}
           </span>
-          <span style={{ fontSize: "0.88rem", color: "var(--cv-ink-2)" }}>/ mês</span>
+          <span style={{ fontSize: "1rem", color: "var(--cv-ink-2)" }}>/ mês</span>
         </div>
 
-        <p style={{ fontSize: "0.82rem", color: anual ? "var(--cv-amarelo-texto)" : "var(--cv-ink-3)", margin: "10px 0 0", lineHeight: 1.55, minHeight: 34 }}>
+        <p style={{ fontSize: "0.95rem", color: anual ? "var(--cv-amarelo-texto)" : "var(--cv-ink-3)", margin: "10px 0 0", lineHeight: 1.55, minHeight: 34 }}>
           {anual
             ? <>Pago de uma vez: {plano.precoAnoTexto}/ano. Poupas {plano.poupancaAnoTexto}.</>
             : <>Ou {plano.precoMesAnualTexto}/mês se pagares o ano de uma vez.</>}
@@ -138,14 +138,12 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
           }}
         >
           <Users size={16} strokeWidth={1.8} color="var(--cv-amarelo-texto)" />
-          <span style={{ fontSize: "0.86rem", fontWeight: 700 }}>{plano.profissionaisTexto}</span>
+          <span style={{ fontSize: "1rem", fontWeight: 700 }}>{plano.profissionaisTexto}</span>
         </div>
 
-        <ul style={{ listStyle: "none", padding: 0, margin: "0 0 22px", display: "flex", flexDirection: "column", gap: 9, flex: 1 }}>
-          <Item>A plataforma completa, sem cortes</Item>
-          <Item icone={Bell}>Avisos ao cliente antes do corte, sem custo por mensagem</Item>
-          <Item icone={Globe}>Site da barbearia com as tuas cores e o teu logótipo</Item>
-        </ul>
+        {/* Aqui havia tres linhas, iguais nos tres cartoes. O que e igual
+            diz-se uma vez por baixo dos cartoes, nao tres vezes lado a lado. */}
+        <div style={{ flex: 1, minHeight: 8 }} />
 
         {/* Ate aqui o botao mandava para o formulario de contacto: alguem
             interessado tinha de escrever um email e esperar por resposta. A
@@ -161,7 +159,7 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
               background: destaque ? "var(--cv-ink)" : "transparent",
               color: destaque ? "#fff" : "var(--cv-ink)",
               border: destaque ? "1px solid var(--cv-ink)" : "1px solid var(--cv-linha)",
-              fontSize: "0.86rem", fontWeight: 600, cursor: "pointer",
+              fontSize: "1rem", fontWeight: 600, cursor: "pointer",
             }}
           >
             Começar com o {plano.nome} <ArrowRight size={14} />
@@ -188,7 +186,7 @@ function Item({ children, icone: Icone }) {
                  : <Check size={10} strokeWidth={3} color="var(--cv-amarelo-texto)" />}
         </span>
       )}
-      <span style={{ fontSize: "0.85rem", lineHeight: 1.5, color: "var(--cv-ink-2)" }}>{children}</span>
+      <span style={{ fontSize: "1rem", lineHeight: 1.5, color: "var(--cv-ink-2)" }}>{children}</span>
     </li>
   );
 }
@@ -244,40 +242,29 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
         <p style={{ textAlign: "center", fontSize: "1.02rem", fontWeight: 600, color: "var(--cv-ink)", margin: "26px 0 0" }}>
           Paga-se com uma marcação por mês. As outras são todas tuas.
         </p>
-        <p style={{ textAlign: "center", fontSize: "0.82rem", color: "var(--cv-ink-3)", margin: "10px 0 0" }}>
+        <p style={{ textAlign: "center", fontSize: "0.95rem", color: "var(--cv-ink-3)", margin: "10px 0 0" }}>
           Preço por barbearia e final: a Convecta está no regime de isenção de IVA
           (art. 53.º do CIVA), por isso não acresce IVA à fatura.
           Sem comissões por marcação e sem taxa de adesão.
         </p>
 
-        {/* o que e igual em todos: dito uma vez, em vez de tres colunas de "sim" */}
-        <div
-          style={{
-            background: "var(--cv-card)", border: "1px solid var(--cv-linha)",
-            borderRadius: 20, padding: "30px 28px", marginTop: 40,
-          }}
-        >
-          {React.createElement(NivelNome, { className: "cv-h3", style: { margin: 0 } }, "Em qualquer um dos três")}
-          <p style={{ fontSize: "0.84rem", color: "var(--cv-ink-2)", margin: "6px 0 22px" }}>
-            Sem módulos à parte, sem versão reduzida.
-          </p>
-          <ul className="cv-incluido">
-            {INCLUIDO_EM_TODOS.map(item => (
-              <li key={item.texto}>
-                {item.texto}
-                {item.emBreve && <span className="cv-em-breve">Em breve</span>}
-              </li>
-            ))}
-          </ul>
-        </div>
+        {/* Uma linha, e nao um bloco de treze. Quem quiser a lista toda
+            carrega e ve a pagina que existe para isso. */}
+        <p style={{ textAlign: "center", fontSize: "1.0625rem", color: "var(--cv-ink-2)",
+          margin: "30px auto 0", maxWidth: 620, lineHeight: 1.6 }}>
+          Os tres planos tem a plataforma completa. O que muda e quantos profissionais cabem.{" "}
+          <Link to="/funcionalidades" style={{ color: "var(--cv-ink)", borderBottom: "1px solid var(--cv-linha)" }}>
+            Ver tudo o que faz
+          </Link>.
+        </p>
 
         <div className="pr-garantias">
           {GARANTIAS.map(g => ({ ...g, texto: anual && g.textoAnual ? g.textoAnual : g.texto })).map(g => (
             <div key={g.titulo}>
               <div className="pr-garantia-ico"><g.icon size={16} strokeWidth={1.6} color="var(--cv-ink)" /></div>
               <div>
-                <p style={{ fontWeight: 700, fontSize: "0.85rem", margin: 0 }}>{g.titulo}</p>
-                <p style={{ color: "var(--cv-ink-2)", fontSize: "0.78rem", margin: "2px 0 0" }}>{g.texto}</p>
+                <p style={{ fontWeight: 700, fontSize: "1rem", margin: 0 }}>{g.titulo}</p>
+                <p style={{ color: "var(--cv-ink-2)", fontSize: "0.95rem", margin: "2px 0 0" }}>{g.texto}</p>
               </div>
             </div>
           ))}
