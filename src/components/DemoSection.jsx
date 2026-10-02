@@ -59,7 +59,7 @@ export default function DemoSection() {
                 <Smartphone size={22} />
               </div>
               <div className="flex-1 min-w-0">
-                <div className="text-[11px] font-bold uppercase tracking-[0.14em] opacity-70">Começa aqui</div>
+                <div className="text-[13px] font-bold uppercase tracking-[0.14em] opacity-70">Começa aqui</div>
                 <div className="font-heading text-xl lg:text-2xl leading-tight">Entrar como cliente</div>
                 <div className="text-sm opacity-75 mt-1">A app que os teus clientes vão usar. Marca uma consulta.</div>
               </div>

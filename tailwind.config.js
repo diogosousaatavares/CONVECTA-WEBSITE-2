@@ -59,6 +59,28 @@ module.exports = {
           ring: 'hsl(var(--sidebar-ring))'
         }
       },
+      /*
+       * O CHÃO DA LETRA.
+       *
+       * O site tinha 127 usos de `text-sm` (14px) e 71 abaixo disso (12px e
+       * 11px). Um barbeiro de 50 anos, ao sol, com o telemóvel na mão, não lê
+       * nada disso — e o que não se lê não convence.
+       *
+       * Em vez de corrigir 200 sítios à mão, sobe-se a escala inteira numa
+       * linha. Nada no site fica abaixo de 14px, e o texto normal passa a 17.
+       * A hierarquia mantém-se toda: o que era pequeno continua a ser o mais
+       * pequeno, só que agora é legível.
+       *
+       * Quem escrever uma classe nova continua a escrever text-sm. Muda o que
+       * text-sm quer dizer, não o código das páginas.
+       */
+      fontSize: {
+        xs:   ['0.875rem', { lineHeight: '1.5' }],    // 14px — era 12
+        sm:   ['1rem',     { lineHeight: '1.6' }],    // 16px — era 14
+        base: ['1.0625rem',{ lineHeight: '1.65' }],   // 17px — era 16
+        lg:   ['1.1875rem',{ lineHeight: '1.6' }],    // 19px — era 18
+        xl:   ['1.375rem', { lineHeight: '1.5' }],    // 22px — era 20
+      },
       fontFamily: {
         heading: ['var(--font-heading)'],
         body: ['var(--font-body)'],

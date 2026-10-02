@@ -135,7 +135,7 @@ export default function ComoFunciona() {
                     </div>
                   </div>
                   <div className="min-w-0">
-                    <p className="text-[11px] uppercase tracking-[0.18em] font-bold text-ink-3 mb-1">{p.quem}</p>
+                    <p className="text-[13px] uppercase tracking-[0.18em] font-bold text-ink-3 mb-1">{p.quem}</p>
                     <h2 className="font-heading text-2xl lg:text-3xl text-ink mb-2 leading-snug">{p.titulo}</h2>
                     <p className="text-ink-2 text-sm lg:text-base leading-relaxed">{p.texto}</p>
                     {p.link && (
