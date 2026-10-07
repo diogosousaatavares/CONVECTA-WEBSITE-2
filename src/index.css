@@ -1953,3 +1953,43 @@ body.cv-com-barra { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
   .pd-lado { padding-top: 0; width: 100%; }
   .pd-telemovel { max-width: 420px; height: min(700px, calc(100svh - 150px)); min-height: 520px; }
 }
+
+/* ── Porquê a Convecta (questionário no fim do registo) ── */
+.pc-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 22px; border-radius: 100px; border: none;
+  background: var(--cv-amarelo); color: var(--cv-amarelo-texto);
+  font: inherit; font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: transform .15s, opacity .15s;
+}
+.pc-btn:hover:not(:disabled) { transform: translateY(-1px); }
+.pc-btn:disabled { opacity: .45; cursor: default; }
+.pc-saltar {
+  background: none; border: none; padding: 6px 0; font: inherit;
+  font-size: 14px; color: var(--cv-ink-3); cursor: pointer;
+}
+.pc-saltar:hover { color: var(--cv-ink); }
+.pc-opcoes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+@media (max-width: 560px) { .pc-opcoes { grid-template-columns: 1fr; } }
+.pc-opcao {
+  display: flex; align-items: center; gap: 10px; text-align: left;
+  padding: 13px 14px; border-radius: 12px; font: inherit; font-size: 14.5px; line-height: 1.35;
+  border: 1px solid var(--cv-linha); background: var(--cv-ground); color: var(--cv-ink);
+  cursor: pointer; transition: border-color .15s, background .15s, transform .1s;
+}
+.pc-opcao:hover { border-color: var(--cv-ink-3); }
+.pc-opcao:active { transform: scale(.98); }
+.pc-opcao.pc-on { border-color: var(--cv-ink); background: rgba(254,233,109,.28); font-weight: 600; }
+.pc-marca {
+  width: 20px; height: 20px; border-radius: 6px; flex-shrink: 0;
+  border: 1.5px solid var(--cv-linha); background: var(--cv-card);
+  display: grid; place-items: center; color: var(--cv-ink);
+}
+.pc-on .pc-marca { background: var(--cv-amarelo); border-color: var(--cv-ink); }
+.pc-fecho { display: flex; flex-direction: column; gap: 6px; padding-left: 14px; border-left: 3px solid var(--cv-amarelo); }
+.pc-antes { font-size: 13.5px; color: var(--cv-ink-3); text-decoration: line-through; }
+.pc-depois { display: flex; gap: 8px; font-size: 15px; line-height: 1.55; }
+.pc-input {
+  flex: 1; min-width: 200px; padding: 11px 14px; border-radius: 10px; font: inherit; font-size: 15px;
+  border: 1px solid var(--cv-linha); background: var(--cv-ground); color: var(--cv-ink);
+}

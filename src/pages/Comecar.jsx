@@ -5,6 +5,7 @@ import Seo from '@/components/Seo';
 import { PLANOS, DESCONTO_ANUAL } from '@/lib/seo';
 import { VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
+import PorqueConvecta from '@/components/PorqueConvecta';
 
 /*
  * Começar — o registo da barbearia, sem ninguém do nosso lado.
@@ -302,6 +303,15 @@ export default function Comecar() {
             O teu endereço vai ser <strong>{slug}.marcacoes.app</strong>. Telefone, morada e NIF
             preenches no painel, quando quiseres.
           </div>
+          {/* Enquanto espera pelo email: quatro perguntas que lhe devolvem
+              o porquê de ter criado a conta. Ver PorqueConvecta.jsx. */}
+          <PorqueConvecta
+            nome={conta.nome.trim()}
+            email={conta.email.trim().toLowerCase()}
+            telefone={telefoneLimpo(conta.telefone)}
+            barbearia={barbearia.nome.trim()}
+            slug={slug}
+          />
           <p style={{ ...ajuda, marginTop: 24 }}>
             Não chegou em poucos minutos? <Link to="/contacto">Fala connosco</Link> e
             resolvemos em cima da hora.
