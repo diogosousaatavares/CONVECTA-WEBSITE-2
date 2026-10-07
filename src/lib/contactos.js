@@ -13,6 +13,8 @@ const SUPABASE_KEY = "sb_publishable_v6ps206cMqmiQWW5GqMglQ_r9GF8fID";
 export async function enviarContacto({ nome, negocio, telefone, email, mensagem }) {
   const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/pedir_contacto`, {
     method: "POST",
+    // Sobrevive a mudanca de pagina (o registo salta logo para o painel).
+    keepalive: true,
     headers: {
       "Content-Type": "application/json",
       apikey: SUPABASE_KEY,

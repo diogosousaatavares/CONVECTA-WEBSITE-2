@@ -5,7 +5,8 @@ import Seo from '@/components/Seo';
 import { PLANOS, DESCONTO_ANUAL } from '@/lib/seo';
 import { VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
-import PorqueConvecta from '@/components/PorqueConvecta';
+import PorqueConvecta, { textoRespostas } from '@/components/PorqueConvecta';
+import { enviarContacto } from '@/lib/contactos';
 
 /*
  * Começar — o registo da barbearia, sem ninguém do nosso lado.
@@ -104,6 +105,11 @@ export default function Comecar() {
   const [erro, setErro] = useState('');
   const [feito, setFeito] = useState(false);
 
+  // As quatro perguntas de entrada (PorqueConvecta). Mostram-se antes do
+  // passo 1; as respostas ficam aqui ate haver conta a que as juntar.
+  const [naEntrada, setNaEntrada] = useState(true);
+  const [respostas, setRespostas] = useState(null);
+
   /*
    * O TELEMÓVEL DO RESPONSÁVEL É OBRIGATÓRIO.
    *
@@ -145,6 +151,19 @@ export default function Comecar() {
     window.scrollTo?.({ top: 0, behavior: 'smooth' });
   };
 
+  // Depois de a conta existir, as respostas seguem para a tabela dos
+  // contactos, ja com nome e telemovel. Se falhar, nao se diz nada a ninguem.
+  function enviarRespostas() {
+    if (!respostas) return;
+    enviarContacto({
+      nome: conta.nome.trim(),
+      negocio: `${barbearia.nome.trim()} (${slug})`,
+      telefone: telefoneLimpo(conta.telefone),
+      email: conta.email.trim().toLowerCase(),
+      mensagem: textoRespostas(respostas),
+    }).catch(() => {});
+  }
+
   // O que a barbearia é: o mesmo objeto vai no registo e no caminho da conta já existente.
   function dadosDaBarbearia() {
     return {
@@ -185,6 +204,7 @@ export default function Comecar() {
     if (motivo) { setErro(motivo); return true; }
     if (data?.jaExistia) { setErro(`Essa conta já tem a barbearia «${data.nome || data.slug}». Entra no painel para a usares.`); return true; }
     try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo, contaExistente: true }); } catch { /* sem analytics */ }
+    enviarRespostas();
     window.location.href = `${PAINEL}/entrar`;
     return true;
   }
@@ -256,11 +276,13 @@ export default function Comecar() {
        * leva-se logo para o painel, que trata do resto.
        */
       if (data?.session) {
+        enviarRespostas();
         window.location.href = `${PAINEL}/entrar`;
         return;
       }
 
       try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo }); } catch { /* sem analytics */ }
+      enviarRespostas();
       setFeito(true);
     } catch (e) {
       setErro(e.message || 'Não foi possível criar a conta.');
@@ -303,15 +325,6 @@ export default function Comecar() {
             O teu endereço vai ser <strong>{slug}.marcacoes.app</strong>. Telefone, morada e NIF
             preenches no painel, quando quiseres.
           </div>
-          {/* Enquanto espera pelo email: quatro perguntas que lhe devolvem
-              o porquê de ter criado a conta. Ver PorqueConvecta.jsx. */}
-          <PorqueConvecta
-            nome={conta.nome.trim()}
-            email={conta.email.trim().toLowerCase()}
-            telefone={telefoneLimpo(conta.telefone)}
-            barbearia={barbearia.nome.trim()}
-            slug={slug}
-          />
           <p style={{ ...ajuda, marginTop: 24 }}>
             Não chegou em poucos minutos? <Link to="/contacto">Fala connosco</Link> e
             resolvemos em cima da hora.
@@ -331,6 +344,14 @@ export default function Comecar() {
         noindex
       />
       <main style={{ maxWidth: 620, margin: '0 auto', padding: '64px 20px 120px' }}>
+
+        {/* ── 0. As quatro perguntas, antes de tudo ───────────────────── */}
+        {naEntrada ? (
+          <PorqueConvecta
+            onFim={r => { setRespostas(r); setNaEntrada(false); window.scrollTo?.({ top: 0, behavior: 'smooth' }); }}
+            onSaltar={() => { try { window.trackEvent?.('porque_convecta_saltado'); } catch { /* sem analytics */ } setNaEntrada(false); }}
+          />
+        ) : (<>
 
         {/* Os tres passos com nome: "Passo 2 de 3" diz quanto falta, mas nao
             diz o que vem. Saber que o proximo e "Conta" tira a pergunta
@@ -574,6 +595,7 @@ export default function Comecar() {
             </label>
           </section>
         )}
+        </>)}
       </main>
     </>
   );
