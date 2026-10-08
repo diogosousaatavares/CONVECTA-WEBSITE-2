@@ -112,7 +112,8 @@ export default function Comecar() {
     return (
       <>
         <Seo titulo="Falamos contigo" caminho="/comecar" noindex />
-        <main style={{ maxWidth: 620, margin: '0 auto', padding: '64px 20px 120px' }}>
+        <main className="pt-32 lg:pt-40" style={{ maxWidth: 620, margin: '0 auto',
+        padding: '0 20px 120px' }}>
           <div style={{ width: 46, height: 46, borderRadius: '50%', background: 'var(--cv-amarelo)',
             display: 'grid', placeItems: 'center', marginBottom: 18 }}>
             <Check size={24} color="var(--cv-amarelo-texto)" />
@@ -141,7 +142,13 @@ export default function Comecar() {
         caminho="/comecar"
         noindex
       />
-      <main style={{ maxWidth: 620, margin: '0 auto', padding: '64px 20px 120px' }}>
+      {/* A barra de cima e `position: fixed` (h-20, lg:h-24), por isso cada
+          pagina tem de se afastar dela por si. Com os 64px que aqui estavam,
+          o cartao entrava por baixo da barra e a primeira linha lia-se a
+          meio. As outras paginas do site usam pt-32 / lg:pt-40; esta passa a
+          usar o mesmo. */}
+      <main className="pt-32 lg:pt-40" style={{ maxWidth: 620, margin: '0 auto',
+        padding: '0 20px 120px' }}>
         {naEntrada ? (
           <PorqueConvecta
             onFim={r => { setRespostas(r); setNaEntrada(false); window.scrollTo?.({ top: 0, behavior: 'smooth' }); }}
