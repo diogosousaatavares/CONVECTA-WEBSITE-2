@@ -112,8 +112,15 @@ export default function Comecar() {
     return (
       <>
         <Seo titulo="Falamos contigo" caminho="/comecar" noindex />
-        <main className="pt-32 lg:pt-40" style={{ maxWidth: 620, margin: '0 auto',
-        padding: '0 20px 120px' }}>
+        <main style={{ maxWidth: 620, margin: '0 auto',
+        /* Tudo separado, e nada de `padding` de uma vez: o atalho reescreve
+           os quatro lados, e um `padding` inline apaga sem avisar qualquer
+           classe de margem que esteja no className — foi exactamente assim
+           que esta pagina ficou a passar por baixo da barra duas vezes. */
+        paddingLeft: 20, paddingRight: 20, paddingBottom: 120,
+        /* A barra de cima e fixa: 80px, 96px em ecra grande. Isto limpa a
+           maior das duas e ainda deixa ar por cima do cartao. */
+        paddingTop: 144 }}>
           <div style={{ width: 46, height: 46, borderRadius: '50%', background: 'var(--cv-amarelo)',
             display: 'grid', placeItems: 'center', marginBottom: 18 }}>
             <Check size={24} color="var(--cv-amarelo-texto)" />
@@ -147,8 +154,15 @@ export default function Comecar() {
           o cartao entrava por baixo da barra e a primeira linha lia-se a
           meio. As outras paginas do site usam pt-32 / lg:pt-40; esta passa a
           usar o mesmo. */}
-      <main className="pt-32 lg:pt-40" style={{ maxWidth: 620, margin: '0 auto',
-        padding: '0 20px 120px' }}>
+      <main style={{ maxWidth: 620, margin: '0 auto',
+        /* Tudo separado, e nada de `padding` de uma vez: o atalho reescreve
+           os quatro lados, e um `padding` inline apaga sem avisar qualquer
+           classe de margem que esteja no className — foi exactamente assim
+           que esta pagina ficou a passar por baixo da barra duas vezes. */
+        paddingLeft: 20, paddingRight: 20, paddingBottom: 120,
+        /* A barra de cima e fixa: 80px, 96px em ecra grande. Isto limpa a
+           maior das duas e ainda deixa ar por cima do cartao. */
+        paddingTop: 144 }}>
         {naEntrada ? (
           <PorqueConvecta
             onFim={r => { setRespostas(r); setNaEntrada(false); window.scrollTo?.({ top: 0, behavior: 'smooth' }); }}
