@@ -94,7 +94,7 @@ const TEMPO = {
 const ANTES = {
   conhecia: 'Não conhecias — agora conheces, e estás a dois minutos de a ter.',
   caro: `Planos desde ${PRECO_DESDE_TEXTO}/mês, sem comissões. E começas à experiência, sem cartão.`,
-  complicado: 'Não montas nada sozinho: vamos à barbearia e deixamos tudo pronto no mesmo dia.',
+  complicado: 'Montar a conta demora dois minutos, e é já a seguir. O resto fazes ao teu ritmo, e nós ajudamos.',
   tempo: 'São dois minutos agora. Depois disso é tempo que ganhas, não tempo que gastas.',
   clientes: 'Os teus clientes e o histórico vêm contigo: entregas a lista como a tiveres e nós carregamos.',
   normal: 'Era normal porque não havia alternativa à tua medida. Agora há.',
@@ -150,7 +150,7 @@ export default function PorqueConvecta({ onFim, onSaltar }) {
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 18, flexWrap: 'wrap' }}>
           <button className="pc-btn" onClick={() => ir(0)}>Responder <ArrowRight size={16} /></button>
-          <button className="pc-saltar" onClick={onSaltar}>Saltar e falar já</button>
+          <button className="pc-saltar" onClick={onSaltar}>Saltar e montar já</button>
         </div>
       </div>
     );
