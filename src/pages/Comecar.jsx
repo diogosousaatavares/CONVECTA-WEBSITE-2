@@ -184,6 +184,12 @@ export default function Comecar() {
       // Prova da aceitação do acordo RGPD: que versão e quando.
       acordo_rgpd_versao: VERSAO_ACORDO,
       acordo_rgpd_aceite_em: new Date().toISOString(),
+      // As quatro respostas de entrada seguem TAMBEM aqui. Ja iam para a
+      // tabela dos contactos, mas agora a `registar-barbearia` abre um lead
+      // no CRM com este registo — e e com estas respostas que se abre a
+      // chamada no dia seguinte, em vez de se comecar do zero.
+      respostas: respostas || null,
+      respostas_texto: respostas ? textoRespostas(respostas) : '',
     };
   }
 
