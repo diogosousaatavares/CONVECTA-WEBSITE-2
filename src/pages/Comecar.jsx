@@ -61,10 +61,10 @@ const ETAPAS = ['Plano', 'Negócio', 'Conta'];
    cria a conta com os serviços, as cores e as palavras de cada tipo — as
    mesmas do painel (src/lib/nicho.js). */
 const TIPOS_NEGOCIO = [
-  { v: 'barbearia', l: 'Barbearia' },
-  { v: 'cabeleireiro', l: 'Cabeleireiro' },
-  { v: 'unhas', l: 'Unhas, sobrancelhas e pestanas' },
-  { v: 'estetica', l: 'Estética' },
+  { v: 'barbearia', l: 'Barbearia', d: 'Cortes, barbas, desenhos' },
+  { v: 'cabeleireiro', l: 'Cabeleireiro', d: 'Cor, madeixas, brushing' },
+  { v: 'unhas', l: 'Unhas, sobrancelhas e pestanas', d: 'Gel, manicure, extensões' },
+  { v: 'estetica', l: 'Estética', d: 'Pele, massagens, depilação' },
 ];
 
 const campo = {
@@ -107,6 +107,7 @@ export default function Comecar() {
 
   const [barbearia, setBarbearia] = useState({ nome: '', telefone: '', morada: '', nif: '' });
   const [tipo, setTipo] = useState('barbearia');
+  const [tipoEscolhido, setTipoEscolhido] = useState(false);
   const [conta, setConta] = useState({ nome: '', email: '', telefone: '', password: '' });
   // Aceitação dos Termos, da Privacidade e do acordo RGPD (art. 28.º).
   // Tem de ser um gesto da pessoa — uma caixa por marcar, não um texto.
@@ -118,7 +119,9 @@ export default function Comecar() {
 
   // As quatro perguntas de entrada (PorqueConvecta). Mostram-se antes do
   // passo 1; as respostas ficam aqui ate haver conta a que as juntar.
-  const [naEntrada, setNaEntrada] = useState(true);
+  // 10/10/2026: as quatro perguntas de entrada sairam — o Diogo quer que o
+  // registo comece logo pelo tipo de negocio. O componente fica, desligado.
+  const [naEntrada, setNaEntrada] = useState(false);
   const [respostas, setRespostas] = useState(null);
 
   /*
@@ -411,8 +414,41 @@ export default function Comecar() {
         </p>
 
         {/* ── 1. Quantos barbeiros ────────────────────────────────────── */}
-        {passo === 1 && (
+        {/* ── 1a. Que tipo de negocio (10/10/2026) — a primeira pergunta ─ */}
+        {passo === 1 && !tipoEscolhido && (
           <section>
+            <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>Que tipo de negócio tens?</h1>
+            <p style={{ fontSize: 15, opacity: .8, margin: '0 0 24px', lineHeight: 1.6 }}>
+              A app nasce com as palavras, os serviços de exemplo e as cores do teu tipo de negócio. Mudas tudo depois.
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
+              {TIPOS_NEGOCIO.map(t => (
+                <button key={t.v} type="button"
+                  onClick={() => {
+                    setTipo(t.v); setTipoEscolhido(true);
+                    try { window.trackEvent?.('comecar_tipo', { tipo: t.v }); } catch { /* sem analytics */ }
+                  }}
+                  style={{
+                    textAlign: 'left', padding: '18px 18px', borderRadius: 14, cursor: 'pointer',
+                    fontFamily: 'inherit', border: '1px solid var(--cv-linha)', background: 'var(--cv-card)',
+                    color: 'var(--cv-ink)', display: 'flex', flexDirection: 'column', gap: 4, minHeight: 84,
+                  }}>
+                  <span style={{ fontSize: 18, fontWeight: 700 }}>{t.l}</span>
+                  <span style={{ fontSize: 14, opacity: .7 }}>{t.d}</span>
+                </button>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* ── 1b. Quantas pessoas ──────────────────────────────────────── */}
+        {passo === 1 && tipoEscolhido && (
+          <section>
+            <button type="button" onClick={() => setTipoEscolhido(false)}
+              style={{ background: 'none', border: 0, padding: 0, margin: '0 0 14px', cursor: 'pointer',
+                fontFamily: 'inherit', fontSize: 14, color: 'var(--cv-ink-2)', textDecoration: 'underline' }}>
+              {(TIPOS_NEGOCIO.find(t => t.v === tipo) || TIPOS_NEGOCIO[0]).l} · mudar
+            </button>
             <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>
               Quantas pessoas trabalham no teu negócio?
             </h1>
@@ -510,22 +546,6 @@ export default function Comecar() {
             <p style={{ fontSize: 15, opacity: .8, margin: '0 0 28px', lineHeight: 1.6 }}>
               O nome curto, o que dizes ao telefone. É só isto — o resto preenches no painel, quando quiseres.
             </p>
-
-            <label style={rotulo}>Que tipo de negócio é?</label>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 22 }}>
-              {TIPOS_NEGOCIO.map(t => (
-                <button key={t.v} type="button" onClick={() => setTipo(t.v)} aria-pressed={tipo === t.v}
-                  style={{
-                    padding: '11px 16px', borderRadius: 10, fontSize: 15, fontWeight: 700,
-                    cursor: 'pointer', fontFamily: 'inherit',
-                    border: `1px solid ${tipo === t.v ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
-                    background: tipo === t.v ? 'var(--cv-amarelo)' : 'var(--cv-card)',
-                    color: tipo === t.v ? 'var(--cv-amarelo-texto)' : 'var(--cv-ink)',
-                  }}>
-                  {t.l}
-                </button>
-              ))}
-            </div>
 
             <label style={rotulo}>Nome do negócio</label>
             <input
