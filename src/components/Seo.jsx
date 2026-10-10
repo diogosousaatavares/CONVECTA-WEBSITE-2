@@ -40,13 +40,13 @@ export default function Seo({ titulo, descricao = SITE.descricao, caminho = "/",
       <meta property="og:image:type" content="image/png" />
       <meta property="og:image:width" content={String(SITE.imagemLargura)} />
       <meta property="og:image:height" content={String(SITE.imagemAltura)} />
-      <meta property="og:image:alt" content="Convecta — marcações online para barbearias" />
+      <meta property="og:image:alt" content="Convecta — marcações online para barbearias, salões e estética" />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={tituloCompleto} />
       <meta name="twitter:description" content={descricao} />
       <meta name="twitter:image" content={imagem} />
-      <meta name="twitter:image:alt" content="Convecta — marcações online para barbearias" />
+      <meta name="twitter:image:alt" content="Convecta — marcações online para barbearias, salões e estética" />
 
       {blocos.length > 0 && (
         <script type="application/ld+json">{JSON.stringify(grafoLd(...blocos))}</script>

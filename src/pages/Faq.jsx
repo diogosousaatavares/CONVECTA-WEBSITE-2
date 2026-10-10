@@ -9,15 +9,15 @@ import BarraComecarFixa from "@/components/BarraComecarFixa";
 const faqs = [
   {
     q: "O que é a Convecta Booking?",
-    a: "É a app de marcações online e o software de gestão da tua barbearia: um site próprio onde os teus clientes marcam pelo telemóvel, e um painel onde tu geres a agenda, a caixa, as comissões, o stock, os clientes e o cartão de fidelidade. Tudo com o nome e as cores da tua barbearia — o cliente nunca vê a Convecta, vê-te a ti.",
+    a: "É a app de marcações online e o software de gestão do teu negócio — barbearia, salão, estúdio de unhas ou estética: um site próprio onde os teus clientes marcam pelo telemóvel, e um painel onde tu geres a agenda, a caixa, as comissões, o stock, os clientes e o cartão de fidelidade. Tudo com o nome e as cores do teu negócio — o cliente nunca vê a Convecta, vê-te a ti.",
   },
   {
     q: "Posso experimentar antes de decidir?",
-    a: "Sim, e sem falar com ninguém. Crias a tua barbearia em dois minutos — o site nasce logo com o teu nome — e montas os serviços, os horários e as cores sem dar cartão nenhum. Quando quiseres começar a receber marcações, registas o cartão e tens 14 dias à experiência. Se cancelares até lá, não pagas nada, e cancelas sozinho no painel.",
+    a: "Sim, e sem falar com ninguém. Crias o teu negócio em dois minutos — o site nasce logo com o teu nome — e montas os serviços, os horários e as cores sem dar cartão nenhum. Quando quiseres começar a receber marcações, registas o cartão e tens 14 dias à experiência. Se cancelares até lá, não pagas nada, e cancelas sozinho no painel.",
   },
   {
     q: "Como é que os meus clientes marcam?",
-    a: "Pelo site da tua barbearia, no telemóvel, em três toques: serviço, barbeiro, hora. Não precisam de instalar nada de nenhuma loja — podem guardar o site no ecrã principal e fica lá como uma app, com o teu nome e o teu logótipo. Vêem só as horas livres; as ocupadas não aparecem.",
+    a: "Pelo site do teu negócio, no telemóvel, em três toques: serviço, profissional, hora. Não precisam de instalar nada de nenhuma loja — podem guardar o site no ecrã principal e fica lá como uma app, com o teu nome e o teu logótipo. Vêem só as horas livres; as ocupadas não aparecem.",
   },
   {
     q: "Como fico a saber que entrou uma marcação?",
@@ -25,11 +25,11 @@ const faqs = [
   },
   {
     q: "Podem entrar duas marcações à mesma hora?",
-    a: "Não. Se dois clientes tentarem a mesma hora com o mesmo barbeiro no mesmo segundo, só um fica com ela — o outro é avisado na hora e escolhe outra. Isto é garantido pela base de dados, não por uma regra no ecrã que possa falhar.",
+    a: "Não. Se dois clientes tentarem a mesma hora com o mesmo profissional no mesmo segundo, só um fica com ela — o outro é avisado na hora e escolhe outra. Isto é garantido pela base de dados, não por uma regra no ecrã que possa falhar.",
   },
   {
     q: "E se o cliente quiser desmarcar?",
-    a: "Pode fazê-lo sozinho pelo site, até ao prazo que tu definires — duas horas antes, seis, um dia, o que fizer sentido na tua barbearia. Depois desse prazo, o site diz-lhe que só ligando para ti. Quando desmarca, a hora fica logo livre na agenda e recebes aviso.",
+    a: "Pode fazê-lo sozinho pelo site, até ao prazo que tu definires — duas horas antes, seis, um dia, o que fizer sentido no teu negócio. Depois desse prazo, o site diz-lhe que só ligando para ti. Quando desmarca, a hora fica logo livre na agenda e recebes aviso.",
   },
   {
     q: "Como funciona o cartão de fidelidade?",
@@ -37,11 +37,11 @@ const faqs = [
   },
   {
     q: "A caixa e as comissões?",
-    a: "No fim de cada serviço fazes o checkout: método de pagamento, desconto se houver, gorjeta. A comissão do barbeiro é calculada e guardada nesse momento com a percentagem em vigor — mudar a percentagem amanhã não altera o que já foi feito hoje. Abres e fechas a caixa por dia, e cada barbeiro tem a sua conta-corrente com o que fez e o que há a pagar.",
+    a: "No fim de cada serviço fazes o checkout: método de pagamento, desconto se houver, gorjeta. A comissão do profissional é calculada e guardada nesse momento com a percentagem em vigor — mudar a percentagem amanhã não altera o que já foi feito hoje. Abres e fechas a caixa por dia, e cada barbeiro tem a sua conta-corrente com o que fez e o que há a pagar.",
   },
   {
     q: "E o contabilista?",
-    a: "No fim do mês escolhes o mês, carregas num botão e descarregas um Excel pronto a enviar: o resumo do mês (total, por método de pagamento, por barbeiro, por serviço) e a lista de todos os serviços prestados, linha a linha. Acabou o saco de talões.",
+    a: "No fim do mês escolhes o mês, carregas num botão e descarregas um Excel pronto a enviar: o resumo do mês (total, por método de pagamento, por profissional, por serviço) e a lista de todos os serviços prestados, linha a linha. Acabou o saco de talões.",
   },
   {
     q: "Quanto custa? Há comissões por marcação?",
@@ -49,7 +49,7 @@ const faqs = [
   },
   {
     q: "Quanto tempo até estar a funcionar?",
-    a: "Criamos a tua barbearia, o teu endereço na internet e a tua conta, e afinamos as cores e o logótipo contigo. Carregas os serviços, os preços e a equipa — em regra fica a funcionar no próprio dia. Se já tens uma lista de clientes, ajudamos a passá-la.",
+    a: "Criamos o teu negócio, o teu endereço na internet e a tua conta, e afinamos as cores e o logótipo contigo. Carregas os serviços, os preços e a equipa — em regra fica a funcionar no próprio dia. Se já tens uma lista de clientes, ajudamos a passá-la.",
   },
   {
     q: "Preciso de instalar alguma coisa?",
@@ -57,23 +57,23 @@ const faqs = [
   },
   {
     q: "Os dados dos meus clientes estão seguros?",
-    a: "Os dados ficam em servidores na União Europeia (Irlanda). Cada barbearia está isolada das outras: só tu vês os teus clientes e as tuas marcações, e cada cliente só vê as suas. Guardamos cópias de segurança, e se um dia quiseres sair, os teus dados são apagados a pedido — ou levas o Excel antes.",
+    a: "Os dados ficam em servidores na União Europeia (Irlanda). Cada negócio está isolado dos outros: só tu vês os teus clientes e as tuas marcações, e cada cliente só vê as suas. Guardamos cópias de segurança, e se um dia quiseres sair, os teus dados são apagados a pedido — ou levas o Excel antes.",
   },
   {
     q: "Já uso outra agenda. Vale a pena mudar?",
-    a: "Se a tua agenda é o papel ou o WhatsApp, o que ganhas é o telemóvel a tocar a cada marcação e zero marcações em cima umas das outras. Se já usas outro sistema, monta a tua barbearia aqui em dois minutos e compara os dois lado a lado durante o mês à experiência — é a comparação mais honesta que te podemos oferecer.",
+    a: "Se a tua agenda é o papel ou o WhatsApp, o que ganhas é o telemóvel a tocar a cada marcação e zero marcações em cima umas das outras. Se já usas outro sistema, monta o teu negócio aqui em dois minutos e compara os dois lado a lado durante o mês à experiência — é a comparação mais honesta que te podemos oferecer.",
   },
   {
     q: "E se precisar de ajuda?",
     a: "Falas connosco por telefone ou WhatsApp, em dias úteis. Somos uma equipa pequena, do Porto: quem te atende é quem fez a app.",
   },
   {
-    q: "Serve para um salão de cabeleireiro ou um estúdio de barbeiro a solo?",
-    a: "A Convecta foi feita para barbearias, e é para elas que vamos continuar a fazê-la. Um barbeiro a solo usa-a exatamente da mesma forma — a agenda tem uma coluna em vez de quatro. Um salão que marque por serviço, profissional e hora também funciona; fala connosco antes, para confirmarmos que faz sentido.",
+    q: "Serve para um salão de cabeleireiro, unhas ou estética?",
+    a: "Sim. Ao criares a conta escolhes o tipo de negócio — barbearia, cabeleireiro, unhas, sobrancelhas e pestanas, ou estética — e a app usa as palavras, os serviços e as cores certas. Quem trabalha sozinho usa-a da mesma forma: a agenda tem uma coluna em vez de quatro. O que ainda não faz: marcar vários serviços seguidos na mesma marcação, nem deixar a profissional livre durante o tempo de pose. Se o teu salão precisa disso, fala connosco antes.",
   },
   {
     q: "Que endereço têm os meus clientes para marcar?",
-    a: "O nome da tua barbearia em marcacoes.app — por exemplo, a-tua-barbearia.marcacoes.app. É esse link que pões na bio do Instagram, no perfil do Google e na mensagem automática do WhatsApp. Abre no browser, sem instalar nada, e pode ficar no ecrã do telemóvel como uma app com o teu ícone.",
+    a: "O nome do teu negócio em marcacoes.app — por exemplo, o-teu-negocio.marcacoes.app. É esse link que pões na bio do Instagram, no perfil do Google e na mensagem automática do WhatsApp. Abre no browser, sem instalar nada, e pode ficar no ecrã do telemóvel como uma app com o teu ícone.",
   },
   {
     q: "Marcações automáticas: o cliente fica logo com a hora ou tenho de aprovar?",
@@ -85,8 +85,8 @@ export default function Faq() {
   return (
     <div>
       <Seo
-        titulo="Perguntas frequentes sobre marcações online para barbearias"
-        descricao="Como os teus clientes marcam online, como ficas a saber, cancelamentos, cartão de fidelidade, caixa, comissões, contabilista, preços (desde 19,99 €/mês) e segurança dos dados. As respostas antes de criares a tua barbearia na Convecta."
+        titulo="Perguntas frequentes sobre marcações online para barbearias, salões e estética"
+        descricao="Como os teus clientes marcam online, como ficas a saber, cancelamentos, cartão de fidelidade, caixa, comissões, contabilista, preços (desde 19,99 €/mês) e segurança dos dados. As respostas antes de criares o teu negócio na Convecta."
         caminho="/faq"
         ld={[faqLd(faqs), migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Perguntas frequentes", caminho: "/faq" }])]}
       />
@@ -104,7 +104,7 @@ export default function Faq() {
               Perguntas <span className="cv-marca">frequentes</span>
             </h1>
             <p className="text-lg text-ink-2 max-w-xl mx-auto">
-              O que os donos de barbearia nos perguntam antes de experimentar. Se a tua não estiver aqui, criar a tua barbearia responde a quase tudo — e não custa nada.
+              O que os donos de barbearias e salões nos perguntam antes de experimentar. Se a tua pergunta não estiver aqui, criar o teu negócio responde a quase tudo — e não custa nada.
             </p>
           </motion.div>
         </div>

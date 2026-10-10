@@ -18,7 +18,7 @@ import BarraComecarFixa from "@/components/BarraComecarFixa";
  */
 
 const INCLUI = [
-  "Site de marcações online com endereço próprio (a-tua-barbearia.marcacoes.app)",
+  "Site de marcações online com endereço próprio (o-teu-negocio.marcacoes.app)",
   "Painel de gestão para o telemóvel, tablet e computador",
   "Controlo total do design: cores, tipografia, logótipo, capa e galeria, mudados por ti no painel",
   "Notificações no telemóvel: tuas a cada marcação, do cliente a cada confirmação",
@@ -29,7 +29,7 @@ const INCLUI = [
 ];
 
 const NAO_INCLUI = [
-  "Pagamentos online pelo cliente — o cliente paga na barbearia, como sempre",
+  "Pagamentos online pelo cliente — o cliente paga no balcão, como sempre",
   "Um domínio próprio (o teu endereço em marcacoes.app está incluído)",
   "Gestão de redes sociais, publicidade ou produção de conteúdos",
 ];
@@ -54,7 +54,7 @@ export default function Precos() {
     <div className="pt-24" style={{ backgroundColor: "var(--cv-ground)" }}>
       <Seo
         titulo={`Preços — desde ${PRECO_DESDE_TEXTO}/mês, sem comissões por marcação`}
-        descricao={`Três planos, desde ${PRECO_DESDE_TEXTO} por mês por barbearia: ${PLANOS.map(p => `${p.nome} ${p.precoTexto} (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três — marcações online, agenda, caixa, comissões, stock, relatórios e fidelização. Sem taxa de adesão, sem comissões por marcação e sem fidelização no plano mensal.`}
+        descricao={`Três planos, desde ${PRECO_DESDE_TEXTO} por mês por negócio: ${PLANOS.map(p => `${p.nome} ${p.precoTexto} (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três — marcações online, agenda, caixa, comissões, stock, relatórios e fidelização. Sem taxa de adesão, sem comissões por marcação e sem fidelização no plano mensal.`}
         caminho="/precos"
         ld={ld}
       />
@@ -108,14 +108,14 @@ export default function Precos() {
       <section style={{ backgroundColor: "var(--cv-ground)" }} className="py-20 lg:py-28 px-6 lg:px-12 text-ink">
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
-            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">Contas de barbeiro</p>
+            <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">Contas de quem trabalha</p>
             <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-6 leading-tight">Quanto custa não ter marcações online?</h2>
             <div className="space-y-5 text-ink-2 text-base leading-relaxed">
               <p>
                 Um corte de 15 € que fica por marcar porque o cliente escreveu no WhatsApp às 22h e tu só viste de manhã — e ele entretanto foi a outro lado — custa 15 €. Dois por mês pagam a Convecta. Uma hora marcada duas vezes por engano, um cliente que apareceu e outro que teve de esperar, custa mais do que dinheiro.
               </p>
               <p>
-                Nas plataformas de marcações que cobram comissão, cada cliente novo pode ficar-lhes com 20 % ou mais do serviço, e o cliente é "delas": vê outras barbearias ao lado da tua. Na Convecta, a mensalidade é fixa, o site é o da tua barbearia, e o cliente é teu.
+                Nas plataformas de marcações que cobram comissão, cada cliente novo pode ficar-lhes com 20 % ou mais do serviço, e o cliente é "delas": vê a concorrência ao lado do teu negócio. Na Convecta, a mensalidade é fixa, o site é o do teu negócio, e o cliente é teu.
               </p>
               <p>
                 O plano de entrada são {PRECO_DESDE_TEXTO} por mês — cerca de {(PLANOS[0].preco / 30).toFixed(2).replace(".", ",")} € por dia. Menos do que o café e o pastel que pagas a quem vem esperar por uma hora que afinal já estava dada.

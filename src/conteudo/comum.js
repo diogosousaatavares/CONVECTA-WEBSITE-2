@@ -6,7 +6,7 @@
 import { PLANOS, PRECO_DESDE_TEXTO, DESCONTO_ANUAL } from "@/lib/seo";
 
 export const DEFINICAO =
-  "A Convecta Booking é um software de marcações online e gestão para barbearias em Portugal: um site de marcações com o nome da barbearia e um painel com agenda, clientes, caixa, comissões, stock e cartão de fidelidade.";
+  "A Convecta Booking é um software de marcações online e gestão para barbearias, salões e estética em Portugal: um site de marcações com o nome do teu negócio e um painel com agenda, clientes, caixa, comissões, stock e cartão de fidelidade.";
 
 export const VERIFICADO = "2026-09-24";
 export const VERIFICADO_TEXTO = "24 de setembro de 2026";
@@ -33,20 +33,20 @@ export const TESTE_TEXTO = `${TESTE_DIAS} dias`;
 // O que a Convecta faz, por tema. Cada linha existe e grava no painel hoje.
 export const TEMAS = {
   agenda: [
-    "Agenda por barbeiro, com vista do dia e lista.",
-    "O barbeiro recebe uma notificação no telemóvel a cada marcação nova.",
+    "Agenda por profissional, com vista do dia e lista.",
+    "O profissional recebe uma notificação no telemóvel a cada marcação nova.",
     "Confirmação em dois toques, ou automática.",
     "Sem marcações sobrepostas: garantido pela base de dados, não por uma regra no ecrã.",
     "Bloqueio de horas (almoço, folga, formação) e marcações manuais.",
     "Lista de espera: o cliente pede aviso para uma hora ocupada; se vagar, é avisado e tem uma hora para confirmar.",
-    "Cada barbeiro pode entrar com a conta dele: vê a agenda e mexe só na coluna dele.",
+    "Cada profissional pode entrar com a sua conta: vê a agenda e mexe só na sua coluna.",
   ],
   marcacoes: [
-    "Endereço próprio: a-tua-barbearia.marcacoes.app, com o teu nome, logótipo e cores.",
-    "Três toques: serviço, barbeiro, hora. O cliente vê só as horas livres.",
+    "Endereço próprio: o-teu-negocio.marcacoes.app, com o teu nome, logótipo e cores.",
+    "Três toques: serviço, profissional, hora. O cliente vê só as horas livres.",
     "Sem instalar nada de nenhuma loja: o site guarda-se no ecrã principal e fica como uma app.",
     "O cliente recebe aviso no telemóvel quando a marcação é confirmada ou cancelada, e um aviso antes do corte (notificação ou email, sem custo por mensagem).",
-    "Cancelamento pelo cliente até ao prazo que a barbearia define.",
+    "Cancelamento pelo cliente até ao prazo que tu defines.",
     "Link para pôr no Instagram, no Google e no WhatsApp.",
   ],
   gestao: [
@@ -54,8 +54,8 @@ export const TEMAS = {
     "Abertura e fecho de caixa por dia, entradas e saídas, histórico.",
     "Produtos, stock, stock mínimo, movimentos e fornecedores.",
     "Relatórios de marcações, clientes, profissionais, financeiro, serviços e produtos.",
-    "Relatório mensal em Excel pronto para o contabilista: total, por método de pagamento, por barbeiro, por serviço, linha a linha.",
-    "Conta-corrente por cliente e por barbeiro, fluxo de caixa.",
+    "Relatório mensal em Excel pronto para o contabilista: total, por método de pagamento, por profissional, por serviço, linha a linha.",
+    "Conta-corrente por cliente e por profissional, fluxo de caixa.",
   ],
   clientes: [
     "Ficha de cliente com histórico de cortes, gastos e carimbos.",
@@ -66,11 +66,11 @@ export const TEMAS = {
   comissoes: [
     "Comissão em percentagem por profissional.",
     "Calculada e guardada no momento do checkout, sobre o serviço.",
-    "Conta-corrente por barbeiro: o que fez, o que lhe cabe, o que já foi pago.",
-    "Cada barbeiro vê a conta dele no painel, sem ver a dos colegas nem o financeiro da casa.",
+    "Conta-corrente por profissional: o que fez, o que lhe cabe, o que já foi pago.",
+    "Cada profissional vê a sua conta no painel, sem ver a dos colegas nem o financeiro da casa.",
   ],
   app: [
-    "Um site de marcações com o nome, o logótipo e as cores da barbearia — o cliente vê a barbearia, não a Convecta.",
+    "Um site de marcações com o nome, o logótipo e as cores do teu negócio — o cliente vê o teu negócio, não a Convecta.",
     "Instalável no telemóvel a partir do browser, sem App Store nem Google Play, sem aprovações nem atualizações.",
     "Editor de design no painel: cores, tipografia, capa, galeria e o que aparece, com pré-visualização num telemóvel antes de publicar.",
     "Notificações no telemóvel do cliente, como numa app nativa.",
@@ -79,12 +79,12 @@ export const TEMAS = {
 
 export const NAO_FAZ = [
   "Lembretes por SMS ou WhatsApp (os avisos são por notificação no telemóvel e por email).",
-  "Pagamentos online pelo cliente (paga na barbearia, como sempre).",
+  "Pagamentos online pelo cliente (paga no balcão, como sempre).",
   "Faturação certificada (a Convecta dá o Excel mensal; a fatura é passada no teu programa de faturação).",
   "Marketplace: a Convecta não traz clientes novos de uma montra; traz os teus para marcarem sozinhos.",
 ];
 
-export const PRECO_FRASE = `Três planos por barbearia, ${PLANOS_TEXTO}; desde ${PRECO_DESDE_TEXTO}/mês, ${Math.round(DESCONTO_ANUAL * 100)} % mais barato no anual, sem comissões por marcação nem por cliente novo. Montar a barbearia não exige cartão; para começar a receber marcações regista-se o cartão e há ${TESTE_TEXTO} à experiência, sem ser cobrado nada.`;
+export const PRECO_FRASE = `Três planos por negócio, ${PLANOS_TEXTO}; desde ${PRECO_DESDE_TEXTO}/mês, ${Math.round(DESCONTO_ANUAL * 100)} % mais barato no anual, sem comissões por marcação nem por cliente novo. Montar o teu negócio na Convecta não exige cartão; para começar a receber marcações regista-se o cartão e há ${TESTE_TEXTO} à experiência, sem ser cobrado nada.`;
 
 /*
  * Concorrentes. Verificado nas paginas oficiais a 24 set 2026. Tudo o que
@@ -193,11 +193,11 @@ export const CONCORRENTES = {
 export const CONVECTA_GRELHA = {
   nome: "Convecta",
   url: "/software-para-barbearias",
-  resumo: "Software português de marcações e gestão feito só para barbearias, sem marketplace.",
+  resumo: "Software português de marcações e gestão para barbearias, salões e estética, sem marketplace.",
   factos: [
     PRECO_FRASE,
     "Sem comissões por marcação nem por cliente novo.",
-    "Site de marcações com o nome da barbearia, instalável no telemóvel.",
+    "Site de marcações com o nome do teu negócio, instalável no telemóvel.",
     "Agenda, caixa, comissões, stock, relatórios, Excel e cartão de fidelidade em todos os planos.",
     "Avisos por notificação e email, sem custo por mensagem. Sem SMS nem WhatsApp.",
     `Sem pagamentos online, sem faturação certificada, sem plano grátis (${TESTE_TEXTO} à experiência).`,

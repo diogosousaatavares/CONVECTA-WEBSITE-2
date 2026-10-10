@@ -13,7 +13,7 @@ export default function Footer() {
           <div className="lg:col-span-1">
             <ConvectaLogo />
             <p className="mt-4 text-sm leading-relaxed font-body" style={{ color: "var(--cv-ink-2)" }}>
-              Convecta Booking — software de marcações online e gestão para barbearias em Portugal. O site onde os teus clientes marcam e o painel onde tu geres a barbearia. Feito em Alfena, Porto.
+              Convecta Booking — software de marcações online e gestão para barbearias, salões e estética em Portugal. O site onde os teus clientes marcam e o painel onde tu geres o teu negócio. Feito em Alfena, Porto.
             </p>
           </div>
 
@@ -31,7 +31,7 @@ export default function Footer() {
                 Agenda online
               </Link>
               <Link to="/app-para-barbearia" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
-                A app da tua barbearia
+                A app do teu negócio
               </Link>
               <Link to="/como-funciona" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Como Funciona
@@ -102,7 +102,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div style={{ borderColor: "var(--cv-linha)" }} className="mt-16 pt-8 border-t flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs" style={{ color: "var(--cv-ink-3)" }}>
-            © {new Date().getFullYear()} Convecta · Marcações online para barbearias · Porto, Portugal
+            © {new Date().getFullYear()} Convecta · Marcações online para barbearias, salões e estética · Porto, Portugal
             <br />{SITE.titular} · NIF {SITE.nif} · IVA: regime de isenção (art. 53.º do CIVA)
           </p>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">

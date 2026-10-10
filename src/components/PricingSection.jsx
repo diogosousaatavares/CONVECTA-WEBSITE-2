@@ -243,7 +243,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
           Paga-se com uma marcação por mês. As outras são todas tuas.
         </p>
         <p style={{ textAlign: "center", fontSize: "0.95rem", color: "var(--cv-ink-3)", margin: "10px 0 0" }}>
-          Preço por barbearia e final: a Convecta está no regime de isenção de IVA
+          Preço por negócio e final: a Convecta está no regime de isenção de IVA
           (art. 53.º do CIVA), por isso não acresce IVA à fatura.
           Sem comissões por marcação e sem taxa de adesão.
         </p>
@@ -277,7 +277,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
           <div>
             {React.createElement(NivelNome, { className: "cv-h3", style: { margin: 0 } }, "Vê-a com o teu nome, hoje.")}
             <p style={{ color: "var(--cv-ink-2)", fontSize: "0.9rem", margin: "6px 0 0", maxWidth: "46ch" }}>
-              Em dois minutos tens a tua barbearia montada e o teu site no ar.
+              Em dois minutos tens o teu negócio montado e o teu site no ar.
               O cartão só é pedido quando quiseres começar a receber marcações —
               e são 14 dias à experiência.
             </p>

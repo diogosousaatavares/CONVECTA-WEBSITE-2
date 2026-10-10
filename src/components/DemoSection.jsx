@@ -16,8 +16,8 @@ import { DEMO_CLIENTE_URL, DEMO_PAINEL_URL } from "@/lib/demo";
  * obrigava a escolher por eles.
  */
 const PASSOS = [
-  { n: "1", t: "Marca como cliente", d: "Abre a app, escolhe o serviço, o barbeiro e a hora. Três toques." },
-  { n: "2", t: "Vê chegar ao painel", d: "A marcação entra na agenda do barbeiro nesse segundo, com aviso no telemóvel." },
+  { n: "1", t: "Marca como cliente", d: "Abre a app, escolhe o serviço, o profissional e a hora. Três toques." },
+  { n: "2", t: "Vê chegar ao painel", d: "A marcação entra na agenda do profissional nesse segundo, com aviso no telemóvel." },
   { n: "3", t: "Confirma, cobra, carimba", d: "Confirmas em dois toques, fechas a conta no checkout e o cartão de fidelidade ganha um carimbo." },
 ];
 
@@ -31,7 +31,7 @@ export default function DemoSection() {
             <h2 className="cv-h2">Experimenta agora, com as tuas mãos.</h2>
             <p className="cv-texto" style={{ marginTop: 16 }}>
               Não é um vídeo. É a Convecta a funcionar. Marca como cliente e vê a marcação
-              chegar ao painel do barbeiro.
+              chegar ao painel do profissional.
             </p>
           </div>
         </ScrollReveal>
@@ -75,7 +75,7 @@ export default function DemoSection() {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="cv-olho" style={{ margin: 0 }}>O outro lado</div>
-                <div className="font-heading text-xl lg:text-2xl leading-tight">Entrar como barbeiro</div>
+                <div className="font-heading text-xl lg:text-2xl leading-tight">Entrar como profissional</div>
                 <div className="text-sm mt-1" style={{ color: "var(--cv-ink-2)" }}>O painel de gestão: agenda, caixa, clientes, relatórios.</div>
               </div>
               <ArrowRight size={22} className="shrink-0 transition-transform group-hover:translate-x-1" style={{ color: "var(--cv-ink-3)" }} />
@@ -85,7 +85,7 @@ export default function DemoSection() {
 
         <ScrollReveal>
           <p className="text-xs mt-8 max-w-xl leading-relaxed" style={{ color: "var(--cv-ink-3)" }}>
-            É uma barbearia partilhada: quem estiver a experimentar ao mesmo tempo vê as marcações uns dos
+            É um negócio partilhado: quem estiver a experimentar ao mesmo tempo vê as marcações uns dos
             outros. Os dados voltam ao início de hora a hora. Pedimos-te o nome e um contacto à entrada —
             é só para falarmos contigo depois.
           </p>

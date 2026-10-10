@@ -36,13 +36,13 @@ export default function PersonalizacaoDemo() {
     <section id="personalizacao" className="cv-wrap cv-sec">
       <ScrollReveal>
         <p className="cv-olho">Personalização</p>
-        <h2 className="cv-h2">A app é da tua barbearia. <span className="cv-marca">Não é nossa.</span></h2>
+        <h2 className="cv-h2">A app é do teu negócio. <span className="cv-marca">Não é nossa.</span></h2>
       </ScrollReveal>
 
       <div className="pd-grelha">
         {/* Sem moldura, sem fundo e sem sombra: o telemóvel já tem a dele. */}
         <iframe className="pd-telemovel" src={DEMO} scrolling="no"
-          title="A app da barbearia, para experimentar" loading="lazy" />
+          title="A app do teu negócio, para experimentar" loading="lazy" />
 
         <ScrollReveal variant="fadeInUp">
           <div className="pd-lado">

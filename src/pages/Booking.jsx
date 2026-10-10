@@ -32,12 +32,12 @@ const PARA_CLIENTES = [
   {
     icon: CalendarDays,
     titulo: "Marcações online, 24 horas por dia",
-    texto: "O cliente abre o site da tua barbearia no telemóvel e marca em três toques: serviço, barbeiro, hora. Só vê as horas livres — as ocupadas nem aparecem. Marca às 23h de domingo, se quiser; a agenda é que decide.",
+    texto: "O cliente abre o site do teu negócio no telemóvel e marca em três toques: serviço, profissional, hora. Só vê as horas livres — as ocupadas nem aparecem. Marca às 23h de domingo, se quiser; a agenda é que decide.",
   },
   {
     icon: Globe,
     titulo: "Endereço próprio, com a tua marca",
-    texto: `A tua barbearia tem o seu endereço em ${SITE.dominioApps} — o teu nome, o teu logótipo, as tuas cores, a tua foto de capa. O cliente vê a tua barbearia. A Convecta não aparece em lado nenhum.`,
+    texto: `O teu negócio tem o seu endereço em ${SITE.dominioApps} — o teu nome, o teu logótipo, as tuas cores, a tua foto de capa. O cliente vê o teu negócio. A Convecta não aparece em lado nenhum.`,
   },
   {
     icon: MonitorSmartphone,
@@ -67,11 +67,11 @@ const PARA_BARBEIROS = [
     icon: CalendarDays,
     titulo: "Agenda",
     itens: [
-      "Agenda por barbeiro: cada coluna é um profissional, com vista do dia e em lista.",
+      "Agenda por profissional: cada coluna é um profissional, com vista do dia e em lista.",
       "O telemóvel toca a cada marcação nova, com o nome do cliente, o serviço e a hora.",
       "Confirmas com dois toques — ou ligas a confirmação automática e a marcação entra confirmada.",
       "Marcações manuais para quem liga ou entra pela porta; reagendar sem conflitos.",
-      "Sem marcações sobrepostas: a base de dados não deixa dois clientes no mesmo barbeiro à mesma hora.",
+      "Sem marcações sobrepostas: a base de dados não deixa dois clientes no mesmo profissional à mesma hora.",
       "Lista de espera para quem quer uma hora que já não há.",
       "Antecedência mínima e prazo de cancelamento definidos por ti.",
     ],
@@ -89,8 +89,8 @@ const PARA_BARBEIROS = [
     icon: UserCog,
     titulo: "Equipa",
     itens: [
-      "Cada barbeiro com o seu horário, os seus serviços e a sua agenda.",
-      "Comissão em percentagem por barbeiro, guardada no momento do checkout com a taxa em vigor.",
+      "Cada profissional com o seu horário, os seus serviços e a sua agenda.",
+      "Comissão em percentagem por profissional, guardada no momento do checkout com a taxa em vigor.",
       "Desempenho por profissional: serviços feitos, receita, comissão a pagar.",
     ],
   },
@@ -100,7 +100,7 @@ const PARA_BARBEIROS = [
     itens: [
       "Checkout no fim do serviço: método de pagamento, desconto se houver, gorjeta. Comissão e carimbo ficam feitos no mesmo toque.",
       "Abertura e fecho de caixa por dia, com entradas, saídas e histórico.",
-      "Receitas por período e fluxo de caixa; conta-corrente por cliente e por barbeiro.",
+      "Receitas por período e fluxo de caixa; conta-corrente por cliente e por profissional.",
       "Um corte grátis do cartão de fidelidade é cobrado a zero — o checkout sabe.",
     ],
   },
@@ -118,7 +118,7 @@ const PARA_BARBEIROS = [
     titulo: "Relatórios e contabilista",
     itens: [
       "Relatórios de marcações, clientes, profissionais, financeiro, serviços e produtos.",
-      "Excel para o contabilista: escolhes o mês, carregas num botão. Sai o resumo (total, por método de pagamento, por barbeiro, por serviço) e todos os serviços prestados, linha a linha.",
+      "Excel para o contabilista: escolhes o mês, carregas num botão. Sai o resumo (total, por método de pagamento, por profissional, por serviço) e todos os serviços prestados, linha a linha.",
     ],
   },
   {
@@ -139,12 +139,12 @@ const AINDA_NAO = [
   {
     icon: Ban,
     titulo: "Lembretes por SMS ou WhatsApp",
-    texto: "Não existem. O que existe, e funciona desde setembro de 2026, é o aviso ao cliente antes do corte por notificação no telemóvel e por email, sem custo por mensagem — além das notificações imediatas de marcação recebida, confirmada e cancelada. SMS e WhatsApp não estão previstos: cada mensagem custaria dinheiro ao barbeiro, e o aviso por notificação chega da mesma forma.",
+    texto: "Não existem. O que existe, e funciona desde setembro de 2026, é o aviso ao cliente antes da marcação por notificação no telemóvel e por email, sem custo por mensagem — além das notificações imediatas de marcação recebida, confirmada e cancelada. SMS e WhatsApp não estão previstos: cada mensagem custaria dinheiro ao teu negócio, e o aviso por notificação chega da mesma forma.",
   },
   {
     icon: Ban,
     titulo: "Pagamentos online pelo cliente",
-    texto: "O cliente paga na barbearia, como sempre — dinheiro, MB Way, cartão, o que tu aceitares. A Convecta regista o método no checkout; não cobra ao cliente nem fica com nada.",
+    texto: "O cliente paga no balcão, como sempre — dinheiro, MB Way, cartão, o que tu aceitares. A Convecta regista o método no checkout; não cobra ao cliente nem fica com nada.",
   },
   {
     icon: Ban,
@@ -158,7 +158,7 @@ const AINDA_NAO = [
 // lista de termos, e o que a app e.
 const GARANTIAS = [
   { icon: Percent, titulo: "0 % de comissões", texto: "Mensalidade fixa. Cada marcação é tua, cada euro é teu." },
-  { icon: Lock, titulo: "Dados na União Europeia", texto: "Guardados em servidores na Irlanda, isolados por barbearia." },
+  { icon: Lock, titulo: "Dados na União Europeia", texto: "Guardados em servidores na Irlanda, isolados por negócio." },
   { icon: ShieldCheck, titulo: "Sem marcações duplas", texto: "Garantido pela base de dados, não por uma regra no ecrã." },
   { icon: Download, titulo: "Os dados são teus", texto: "Excel quando quiseres; apagamos tudo a pedido se saíres." },
 ];
@@ -184,8 +184,8 @@ export default function Funcionalidades() {
   return (
     <main id="main-content" style={{ backgroundColor: "var(--cv-ground)" }} className="booking-page text-ink min-h-screen overflow-hidden selection:bg-[var(--cv-amarelo)]">
       <Seo
-        titulo="Funcionalidades da app de marcações online para barbearias"
-        descricao="Tudo o que a Convecta Booking faz: marcações online 24/7 pelo site da barbearia, agenda por barbeiro com notificações, confirmação automática, cartão de fidelidade digital, checkout, caixa, comissões, stock, relatórios e Excel para o contabilista."
+        titulo="Funcionalidades da app de marcações online para barbearias, salões e estética"
+        descricao="Tudo o que a Convecta Booking faz: marcações online 24/7 pelo site do teu negócio, agenda por profissional com notificações, confirmação automática, cartão de fidelidade digital, checkout, caixa, comissões, stock, relatórios e Excel para o contabilista."
         caminho="/funcionalidades"
         ld={ld}
       />
@@ -202,13 +202,13 @@ export default function Funcionalidades() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-3xl mx-auto text-center">
             <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">Convecta Booking · Funcionalidades</p>
             <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl text-ink mb-6 leading-tight">
-              A app de marcações online para barbearias, por dentro.
+              A app de marcações online para barbearias, salões e estética, por dentro.
             </h1>
             <p className="text-ink-2 text-base sm:text-lg leading-relaxed mb-4 max-w-2xl mx-auto font-light">
-              A Convecta Booking tem duas partes: o site onde os teus clientes marcam e o painel onde tu geres a barbearia — agenda, clientes, caixa, comissões, stock, cartão de fidelidade e relatórios. Esta página diz o que existe e funciona hoje.
+              A Convecta Booking tem duas partes: o site onde os teus clientes marcam e o painel onde tu geres o teu negócio — agenda, clientes, caixa, comissões, stock, cartão de fidelidade e relatórios. Esta página diz o que existe e funciona hoje.
             </p>
             <p className="text-ink-3 text-sm leading-relaxed mb-10 max-w-xl mx-auto">
-              Não acredites em nós: cada frase aqui pode ser confirmada na tua própria barbearia, em dois minutos e sem cartão.
+              Não acredites em nós: cada frase aqui pode ser confirmada no teu próprio negócio, em dois minutos e sem cartão.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <BotaoComecar grande>Começar grátis</BotaoComecar>
@@ -261,8 +261,8 @@ export default function Funcionalidades() {
         <div className="max-w-6xl mx-auto relative z-10">
           <ScrollReveal>
             <div className="max-w-3xl mb-10 lg:mb-14">
-              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">2 · O painel de gestão da barbearia</p>
-              <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Software de gestão para barbearias que cabe no telemóvel.</h2>
+              <p className="text-xs uppercase tracking-[0.25em] font-bold text-[var(--cv-amarelo-texto)] mb-4">2 · O painel de gestão do teu negócio</p>
+              <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Software de gestão que cabe no telemóvel.</h2>
               <p className="text-ink-2 text-base lg:text-lg leading-relaxed">
                 Abre no browser do telemóvel, do tablet ou do computador ao balcão. Tudo o que está abaixo grava na base de dados e aparece em todos os dispositivos.
               </p>
@@ -298,19 +298,19 @@ export default function Funcionalidades() {
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
             <p className="text-xs uppercase tracking-[0.25em] font-bold text-ink-3 mb-4">3 · Na prática</p>
-            <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-8 leading-tight">O que muda numa barbearia com marcações online</h2>
+            <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-8 leading-tight">O que muda num negócio com marcações online</h2>
             <div className="space-y-5 text-ink-2 text-base leading-relaxed">
               <p>
                 <strong className="text-ink">Marcações online</strong> quer dizer que a agenda deixa de viver no teu telemóvel e nas conversas do WhatsApp. Passa a viver num sítio onde o cliente marca sozinho, a qualquer hora, e onde tu só tens de confirmar — ou nem isso, se ligares a confirmação automática. Cada marcação chega com nome, serviço e hora, e o teu telemóvel avisa-te.
               </p>
               <p>
-                <strong className="text-ink">Agendamento automático</strong> não é o cliente ser atendido por um robô: é a agenda saber que horas estão livres, quanto dura cada serviço, que barbeiro está de folga e a que horas fechas — e só mostrar ao cliente o que realmente pode marcar. Duas pessoas não conseguem ficar com a mesma hora no mesmo barbeiro, nem que tentem ao mesmo segundo.
+                <strong className="text-ink">Agendamento automático</strong> não é o cliente ser atendido por um robô: é a agenda saber que horas estão livres, quanto dura cada serviço, que profissional está de folga e a que horas fechas — e só mostrar ao cliente o que realmente pode marcar. Duas pessoas não conseguem ficar com a mesma hora com o mesmo profissional, nem que tentem ao mesmo segundo.
               </p>
               <p>
-                <strong className="text-ink">Gestão</strong> é o que acontece depois do corte. No checkout registas como pagou, o desconto e a gorjeta; a comissão do barbeiro e o carimbo do cliente ficam feitos no mesmo toque. No fim do dia fechas a caixa. No fim do mês, o Excel do contabilista sai com um botão. Os produtos que vendes ao balcão saem do stock.
+                <strong className="text-ink">Gestão</strong> é o que acontece depois do serviço. No checkout registas como pagou, o desconto e a gorjeta; a comissão do profissional e o carimbo do cliente ficam feitos no mesmo toque. No fim do dia fechas a caixa. No fim do mês, o Excel do contabilista sai com um botão. Os produtos que vendes ao balcão saem do stock.
               </p>
               <p>
-                Tudo isto por uma <strong className="text-ink">mensalidade fixa desde {PRECO_DESDE_TEXTO}</strong>, sem comissões por marcação, sem fidelização no mensal, num plano escolhido pelo tamanho da tua equipa. É um <strong className="text-ink">software de gestão para barbearias</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
+                Tudo isto por uma <strong className="text-ink">mensalidade fixa desde {PRECO_DESDE_TEXTO}</strong>, sem comissões por marcação, sem fidelização no mensal, num plano escolhido pelo tamanho da tua equipa. É um <strong className="text-ink">software de gestão para barbearias, salões e estética</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">
@@ -359,7 +359,7 @@ export default function Funcionalidades() {
               Vê tudo isto a funcionar,<br />com as tuas <span className="cv-marca">próprias mãos.</span>
             </h2>
             <p className="text-ink-2 text-base sm:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-10">
-              Monta a tua barbearia em dois minutos: o site nasce com o teu nome, metes os teus serviços, e só depois decides. Sem cartão para começar, sem ninguém a ligar-te a meio.
+              Monta o teu negócio em dois minutos: o site nasce com o teu nome, metes os teus serviços, e só depois decides. Sem cartão para começar, sem ninguém a ligar-te a meio.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <BotaoComecar grande>Começar grátis</BotaoComecar>

@@ -17,9 +17,9 @@ export const SITE = {
   produto: "Convecta Booking",
   // O que a Convecta e, numa linha. E a frase que aparece por baixo do nome
   // nos resultados do Google quando uma pagina nao diz melhor.
-  slogan: "Marcações online e gestão para barbearias",
+  slogan: "Marcações online e gestão para barbearias, salões e estética",
   descricao:
-    "Software de marcações online e gestão para barbearias em Portugal. Os clientes marcam pelo site da barbearia, o barbeiro recebe a notificação no telemóvel e gere agenda, caixa, comissões, stock e cartão de fidelidade num só painel. Desde 19,99 €/mês, sem comissões por marcação.",
+    "Software de marcações online e gestão para barbearias, salões de cabeleireiro, unhas e estética em Portugal. Os clientes marcam pelo site do teu negócio, tu recebes a notificação no telemóvel e geres agenda, caixa, comissões, stock e cartão de fidelidade num só painel. Desde 19,99 €/mês, sem comissões por marcação.",
   // Quem esta por tras da marca, para o rodape, os Termos e a Privacidade
   // (Decreto-Lei 7/2004: nome, NIF, morada e email tem de estar no site).
   titular: "Diogo Borges de Sousa Tavares",
@@ -85,7 +85,7 @@ export const PLANOS = [
     precoTexto: "59,99 €",
     profissionais: 15,
     profissionaisTexto: "Até 15 profissionais",
-    resumo: "Para barbearias grandes.",
+    resumo: "Para equipas grandes.",
   },
 ];
 
@@ -134,7 +134,7 @@ export const WHATSAPP_ATIVO = false;
 /** O que esta incluido em todos os planos, por ordem de importancia. */
 export const INCLUIDO_EM_TODOS = [
   { texto: "Marcações online com endereço próprio" },
-  { texto: "Agenda por barbeiro, com notificações" },
+  { texto: "Agenda por profissional, com notificações" },
   { texto: "Clientes, histórico e aniversários" },
   { texto: "Caixa, checkout e métodos de pagamento" },
   { texto: "Comissões por profissional" },
@@ -161,32 +161,32 @@ export const GA_ID = "";
  * painel e do site do cliente a 11 de setembro de 2026.
  */
 export const FUNCIONALIDADES = [
-  "Marcações online 24/7 pelo site da barbearia, em três toques",
-  "Endereço próprio com o nome, logótipo e cores da barbearia",
+  "Marcações online 24/7 pelo site do teu negócio, em três toques",
+  "Endereço próprio com o nome, logótipo e cores do teu negócio",
   "Editor de design no painel: o dono escolhe cores, tipografia, capa, galeria e o que aparece — e vê o resultado num telemóvel antes de publicar",
   "Site de marcações instalável no telemóvel, sem lojas de apps",
-  "Agenda por barbeiro, vista do dia e lista",
-  "Notificação no telemóvel do barbeiro a cada marcação nova",
+  "Agenda por profissional, vista do dia e lista",
+  "Notificação no telemóvel do profissional a cada marcação nova",
   "Confirmação em dois toques ou confirmação automática",
   "Cliente avisado no telemóvel quando a marcação é confirmada ou cancelada",
-  "Cancelamento pelo cliente até ao prazo definido pela barbearia",
+  "Cancelamento pelo cliente até ao prazo que tu defines",
   "Sem marcações sobrepostas: garantido pela base de dados",
   "Reagendamento e marcações manuais no painel",
   "Ficha de cliente com histórico, gastos e carimbos",
   "Aniversários dos clientes",
-  "Barbeiros com horários próprios, comissão em percentagem e desempenho",
+  "Profissionais com horários próprios, comissão em percentagem e desempenho",
   "Cartão de fidelidade digital com corte grátis",
   "Checkout com método de pagamento, desconto e gorjeta",
   "Comissões calculadas e guardadas no momento do checkout",
   "Abertura e fecho de caixa por dia, entradas e saídas, histórico",
-  "Conta-corrente por cliente e por barbeiro, fluxo de caixa",
+  "Conta-corrente por cliente e por profissional, fluxo de caixa",
   "Produtos, stock, stock mínimo, movimentos e fornecedores",
   "Relatórios de marcações, clientes, profissionais, financeiro, serviços e produtos",
   "Relatório mensal em Excel pronto para o contabilista",
-  "Dados guardados na União Europeia, isolados por barbearia",
+  "Dados guardados na União Europeia, isolados por negócio",
   "Bloqueio de horas na agenda (almoço, folga) e marcação manual a partir de qualquer hora livre",
   "Checkout com os produtos levados na mesma conta",
-  "Cada barbeiro entra com a conta dele e mexe só na coluna dele; o dono escolhe se vê a agenda toda",
+  "Cada profissional entra com a sua conta e mexe só na sua coluna; o dono escolhe se vê a agenda toda",
   "Aviso ao cliente antes do corte por notificação e email, sem custo por mensagem",
   "Lista de espera por hora, com confirmação em 1 hora, e aviso de vaga de última hora a todos os clientes",
 ];
@@ -225,7 +225,7 @@ export function organizacaoLd() {
     sameAs: [SITE.instagram],
     founder: { "@type": "Person", name: SITE.titular, alternateName: "Diogo Tavares", url: `${SITE.url}/sobre` },
     slogan: SITE.slogan,
-    knowsAbout: ["Marcações online para barbearias", "Gestão de barbearias", "Software para barbearias em Portugal"],
+    knowsAbout: ["Marcações online para barbearias", "Marcações online para salões de cabeleireiro", "Marcações online para unhas e estética", "Gestão de barbearias e salões", "Software para barbearias e salões em Portugal"],
     // Onde a Convecta vai as barbearias configurar; o resto e a distancia.
     areaServed: [{ "@type": "Country", name: "Portugal" }],
   };
@@ -237,7 +237,7 @@ export function websiteLd() {
     "@id": `${SITE.url}/#website`,
     url: SITE.url,
     name: SITE.nome,
-    alternateName: [SITE.produto, "Convecta Booking — marcações online para barbearias"],
+    alternateName: [SITE.produto, "Convecta Booking — marcações online para barbearias, salões e estética"],
     description: SITE.descricao,
     inLanguage: "pt-PT",
     publisher: { "@id": `${SITE.url}/#organization` },
@@ -251,16 +251,16 @@ export function softwareLd() {
     name: SITE.produto,
     alternateName: "Convecta",
     applicationCategory: "BusinessApplication",
-    applicationSubCategory: "Agendamento online para barbearias",
+    applicationSubCategory: "Agendamento online para barbearias, salões e estética",
     operatingSystem: "Web, iOS, Android (aplicação web instalável, sem lojas de apps)",
     url: `${SITE.url}/funcionalidades`,
     image: SITE.imagem,
     description:
-      "App de marcações online e software de gestão para barbearias: site de marcações com endereço próprio, agenda por barbeiro com notificações, cartão de fidelidade digital, checkout, caixa, comissões, stock, relatórios e Excel para o contabilista.",
+      "App de marcações online e software de gestão para barbearias, salões e estética: site de marcações com endereço próprio, agenda por profissional com notificações, cartão de fidelidade digital, checkout, caixa, comissões, stock, relatórios e Excel para o contabilista.",
     featureList: FUNCIONALIDADES,
     inLanguage: "pt-PT",
     countryOfOrigin: { "@type": "Country", name: "Portugal" },
-    audience: { "@type": "BusinessAudience", audienceType: "Barbearias e barbeiros" },
+    audience: { "@type": "BusinessAudience", audienceType: "Barbearias, salões de cabeleireiro, unhas e estética" },
     // Tres planos: o Google mostra "a partir de" com o intervalo de precos.
     offers: {
       "@type": "AggregateOffer",
@@ -277,7 +277,7 @@ export function softwareLd() {
         priceCurrency: "EUR",
         url: `${SITE.url}/precos`,
         availability: "https://schema.org/InStock",
-        category: "Subscrição mensal por barbearia",
+        category: "Subscrição mensal por negócio",
         priceSpecification: {
           "@type": "UnitPriceSpecification",
           price: pl.preco.toFixed(2),

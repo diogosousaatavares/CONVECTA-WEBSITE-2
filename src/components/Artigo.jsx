@@ -221,7 +221,7 @@ export default function Artigo({ pagina }) {
         </div>
       </article>
 
-      <CtaSection title={fecho?.titulo || "Marcações online para a tua barbearia. Sem comissões, sem cartão para começar."} buttonText={fecho?.botao || "Começar grátis"} to="/comecar" secondaryText="ou fala connosco" secondaryWhatsApp />
+      <CtaSection title={fecho?.titulo || "Marcações online para o teu negócio. Sem comissões, sem cartão para começar."} buttonText={fecho?.botao || "Começar grátis"} to="/comecar" secondaryText="ou fala connosco" secondaryWhatsApp />
       <BarraComecarFixa />
     </div>
   );

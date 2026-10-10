@@ -26,7 +26,7 @@ export default function Contacto() {
       next.nome = "Indica o teu nome.";
     }
     if (!data.negocio || data.negocio.trim().length < 2) {
-      next.negocio = "Indica o nome da tua barbearia.";
+      next.negocio = "Indica o nome do teu negócio.";
     }
     const phoneDigits = data.telefone.replace(/\D/g, "");
     if (phoneDigits.length < 9) {
@@ -96,7 +96,7 @@ export default function Contacto() {
   return (
     <div>
       <Seo
-        titulo="Contacto — Fala com a Convecta sobre marcações online para a tua barbearia"
+        titulo="Contacto — Fala com a Convecta sobre marcações online para o teu negócio"
         descricao="Fala com quem fez a Convecta: telefone +351 914 874 725, geral@convecta.pt ou o formulário. Respondemos em dias úteis, normalmente no próprio dia. Porto, Portugal."
         caminho="/contacto"
         ld={[migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Contacto", caminho: "/contacto" }])]}
@@ -115,7 +115,7 @@ export default function Contacto() {
               Vamos <span className="cv-marca">falar.</span>
             </h1>
             <p className="text-lg text-ink-2 max-w-2xl mx-auto">
-              Sem compromisso, sem pressão. Quinze minutos ao telefone ou no WhatsApp para percebermos a tua barbearia e dizermos, sem rodeios, se a Convecta faz sentido para ti.
+              Sem compromisso, sem pressão. Quinze minutos ao telefone ou no WhatsApp para percebermos o teu negócio e dizermos, sem rodeios, se a Convecta faz sentido para ti.
             </p>
           </motion.div>
         </div>
@@ -188,7 +188,7 @@ export default function Contacto() {
                           value={form.negocio}
                           onChange={handleChange}
                           className="w-full bg-transparent border-b border-linha py-3 text-ink text-sm focus:outline-none focus:border-mustard transition-colors"
-                          placeholder="Nome da tua barbearia"
+                          placeholder="Nome do teu negócio"
                         />
                         {errors.negocio && <p className="text-xs text-red-500 mt-1">{errors.negocio}</p>}
                       </div>
@@ -241,7 +241,7 @@ export default function Contacto() {
                         value={form.mensagem}
                         onChange={handleChange}
                         className="w-full bg-transparent border-b border-linha py-3 text-ink text-sm focus:outline-none focus:border-mustard transition-colors resize-none"
-                        placeholder="Quantos barbeiros, como marcas hoje, o que te faz perder tempo…"
+                        placeholder="Quantos profissionais, como marcas hoje, o que te faz perder tempo…"
                       />
                       {errors.mensagem && <p className="text-xs text-red-500 mt-1">{errors.mensagem}</p>}
                     </div>

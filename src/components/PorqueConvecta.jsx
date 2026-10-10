@@ -144,7 +144,7 @@ export default function PorqueConvecta({ onFim, onSaltar }) {
     return (
       <div style={cartao}>
         <p className="cv-olho" style={{ margin: '0 0 8px' }}>Antes de começar · 30 segundos</p>
-        <h1 style={{ fontSize: 28, lineHeight: 1.2, margin: '0 0 10px' }}>Primeiro, conta-nos da tua barbearia.</h1>
+        <h1 style={{ fontSize: 28, lineHeight: 1.2, margin: '0 0 10px' }}>Primeiro, conta-nos do teu negócio.</h1>
         <p style={{ fontSize: 15, lineHeight: 1.6, color: 'var(--cv-ink-2)', margin: '0 0 22px' }}>
           Quatro perguntas, só a tocar. No fim mostramos-te o que muda com a Convecta — à medida do que nos disseres.
         </p>
@@ -167,7 +167,7 @@ export default function PorqueConvecta({ onFim, onSaltar }) {
       <motion.div style={cartao} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
         <p className="cv-olho" style={{ margin: '0 0 8px' }}>Com a Convecta</p>
         <h1 style={{ fontSize: 26, lineHeight: 1.25, margin: '0 0 22px' }}>
-          É isto que muda na <span className="cv-marca">tua barbearia</span>.
+          É isto que muda no <span className="cv-marca">teu negócio</span>.
         </h1>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -189,7 +189,7 @@ export default function PorqueConvecta({ onFim, onSaltar }) {
         )}
 
         <div style={{ marginTop: 26, paddingTop: 22, borderTop: '1px solid var(--cv-linha)', display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-          <button className="pc-btn" onClick={() => onFim(r)}>Montar a minha barbearia <ArrowRight size={16} /></button>
+          <button className="pc-btn" onClick={() => onFim(r)}>Montar o meu negócio <ArrowRight size={16} /></button>
           <span style={{ fontSize: 13, color: 'var(--cv-ink-3)' }}>Dois minutos · sem cartão</span>
         </div>
       </motion.div>

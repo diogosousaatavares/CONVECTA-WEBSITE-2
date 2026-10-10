@@ -55,7 +55,17 @@ function slugDe(nome) {
 }
 
 const PAINEL = 'https://administrador.marcacoes.app';
-const ETAPAS = ['Plano', 'Barbearia', 'Conta'];
+const ETAPAS = ['Plano', 'Negócio', 'Conta'];
+
+/* O tipo de negócio (10/10/2026). Vai para a função registar-barbearia, que
+   cria a conta com os serviços, as cores e as palavras de cada tipo — as
+   mesmas do painel (src/lib/nicho.js). */
+const TIPOS_NEGOCIO = [
+  { v: 'barbearia', l: 'Barbearia' },
+  { v: 'cabeleireiro', l: 'Cabeleireiro' },
+  { v: 'unhas', l: 'Unhas, sobrancelhas e pestanas' },
+  { v: 'estetica', l: 'Estética' },
+];
 
 const campo = {
   width: '100%', padding: '12px 14px', borderRadius: 10, fontSize: 15,
@@ -96,6 +106,7 @@ export default function Comecar() {
   );
 
   const [barbearia, setBarbearia] = useState({ nome: '', telefone: '', morada: '', nif: '' });
+  const [tipo, setTipo] = useState('barbearia');
   const [conta, setConta] = useState({ nome: '', email: '', telefone: '', password: '' });
   // Aceitação dos Termos, da Privacidade e do acordo RGPD (art. 28.º).
   // Tem de ser um gesto da pessoa — uma caixa por marcar, não um texto.
@@ -144,7 +155,7 @@ export default function Comecar() {
    */
   const avancar = (n) => {
     setErro('');
-    if (n === 3 && !barbearia.nome.trim()) return setErro('Escreve o nome da barbearia.');
+    if (n === 3 && !barbearia.nome.trim()) return setErro('Escreve o nome do teu negócio.');
     if (n === 3 && !slug) return setErro('Esse nome não dá um endereço válido. Usa letras e números.');
     try { window.trackEvent?.('comecar_passo', { passo: n, plano: planoId, barbeiros }); } catch { /* sem analytics */ }
     setPasso(n);
@@ -169,6 +180,7 @@ export default function Comecar() {
     return {
       nome_barbearia: barbearia.nome.trim(),
       slug,
+      tipoNegocio: tipo,
       barbeiros,
       plano: planoId,
       periodo,
@@ -208,7 +220,7 @@ export default function Comecar() {
     if (error && !motivo) { try { motivo = (await error.context?.json())?.erro; } catch { motivo = ''; } motivo = motivo || error.message; }
     await sb.auth.signOut().catch(() => {});
     if (motivo) { setErro(motivo); return true; }
-    if (data?.jaExistia) { setErro(`Essa conta já tem a barbearia «${data.nome || data.slug}». Entra no painel para a usares.`); return true; }
+    if (data?.jaExistia) { setErro(`Essa conta já tem o negócio «${data.nome || data.slug}». Entra no painel para a usares.`); return true; }
     try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo, contaExistente: true }); } catch { /* sem analytics */ }
     enviarRespostas();
     window.location.href = `${PAINEL}/entrar`;
@@ -218,7 +230,7 @@ export default function Comecar() {
   async function registar() {
     setErro('');
 
-    if (!barbearia.nome.trim()) return setErro('Escreve o nome da barbearia.');
+    if (!barbearia.nome.trim()) return setErro('Escreve o nome do teu negócio.');
     if (!slug) return setErro('Esse nome não dá um endereço válido. Usa letras e números.');
     if (!conta.nome.trim()) return setErro('Escreve o teu nome.');
     if (!conta.email.includes('@')) return setErro('Escreve um email válido.');
@@ -323,7 +335,7 @@ export default function Comecar() {
           </h1>
           <p style={{ fontSize: 16, lineHeight: 1.6, opacity: .85 }}>
             Enviámos uma mensagem para <strong>{conta.email.trim().toLowerCase()}</strong>.
-            Clica no link e entras logo no painel da <strong>{barbearia.nome.trim()}</strong>.
+            Clica no link e entras logo no painel de <strong>{barbearia.nome.trim()}</strong>.
           </p>
           {/* Dizer de onde vem a mensagem resolve metade dos "nao recebi": a
               pessoa sabe o que procurar numa caixa cheia. */}
@@ -353,7 +365,7 @@ export default function Comecar() {
     <>
       <Seo
         titulo="Começar"
-        descricao="Cria a conta da tua barbearia. 14 dias à experiência, sem pagar nada hoje."
+        descricao="Cria a conta do teu negócio. 14 dias à experiência, sem pagar nada hoje."
         caminho="/comecar"
         noindex
       />
@@ -402,7 +414,7 @@ export default function Comecar() {
         {passo === 1 && (
           <section>
             <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>
-              Quantos barbeiros trabalham na tua barbearia?
+              Quantas pessoas trabalham no teu negócio?
             </h1>
             <p style={{ fontSize: 15, opacity: .8, margin: '0 0 28px', lineHeight: 1.6 }}>
               Contando contigo. É só isto que decide o plano — o resto da plataforma é igual nos três.
@@ -494,12 +506,28 @@ export default function Comecar() {
         {/* ── 2. A barbearia ──────────────────────────────────────────── */}
         {passo === 2 && (
           <section>
-            <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>Como se chama a tua barbearia?</h1>
+            <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>Como se chama o teu negócio?</h1>
             <p style={{ fontSize: 15, opacity: .8, margin: '0 0 28px', lineHeight: 1.6 }}>
               O nome curto, o que dizes ao telefone. É só isto — o resto preenches no painel, quando quiseres.
             </p>
 
-            <label style={rotulo}>Nome da barbearia</label>
+            <label style={rotulo}>Que tipo de negócio é?</label>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 22 }}>
+              {TIPOS_NEGOCIO.map(t => (
+                <button key={t.v} type="button" onClick={() => setTipo(t.v)} aria-pressed={tipo === t.v}
+                  style={{
+                    padding: '11px 16px', borderRadius: 10, fontSize: 15, fontWeight: 700,
+                    cursor: 'pointer', fontFamily: 'inherit',
+                    border: `1px solid ${tipo === t.v ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
+                    background: tipo === t.v ? 'var(--cv-amarelo)' : 'var(--cv-card)',
+                    color: tipo === t.v ? 'var(--cv-amarelo-texto)' : 'var(--cv-ink)',
+                  }}>
+                  {t.l}
+                </button>
+              ))}
+            </div>
+
+            <label style={rotulo}>Nome do negócio</label>
             <input
               style={{ ...campo, fontSize: 18, padding: '14px 16px' }}
               value={barbearia.nome}
@@ -520,7 +548,7 @@ export default function Comecar() {
             }}>
               <div style={{ fontSize: 12, fontWeight: 600, opacity: .65, letterSpacing: .6 }}>O TEU SITE VAI SER</div>
               <div style={{ fontSize: 'clamp(18px, 4.5vw, 24px)', fontWeight: 700, marginTop: 6, wordBreak: 'break-all', color: slug ? 'var(--cv-ink)' : 'var(--cv-ink-3)' }}>
-                {slug || 'a-tua-barbearia'}<span style={{ opacity: .55, fontWeight: 500 }}>.marcacoes.app</span>
+                {slug || 'o-teu-negocio'}<span style={{ opacity: .55, fontWeight: 500 }}>.marcacoes.app</span>
               </div>
               <div style={{ ...ajuda, marginTop: 8 }}>
                 {slug ? 'É este o endereço que vais partilhar no Instagram e no WhatsApp.' : 'Escreve o nome e vê o endereço nascer.'}

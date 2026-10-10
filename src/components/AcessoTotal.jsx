@@ -22,7 +22,7 @@ export default function AcessoTotal() {
         <div className="at-portas">
           <Link className="at-porta at-porta-forte" to="/comecar">
             <span className="at-porta-olho">Dois minutos</span>
-            <span className="at-porta-titulo">Montar a minha barbearia</span>
+            <span className="at-porta-titulo">Montar o meu negócio</span>
             <span className="at-porta-sub">O teu site no ar hoje, com o teu nome. Sem cartão para começar.</span>
             <ArrowRight size={18} className="at-seta" />
           </Link>
@@ -122,7 +122,7 @@ function VideoComSom() {
       <div style={caixa}>
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1&hl=pt`}
-          title="Convecta — marcações online e gestão para barbearias"
+          title="Convecta — marcações online e gestão para barbearias, salões e estética"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           style={{ width: "100%", height: "100%", border: 0, display: "block" }}

@@ -46,7 +46,7 @@ export default function Termos() {
       <section className="bg-white py-16 lg:py-24">
         <div className="max-w-3xl mx-auto px-6 lg:px-12 text-sm text-ink-2 leading-relaxed">
           <p>
-            Estes termos regulam a utilização da Convecta Booking — o software de marcações online e gestão para barbearias disponibilizado por {SITE.titular}, empresário em nome individual, NIF {SITE.nif}, sob a marca Convecta ({SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal; {SITE.email}; {SITE.telefone}) — e deste site. Ao criar uma conta, aceitas o que aqui está escrito. Escrevemo-lo para ser lido, não para ser assinado sem ler.
+            Estes termos regulam a utilização da Convecta Booking — o software de marcações online e gestão para barbearias, salões e estética disponibilizado por {SITE.titular}, empresário em nome individual, NIF {SITE.nif}, sob a marca Convecta ({SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal; {SITE.email}; {SITE.telefone}) — e deste site. Ao criar uma conta, aceitas o que aqui está escrito. Escrevemo-lo para ser lido, não para ser assinado sem ler. Nestes termos, «barbearia» designa qualquer negócio que use a Convecta: barbearia, salão de cabeleireiro, estúdio de unhas, sobrancelhas e pestanas, ou estética.
           </p>
 
           <H2>1. O que é o serviço</H2>

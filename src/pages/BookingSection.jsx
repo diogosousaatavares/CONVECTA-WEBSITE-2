@@ -24,9 +24,9 @@ const PASSOS = [
   {
     icon: Smartphone,
     n: "01",
-    titulo: "Crias a tua barbearia",
+    titulo: "Crias o teu negócio",
     quem: "Tu · 2 minutos",
-    texto: `Dizes quantos barbeiros são, o nome da barbearia e o teu email. O plano escolhe-se sozinho pelo tamanho da equipa. O site nasce logo, com o teu nome, em a-tua-barbearia.${SITE.dominioApps}. Sem cartão.`,
+    texto: `Dizes que tipo de negócio é, quantos profissionais são, o nome e o teu email. O plano escolhe-se sozinho pelo tamanho da equipa. O site nasce logo, com o teu nome, em o-teu-negocio.${SITE.dominioApps}. Sem cartão.`,
     link: { to: "/comecar", label: "Começar grátis" },
   },
   {
@@ -34,7 +34,7 @@ const PASSOS = [
     n: "02",
     titulo: "Montas a casa",
     quem: "Tu · 15 minutos, no painel",
-    texto: "Barbeiros com os seus horários, serviços com duração e preço, o logótipo e as cores, o horário de abertura. Podes fazer tudo isto antes de dar o cartão — e ver o site a mudar enquanto escreves.",
+    texto: "Profissionais com os seus horários, serviços com duração e preço, o logótipo e as cores, o horário de abertura. Podes fazer tudo isto antes de dar o cartão — e ver o site a mudar enquanto escreves.",
   },
   {
     icon: Store,
@@ -82,7 +82,7 @@ const PERGUNTAS = [
   { q: "Preciso de saber de informática?", a: "Não. Se sabes usar o WhatsApp, sabes usar o painel. E a configuração inicial fazemo-la contigo ao telefone." },
   { q: "Tenho de instalar alguma coisa?", a: "Não. O painel abre no browser do telemóvel ou do computador, e podes guardá-lo no ecrã principal como uma app. Os teus clientes também não instalam nada." },
   { q: "E se já tenho clientes marcados noutro sítio?", a: "Podes começar a receber marcações novas na Convecta e ir fechando as antigas onde estão. Marcações feitas ao telefone lanças à mão no painel, em segundos." },
-  { q: "Quanto custa e quando começo a pagar?", a: `Desde ${PRECO_DESDE_TEXTO} por mês, por barbearia, conforme o número de profissionais. Sem taxa de adesão e sem comissões por marcação. A mensalidade começa quando a tua barbearia fica ativa.` },
+  { q: "Quanto custa e quando começo a pagar?", a: `Desde ${PRECO_DESDE_TEXTO} por mês, por negócio, conforme o número de profissionais. Sem taxa de adesão e sem comissões por marcação. A mensalidade começa quando o teu negócio fica ativo.` },
 ];
 
 export default function ComoFunciona() {
@@ -94,8 +94,8 @@ export default function ComoFunciona() {
   return (
     <main id="main-content" style={{ backgroundColor: "var(--cv-ground)" }} className="booking-page text-ink min-h-screen">
       <Seo
-        titulo="Como funciona: do registo às marcações online na tua barbearia"
-        descricao="Seis passos, sem burocracia: crias a tua barbearia em dois minutos, montas serviços e equipa, registas o cartão com 14 dias à experiência, ligas as notificações, partilhas o link e os clientes começam a marcar online. Desde 19,99 €/mês, sem comissões."
+        titulo="Como funciona: do registo às marcações online no teu negócio"
+        descricao="Seis passos, sem burocracia: crias o teu negócio em dois minutos, montas serviços e equipa, registas o cartão com 14 dias à experiência, ligas as notificações, partilhas o link e os clientes começam a marcar online. Desde 19,99 €/mês, sem comissões."
         caminho="/como-funciona"
         ld={ld}
       />
@@ -114,7 +114,7 @@ export default function ComoFunciona() {
               Do registo à primeira marcação online.
             </h1>
             <p className="text-ink-2 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl mx-auto font-light">
-              Não há proposta comercial, orçamento nem semanas de "implementação". Há uma chamada de 15 minutos e uma barbearia criada, em regra, no próprio dia. Isto é o caminho todo.
+              Não há proposta comercial, orçamento nem semanas de "implementação". Há uma chamada de 15 minutos e o teu negócio criado, em regra, no próprio dia. Isto é o caminho todo.
             </p>
             <BotaoComecar grande>Começar grátis</BotaoComecar>
           </motion.div>
@@ -154,7 +154,7 @@ export default function ComoFunciona() {
               <div className="p-6 rounded-2xl border border-linha bg-card">
                 <h3 className="font-heading text-xl text-ink mb-3">O que precisas de ter</h3>
                 <ul className="space-y-2 text-sm text-ink-2">
-                  {["Um telemóvel ou computador com browser", "A lista de serviços, com duração e preço", "O horário da barbearia e de cada barbeiro", "O logótipo, se tiveres (senão, o nome chega)"].map((t) => (
+                  {["Um telemóvel ou computador com browser", "A lista de serviços, com duração e preço", "O horário do negócio e de cada profissional", "O logótipo, se tiveres (senão, o nome chega)"].map((t) => (
                     <li key={t} className="flex items-start gap-2.5"><Check size={15} className="text-[var(--cv-amarelo-texto)] shrink-0 mt-0.5" /> {t}</li>
                   ))}
                 </ul>
@@ -177,7 +177,7 @@ export default function ComoFunciona() {
         <div className="max-w-3xl mx-auto">
           <ScrollReveal>
             <p className="text-xs uppercase tracking-[0.25em] font-bold text-ink-3 mb-4">Depois de lançar</p>
-            <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Um dia com marcações online na barbearia</h2>
+            <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-4 leading-tight">Um dia com marcações online no teu negócio</h2>
             <p className="text-ink-2 text-base leading-relaxed mb-10">
               Nomes e horas inventados; o que a app faz em cada momento é exatamente isto.
             </p>
@@ -198,7 +198,7 @@ export default function ComoFunciona() {
           <ScrollReveal>
             <div className="mt-10 flex flex-wrap gap-x-6 gap-y-3 text-sm">
               <Link to="/funcionalidades" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[var(--cv-amarelo)] py-1">Todas as funcionalidades <ArrowRight size={14} /></Link>
-              <Link to="/comecar" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[var(--cv-amarelo)] py-1"><LayoutDashboard size={14} /> Criar a minha barbearia</Link>
+              <Link to="/comecar" className="inline-flex items-center gap-1.5 font-bold text-ink border-b-2 border-[var(--cv-amarelo)] py-1"><LayoutDashboard size={14} /> Criar o meu negócio</Link>
             </div>
           </ScrollReveal>
         </div>

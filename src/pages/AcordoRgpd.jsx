@@ -59,7 +59,7 @@ export default function AcordoRgpd() {
 
           <H2>1. As partes</H2>
           <L>
-            <li><strong className="text-ink">Responsável pelo tratamento:</strong> a barbearia que usa a Convecta (a «Barbearia»), identificada na sua conta.</li>
+            <li><strong className="text-ink">Responsável pelo tratamento:</strong> o negócio que usa a Convecta — barbearia, salão, estúdio ou estética (a «Barbearia») —, identificado na sua conta.</li>
             <li><strong className="text-ink">Subcontratante:</strong> {SITE.titular}, empresário em nome individual, NIF {SITE.nif}, que opera sob a marca Convecta, com morada em {SITE.morada.rua}, {SITE.morada.codigoPostal} {SITE.morada.cidade}, Portugal ({SITE.email}) — a «Convecta».</li>
           </L>
 

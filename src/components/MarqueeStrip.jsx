@@ -3,7 +3,7 @@ import React from "react";
 const defaultItems = [
   "Marcações Online",
   "0 % de Comissões",
-  "Agenda por Barbeiro",
+  "Agenda por Profissional",
   "Notificações no Telemóvel",
   "Cartão de Fidelidade Digital",
   "Caixa e Comissões",

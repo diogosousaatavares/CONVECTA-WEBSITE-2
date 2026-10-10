@@ -23,7 +23,7 @@ export default function Instagram() {
     <div>
       <Seo
         titulo="A Convecta no Instagram"
-        descricao="Bastidores, novidades da app e as barbearias que já marcam online com a Convecta. Segue @convecta.pt."
+        descricao="Bastidores, novidades da app e os negócios que já marcam online com a Convecta. Segue @convecta.pt."
         caminho="/instagram"
         noindex
       />
@@ -46,7 +46,7 @@ export default function Instagram() {
                   className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden shrink-0"
                   style={{ border: "2px solid rgba(254,233,109,0.4)" }}
                 >
-                  <img src="/brand/convecta-avatar.jpg" alt="Convecta — software de marcações online para barbearias" width="200" height="200" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                  <img src="/brand/convecta-avatar.jpg" alt="Convecta — software de marcações online para barbearias, salões e estética" width="200" height="200" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                 </div>
               </div>
               <a
@@ -60,7 +60,7 @@ export default function Instagram() {
                 {SITE.instagramHandle}
               </a>
               <p className="text-sm text-ink-2 max-w-xs mb-6 mx-auto md:mx-0">
-                Marcações online e gestão para barbearias. Os teus clientes marcam sozinhos; tu só cortas. Começa grátis — o link está na bio.
+                Marcações online e gestão para barbearias, salões e estética. Os teus clientes marcam sozinhos; tu só trabalhas. Começa grátis — o link está na bio.
               </p>
               <a
                 href={INSTAGRAM_URL}
