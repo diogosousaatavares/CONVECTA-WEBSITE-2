@@ -551,7 +551,7 @@ export default function Comecar() {
             <input
               style={{ ...campo, fontSize: 18, padding: '14px 16px' }}
               value={barbearia.nome}
-              placeholder="RC Cuts"
+              placeholder={{ barbearia: 'RC Cuts', cabeleireiro: 'Salão Bela', unhas: 'Nails by Ana', estetica: 'Espaço Pele' }[tipo] || 'RC Cuts'}
               autoFocus
               onChange={e => b('nome', e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') avancar(3); }}

@@ -142,7 +142,7 @@ export const INCLUIDO_EM_TODOS = [
   { texto: "Relatórios e Excel para o contabilista" },
   { texto: "Cartão de fidelidade digital" },
   { texto: "Controlo total do design da tua app: cores, tipografia, logótipo, capa e galeria, mudados por ti" },
-  { texto: "Avisos ao cliente antes do corte: notificação no telemóvel, ou email. Sem custo por mensagem" },
+  { texto: "Avisos ao cliente antes da marcação: notificação no telemóvel, ou email. Sem custo por mensagem" },
 ];
 
 // Compatibilidade: havia um preco unico e varias paginas liam estas duas
@@ -187,7 +187,7 @@ export const FUNCIONALIDADES = [
   "Bloqueio de horas na agenda (almoço, folga) e marcação manual a partir de qualquer hora livre",
   "Checkout com os produtos levados na mesma conta",
   "Cada profissional entra com a sua conta e mexe só na sua coluna; o dono escolhe se vê a agenda toda",
-  "Aviso ao cliente antes do corte por notificação e email, sem custo por mensagem",
+  "Aviso ao cliente antes da marcação por notificação e email, sem custo por mensagem",
   "Lista de espera por hora, com confirmação em 1 hora, e aviso de vaga de última hora a todos os clientes",
 ];
 

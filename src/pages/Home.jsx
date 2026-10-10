@@ -115,7 +115,7 @@ export default function Home() {
               titulo ja promete. Fica a primeira, que e a unica que doi.
             */}
             <p className="cv-texto" style={{ margin: "20px 0 34px", maxWidth: "26ch" }}>
-              Deixas de atender o telefone a meio do corte.
+              Deixas de atender o telefone a meio de um cliente.
             </p>
 
             <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>

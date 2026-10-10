@@ -27,7 +27,7 @@ const INCLUIDO = [
   { I: Palette, t: "O design é teu", d: "Cores, tipografia, logótipo e capa. Mudas tu, no painel, quando quiseres." },
   { I: Smartphone, t: "Fica no ecrã principal", d: "A tua e a dos teus clientes. Sem lojas de aplicações." },
   { I: BarChart3, t: "Relatórios", d: "Receita, ocupação, serviços e Excel para o contabilista." },
-  { I: MessageCircle, t: "Avisos antes do corte", d: "No telemóvel do cliente, ou email. Sem custo por mensagem." },
+  { I: MessageCircle, t: "Avisos antes da marcação", d: "No telemóvel do cliente, ou email. Sem custo por mensagem." },
   { I: Check, t: "E o resto todo", d: "Agenda, clientes, caixa, comissões, produtos, stock, fidelização." },
 ];
 
