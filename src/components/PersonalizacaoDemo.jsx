@@ -20,7 +20,6 @@ import BotaoComecar from "@/components/BotaoComecar";
  * isso continua a não poder ficar diferente do que o barbeiro vai ter. Não
  * grava nada.
  */
-const DEMO = "https://administrador.marcacoes.app/personalizar?so=telemovel";
 
 const INCLUIDO = [
   { I: Bell, t: "O telemóvel toca a cada marcação", d: "No segundo em que o cliente marca, com o nome, o serviço e a hora." },
@@ -39,11 +38,10 @@ export default function PersonalizacaoDemo() {
         <h2 className="cv-h2">A app é do teu negócio. <span className="cv-marca">Não é nossa.</span></h2>
       </ScrollReveal>
 
+      {/* A demonstração ao vivo (um iframe com o painel inteiro) saiu a
+          11/10/2026: carregava a app toda dentro do site e pesava mais do que
+          a página. Fica a lista, que é o que diz o que está incluído. */}
       <div className="pd-grelha">
-        {/* Sem moldura, sem fundo e sem sombra: o telemóvel já tem a dele. */}
-        <iframe className="pd-telemovel" src={DEMO} scrolling="no"
-          title="A app do teu negócio, para experimentar" loading="lazy" />
-
         <ScrollReveal variant="fadeInUp">
           <div className="pd-lado">
             <h3 className="cv-h2" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", marginBottom: 10 }}>
@@ -69,7 +67,7 @@ export default function PersonalizacaoDemo() {
 
       <div className="pd-fim">
         <BotaoComecar origem="personalizacao">Quero a minha</BotaoComecar>
-        <span>O que mudares aqui não fica gravado. No teu painel, fica.</span>
+
       </div>
     </section>
   );

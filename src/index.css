@@ -1928,8 +1928,8 @@ body.cv-com-barra { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
    e um ecra de 1440px com um aparelho de 300px no centro nao e respirar, e
    vazio. */
 .pd-grelha {
-  display: grid; grid-template-columns: 420px minmax(0, 1fr);
-  gap: 48px; align-items: start; margin-top: 30px;
+  display: grid; grid-template-columns: minmax(0, 1fr);
+  max-width: 760px; margin-top: 30px;
 }
 /* Sem moldura nem fundo: o telemovel ja traz a dele, e outra caixa a volta
    era a caixa a mais. A altura e a do aparelho mais o interruptor em cima e
