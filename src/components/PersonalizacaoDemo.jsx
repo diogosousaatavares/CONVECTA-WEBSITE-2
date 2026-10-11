@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { Bell, Palette, Smartphone, BarChart3, MessageCircle, Check } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import BotaoComecar from "@/components/BotaoComecar";
@@ -22,13 +23,25 @@ import BotaoComecar from "@/components/BotaoComecar";
  */
 
 const INCLUIDO = [
-  { I: Bell, t: "O telemóvel toca a cada marcação", d: "No segundo em que o cliente marca, com o nome, o serviço e a hora." },
-  { I: Palette, t: "O design é teu", d: "Cores, tipografia, logótipo e capa. Mudas tu, no painel, quando quiseres." },
-  { I: Smartphone, t: "Fica no ecrã principal", d: "A tua e a dos teus clientes. Sem lojas de aplicações." },
-  { I: BarChart3, t: "Relatórios", d: "Receita, ocupação, serviços e Excel para o contabilista." },
-  { I: MessageCircle, t: "Avisos antes da marcação", d: "No telemóvel do cliente, ou email. Sem custo por mensagem." },
-  { I: Check, t: "E o resto todo", d: "Agenda, clientes, caixa, comissões, produtos, stock, fidelização." },
+  { I: Bell, t: "O telemóvel toca a cada marcação" },
+  { I: Palette, t: "O design é teu" },
+  { I: Smartphone, t: "Fica no ecrã principal" },
+  { I: BarChart3, t: "Relatórios e Excel" },
+  { I: MessageCircle, t: "Avisos antes da marcação" },
+  { I: Check, t: "Agenda, caixa, comissões, stock" },
 ];
+
+/*
+ * 11/10/2026: a demonstração ao vivo (um iframe com o painel inteiro) saiu —
+ * carregava a app toda dentro do site e pesava mais do que a página. E a
+ * lista com frases pequenas por baixo de cada título também: seis cartões,
+ * um título cada, a entrar um a um. O que cada coisa faz está em
+ * /funcionalidades, para quem quiser ler.
+ */
+const entrada = {
+  hidden: { opacity: 0, y: 28, scale: 0.97 },
+  show: i => ({ opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, delay: 0.08 * i, ease: [0.16, 1, 0.3, 1] } }),
+};
 
 export default function PersonalizacaoDemo() {
   return (
@@ -36,38 +49,23 @@ export default function PersonalizacaoDemo() {
       <ScrollReveal>
         <p className="cv-olho">Personalização</p>
         <h2 className="cv-h2">A app é do teu negócio. <span className="cv-marca">Não é nossa.</span></h2>
+        <p className="cv-texto pd-sub">Tudo isto, em qualquer plano. O plano só muda quantos profissionais tens.</p>
       </ScrollReveal>
 
-      {/* A demonstração ao vivo (um iframe com o painel inteiro) saiu a
-          11/10/2026: carregava a app toda dentro do site e pesava mais do que
-          a página. Fica a lista, que é o que diz o que está incluído. */}
-      <div className="pd-grelha">
-        <ScrollReveal variant="fadeInUp">
-          <div className="pd-lado">
-            <h3 className="cv-h2" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", marginBottom: 10 }}>
-              Tudo isto. Em qualquer plano.
-            </h3>
-            <p className="cv-texto" style={{ marginBottom: 26 }}>
-              Não há versão reduzida nem módulos à parte. O plano só muda quantos profissionais tens.
-            </p>
-            <ul className="pd-itens">
-              {INCLUIDO.map(({ I, t, d }) => (
-                <li className="pd-item" key={t}>
-                  <span className="at-ico"><I size={18} strokeWidth={1.7} /></span>
-                  <span>
-                    <strong className="pd-item-t">{t}</strong>
-                    <span className="pd-item-d">{d}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </ScrollReveal>
-      </div>
+      <ul className="pd-cartoes">
+        {INCLUIDO.map(({ I, t }, i) => (
+          <motion.li className="pd-cartao" key={t} custom={i}
+            variants={entrada} initial="hidden" whileInView="show"
+            viewport={{ once: true, margin: "-60px" }}
+            whileHover={{ y: -4 }} transition={{ type: "spring", stiffness: 300, damping: 24 }}>
+            <span className="pd-cartao-ico"><I size={22} strokeWidth={1.8} /></span>
+            <span className="pd-cartao-t">{t}</span>
+          </motion.li>
+        ))}
+      </ul>
 
       <div className="pd-fim">
         <BotaoComecar origem="personalizacao">Quero a minha</BotaoComecar>
-
       </div>
     </section>
   );

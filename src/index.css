@@ -1927,31 +1927,37 @@ body.cv-com-barra { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
    O telemovel sozinho ao meio deixava meia pagina em branco de cada lado —
    e um ecra de 1440px com um aparelho de 300px no centro nao e respirar, e
    vazio. */
-.pd-grelha {
-  display: grid; grid-template-columns: minmax(0, 1fr);
-  max-width: 760px; margin-top: 30px;
+/* Personalização: seis cartões, um título cada (11/10/2026). */
+.pd-sub { margin-top: 14px; max-width: 560px; }
+.pd-cartoes {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px; margin: 36px 0 0; padding: 0; list-style: none;
 }
-/* Sem moldura nem fundo: o telemovel ja traz a dele, e outra caixa a volta
-   era a caixa a mais. A altura e a do aparelho mais o interruptor em cima e
-   a linha em baixo. */
-.pd-telemovel {
-  display: block; width: 100%; height: 700px; border: 0;
-  background: transparent; color-scheme: light; overflow: hidden;
+.pd-cartao {
+  display: flex; align-items: center; gap: 14px;
+  padding: 18px 20px; border-radius: 18px;
+  background: var(--cv-card); border: 1px solid var(--cv-linha);
+  transition: border-color .2s, box-shadow .2s;
 }
-.pd-lado { padding-top: 6px; }
-.pd-itens { display: grid; gap: 20px; margin: 0; padding: 0; list-style: none; }
-.pd-item { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 14px; align-items: start; }
-.pd-item-t { display: block; font-weight: 700; font-size: 1.0625rem; color: var(--cv-ink); }
-.pd-item-d { display: block; margin-top: 3px; font-size: 1rem; line-height: 1.55; color: var(--cv-ink-2); }
-.pd-fim {
-  margin-top: 34px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+.pd-cartao:hover { border-color: rgba(36, 32, 28, 0.18); box-shadow: 0 10px 30px rgba(36, 32, 28, 0.06); }
+.pd-cartao-ico {
+  width: 46px; height: 46px; border-radius: 14px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--cv-amarelo); color: var(--cv-ink);
 }
-.pd-fim span { font-size: 1rem; color: var(--cv-ink-3); }
+.pd-cartao-t { font-weight: 700; font-size: 1.0625rem; line-height: 1.3; color: var(--cv-ink); }
+.pd-fim { margin-top: 30px; display: flex; }
 
 @media (max-width: 980px) {
-  .pd-grelha { grid-template-columns: 1fr; gap: 30px; justify-items: center; }
-  .pd-lado { padding-top: 0; width: 100%; }
-  .pd-telemovel { max-width: 420px; height: min(700px, calc(100svh - 150px)); min-height: 520px; }
+  .pd-cartoes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .pd-cartoes { grid-template-columns: 1fr; gap: 10px; }
+  .pd-cartao { padding: 14px 16px; border-radius: 14px; }
+  .pd-cartao-ico { width: 40px; height: 40px; border-radius: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pd-cartao { transition: none; }
 }
 
 /* ── Porquê a Convecta (questionário no fim do registo) ── */
