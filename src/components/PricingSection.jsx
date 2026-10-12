@@ -28,10 +28,10 @@ const GARANTIAS = [
 const PERCENTAGEM = Math.round(DESCONTO_ANUAL * 100);
 
 /* ── o botao mensal / anual ─────────────────────────────────────── */
-// Mensal · 15 dias · Anual (o de 15 dias desde 12/10/2026).
+// 15 dias · Mensal · Anual (o de 15 dias desde 12/10/2026, primeiro).
 const PERIODOS = [
-  { v: "mensal", l: "Mensal" },
   { v: "quinzenal", l: "15 dias" },
+  { v: "mensal", l: "Mensal" },
   { v: "anual", l: "Anual" },
 ];
 function Alternador({ periodo, mudar }) {
@@ -208,7 +208,8 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
   const Titulo = nivelTitulo;
   // os titulos nao podem saltar niveis: h1 -> h2, h2 -> h3
   const NivelNome = nivelTitulo === "h1" ? "h2" : "h3";
-  const [periodo, setPeriodo] = useState("mensal");
+  // Abre nos 15 dias: é o primeiro e o mais baixo (pedido do Diogo, 12/10/2026).
+  const [periodo, setPeriodo] = useState("quinzenal");
   const anual = periodo === "anual";
 
   return (
