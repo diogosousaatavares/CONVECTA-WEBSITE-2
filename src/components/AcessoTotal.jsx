@@ -13,6 +13,10 @@ import BotaoComecar from "@/components/BotaoComecar";
  * porta das funcionalidades fica como linha de texto por baixo do botão.
  * Sem caixa (pedido do Diogo): a fotografia é recortada, com fundo
  * transparente, e assenta no fundo da página.
+ *
+ * O NOME DO FICHEIRO MUDA QUANDO A IMAGEM MUDA. O site diz aos browsers
+ * para guardarem as imagens 7 dias: com o mesmo nome, quem já tinha visto
+ * a antiga (com fundo branco) continuava a vê-la. Próxima: -v3.
  */
 export default function AcessoTotal() {
   return (
@@ -28,7 +32,7 @@ export default function AcessoTotal() {
               <Link to="/funcionalidades" className="mn-ver">Ver o que faz <ArrowRight size={15} /></Link>
             </div>
           </div>
-          <img className="mn-foto" src="/montar-o-meu-negocio.webp" srcSet="/montar-o-meu-negocio-540.webp 540w, /montar-o-meu-negocio.webp 1080w"
+          <img className="mn-foto" src="/montar-negocio-v2.webp" srcSet="/montar-negocio-v2-540.webp 554w, /montar-negocio-v2.webp 1109w"
             sizes="(max-width: 720px) 90vw, 520px" width="1109" height="1377" loading="lazy"
             alt="Uma profissional a mostrar a agenda do dia no painel da Convecta, no telemóvel" />
         </div>
