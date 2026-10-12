@@ -112,6 +112,24 @@ PLANOS.forEach(pl => {
   pl.poupancaAnoTexto = euros(pl.poupancaAno);
 });
 
+/*
+ * DOIS TIPOS NO MESMO ESPAÇO (12/10/2026). Uma barbearia com estética, um
+ * cabeleireiro com unhas: o site do cliente ganha duas frentes e o painel
+ * gere cada lado à parte. Paga o plano mais metade pelo segundo tipo —
+ * o super admin (convecta-superadmin/src/lib/planos.js) cobra o mesmo.
+ */
+export const ADICIONAL_SEGUNDO_NICHO = 0.5;
+export const ADICIONAL_SEGUNDO_NICHO_TEXTO = `+${Math.round(ADICIONAL_SEGUNDO_NICHO * 100)} %`;
+export const comSegundoNicho = preco => Math.round(preco * (1 + ADICIONAL_SEGUNDO_NICHO) * 100) / 100;
+PLANOS.forEach(pl => {
+  pl.precoMisto = comSegundoNicho(pl.preco);
+  pl.precoMistoTexto = euros(pl.precoMisto);
+  pl.precoMesAnualMisto = comSegundoNicho(pl.precoMesAnual);
+  pl.precoMesAnualMistoTexto = euros(pl.precoMesAnualMisto);
+  pl.precoAnoMisto = comSegundoNicho(pl.precoAno);
+  pl.precoAnoMistoTexto = euros(pl.precoAnoMisto);
+});
+
 /** O plano mais barato: e o numero que aparece no "a partir de". */
 export const PLANO_BASE = PLANOS[0];
 export const PRECO_DESDE = PLANO_BASE.preco;

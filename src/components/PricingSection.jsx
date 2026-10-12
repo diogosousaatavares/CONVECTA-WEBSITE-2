@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Shield, Zap, ArrowRight, Headphones, Users } from "lucide-react";
 import { Link } from "react-router-dom";
-import { PLANOS, DESCONTO_ANUAL } from "@/lib/seo";
+import { PLANOS, DESCONTO_ANUAL, ADICIONAL_SEGUNDO_NICHO_TEXTO } from '@/lib/seo';
 import FundoLinhas from "@/components/FundoLinhas";
 import MarcaWhatsApp from "@/components/MarcaWhatsApp";
 
@@ -236,6 +236,34 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
             </motion.div>
           ))}
         </div>
+
+        {/* DOIS TIPOS NO MESMO ESPAÇO. Tem de se ver sem procurar: quem tem
+            barbearia e estética na mesma loja pergunta logo «e eu?». */}
+        <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+          className="pr-misto" style={{ marginTop: 34 }}>
+          <div className="pr-misto-texto">
+            <p className="cv-olho" style={{ marginBottom: 10 }}>Dois tipos no mesmo espaço</p>
+            <NivelNome className="cv-h3" style={{ margin: 0, maxWidth: "22ch" }}>
+              Barbearia e estética na mesma loja? O segundo tipo é a metade.
+            </NivelNome>
+            <p className="cv-texto" style={{ margin: "12px 0 0", maxWidth: "52ch" }}>
+              O teu site ganha duas frentes — o cliente escolhe se vem ao barbeiro ou à estética e vê só o que é desse lado.
+              No painel geres cada lado à parte, com a mesma conta. Pagas o teu plano mais {ADICIONAL_SEGUNDO_NICHO_TEXTO} pelo segundo tipo.
+            </p>
+          </div>
+          <div className="pr-misto-contas" aria-label="Exemplos de preço com dois tipos">
+            {PLANOS.map(pl => (
+              <div key={pl.id} className="pr-misto-linha">
+                <span className="pr-misto-plano">{pl.nome}</span>
+                <span className="pr-misto-soma">
+                  {anual ? pl.precoMesAnualTexto : pl.precoTexto} <em>+ metade</em>
+                </span>
+                <strong className="pr-misto-total">{anual ? pl.precoMesAnualMistoTexto : pl.precoMistoTexto}<small>/mês</small></strong>
+              </div>
+            ))}
+            <Link to="/comecar" className="pr-misto-cta">Criar a conta com dois tipos</Link>
+          </div>
+        </motion.div>
 
         {/* A ancora. 19,99 € e abstracto; "um corte por mes" e uma conta que
             qualquer barbeiro faz de cabeca — e que lhe da razao para pagar. */}

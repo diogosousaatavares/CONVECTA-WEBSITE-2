@@ -68,6 +68,10 @@ const faqs = [
     a: "Falas connosco por telefone ou WhatsApp, em dias úteis. Somos uma equipa pequena, do Porto: quem te atende é quem fez a app.",
   },
   {
+    q: "Tenho barbearia e estética no mesmo espaço. Como funciona?",
+    a: "Crias a conta com «Dois tipos no mesmo espaço» e escolhes os dois — barbearia e estética, por exemplo. O teu site fica com duas frentes: o cliente escolhe a que vem e vê só os serviços e a equipa desse lado. No painel geres cada lado à parte, com a mesma conta e o mesmo email; a caixa, os clientes e o stock são da loja, que é uma só. Pagas o teu plano mais metade pelo segundo tipo.",
+  },
+  {
     q: "Serve para um salão de cabeleireiro, unhas ou estética?",
     a: "Sim. Ao criares a conta escolhes o tipo de negócio — barbearia, cabeleireiro, unhas, sobrancelhas e pestanas, ou estética — e a app usa as palavras, os serviços e as cores certas. Quem trabalha sozinho usa-a da mesma forma: a agenda tem uma coluna em vez de quatro. O que ainda não faz: marcar vários serviços seguidos na mesma marcação, nem deixar a profissional livre durante o tempo de pose. Se o teu salão precisa disso, fala connosco antes.",
   },

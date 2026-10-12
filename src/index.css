@@ -1669,6 +1669,22 @@ html, body {
 
 /* Planos */
 .cv-planos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 48px; align-items: stretch; }
+/* Dois tipos no mesmo espaço: o bloco a seguir aos planos. */
+.pr-misto { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; align-items: center; padding: 30px; border-radius: 22px;
+  background: var(--cv-card); border: 1px solid var(--cv-amarelo); box-shadow: 0 18px 50px -30px rgba(0,0,0,.25); }
+.pr-misto-contas { display: grid; gap: 10px; }
+.pr-misto-linha { display: grid; grid-template-columns: 1fr auto auto; gap: 14px; align-items: baseline; padding: 12px 16px; border-radius: 12px; background: var(--cv-fundo, rgba(0,0,0,.03)); }
+.pr-misto-plano { font-weight: 700; }
+.pr-misto-soma { font-size: .95rem; color: var(--cv-ink-3); white-space: nowrap; }
+.pr-misto-soma em { font-style: normal; color: var(--cv-ink-2); }
+.pr-misto-total { font-size: 1.35rem; font-weight: 800; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pr-misto-total small { font-size: .8rem; font-weight: 600; color: var(--cv-ink-3); margin-left: 2px; }
+.pr-misto-cta { display: inline-flex; justify-content: center; margin-top: 6px; padding: 13px 18px; border-radius: 999px; background: var(--cv-ink); color: var(--cv-card); font-weight: 700; text-decoration: none; }
+@media (max-width: 760px) {
+  .pr-misto { grid-template-columns: 1fr; padding: 22px 18px; gap: 20px; }
+  .pr-misto-linha { grid-template-columns: 1fr auto; }
+  .pr-misto-soma { grid-column: 1 / -1; }
+}
 .cv-planos > div { display: flex; }
 .cv-planos > div > div { width: 100%; }
 .cv-incluido { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 28px; }

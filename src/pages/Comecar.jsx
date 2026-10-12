@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Check, Mail, AlertTriangle } from 'lucide-react';
 import Seo from '@/components/Seo';
-import { PLANOS, DESCONTO_ANUAL } from '@/lib/seo';
+import { PLANOS, DESCONTO_ANUAL, ADICIONAL_SEGUNDO_NICHO_TEXTO } from '@/lib/seo';
 import { VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
 import PorqueConvecta, { textoRespostas } from '@/components/PorqueConvecta';
@@ -65,6 +65,7 @@ const TIPOS_NEGOCIO = [
   { v: 'cabeleireiro', l: 'Cabeleireiro', d: 'Cor, madeixas, brushing' },
   { v: 'unhas', l: 'Unhas, sobrancelhas e pestanas', d: 'Gel, manicure, extensões' },
   { v: 'estetica', l: 'Estética', d: 'Pele, massagens, depilação' },
+  { v: 'misto', l: 'Dois tipos no mesmo espaço', d: `Barbearia + estética, por exemplo · o segundo tipo é ${ADICIONAL_SEGUNDO_NICHO_TEXTO}` },
 ];
 
 const campo = {
@@ -107,6 +108,10 @@ export default function Comecar() {
 
   const [barbearia, setBarbearia] = useState({ nome: '', telefone: '', morada: '', nif: '' });
   const [tipo, setTipo] = useState('barbearia');
+  // Os dois lados de um espaço misto (tipo === 'misto').
+  const [lados, setLados] = useState(['barbearia', 'estetica']);
+  const misto = tipo === 'misto';
+  const escolherLado = v => setLados(l => (l.includes(v) ? l.filter(x => x !== v) : [...l, v].slice(-2)));
   const [tipoEscolhido, setTipoEscolhido] = useState(false);
   const [conta, setConta] = useState({ nome: '', email: '', telefone: '', password: '' });
   // Aceitação dos Termos, da Privacidade e do acordo RGPD (art. 28.º).
@@ -184,6 +189,7 @@ export default function Comecar() {
       nome_barbearia: barbearia.nome.trim(),
       slug,
       tipoNegocio: tipo,
+      lados: misto ? lados : undefined,
       barbeiros,
       plano: planoId,
       periodo,
@@ -449,6 +455,26 @@ export default function Comecar() {
                 fontFamily: 'inherit', fontSize: 14, color: 'var(--cv-ink-2)', textDecoration: 'underline' }}>
               {(TIPOS_NEGOCIO.find(t => t.v === tipo) || TIPOS_NEGOCIO[0]).l} · mudar
             </button>
+            {misto && (
+              <div style={{ margin: '0 0 26px', padding: 16, borderRadius: 14, border: '1px solid var(--cv-linha)', background: 'var(--cv-card)' }}>
+                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10 }}>Quais são os dois tipos?</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {TIPOS_NEGOCIO.filter(t => t.v !== 'misto').map(t => {
+                    const on = lados.includes(t.v);
+                    return (
+                      <button key={t.v} type="button" onClick={() => escolherLado(t.v)} aria-pressed={on}
+                        style={{ padding: '9px 14px', borderRadius: 999, cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: on ? 700 : 500,
+                          border: `1px solid ${on ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`, background: on ? 'rgba(232,185,35,.14)' : 'transparent', color: 'var(--cv-ink)' }}>
+                        {on ? '✓ ' : ''}{t.l}
+                      </button>
+                    );
+                  })}
+                </div>
+                <div style={{ fontSize: 13, opacity: .75, marginTop: 10, lineHeight: 1.5 }}>
+                  O teu site ganha duas frentes e o painel gere cada lado à parte, com a mesma conta. O segundo tipo é {ADICIONAL_SEGUNDO_NICHO_TEXTO} sobre o plano.
+                </div>
+              </div>
+            )}
             <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>
               Quantas pessoas trabalham no teu negócio?
             </h1>
@@ -484,13 +510,20 @@ export default function Comecar() {
               <div style={{ fontSize: 22, fontWeight: 700, margin: '6px 0 2px' }}>{plano.nome}</div>
               <div style={{ fontSize: 15 }}>
                 <strong style={{ fontSize: 24 }}>
-                  {periodo === 'anual' ? euros(plano.precoMesAnual) : euros(plano.preco)}
+                  {misto
+                    ? (periodo === 'anual' ? euros(plano.precoMesAnualMisto) : euros(plano.precoMisto))
+                    : (periodo === 'anual' ? euros(plano.precoMesAnual) : euros(plano.preco))}
                 </strong>
                 <span style={{ opacity: .7 }}> por mês</span>
                 {periodo === 'anual' && (
-                  <span style={{ opacity: .7 }}> — {euros(plano.precoAno)} pagos de uma vez</span>
+                  <span style={{ opacity: .7 }}> — {euros(misto ? plano.precoAnoMisto : plano.precoAno)} pagos de uma vez</span>
                 )}
               </div>
+              {misto && (
+                <div style={{ fontSize: 14, opacity: .8, marginTop: 4 }}>
+                  {euros(periodo === 'anual' ? plano.precoMesAnual : plano.preco)} do plano {ADICIONAL_SEGUNDO_NICHO_TEXTO} pelo segundo tipo ({lados.map(v => TIPOS_NEGOCIO.find(t => t.v === v)?.l).filter(Boolean).join(' + ')}).
+                </div>
+              )}
               <div style={{ ...ajuda, marginTop: 8 }}>{plano.profissionaisTexto}. {plano.resumo}</div>
 
               <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
