@@ -239,7 +239,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
         </div>
 
         {/* Os dois tipos no mesmo espaço: secção própria a seguir aos planos (DoisTipos.jsx). */}
-        <DoisTipos anual={anual} />
+        <DoisTipos />
 
         {/* A ancora. 19,99 € e abstracto; "um corte por mes" e uma conta que
             qualquer barbeiro faz de cabeca — e que lhe da razao para pagar. */}

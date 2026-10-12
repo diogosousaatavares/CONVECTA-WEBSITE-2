@@ -11,8 +11,8 @@ import BotaoComecar from "@/components/BotaoComecar";
  * Passa a ser um só apelo, com uma fotografia: a barbeira a mostrar o
  * painel no telemóvel, o título grande e o botão de começar grátis. A
  * porta das funcionalidades fica como linha de texto por baixo do botão.
- * A fotografia tem fundo #FEFEFE; o painel leva a mesma cor para a foto
- * não aparecer como um retângulo.
+ * Sem caixa (pedido do Diogo): a fotografia é recortada, com fundo
+ * transparente, e assenta no fundo da página.
  */
 export default function AcessoTotal() {
   return (
@@ -29,7 +29,7 @@ export default function AcessoTotal() {
             </div>
           </div>
           <img className="mn-foto" src="/montar-o-meu-negocio.webp" srcSet="/montar-o-meu-negocio-540.webp 540w, /montar-o-meu-negocio.webp 1080w"
-            sizes="(max-width: 720px) 90vw, 520px" width="1080" height="1350" loading="lazy"
+            sizes="(max-width: 720px) 90vw, 520px" width="1040" height="1248" loading="lazy"
             alt="Uma profissional a mostrar a agenda do dia no painel da Convecta, no telemóvel" />
         </div>
       </ScrollReveal>

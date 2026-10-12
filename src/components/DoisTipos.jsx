@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { PLANOS, ADICIONAL_SEGUNDO_NICHO_TEXTO } from "@/lib/seo";
+import { ArrowRight } from "lucide-react";
 
 /*
  * DOIS TIPOS NO MESMO ESPAÇO (12/10/2026).
@@ -27,10 +27,7 @@ function Icone({ src, nome, legenda, i }) {
   );
 }
 
-export default function DoisTipos({ anual = false }) {
-  const pl = PLANOS.find(p => p.destaque) || PLANOS[1];
-  const base = anual ? pl.precoMesAnualTexto : pl.precoTexto;
-  const total = anual ? pl.precoMesAnualMistoTexto : pl.precoMistoTexto;
+export default function DoisTipos() {
   return (
     <section id="misto" className="dt" aria-labelledby="dt-titulo">
       <p className="cv-olho" style={{ textAlign: "center", marginBottom: 12 }}>Dois tipos no mesmo espaço</p>
@@ -45,17 +42,16 @@ export default function DoisTipos({ anual = false }) {
         <motion.span className="dt-sinal" aria-hidden="true" {...entrada(3)}>=</motion.span>
         <motion.figure className="dt-app dt-resultado" {...entrada(4)}>
           <img className="dt-icone" src="/dois-tipos/convecta.png" alt="Ícone da app Convecta" width="512" height="512" loading="lazy" />
-          <figcaption><b>1 app de gestão</b><span className="dt-desconto">−50 % no segundo tipo</span></figcaption>
+          <figcaption><b>1 app de gestão</b><span>dois tipos, uma conta</span></figcaption>
         </motion.figure>
       </div>
 
       <p className="cv-texto dt-texto">
-        O site tem duas frentes — o cliente escolhe se vem ao barbeiro ou ao salão. No painel geres cada lado à parte,
-        com a mesma conta. Pagas o teu plano mais {ADICIONAL_SEGUNDO_NICHO_TEXTO} pelo segundo tipo:
-        no {pl.nome}, {base} + metade = <strong>{total}/mês</strong>.
+        O site tem duas frentes — o cliente escolhe se vem ao barbeiro ou ao salão.<br />
+        No painel geres cada lado à parte, com a mesma conta.
       </p>
-      <div style={{ textAlign: "center", marginTop: 18 }}>
-        <Link to="/comecar" className="dt-cta">Criar a conta com dois tipos</Link>
+      <div style={{ textAlign: "center", marginTop: 26 }}>
+        <Link to="/comecar" className="dt-cta">Criar a conta com dois tipos <ArrowRight size={18} /></Link>
       </div>
     </section>
   );
