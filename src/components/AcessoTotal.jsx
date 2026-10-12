@@ -2,36 +2,35 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Play } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
+import BotaoComecar from "@/components/BotaoComecar";
 
 /*
- * As duas portas.
+ * MONTAR O MEU NEGÓCIO (12/10/2026).
  *
- * Isto era «Acesso total a tudo»: tres capturas de ecra grandes com texto ao
- * lado, mais uma grelha de extras, mais as portas. A 02/10/2026 o que a
- * seccao dizia mudou-se para o lado do telemovel da Personalizacao, em
- * texto — as capturas diziam o que uma linha diz, e empurravam as portas
- * para baixo de tres ecras de altura.
- *
- * Ficaram as portas, que e a unica coisa aqui que pede uma decisao. As
- * imagens continuam em public/provas, caso as queiramos de volta.
+ * Eram duas portas lado a lado («Montar o meu negócio» e «Ver o que faz»).
+ * Passa a ser um só apelo, com uma fotografia: a barbeira a mostrar o
+ * painel no telemóvel, o título grande e o botão de começar grátis. A
+ * porta das funcionalidades fica como linha de texto por baixo do botão.
+ * A fotografia tem fundo #FEFEFE; o painel leva a mesma cor para a foto
+ * não aparecer como um retângulo.
  */
 export default function AcessoTotal() {
   return (
     <section id="o-que-tens" className="cv-wrap cv-sec">
       <ScrollReveal>
-        <div className="at-portas">
-          <Link className="at-porta at-porta-forte" to="/comecar">
-            <span className="at-porta-olho">Dois minutos</span>
-            <span className="at-porta-titulo">Montar o meu negócio</span>
-            <span className="at-porta-sub">O teu site no ar hoje, com o teu nome. Sem cartão para começar.</span>
-            <ArrowRight size={18} className="at-seta" />
-          </Link>
-          <Link className="at-porta" to="/funcionalidades">
-            <span className="at-porta-olho">Antes de decidir</span>
-            <span className="at-porta-titulo">Ver o que faz</span>
-            <span className="at-porta-sub">Agenda, clientes, caixa, comissões, avisos. Tudo o que está lá dentro.</span>
-            <ArrowRight size={18} className="at-seta" />
-          </Link>
+        <div className="mn">
+          <div className="mn-texto">
+            <p className="cv-olho">Dois minutos</p>
+            <h2 className="mn-titulo">Montar o meu <span className="cv-marca">negócio</span></h2>
+            <p className="cv-texto mn-sub">O teu site de marcações no ar hoje, com o teu nome. Sem cartão para começar.</p>
+            <div className="mn-accoes">
+              <BotaoComecar grande origem="montar">Começar grátis</BotaoComecar>
+              <Link to="/funcionalidades" className="mn-ver">Ver o que faz <ArrowRight size={15} /></Link>
+            </div>
+          </div>
+          <img className="mn-foto" src="/montar-o-meu-negocio.webp" srcSet="/montar-o-meu-negocio-540.webp 540w, /montar-o-meu-negocio.webp 1080w"
+            sizes="(max-width: 720px) 90vw, 520px" width="1080" height="1350" loading="lazy"
+            alt="Uma profissional a mostrar a agenda do dia no painel da Convecta, no telemóvel" />
         </div>
       </ScrollReveal>
     </section>
