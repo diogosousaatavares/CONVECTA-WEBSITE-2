@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { PLANOS, ADICIONAL_SEGUNDO_NICHO_TEXTO } from "@/lib/seo";
@@ -7,24 +7,22 @@ import { PLANOS, ADICIONAL_SEGUNDO_NICHO_TEXTO } from "@/lib/seo";
  * DOIS TIPOS NO MESMO ESPAÇO (12/10/2026).
  *
  * Uma barbearia e um salão na mesma loja. Em vez de uma tabela de contas,
- * mostra-se o que é: a app da barbearia + a app do salão = uma só app de
- * gestão, com o segundo tipo a metade. As duas imagens são sites a sério
- * (Rasta Village e Salão Bela), em public/dois-tipos/. Sem a imagem, fica
- * um ecrã da cor da casa com o nome — nunca uma imagem partida.
+ * mostra-se o que é, com os ícones das apps: a app da barbearia + a app do
+ * salão = uma só app de gestão, com o segundo tipo a metade. Os ícones são
+ * de clientes a sério (Rasta Village e Salão Bela), em public/dois-tipos/.
  */
-const LADOS = [
-  { src: "/dois-tipos/barbearia.jpg", nome: "Barbearia", cor: "#1C1814" },
-  { src: "/dois-tipos/salao.jpg", nome: "Salão", cor: "#A0694B" },
-];
+const entrada = i => ({
+  initial: { opacity: 0, y: 18, scale: 0.94 },
+  whileInView: { opacity: 1, y: 0, scale: 1 },
+  viewport: { once: true },
+  transition: { duration: 0.5, delay: 0.12 * i, ease: [0.16, 1, 0.3, 1] },
+});
 
-function Telemovel({ src, nome, cor, i }) {
-  const [semImagem, setSemImagem] = useState(false);
+function Icone({ src, nome, legenda, i }) {
   return (
-    <motion.figure className="dt-tel" initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 * i }}>
-      <div className="dt-ecra" style={{ background: cor }}>
-        {!semImagem && <img src={src} alt={`A app de marcações de ${nome.toLowerCase()}`} loading="lazy" onError={() => setSemImagem(true)} />}
-      </div>
-      <figcaption>{nome}</figcaption>
+    <motion.figure className="dt-app" {...entrada(i)}>
+      <img className="dt-icone" src={src} alt={`Ícone da app ${nome}`} width="512" height="512" loading="lazy" />
+      <figcaption><b>{nome}</b><span>{legenda}</span></figcaption>
     </motion.figure>
   );
 }
@@ -41,15 +39,14 @@ export default function DoisTipos({ anual = false }) {
       </h3>
 
       <div className="dt-conta">
-        <Telemovel {...LADOS[0]} i={0} />
-        <span className="dt-sinal" aria-hidden="true">+</span>
-        <Telemovel {...LADOS[1]} i={1} />
-        <span className="dt-sinal" aria-hidden="true">=</span>
-        <motion.div className="dt-resultado" initial={{ opacity: 0, scale: 0.94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}>
-          <span className="dt-um">1</span>
-          <span className="dt-app">app de gestão</span>
-          <span className="dt-desconto">−50 % no segundo tipo</span>
-        </motion.div>
+        <Icone src="/dois-tipos/barbearia.png" nome="Barbearia" legenda="a app dos cortes" i={0} />
+        <motion.span className="dt-sinal" aria-hidden="true" {...entrada(1)}>+</motion.span>
+        <Icone src="/dois-tipos/salao.png" nome="Salão" legenda="a app da estética" i={2} />
+        <motion.span className="dt-sinal" aria-hidden="true" {...entrada(3)}>=</motion.span>
+        <motion.figure className="dt-app dt-resultado" {...entrada(4)}>
+          <img className="dt-icone" src="/dois-tipos/convecta.png" alt="Ícone da app Convecta" width="512" height="512" loading="lazy" />
+          <figcaption><b>1 app de gestão</b><span className="dt-desconto">−50 % no segundo tipo</span></figcaption>
+        </motion.figure>
       </div>
 
       <p className="cv-texto dt-texto">
