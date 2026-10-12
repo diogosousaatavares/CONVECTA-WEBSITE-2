@@ -266,11 +266,6 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
         <div className="pr-apelo">
           <div>
             {React.createElement(NivelNome, { className: "cv-h3", style: { margin: 0 } }, "Vê-a com o teu nome, hoje.")}
-            <p style={{ color: "var(--cv-ink-2)", fontSize: "0.9rem", margin: "6px 0 0", maxWidth: "46ch" }}>
-              Em dois minutos tens o teu negócio montado e o teu site no ar.
-              O cartão só é pedido quando quiseres começar a receber marcações —
-              e são 14 dias à experiência.
-            </p>
           </div>
           <div className="pr-apelo-botoes">
             <Link className="cv-btn" to="/comecar">
