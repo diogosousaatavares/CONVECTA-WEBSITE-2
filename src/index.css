@@ -1687,12 +1687,15 @@ html, body {
 .dt-cta { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: 999px; background: var(--cv-ink); color: var(--cv-card); font-weight: 700; text-decoration: none; }
 @media (max-width: 640px) {
   .dt { margin-top: 52px; }
-  .dt-conta { gap: 10px; }
-  .dt-app { width: 118px; }
-  .dt-icone { width: 92px; height: 92px; border-radius: 21px; }
-  .dt-sinal { font-size: 2rem; line-height: 92px; }
-  .dt-resultado { flex-basis: 100%; margin-top: 6px; width: auto; }
-  .dt-resultado .dt-icone { width: 104px; height: 104px; border-radius: 24px; }
+  /* Tudo numa linha, como no computador (pedido do Diogo, 12/10/2026). */
+  .dt-conta { gap: 6px; flex-wrap: nowrap; margin-top: 32px; }
+  .dt-app { width: auto; flex: 1 1 0; min-width: 0; max-width: 112px; gap: 10px; }
+  .dt-icone { width: min(76px, 21vw); height: min(76px, 21vw); border-radius: 18px; }
+  .dt-sinal { font-size: 1.6rem; line-height: min(76px, 21vw); flex-shrink: 0; }
+  .dt-resultado .dt-icone { width: min(84px, 23vw); height: min(84px, 23vw); border-radius: 20px; }
+  .dt-resultado { margin-top: 0; }
+  .dt-app figcaption b { font-size: .92rem; }
+  .dt-app figcaption span { font-size: .78rem; line-height: 1.35; }
   .dt-texto br { display: none; }
 }
 .cv-planos > div { display: flex; }
@@ -1937,6 +1940,11 @@ html, body {
 @media (prefers-reduced-motion: reduce) {
   .cv-aurora .cv-orbe { animation: none !important; }
 }
+/* No computador (12/10/2026): cada mancha numa camada própria, para o
+   movimento ficar na placa gráfica, e só quatro em vez de seis — as duas
+   últimas quase não se viam e custavam como as outras. */
+.cv-aurora .cv-orbe { will-change: transform; contain: strict; }
+.cv-aurora .cv-orbe:nth-child(n + 5) { display: none; }
 
 /* ── 3. As perguntas que se abrem ganham dedo ──────────────────────────
    O <summary> tinha 20 px de altura. O dedo de um adulto tem 45. Quem

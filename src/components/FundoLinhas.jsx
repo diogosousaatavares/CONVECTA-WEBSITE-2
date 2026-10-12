@@ -43,7 +43,7 @@ export default function FundoLinhas() {
     let anterior = performance.now();
 
     function medir() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       largura = tela.clientWidth;
       alt = tela.clientHeight;
       if (!largura || !alt) return;
@@ -58,7 +58,18 @@ export default function FundoLinhas() {
       return [largura / 2 + x * k, alt / 2 + y * k, k];
     }
 
+    // Só se desenha com a secção à vista e o separador aberto (12/10/2026):
+    // antes corria sempre, mesmo fora do ecrã, e o site ficava lento no
+    // computador.
+    let visivel = false;
+    function arrancar() {
+      if (animacao || !visivel || document.hidden) return;
+      anterior = performance.now();
+      animacao = requestAnimationFrame(desenhar);
+    }
+
     function desenhar(agora) {
+      if (!visivel || document.hidden) { animacao = 0; return; }
       const dt = Math.min((agora - anterior) / 1000, 0.05);
       anterior = agora;
       ctx.clearRect(0, 0, largura, alt);
@@ -107,13 +118,16 @@ export default function FundoLinhas() {
           ctx.lineTo(bx, by);
           ctx.stroke();
 
+          // O brilho era um shadowBlur — o desenho mais caro do canvas, a
+          // cada fotograma. Fica um halo simples, que se lê igual.
+          ctx.fillStyle = `rgba(${AMARELO.join(",")},${0.22 * brilho})`;
+          ctx.beginPath();
+          ctx.arc(bx, by, Math.max(3, k2 * 7), 0, Math.PI * 2);
+          ctx.fill();
           ctx.fillStyle = `rgba(${AMARELO.join(",")},${0.9 * brilho})`;
-          ctx.shadowColor = `rgba(${AMARELO.join(",")},${0.8 * brilho})`;
-          ctx.shadowBlur = 16 * Math.min(1, k2);
           ctx.beginPath();
           ctx.arc(bx, by, Math.max(1.3, k2 * 2.6), 0, Math.PI * 2);
           ctx.fill();
-          ctx.shadowBlur = 0;
         }
       }
 
@@ -121,11 +135,18 @@ export default function FundoLinhas() {
     }
 
     medir();
-    animacao = requestAnimationFrame(desenhar);
+    const io = "IntersectionObserver" in window
+      ? new IntersectionObserver(([e]) => { visivel = e.isIntersecting; arrancar(); })
+      : null;
+    if (io) io.observe(tela); else { visivel = true; arrancar(); }
+    const aoMudarSeparador = () => arrancar();
+    document.addEventListener("visibilitychange", aoMudarSeparador);
     const aoRedimensionar = () => medir();
     window.addEventListener("resize", aoRedimensionar);
     return () => {
       cancelAnimationFrame(animacao);
+      io?.disconnect();
+      document.removeEventListener("visibilitychange", aoMudarSeparador);
       window.removeEventListener("resize", aoRedimensionar);
     };
   }, []);
