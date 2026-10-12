@@ -69,7 +69,7 @@ const faqs = [
   },
   {
     q: "Tenho barbearia e estética no mesmo espaço. Como funciona?",
-    a: "Crias a conta com «Dois tipos no mesmo espaço» e escolhes os dois — barbearia e estética, por exemplo. O teu site fica com duas frentes: o cliente escolhe a que vem e vê só os serviços e a equipa desse lado. No painel geres cada lado à parte, com a mesma conta e o mesmo email; a caixa, os clientes e o stock são da loja, que é uma só. Pagas o teu plano mais metade pelo segundo tipo.",
+    a: "Crias a conta com «Dois tipos no mesmo espaço» e escolhes os dois — barbearia e estética, por exemplo. O teu site fica com duas frentes: o cliente escolhe a que vem e vê só os serviços e a equipa desse lado. No painel geres cada lado à parte, com a mesma conta e o mesmo email; a caixa, os clientes e o stock são da loja, que é uma só. Pagas o teu plano mais metade pelo segundo tipo, e os lugares do plano contam por área: no Essencial cabem 1 profissional de cada lado, no Profissional até 5 de cada.",
   },
   {
     q: "Serve para um salão de cabeleireiro, unhas ou estética?",

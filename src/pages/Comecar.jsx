@@ -161,7 +161,8 @@ export default function Comecar() {
     return false;
   }
 
-  const planoId = planoEscolhido || planoPara(barbeiros);
+  // Num espaço misto o plano vale por área: 4 pessoas em dois lados são 2 por área.
+  const planoId = planoEscolhido || planoPara(misto ? Math.ceil(barbeiros / 2) : barbeiros);
   const plano = useMemo(() => PLANOS.find(p => p.id === planoId) || PLANOS[1], [planoId]);
   const slug = slugDe(barbearia.nome);
 
@@ -496,7 +497,7 @@ export default function Comecar() {
               Quantas pessoas trabalham no teu negócio?
             </h1>
             <p style={{ fontSize: 15, opacity: .8, margin: '0 0 28px', lineHeight: 1.6 }}>
-              Contando contigo. É só isto que decide o plano.
+              {misto ? 'Contando contigo, nos dois lados. É só isto que decide o plano.' : 'Contando contigo. É só isto que decide o plano.'}
             </p>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
@@ -541,7 +542,9 @@ export default function Comecar() {
                   {euros(periodo === 'anual' ? plano.precoMesAnual : plano.preco)} do plano + metade pelo segundo tipo.
                 </div>
               )}
-              <div style={{ ...ajuda, marginTop: 8 }}>{plano.profissionaisTexto}. {plano.resumo}</div>
+              <div style={{ ...ajuda, marginTop: 8 }}>
+                {misto ? `${plano.profissionaisTexto} por área — ${plano.profissionais * 2} no total.` : `${plano.profissionaisTexto}. ${plano.resumo}`}
+              </div>
 
               <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
                 {['mensal', 'anual'].map(p => (

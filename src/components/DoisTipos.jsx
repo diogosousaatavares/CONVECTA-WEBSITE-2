@@ -48,7 +48,7 @@ export default function DoisTipos() {
 
       <p className="cv-texto dt-texto">
         O site tem duas frentes — o cliente escolhe se vem ao barbeiro ou ao salão.<br />
-        No painel geres cada lado à parte, com a mesma conta.
+        No painel geres cada lado à parte, com a mesma conta, e o plano vale por área: no Essencial, 1 barbeiro e 1 esteticista.
       </p>
       <div style={{ textAlign: "center", marginTop: 26 }}>
         <Link to="/comecar?tipo=misto" className="dt-cta">Criar a conta com dois tipos <ArrowRight size={18} /></Link>
