@@ -28,25 +28,32 @@ const GARANTIAS = [
 const PERCENTAGEM = Math.round(DESCONTO_ANUAL * 100);
 
 /* ── o botao mensal / anual ─────────────────────────────────────── */
-function Alternador({ anual, mudar }) {
+// Mensal · 15 dias · Anual (o de 15 dias desde 12/10/2026).
+const PERIODOS = [
+  { v: "mensal", l: "Mensal" },
+  { v: "quinzenal", l: "15 dias" },
+  { v: "anual", l: "Anual" },
+];
+function Alternador({ periodo, mudar }) {
   return (
     <div style={{ display: "flex", justifyContent: "center", marginTop: 34 }}>
       <div
         role="group"
-        aria-label="Escolher pagamento mensal ou anual"
+        aria-label="Escolher pagamento mensal, de 15 em 15 dias ou anual"
         style={{
           display: "inline-flex", alignItems: "center", gap: 4, padding: 4,
           background: "var(--cv-card)", border: "1px solid var(--cv-linha)",
           borderRadius: 100, boxShadow: "0 10px 30px -22px rgba(36,32,28,0.5)",
         }}
       >
-        {[false, true].map(op => {
-          const ativo = anual === op;
+        {PERIODOS.map(({ v, l }) => {
+          const ativo = periodo === v;
+          const op = v === "anual";
           return (
             <button
-              key={String(op)}
+              key={v}
               type="button"
-              onClick={() => mudar(op)}
+              onClick={() => mudar(v)}
               aria-pressed={ativo}
               style={{
                 position: "relative", border: 0, cursor: "pointer", font: "inherit",
@@ -57,7 +64,7 @@ function Alternador({ anual, mudar }) {
                 transition: "background 0.18s ease, color 0.18s ease",
               }}
             >
-              {op ? "Anual" : "Mensal"}
+              {l}
               {op && (
                 <span
                   style={{
@@ -78,10 +85,12 @@ function Alternador({ anual, mudar }) {
 }
 
 /* ── um cartao ──────────────────────────────────────────────────── */
-function Cartao({ plano, anual, nivelNome = "h3" }) {
+function Cartao({ plano, periodo, nivelNome = "h3" }) {
+  const anual = periodo === "anual";
+  const quinzenal = periodo === "quinzenal";
   const Nome = nivelNome;
   const destaque = !!plano.destaque;
-  const valor = anual ? plano.precoMesAnualTexto : plano.precoTexto;
+  const valor = anual ? plano.precoMesAnualTexto : quinzenal ? plano.precoQuinzenalTexto : plano.precoTexto;
 
   return (
     <div
@@ -122,13 +131,15 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
           <span style={{ fontFamily: "var(--font-heading)", fontSize: "2.6rem", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
             {valor}
           </span>
-          <span style={{ fontSize: "1rem", color: "var(--cv-ink-2)" }}>/ mês</span>
+          <span style={{ fontSize: "1rem", color: "var(--cv-ink-2)" }}>{quinzenal ? "/ 15 dias" : "/ mês"}</span>
         </div>
 
         <p style={{ fontSize: "0.95rem", color: anual ? "var(--cv-amarelo-texto)" : "var(--cv-ink-3)", margin: "10px 0 0", lineHeight: 1.55, minHeight: 34 }}>
           {anual
             ? <>Pago de uma vez: {plano.precoAnoTexto}/ano. Poupas {plano.poupancaAnoTexto}.</>
-            : <>Ou {plano.precoQuinzenalTexto} de 15 em 15 dias, ou {plano.precoMesAnualTexto}/mês se pagares o ano de uma vez.</>}
+            : quinzenal
+            ? <>Cobrado de 15 em 15 dias. Cancelas quando quiseres.</>
+            : <>Ou {plano.precoMesAnualTexto}/mês se pagares o ano de uma vez.</>}
         </p>
 
         <div
@@ -150,7 +161,7 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
             interessado tinha de escrever um email e esperar por resposta. A
             maior parte nao escreve. Agora vai direito ao registo, ja com o
             plano e o periodo que ele estava a olhar. */}
-        <Link to={`/comecar?plano=${plano.id}&periodo=${anual ? "anual" : "mensal"}`} style={{ textDecoration: "none" }}>
+        <Link to={`/comecar?plano=${plano.id}&periodo=${periodo}`} style={{ textDecoration: "none" }}>
           <motion.span
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -197,7 +208,8 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
   const Titulo = nivelTitulo;
   // os titulos nao podem saltar niveis: h1 -> h2, h2 -> h3
   const NivelNome = nivelTitulo === "h1" ? "h2" : "h3";
-  const [anual, setAnual] = useState(false);
+  const [periodo, setPeriodo] = useState("mensal");
+  const anual = periodo === "anual";
 
   return (
     <section id="precos" className="cv-sec" style={{ position: "relative", overflow: "hidden" }}>
@@ -221,7 +233,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
           </p>
         </motion.div>
 
-        <Alternador anual={anual} mudar={setAnual} />
+        <Alternador periodo={periodo} mudar={setPeriodo} />
 
         <div className="cv-planos" style={{ marginTop: 34 }}>
           {PLANOS.map(plano => (
@@ -233,7 +245,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
               transition={{ duration: 0.45 }}
               style={{ display: "flex" }}
             >
-              <Cartao plano={plano} anual={anual} nivelNome={NivelNome} />
+              <Cartao plano={plano} periodo={periodo} nivelNome={NivelNome} />
             </motion.div>
           ))}
         </div>
