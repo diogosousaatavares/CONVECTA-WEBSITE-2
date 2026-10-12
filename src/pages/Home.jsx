@@ -7,7 +7,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
 import PricingSection from "@/components/PricingSection";
 import FundoLinhas from "@/components/FundoLinhas";
-import HeroDispositivos from "@/components/HeroDispositivos";
+import HeroVideo from "@/components/HeroVideo";
 import AcessoTotal, { VideoApps } from "@/components/AcessoTotal";
 import PersonalizacaoDemo from "@/components/PersonalizacaoDemo";
 import BotaoComecar from "@/components/BotaoComecar";
@@ -84,70 +84,9 @@ export default function Home() {
         ld={ld}
       />
 
-      {/* ── 1. Hero ─────────────────────────────────────────────── */}
-      <section id="solucoes" style={{ position: "relative", overflow: "hidden" }}>
-        <FundoLinhas />
-        <div className="cv-wrap" style={{ position: "relative", zIndex: 1, paddingTop: 96, paddingBottom: 88 }}>
-        <div className="cv-hero-grid">
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: "easeOut" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 26 }}>
-              <span style={{ width: 26, height: 1, background: "var(--cv-ink-3)", display: "block" }} />
-              <p className="cv-olho" style={{ margin: 0 }}>Marcações online e gestão para barbearias, salões e estética — ou dois tipos no mesmo espaço</p>
-            </div>
-
-            <h1 className="cv-h1">
-              Os teus clientes marcam sozinhos. <span className="cv-marca">Tu só trabalhas.</span>
-            </h1>
-
-            {/*
-              Estavam aqui dois paragrafos. O primeiro era a frase de
-              definicao — «A Convecta Booking e um software de marcacoes
-              online e gestao para barbearias em Portugal» — e dizia, por
-              outras palavras, exactamente o que o sobrolho tres linhas acima
-              ja diz. Lida em voz alta a seguir ao titulo, era repeticao.
-              Continua escrita, e continua a contar para quem a procura: esta
-              em DEFINICAO (conteudo/comum.js), na descricao da pagina e no
-              corpo de /software-para-barbearias. So deixou de estar duas
-              vezes no mesmo ecra.
-
-              O segundo tinha tres ideias numa frase: o telefone, o site, e a
-              agenda com a caixa e as comissoes. As duas ultimas sao o que o
-              titulo ja promete. Fica a primeira, que e a unica que doi.
-            */}
-            <p className="cv-texto" style={{ margin: "20px 0 34px", maxWidth: "26ch" }}>
-              Deixas de atender o telefone a meio de um cliente.
-            </p>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
-              <BotaoComecar grande origem="hero">Começar grátis</BotaoComecar>
-              {/* A segunda saida volta a ser o preco. Durante um tempo foi a
-                  demonstracao publica — VER o produto antes de dar dados, que e
-                  o que um barbeiro desconfiado quer. Mas a demonstracao deixou
-                  de existir, e um botao que promete mostrar uma barbearia a
-                  funcionar e nao mostra nada custa mais do que nao ter botao
-                  nenhum: quem carrega ali era exactamente quem estava quase. */}
-              <Link
-                className="cv-btn-linha"
-                to="/precos"
-                onClick={() => { try { window.trackEvent?.("ver_precos_click", { origem: "hero" }); } catch {} }}
-              >
-                Ver os planos <ArrowRight size={14} style={{ marginLeft: 6, verticalAlign: -2 }} />
-              </Link>
-            </div>
-
-            {/* A linha por baixo do botao responde a pergunta que trava toda a
-                gente no momento de carregar: "quanto e que isto me custa
-                agora?". Dizer "nada" aqui vale mais do que qualquer adjectivo
-                no proprio botao. */}
-            <p style={{ marginTop: 30, fontSize: 15, color: "var(--cv-ink-3)" }}>
-              Sem cartão para começar · 14 dias à experiência · Planos desde {PRECO_DESDE_TEXTO}/mês
-            </p>
-          </motion.div>
-
-          <HeroDispositivos />
-        </div>
-        </div>
-      </section>
+      {/* ── 1. Hero: o vídeo a ecrã inteiro (12/10/2026) ─────────── */}
+      <HeroVideo />
+      <div id="depois-do-topo" />
 
       {/* ── 2. O vídeo: logo a seguir ao topo ─────────────────────── */}
       <VideoApps />

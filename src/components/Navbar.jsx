@@ -50,6 +50,9 @@ export default function Navbar() {
   }, [mobileOpen]);
 
   const showSolid = !isHome || scrolled;
+  // Na página inicial, por cima do vídeo do topo, a barra é transparente e
+  // as letras são brancas (12/10/2026). Ao descer, volta a ser a de sempre.
+  const sobreVideo = isHome && !scrolled;
 
   return (
     <>
@@ -62,7 +65,7 @@ export default function Navbar() {
         }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-20 lg:h-24">
           <Link to="/" aria-label="Convecta — Início">
-            <ConvectaLogo />
+            <ConvectaLogo light={sobreVideo} />
           </Link>
 
           <div className="hidden lg:flex items-center gap-6">
@@ -71,7 +74,7 @@ export default function Navbar() {
               return (
                 <Link key={link.path} to={link.path}
                   className="text-sm font-medium transition-colors relative flex items-center gap-1.5"
-                  style={{ color: location.pathname === link.path ? "var(--cv-ink)" : "var(--cv-ink-2)" }}>
+                  style={{ color: sobreVideo ? "rgba(255,255,255,.9)" : (location.pathname === link.path ? "var(--cv-ink)" : "var(--cv-ink-2)") }}>
                   {Icon && <Icon size={14} />}
                   {link.label}
                   {location.pathname === link.path && (
@@ -99,7 +102,7 @@ export default function Navbar() {
           <motion.button
             onClick={() => setMobileOpen(o => !o)}
             className="lg:hidden p-2 relative z-[110] min-w-[44px] min-h-[44px] flex items-center justify-center"
-            style={{ color: "var(--cv-ink)" }}
+            style={{ color: sobreVideo && !mobileOpen ? "#fff" : "var(--cv-ink)" }}
             aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
             whileTap={{ scale: 0.9 }}
           >
