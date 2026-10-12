@@ -240,7 +240,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
         {/* DOIS TIPOS NO MESMO ESPAÇO. Tem de se ver sem procurar: quem tem
             barbearia e estética na mesma loja pergunta logo «e eu?». */}
         <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
-          className="pr-misto" style={{ marginTop: 34 }}>
+          id="misto" className="pr-misto" style={{ marginTop: 34 }}>
           <div className="pr-misto-texto">
             <p className="cv-olho" style={{ marginBottom: 10 }}>Dois tipos no mesmo espaço</p>
             <NivelNome className="cv-h3" style={{ margin: 0, maxWidth: "22ch" }}>

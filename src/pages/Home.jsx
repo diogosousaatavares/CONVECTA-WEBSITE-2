@@ -92,7 +92,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: "easeOut" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 11, marginBottom: 26 }}>
               <span style={{ width: 26, height: 1, background: "var(--cv-ink-3)", display: "block" }} />
-              <p className="cv-olho" style={{ margin: 0 }}>Marcações online e gestão para barbearias, salões e estética</p>
+              <p className="cv-olho" style={{ margin: 0 }}>Marcações online e gestão para barbearias, salões e estética — ou dois tipos no mesmo espaço</p>
             </div>
 
             <h1 className="cv-h1">

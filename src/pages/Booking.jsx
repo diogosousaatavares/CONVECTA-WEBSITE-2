@@ -90,6 +90,7 @@ const PARA_BARBEIROS = [
     titulo: "Equipa",
     itens: [
       "Cada profissional com o seu horário, os seus serviços e a sua agenda.",
+      "Dois tipos de negócio no mesmo espaço (barbearia e estética, por exemplo): o site tem duas frentes, cada serviço e cada profissional diz de que lado é, e no painel geres um lado de cada vez com a mesma conta. O segundo tipo paga metade do plano.",
       "Comissão em percentagem por profissional, guardada no momento do checkout com a taxa em vigor.",
       "Desempenho por profissional: serviços feitos, receita, comissão a pagar.",
     ],

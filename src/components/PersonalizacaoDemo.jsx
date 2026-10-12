@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Bell, Palette, Smartphone, BarChart3, MessageCircle, Check } from "lucide-react";
 import ScrollReveal from "@/components/ScrollReveal";
 import BotaoComecar from "@/components/BotaoComecar";
+import { Link } from "react-router-dom";
 
 /*
  * A app da barbearia, num telemóvel, a sério — e ao lado dela o que vem
@@ -50,6 +51,11 @@ export default function PersonalizacaoDemo() {
         <p className="cv-olho">Personalização</p>
         <h2 className="cv-h2">A app é do teu negócio. <span className="cv-marca">Não é nossa.</span></h2>
         <p className="cv-texto pd-sub">Tudo isto, em qualquer plano. O plano só muda quantos profissionais tens.</p>
+        {/* 12/10/2026: dois tipos na mesma loja — tem de se ver na primeira página. */}
+        <p className="cv-texto pd-sub pd-misto">
+          <strong>Barbearia e estética no mesmo espaço?</strong> Também dá: o site ganha duas frentes e o segundo tipo é a metade.{" "}
+          <Link to="/precos#misto">Ver como funciona</Link>
+        </p>
       </ScrollReveal>
 
       <ul className="pd-cartoes">

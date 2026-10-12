@@ -19,7 +19,7 @@ export const SITE = {
   // nos resultados do Google quando uma pagina nao diz melhor.
   slogan: "Marcações online e gestão para barbearias, salões e estética",
   descricao:
-    "Software de marcações online e gestão para barbearias, salões de cabeleireiro, unhas e estética em Portugal. Os clientes marcam pelo site do teu negócio, tu recebes a notificação no telemóvel e geres agenda, caixa, comissões, stock e cartão de fidelidade num só painel. Desde 19,99 €/mês, sem comissões por marcação.",
+    "Software de marcações online e gestão para barbearias, salões de cabeleireiro, unhas e estética em Portugal — também para quem tem dois tipos no mesmo espaço. Os clientes marcam pelo site do teu negócio, tu recebes a notificação no telemóvel e geres agenda, caixa, comissões, stock e cartão de fidelidade num só painel. Desde 19,99 €/mês, sem comissões por marcação.",
   // Quem esta por tras da marca, para o rodape, os Termos e a Privacidade
   // (Decreto-Lei 7/2004: nome, NIF, morada e email tem de estar no site).
   titular: "Diogo Borges de Sousa Tavares",
@@ -207,6 +207,7 @@ export const FUNCIONALIDADES = [
   "Cada profissional entra com a sua conta e mexe só na sua coluna; o dono escolhe se vê a agenda toda",
   "Aviso ao cliente antes da marcação por notificação e email, sem custo por mensagem",
   "Lista de espera por hora, com confirmação em 1 hora, e aviso de vaga de última hora a todos os clientes",
+  "Dois tipos de negócio no mesmo espaço (barbearia + estética, cabeleireiro + unhas): site com duas frentes, gestão por lado, o segundo tipo a metade do plano",
 ];
 
 const enderecoLd = {
