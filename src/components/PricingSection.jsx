@@ -241,25 +241,11 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
         {/* Os dois tipos no mesmo espaço: secção própria a seguir aos planos (DoisTipos.jsx). */}
         <DoisTipos />
 
-        {/* A ancora. 19,99 € e abstracto; "um corte por mes" e uma conta que
-            qualquer barbeiro faz de cabeca — e que lhe da razao para pagar. */}
-        <p style={{ textAlign: "center", fontSize: "1.02rem", fontWeight: 600, color: "var(--cv-ink)", margin: "26px 0 0" }}>
-          Paga-se com uma marcação por mês. As outras são todas tuas.
-        </p>
-        <p style={{ textAlign: "center", fontSize: "0.95rem", color: "var(--cv-ink-3)", margin: "10px 0 0" }}>
-          Preço por negócio e final: a Convecta está no regime de isenção de IVA
-          (art. 53.º do CIVA), por isso não acresce IVA à fatura.
-          Sem comissões por marcação e sem taxa de adesão.
-        </p>
-
-        {/* Uma linha, e nao um bloco de treze. Quem quiser a lista toda
-            carrega e ve a pagina que existe para isso. */}
-        <p style={{ textAlign: "center", fontSize: "1.0625rem", color: "var(--cv-ink-2)",
-          margin: "30px auto 0", maxWidth: 620, lineHeight: 1.6 }}>
-          Os tres planos tem a plataforma completa. O que muda e quantos profissionais cabem.{" "}
-          <Link to="/funcionalidades" style={{ color: "var(--cv-ink)", borderBottom: "1px solid var(--cv-linha)" }}>
-            Ver tudo o que faz
-          </Link>.
+        {/* Eram três parágrafos (a âncora, o IVA, «os três planos têm tudo») —
+            o Diogo achou confuso, e «os três planos» já está no topo da
+            secção. Fica uma linha pequena com o que é obrigatório dizer. */}
+        <p style={{ textAlign: "center", fontSize: "0.9rem", color: "var(--cv-ink-3)", margin: "56px auto 0", maxWidth: 640, lineHeight: 1.6 }}>
+          Preço final, sem IVA a acrescer (art. 53.º do CIVA) · sem comissões por marcação · sem taxa de adesão
         </p>
 
         <div className="pr-garantias">

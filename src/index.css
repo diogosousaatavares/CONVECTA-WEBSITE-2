@@ -1754,17 +1754,20 @@ html, body {
 /* ── As duas portas para a demonstração ────────────────────────────────── */
 /* Montar o meu negócio: o apelo com a fotografia (AcessoTotal.jsx). */
 /* Sem caixa: a fotografia e recortada (fundo transparente) e assenta no fundo da pagina. */
-.mn { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: 24px; margin-top: 56px; padding: 24px 0 0; }
-.mn-texto { padding-bottom: 24px; }
+.mn { position: relative; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; gap: 24px; margin-top: 0; padding: 0; }
+/* A secção acaba onde acabam as pernas: a fotografia está cortada em baixo
+   e assenta na linha que separa esta secção dos Preços. */
+#o-que-tens.cv-sec { padding-bottom: 0; }
+.mn-texto { padding-bottom: 84px; }
 .mn-titulo { font-family: var(--font-heading); font-size: clamp(2.4rem, 5.2vw, 4.4rem); line-height: 1.02; letter-spacing: -0.02em; margin: 14px 0 18px; color: var(--cv-ink); text-wrap: balance; }
 .mn-sub { max-width: 34ch; margin: 0 0 28px; }
 .mn-accoes { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
 .mn-ver { display: inline-flex; align-items: center; gap: 6px; color: var(--cv-ink-2); font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--cv-linha); }
 .mn-ver:hover { color: var(--cv-ink); }
-.mn-foto { display: block; width: 100%; max-width: 540px; height: auto; justify-self: end; align-self: end; filter: drop-shadow(0 30px 40px rgba(0,0,0,.14)); }
+.mn-foto { display: block; width: 100%; max-width: 540px; height: auto; justify-self: end; align-self: end; margin-bottom: -1px; }
 @media (max-width: 860px) {
   .mn { grid-template-columns: 1fr; padding: 16px 0 0; gap: 8px; }
-  .mn-texto { padding-bottom: 8px; }
+  .mn-texto { padding-bottom: 12px; }
   .mn-foto { max-width: 420px; justify-self: center; }
 }
 .at-portas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 56px; }

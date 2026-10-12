@@ -1,8 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Check, Mail, AlertTriangle } from 'lucide-react';
 import Seo from '@/components/Seo';
-import { PLANOS, DESCONTO_ANUAL, ADICIONAL_SEGUNDO_NICHO_TEXTO } from '@/lib/seo';
+import { PLANOS, DESCONTO_ANUAL } from '@/lib/seo';
 import { VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
 import PorqueConvecta, { textoRespostas } from '@/components/PorqueConvecta';
@@ -65,7 +65,7 @@ const TIPOS_NEGOCIO = [
   { v: 'cabeleireiro', l: 'Cabeleireiro', d: 'Cor, madeixas, brushing' },
   { v: 'unhas', l: 'Unhas, sobrancelhas e pestanas', d: 'Gel, manicure, extensões' },
   { v: 'estetica', l: 'Estética', d: 'Pele, massagens, depilação' },
-  { v: 'misto', l: 'Dois tipos no mesmo espaço', d: `Barbearia + estética, por exemplo · o segundo tipo é ${ADICIONAL_SEGUNDO_NICHO_TEXTO}` },
+  { v: 'misto', l: 'Dois tipos no mesmo espaço', d: 'Barbearia + estética, por exemplo' },
 ];
 
 const campo = {
@@ -107,12 +107,24 @@ export default function Comecar() {
   );
 
   const [barbearia, setBarbearia] = useState({ nome: '', telefone: '', morada: '', nif: '' });
-  const [tipo, setTipo] = useState('barbearia');
+  // ?tipo=misto (o botão «Criar a conta com dois tipos») chega com o misto
+  // escolhido e a pergunta «Quais são os dois?» aberta.
+  const [tipo, setTipo] = useState(params.get('tipo') === 'misto' ? 'misto' : 'barbearia');
   // Os dois lados de um espaço misto (tipo === 'misto').
   const [lados, setLados] = useState(['barbearia', 'estetica']);
   const misto = tipo === 'misto';
+  // Quem vem do botão «Criar a conta com dois tipos» vê logo a pergunta dos dois lados.
+  useEffect(() => {
+    if (params.get('tipo') !== 'misto') return;
+    const t = setTimeout(() => document.getElementById('dois-lados')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 250);
+    return () => clearTimeout(t);
+  }, []);
   const escolherLado = v => setLados(l => (l.includes(v) ? l.filter(x => x !== v) : [...l, v].slice(-2)));
-  const [tipoEscolhido, setTipoEscolhido] = useState(false);
+  const [tipoEscolhido, setTipoEscolhidoCru] = useState(false);
+  // Trocar de ecrã dentro do passo 1 (tipo → pessoas) volta ao topo: sem
+  // isto, quem tocava num cartão em baixo caía a meio do ecrã seguinte,
+  // com a pergunta lá em cima, fora de vista (12/10/2026).
+  const setTipoEscolhido = v => { setTipoEscolhidoCru(v); window.scrollTo?.({ top: 0, behavior: 'smooth' }); };
   const [conta, setConta] = useState({ nome: '', email: '', telefone: '', password: '' });
   // Aceitação dos Termos, da Privacidade e do acordo RGPD (art. 28.º).
   // Tem de ser um gesto da pessoa — uma caixa por marcar, não um texto.
@@ -429,21 +441,44 @@ export default function Comecar() {
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
               {TIPOS_NEGOCIO.map(t => (
-                <button key={t.v} type="button"
+                <button key={t.v} type="button" aria-pressed={misto && t.v === 'misto'}
                   onClick={() => {
-                    setTipo(t.v); setTipoEscolhido(true);
+                    setTipo(t.v);
                     try { window.trackEvent?.('comecar_tipo', { tipo: t.v }); } catch { /* sem analytics */ }
+                    // O misto ainda tem de dizer quais são os dois; os outros seguem já.
+                    if (t.v !== 'misto') setTipoEscolhido(true);
                   }}
                   style={{
                     textAlign: 'left', padding: '18px 18px', borderRadius: 14, cursor: 'pointer',
-                    fontFamily: 'inherit', border: '1px solid var(--cv-linha)', background: 'var(--cv-card)',
-                    color: 'var(--cv-ink)', display: 'flex', flexDirection: 'column', gap: 4, minHeight: 84,
+                    fontFamily: 'inherit', background: 'var(--cv-card)', color: 'var(--cv-ink)',
+                    border: `1px solid ${misto && t.v === 'misto' ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
+                    display: 'flex', flexDirection: 'column', gap: 4, minHeight: 84,
                   }}>
                   <span style={{ fontSize: 18, fontWeight: 700 }}>{t.l}</span>
                   <span style={{ fontSize: 14, opacity: .7 }}>{t.d}</span>
                 </button>
               ))}
             </div>
+            {misto && (
+              <div id="dois-lados" style={{ scrollMarginTop: 120, marginTop: 16, padding: 18, borderRadius: 14, border: '1px solid var(--cv-amarelo)', background: 'var(--cv-card)' }}>
+                <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 12 }}>Quais são os dois?</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {TIPOS_NEGOCIO.filter(t => t.v !== 'misto').map(t => {
+                    const on = lados.includes(t.v);
+                    return (
+                      <button key={t.v} type="button" onClick={() => escolherLado(t.v)} aria-pressed={on}
+                        style={{ padding: '10px 14px', borderRadius: 999, cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: on ? 700 : 500,
+                          border: `1px solid ${on ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`, background: on ? 'rgba(232,185,35,.14)' : 'transparent', color: 'var(--cv-ink)' }}>
+                        {on ? '✓ ' : ''}{t.l}
+                      </button>
+                    );
+                  })}
+                </div>
+                <Botao onClick={() => lados.length === 2 && setTipoEscolhido(true)} disabled={lados.length !== 2} style={{ marginTop: 16 }}>
+                  Continuar <ArrowRight size={17} />
+                </Botao>
+              </div>
+            )}
           </section>
         )}
 
@@ -453,33 +488,15 @@ export default function Comecar() {
             <button type="button" onClick={() => setTipoEscolhido(false)}
               style={{ background: 'none', border: 0, padding: 0, margin: '0 0 14px', cursor: 'pointer',
                 fontFamily: 'inherit', fontSize: 14, color: 'var(--cv-ink-2)', textDecoration: 'underline' }}>
-              {(TIPOS_NEGOCIO.find(t => t.v === tipo) || TIPOS_NEGOCIO[0]).l} · mudar
+              {misto
+                ? lados.map(v => TIPOS_NEGOCIO.find(t => t.v === v)?.l).filter(Boolean).join(' + ')
+                : (TIPOS_NEGOCIO.find(t => t.v === tipo) || TIPOS_NEGOCIO[0]).l} · mudar
             </button>
-            {misto && (
-              <div style={{ margin: '0 0 26px', padding: 16, borderRadius: 14, border: '1px solid var(--cv-linha)', background: 'var(--cv-card)' }}>
-                <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 10 }}>Quais são os dois tipos?</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                  {TIPOS_NEGOCIO.filter(t => t.v !== 'misto').map(t => {
-                    const on = lados.includes(t.v);
-                    return (
-                      <button key={t.v} type="button" onClick={() => escolherLado(t.v)} aria-pressed={on}
-                        style={{ padding: '9px 14px', borderRadius: 999, cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: on ? 700 : 500,
-                          border: `1px solid ${on ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`, background: on ? 'rgba(232,185,35,.14)' : 'transparent', color: 'var(--cv-ink)' }}>
-                        {on ? '✓ ' : ''}{t.l}
-                      </button>
-                    );
-                  })}
-                </div>
-                <div style={{ fontSize: 13, opacity: .75, marginTop: 10, lineHeight: 1.5 }}>
-                  O teu site ganha duas frentes e o painel gere cada lado à parte, com a mesma conta. O segundo tipo é {ADICIONAL_SEGUNDO_NICHO_TEXTO} sobre o plano.
-                </div>
-              </div>
-            )}
             <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>
               Quantas pessoas trabalham no teu negócio?
             </h1>
             <p style={{ fontSize: 15, opacity: .8, margin: '0 0 28px', lineHeight: 1.6 }}>
-              Contando contigo. É só isto que decide o plano — o resto da plataforma é igual nos três.
+              Contando contigo. É só isto que decide o plano.
             </p>
 
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
@@ -521,7 +538,7 @@ export default function Comecar() {
               </div>
               {misto && (
                 <div style={{ fontSize: 14, opacity: .8, marginTop: 4 }}>
-                  {euros(periodo === 'anual' ? plano.precoMesAnual : plano.preco)} do plano {ADICIONAL_SEGUNDO_NICHO_TEXTO} pelo segundo tipo ({lados.map(v => TIPOS_NEGOCIO.find(t => t.v === v)?.l).filter(Boolean).join(' + ')}).
+                  {euros(periodo === 'anual' ? plano.precoMesAnual : plano.preco)} do plano + metade pelo segundo tipo.
                 </div>
               )}
               <div style={{ ...ajuda, marginTop: 8 }}>{plano.profissionaisTexto}. {plano.resumo}</div>
@@ -544,26 +561,6 @@ export default function Comecar() {
                 ))}
               </div>
 
-              {/* Quem chega por um plano pode querer outro: os planos so
-                  diferem no numero de profissionais, e o tamanho da equipa
-                  e coisa que ele sabe melhor do que nos. */}
-              <div style={{ ...ajuda, marginTop: 14 }}>
-                Podes escolher outro:{' '}
-                {PLANOS.filter(p => p.id !== planoId).map((p, i) => (
-                  <React.Fragment key={p.id}>
-                    {i > 0 && ' · '}
-                    <button
-                      onClick={() => setPlanoEscolhido(p.id)}
-                      style={{
-                        background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                        font: 'inherit', textDecoration: 'underline', color: 'inherit',
-                      }}
-                    >
-                      {p.nome}
-                    </button>
-                  </React.Fragment>
-                ))}
-              </div>
             </div>
 
             <Botao onClick={() => avancar(2)} style={{ marginTop: 28 }}>
@@ -641,7 +638,6 @@ export default function Comecar() {
                 <label style={rotulo}>Email *</label>
                 <input style={campo} type="email" value={conta.email} placeholder="rui@exemplo.pt"
                        autoComplete="email" onChange={e => c('email', e.target.value)} />
-                <div style={ajuda}>Vamos enviar-te um link de confirmação para aqui.</div>
               </div>
               <div>
                 <label style={rotulo}>Telemóvel *</label>
@@ -666,9 +662,8 @@ export default function Comecar() {
               <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
                 <Check size={18} style={{ color: 'var(--cv-amarelo)', flexShrink: 0, marginTop: 2 }} />
                 <div>
-                  <strong>Hoje não pagas nada.</strong> Criar a conta é grátis e o cartão
-                  só é pedido lá dentro, depois de veres o painel montado. É um mês à
-                  experiência, e cancelas sozinho se não gostares.
+                  <strong>Hoje não pagas nada.</strong> O cartão só é pedido lá dentro,
+                  depois de veres o painel montado.
                 </div>
               </div>
             </div>

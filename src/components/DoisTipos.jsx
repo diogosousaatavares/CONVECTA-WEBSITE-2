@@ -51,7 +51,7 @@ export default function DoisTipos() {
         No painel geres cada lado à parte, com a mesma conta.
       </p>
       <div style={{ textAlign: "center", marginTop: 26 }}>
-        <Link to="/comecar" className="dt-cta">Criar a conta com dois tipos <ArrowRight size={18} /></Link>
+        <Link to="/comecar?tipo=misto" className="dt-cta">Criar a conta com dois tipos <ArrowRight size={18} /></Link>
       </div>
     </section>
   );

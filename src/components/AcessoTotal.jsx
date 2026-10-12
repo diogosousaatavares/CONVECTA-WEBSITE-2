@@ -29,7 +29,7 @@ export default function AcessoTotal() {
             </div>
           </div>
           <img className="mn-foto" src="/montar-o-meu-negocio.webp" srcSet="/montar-o-meu-negocio-540.webp 540w, /montar-o-meu-negocio.webp 1080w"
-            sizes="(max-width: 720px) 90vw, 520px" width="1040" height="1248" loading="lazy"
+            sizes="(max-width: 720px) 90vw, 520px" width="1109" height="1377" loading="lazy"
             alt="Uma profissional a mostrar a agenda do dia no painel da Convecta, no telemóvel" />
         </div>
       </ScrollReveal>
