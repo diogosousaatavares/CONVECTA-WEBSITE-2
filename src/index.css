@@ -1696,7 +1696,6 @@ html, body {
   .dt-sinal { font-size: 2rem; line-height: 84px; }
   .dt-resultado { flex-basis: 100%; width: auto; max-width: 260px; margin: 8px auto 0; }
 }
-}
 .cv-planos > div { display: flex; }
 .cv-planos > div > div { width: 100%; }
 .cv-incluido { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 28px; }
