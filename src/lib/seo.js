@@ -107,6 +107,9 @@ PLANOS.forEach(pl => {
   pl.precoAnoTexto = euros(pl.precoAno);
   // o que o mes fica a valer quando se paga o ano de uma vez
   pl.precoMesAnual = Math.round((pl.precoAno / 12) * 100) / 100;
+  // De 15 em 15 dias (12/10/2026): metade do mensal, a cada 14 dias.
+  pl.precoQuinzenal = Math.floor(pl.preco / 2 * 100) / 100;
+  pl.precoQuinzenalTexto = euros(pl.precoQuinzenal);
   pl.precoMesAnualTexto = euros(pl.precoMesAnual);
   pl.poupancaAno = Math.round((pl.preco * 12 - pl.precoAno) * 100) / 100;
   pl.poupancaAnoTexto = euros(pl.poupancaAno);
@@ -125,6 +128,7 @@ PLANOS.forEach(pl => {
   pl.precoMisto = comSegundoNicho(pl.preco);
   pl.precoMistoTexto = euros(pl.precoMisto);
   pl.precoMesAnualMisto = comSegundoNicho(pl.precoMesAnual);
+  pl.precoQuinzenalMisto = comSegundoNicho(pl.precoQuinzenal);
   pl.precoMesAnualMistoTexto = euros(pl.precoMesAnualMisto);
   pl.precoAnoMisto = comSegundoNicho(pl.precoAno);
   pl.precoAnoMistoTexto = euros(pl.precoAnoMisto);

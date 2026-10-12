@@ -99,7 +99,7 @@ export default function Comecar() {
 
   const [passo, setPasso] = useState(1);
   const [barbeiros, setBarbeiros] = useState(1);
-  const [periodo, setPeriodo] = useState(params.get('periodo') === 'anual' ? 'anual' : 'mensal');
+  const [periodo, setPeriodo] = useState(['anual', 'quinzenal'].includes(params.get('periodo')) ? params.get('periodo') : 'mensal');
   // O plano vem escolhido quando ele clica num cartão nos Preços; se vier de
   // outro sítio, sai do número de barbeiros e ele pode trocá-lo à mesma.
   const [planoEscolhido, setPlanoEscolhido] = useState(
@@ -528,26 +528,28 @@ export default function Comecar() {
               <div style={{ fontSize: 22, fontWeight: 700, margin: '6px 0 2px' }}>{plano.nome}</div>
               <div style={{ fontSize: 15 }}>
                 <strong style={{ fontSize: 24 }}>
-                  {misto
+                  {periodo === 'quinzenal'
+                    ? euros(misto ? plano.precoQuinzenalMisto : plano.precoQuinzenal)
+                    : misto
                     ? (periodo === 'anual' ? euros(plano.precoMesAnualMisto) : euros(plano.precoMisto))
                     : (periodo === 'anual' ? euros(plano.precoMesAnual) : euros(plano.preco))}
                 </strong>
-                <span style={{ opacity: .7 }}> por mês</span>
+                <span style={{ opacity: .7 }}>{periodo === 'quinzenal' ? ' de 15 em 15 dias' : ' por mês'}</span>
                 {periodo === 'anual' && (
                   <span style={{ opacity: .7 }}> — {euros(misto ? plano.precoAnoMisto : plano.precoAno)} pagos de uma vez</span>
                 )}
               </div>
               {misto && (
                 <div style={{ fontSize: 14, opacity: .8, marginTop: 4 }}>
-                  {euros(periodo === 'anual' ? plano.precoMesAnual : plano.preco)} do plano + metade pelo segundo tipo.
+                  {euros(periodo === 'anual' ? plano.precoMesAnual : periodo === 'quinzenal' ? plano.precoQuinzenal : plano.preco)} do plano + metade pelo segundo tipo.
                 </div>
               )}
               <div style={{ ...ajuda, marginTop: 8 }}>
                 {misto ? `${plano.profissionaisTexto} por área — ${plano.profissionais * 2} no total.` : `${plano.profissionaisTexto}. ${plano.resumo}`}
               </div>
 
-              <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
-                {['mensal', 'anual'].map(p => (
+              <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
+                {['quinzenal', 'mensal', 'anual'].map(p => (
                   <button
                     key={p}
                     onClick={() => setPeriodo(p)}
@@ -559,7 +561,7 @@ export default function Comecar() {
                       color: periodo === p ? 'var(--cv-amarelo-texto)' : 'var(--cv-ink)',
                     }}
                   >
-                    {p === 'mensal' ? 'Mensal' : `Anual, −${Math.round(DESCONTO_ANUAL * 100)} %`}
+                    {p === 'mensal' ? 'Mensal' : p === 'quinzenal' ? '15 em 15 dias' : `Anual, −${Math.round(DESCONTO_ANUAL * 100)} %`}
                   </button>
                 ))}
               </div>

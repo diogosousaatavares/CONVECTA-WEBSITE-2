@@ -128,7 +128,7 @@ function Cartao({ plano, anual, nivelNome = "h3" }) {
         <p style={{ fontSize: "0.95rem", color: anual ? "var(--cv-amarelo-texto)" : "var(--cv-ink-3)", margin: "10px 0 0", lineHeight: 1.55, minHeight: 34 }}>
           {anual
             ? <>Pago de uma vez: {plano.precoAnoTexto}/ano. Poupas {plano.poupancaAnoTexto}.</>
-            : <>Ou {plano.precoMesAnualTexto}/mês se pagares o ano de uma vez.</>}
+            : <>Ou {plano.precoQuinzenalTexto} de 15 em 15 dias, ou {plano.precoMesAnualTexto}/mês se pagares o ano de uma vez.</>}
         </p>
 
         <div
