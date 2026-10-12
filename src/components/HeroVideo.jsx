@@ -74,12 +74,33 @@ export default function HeroVideo() {
     if (!v) return;
     const tlm = window.matchMedia("(max-width: 767px)").matches;
     const qual = tlm ? VIDEO.tlm : VIDEO.pc;
+    /*
+     * No iPhone (12/10/2026) o vídeo ficava parado como uma fotografia.
+     * Três razões, três respostas:
+     *  - o Safari só deixa arrancar sozinho um vídeo SEM SOM, e o `muted`
+     *    do React não chega a ser escrito no HTML: põe-se à mão;
+     *  - quem tinha «Reduzir movimento» ligado recebia a fotografia, e já
+     *    não há botão para o pôr a andar — passa a andar para toda a gente
+     *    (é um vídeo de fundo, mudo e lento);
+     *  - em Poupança de energia o iOS recusa o arranque automático: tenta-se
+     *    outra vez no primeiro toque ou scroll, que o iOS já deixa.
+     */
+    v.muted = true;
+    v.defaultMuted = true;
+    v.setAttribute("muted", "");
+    v.setAttribute("playsinline", "");
+    v.setAttribute("webkit-playsinline", "");
     v.poster = qual.poster;
     v.src = qual.src;
-    const poupar = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      || navigator.connection?.saveData;
-    if (poupar) { v.dataset.parado = "1"; return; }
-    v.play().catch(() => {});
+    if (navigator.connection?.saveData) { v.dataset.parado = "1"; return; }
+    const tentar = () => v.play().catch(() => {});
+    const aoTocar = () => { tentar(); tirar(); };
+    const tirar = () => ["touchstart", "click", "scroll", "keydown"].forEach(e => window.removeEventListener(e, aoTocar));
+    v.play().catch(() => {
+      ["touchstart", "click", "scroll", "keydown"].forEach(e => window.addEventListener(e, aoTocar, { passive: true, once: true }));
+    });
+    v.addEventListener("canplay", tentar, { once: true });
+    return tirar;
   }, []);
 
   /*
