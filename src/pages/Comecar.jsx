@@ -99,7 +99,9 @@ export default function Comecar() {
 
   const [passo, setPasso] = useState(1);
   const [barbeiros, setBarbeiros] = useState(1);
-  const [periodo, setPeriodo] = useState(['anual', 'quinzenal'].includes(params.get('periodo')) ? params.get('periodo') : 'mensal');
+  // Abre sempre nos 15 dias (13/10/2026, pedido do Diogo); mensal ou anual só
+  // se vier escolhido da página de preços (?periodo=mensal|anual).
+  const [periodo, setPeriodo] = useState(['anual', 'mensal'].includes(params.get('periodo')) ? params.get('periodo') : 'quinzenal');
   // O plano vem escolhido quando ele clica num cartão nos Preços; se vier de
   // outro sítio, sai do número de barbeiros e ele pode trocá-lo à mesma.
   const [planoEscolhido, setPlanoEscolhido] = useState(
