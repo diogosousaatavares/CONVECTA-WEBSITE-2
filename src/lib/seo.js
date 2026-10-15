@@ -211,6 +211,7 @@ export const FUNCIONALIDADES = [
   "Cada profissional entra com a sua conta e mexe só na sua coluna; o dono escolhe se vê a agenda toda",
   "Aviso ao cliente antes da marcação por notificação e email, sem custo por mensagem",
   "Lista de espera por hora, com confirmação em 1 hora, e aviso de vaga de última hora a todos os clientes",
+  "Pagamentos online ao marcar (metade ou tudo, nos serviços que escolheres): cartão, Apple Pay, Google Pay e MB WAY, direto para a conta do negócio",
   "Dois tipos de negócio no mesmo espaço (barbearia + estética, cabeleireiro + unhas): site com duas frentes, gestão por lado, o segundo tipo a metade do plano",
 ];
 

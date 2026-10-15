@@ -9,6 +9,7 @@ import PricingSection from "@/components/PricingSection";
 import FundoLinhas from "@/components/FundoLinhas";
 import HeroVideo from "@/components/HeroVideo";
 import AcessoTotal, { VideoApps } from "@/components/AcessoTotal";
+import PagamentosOnline from "@/components/PagamentosOnline";
 import PersonalizacaoDemo from "@/components/PersonalizacaoDemo";
 import BotaoComecar from "@/components/BotaoComecar";
 import BarraComecarFixa from "@/components/BarraComecarFixa";
@@ -29,6 +30,10 @@ const PERGUNTAS = [
   {
     q: "Já uso outra agenda. Vale a pena mudar?",
     a: "Se pagas comissão por marcação ou os teus clientes te encontram ao lado da concorrência, sim. Aqui o site é só teu e o preço é fixo. Os teus clientes e o histórico vêm connosco: entregas a lista como a tiveres — folha de cálculo, exportação da outra app, agenda em papel fotografada — e nós carregamos.",
+  },
+  {
+    q: "O cliente pode pagar ao marcar?",
+    a: "Sim. Escolhes se paga metade ou o serviço todo, e em que serviços. Paga com cartão, Apple Pay, Google Pay ou MB WAY, e o dinheiro cai na tua conta: a Convecta não fica com nada. Está incluído nos planos Profissional e Business; no Essencial é um extra de 4,99 €/mês.",
   },
   {
     q: "E se o cliente quiser desmarcar?",
@@ -96,6 +101,9 @@ export default function Home() {
 
       {/* ── 4. Acesso total (as provas) ─────────────────────────── */}
       <AcessoTotal />
+
+      {/* ── 5. Pagamentos online (15/10/2026) ───────────────────── */}
+      <PagamentosOnline />
 
       {/* ── 6. Planos ───────────────────────────────────────────── */}
       <PricingSection />

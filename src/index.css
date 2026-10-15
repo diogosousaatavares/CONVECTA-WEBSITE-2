@@ -2051,3 +2051,19 @@ body.cv-com-barra { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
   flex: 1; min-width: 200px; padding: 11px 14px; border-radius: 10px; font: inherit; font-size: 15px;
   border: 1px solid var(--cv-linha); background: var(--cv-ground); color: var(--cv-ink);
 }
+
+/* ── Pagamentos online (15/10/2026) ─────────────────────────────────── */
+.po { scroll-margin-top: 90px; }
+.po-titulo { max-width: 20ch; }
+.po-logos { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 26px; }
+.po-logo { height: 32px; width: auto; display: block; padding: 6px 10px; border-radius: 8px; background: #fff; border: 1px solid var(--cv-linha); box-sizing: content-box; }
+.po-logo-applepay, .po-logo-googlepay { height: 44px; padding: 0; border: 0; background: transparent; }
+.po-grelha { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+@media (max-width: 900px) { .po-grelha { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .po-grelha { grid-template-columns: 1fr; } }
+.po-cartao { height: 100%; box-sizing: border-box; background: var(--cv-card); border: 1px solid var(--cv-linha); border-radius: 18px; padding: 22px 20px; }
+.po-cartao h3 { font-size: 1.1rem; margin: 14px 0 6px; color: var(--cv-ink); }
+.po-icone { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--cv-amarelo); color: var(--cv-ink); }
+.po-preco { text-align: center; margin: 36px auto 0; max-width: 60ch; color: var(--cv-ink-2); line-height: 1.7; }
+.po-preco b { color: var(--cv-ink); }
+.po-preco span { display: block; font-size: .9rem; color: var(--cv-ink-3); }

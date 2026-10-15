@@ -10,8 +10,9 @@ Regras que importam:
 - **Tudo o que o site diz tem de ser verdade hoje.** A lista do que a app faz
   está em `src/lib/seo.js` (`FUNCIONALIDADES`) e na página `src/pages/Booking.jsx`
   (Funcionalidades). Não se escreve uma funcionalidade sem ela existir e gravar
-  no painel. Não há lembretes por SMS/WhatsApp, pagamentos online, assinaturas,
-  cupões nem testemunhos de clientes inventados.
+  no painel. Não há lembretes por SMS/WhatsApp, assinaturas, cupões nem
+  testemunhos de clientes inventados. Pagamentos online existem desde 15/10/2026
+  (Stripe Connect; incluídos no Profissional e Business, +4,99 €/mês no Essencial).
 - **O preço está num sítio só:** `PRECO_MENSAL` / `PRECO_MENSAL_TEXTO` em
   `src/lib/seo.js`. Nunca escrever "24,99" à mão numa página.
 - **Contactos, morada, Instagram, endereços da demonstração:** `SITE` em
