@@ -51,11 +51,7 @@ export default function PagamentosOnline() {
       </div>
 
       <ScrollReveal>
-        <p className="po-preco">
-          <b>Incluído nos planos Profissional e Business.</b> No Essencial, +4,99 €/mês.
-          <span> Pagas só a taxa do Stripe por pagamento.</span>
-        </p>
-        <div style={{ textAlign: "center", marginTop: 22 }}>
+        <div style={{ textAlign: "center", marginTop: 36 }}>
           <Link to="/comecar" className="dt-cta">Começar <ArrowRight size={18} /></Link>
         </div>
       </ScrollReveal>
