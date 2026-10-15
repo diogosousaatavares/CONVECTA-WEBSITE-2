@@ -34,6 +34,18 @@ import { enviarContacto } from '@/lib/contactos';
 
 const euros = n => Number(n).toFixed(2).replace('.', ',') + ' €';
 
+// Os cartões dos extras no fim do registo (15/10/2026).
+const cartaoExtra = on => ({
+  display: 'flex', gap: 12, alignItems: 'flex-start', width: '100%', textAlign: 'left',
+  padding: 16, borderRadius: 14, font: 'inherit', color: 'var(--cv-ink)', cursor: 'pointer',
+  border: `1.5px solid ${on ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
+  background: on ? 'rgba(254,233,109,.18)' : 'var(--cv-card)',
+});
+const caixinha = on => ({
+  width: 22, height: 22, borderRadius: 6, flexShrink: 0, marginTop: 1, display: 'grid', placeItems: 'center',
+  border: `1.5px solid ${on ? 'var(--cv-ink)' : 'var(--cv-linha)'}`, background: on ? 'var(--cv-ink)' : 'transparent', color: '#fff',
+});
+
 /*
  * Quantos barbeiros → que plano. A mesma conta que o servidor refaz depois:
  * isto é para ele ver, não é a decisão final. O que vem do browser é sempre
@@ -131,6 +143,9 @@ export default function Comecar() {
   // Aceitação dos Termos, da Privacidade e do acordo RGPD (art. 28.º).
   // Tem de ser um gesto da pessoa — uma caixa por marcar, não um texto.
   const [aceita, setAceita] = useState(false);
+  // Os extras no fim (15/10/2026): pagamentos online e outro tipo no mesmo espaço.
+  const [comPagamentos, setComPagamentos] = useState(false);
+  const [aEscolherSegundo, setAEscolherSegundo] = useState(false);
 
   const [aEnviar, setAEnviar] = useState(false);
   const [erro, setErro] = useState('');
@@ -205,6 +220,7 @@ export default function Comecar() {
       slug,
       tipoNegocio: tipo,
       lados: misto ? lados : undefined,
+      extras: comPagamentos && !['profissional', 'business'].includes(planoId) ? ['pagamentos'] : undefined,
       barbeiros,
       plano: planoId,
       periodo,
@@ -659,6 +675,67 @@ export default function Comecar() {
                        placeholder="Pelo menos 8 caracteres"
                        onChange={e => c('password', e.target.value)} />
               </div>
+            </div>
+
+            {/* ── Juntar mais alguma coisa? (15/10/2026) ─────────────── */}
+            <div style={{ marginTop: 28 }}>
+              <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>Queres juntar mais alguma coisa?</div>
+              <div style={{ ...ajuda, marginBottom: 12 }}>Podes juntar ou tirar depois, no painel.</div>
+
+              {(() => {
+                const incluido = ['profissional', 'business'].includes(planoId);
+                const preco = periodo === 'quinzenal' ? '+2,49 € de 15 em 15 dias' : periodo === 'anual' ? '+50,90 € por ano' : '+4,99 € por mês';
+                const on = incluido || comPagamentos;
+                return (
+                  <button type="button" aria-pressed={on} disabled={incluido} onClick={() => setComPagamentos(v => !v)} style={cartaoExtra(on)}>
+                    <span style={caixinha(on)}>{on && <Check size={15} />}</span>
+                    <span style={{ flex: 1, minWidth: 0 }}>
+                      <strong style={{ display: 'block', fontSize: 15.5 }}>Pagamentos online</strong>
+                      <span style={{ display: 'block', fontSize: 14, opacity: .75, lineHeight: 1.5 }}>O cliente paga ao marcar: acabam as faltas. O dinheiro cai na tua conta.</span>
+                      <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
+                        {['visa', 'mastercard', 'applepay', 'googlepay', 'mbway'].map(id => (
+                          <img key={id} src={`/pagamentos/${id}.png`} alt="" height="20" style={{ height: 20, width: 'auto', borderRadius: 4 }} />
+                        ))}
+                      </span>
+                    </span>
+                    <span style={{ fontSize: 13.5, fontWeight: 700, whiteSpace: 'nowrap', color: incluido ? '#15803D' : 'var(--cv-ink)' }}>
+                      {incluido ? 'Incluído' : preco}
+                    </span>
+                  </button>
+                );
+              })()}
+
+              {(() => {
+                const base = misto ? lados[0] : tipo;
+                const nomeDe = v => TIPOS_NEGOCIO.find(t => t.v === v)?.l || v;
+                const metade = periodo === 'quinzenal' ? `+${euros(plano.precoQuinzenalMisto - plano.precoQuinzenal)} de 15 em 15 dias` : periodo === 'anual' ? `+${euros(plano.precoMesAnualMisto - plano.precoMesAnual)} por mês` : `+${euros(plano.precoMisto - plano.preco)} por mês`;
+                return (
+                  <div style={{ ...cartaoExtra(misto), display: 'block', marginTop: 10, cursor: 'default' }}>
+                    <button type="button" aria-pressed={misto}
+                      onClick={() => { if (misto) { setTipo(lados[0]); setAEscolherSegundo(false); } else setAEscolherSegundo(v => !v); }}
+                      style={{ display: 'flex', gap: 12, alignItems: 'flex-start', width: '100%', background: 'none', border: 0, padding: 0, font: 'inherit', color: 'inherit', textAlign: 'left', cursor: 'pointer' }}>
+                      <span style={caixinha(misto)}>{misto && <Check size={15} />}</span>
+                      <span style={{ flex: 1, minWidth: 0 }}>
+                        <strong style={{ display: 'block', fontSize: 15.5 }}>Outro tipo de negócio no mesmo espaço</strong>
+                        <span style={{ display: 'block', fontSize: 14, opacity: .75, lineHeight: 1.5 }}>
+                          {misto ? `${nomeDe(lados[0])} + ${nomeDe(lados[1])}: duas apps, a mesma conta.` : 'Duas apps numa só, com o mesmo login. Cada uma com o seu site.'}
+                        </span>
+                      </span>
+                      <span style={{ fontSize: 13.5, fontWeight: 700, whiteSpace: 'nowrap' }}>{metade}</span>
+                    </button>
+                    {!misto && aEscolherSegundo && (
+                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 12, paddingLeft: 34 }}>
+                        {TIPOS_NEGOCIO.filter(t => t.v !== 'misto' && t.v !== base).map(t => (
+                          <button key={t.v} type="button" onClick={() => { setLados([base, t.v]); setTipo('misto'); setAEscolherSegundo(false); }}
+                            style={{ padding: '8px 14px', borderRadius: 100, border: '1px solid var(--cv-linha)', background: 'var(--cv-ground)', font: 'inherit', fontSize: 14, fontWeight: 600, cursor: 'pointer', color: 'var(--cv-ink)' }}>
+                            {t.l}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
 
             <div style={{
