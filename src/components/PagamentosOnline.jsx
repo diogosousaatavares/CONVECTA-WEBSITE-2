@@ -33,7 +33,7 @@ export default function PagamentosOnline() {
         </h2>
         <div className="po-logos" aria-label="Cartão, Apple Pay, Google Pay e MB WAY">
           {LOGOS.map(([id, nome]) => (
-            <img key={id} src={`/pagamentos/${id}.png`} alt={nome} height="32" loading="lazy" className={`po-logo po-logo-${id}`} />
+            <span key={id} className="po-logo" title={nome}><img src={`/pagamentos/${id}.png`} alt={nome} loading="lazy" /></span>
           ))}
         </div>
       </ScrollReveal>
@@ -43,8 +43,10 @@ export default function PagamentosOnline() {
           <ScrollReveal key={t} delay={0.06 * i}>
             <div className="po-cartao">
               <span className="po-icone"><Ic size={22} strokeWidth={1.8} /></span>
-              <h3>{t}</h3>
-              <p className="cv-mini">{d}</p>
+              <div>
+                <h3>{t}</h3>
+                <p className="cv-mini">{d}</p>
+              </div>
             </div>
           </ScrollReveal>
         ))}

@@ -694,7 +694,9 @@ export default function Comecar() {
                       <span style={{ display: 'block', fontSize: 14, opacity: .75, lineHeight: 1.5 }}>O cliente paga ao marcar: acabam as faltas. O dinheiro cai na tua conta.</span>
                       <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
                         {['visa', 'mastercard', 'applepay', 'googlepay', 'mbway'].map(id => (
-                          <img key={id} src={`/pagamentos/${id}.png`} alt="" height="20" style={{ height: 20, width: 'auto', borderRadius: 4 }} />
+                          <span key={id} style={{ width: 44, height: 28, boxSizing: 'border-box', padding: '0 4px', borderRadius: 6, background: '#fff', border: '1px solid var(--cv-linha)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <img src={`/pagamentos/${id}.png`} alt="" style={{ display: 'block', maxHeight: 14, maxWidth: '100%', width: 'auto', height: 'auto' }} />
+                          </span>
                         ))}
                       </span>
                     </span>

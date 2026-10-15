@@ -2055,15 +2055,22 @@ body.cv-com-barra { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
 /* ── Pagamentos online (15/10/2026) ─────────────────────────────────── */
 .po { scroll-margin-top: 90px; }
 .po-titulo { max-width: 20ch; }
-.po-logos { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 26px; }
-.po-logo { height: 32px; width: auto; display: block; padding: 6px 10px; border-radius: 8px; background: #fff; border: 1px solid var(--cv-linha); box-sizing: content-box; }
-.po-logo-applepay, .po-logo-googlepay { height: 44px; padding: 0; border: 0; background: transparent; }
+/* Os logos todos no mesmo formato: a mesma caixa, o logo ao centro. */
+.po-logos { display: grid; grid-template-columns: repeat(5, 76px); gap: 10px; margin-top: 26px; }
+.po-logo { height: 46px; box-sizing: border-box; padding: 0 8px; border-radius: 9px; background: #fff; border: 1px solid var(--cv-linha); display: flex; align-items: center; justify-content: center; }
+.po-logo img { display: block; max-height: 24px; max-width: 100%; width: auto; height: auto; object-fit: contain; }
 .po-grelha { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
-@media (max-width: 900px) { .po-grelha { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .po-grelha { grid-template-columns: 1fr; } }
 .po-cartao { height: 100%; box-sizing: border-box; background: var(--cv-card); border: 1px solid var(--cv-linha); border-radius: 18px; padding: 22px 20px; }
 .po-cartao h3 { font-size: 1.1rem; margin: 14px 0 6px; color: var(--cv-ink); }
-.po-icone { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--cv-amarelo); color: var(--cv-ink); }
-.po-preco { text-align: center; margin: 36px auto 0; max-width: 60ch; color: var(--cv-ink-2); line-height: 1.7; }
-.po-preco b { color: var(--cv-ink); }
-.po-preco span { display: block; font-size: .9rem; color: var(--cv-ink-3); }
+.po-icone { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--cv-amarelo); color: var(--cv-ink); flex-shrink: 0; }
+@media (max-width: 900px) { .po-grelha { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* No telemóvel: os 5 logos numa linha e cartões compactos (ícone ao lado do texto). */
+@media (max-width: 560px) {
+  .po-logos { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; margin-top: 20px; }
+  .po-logo { height: 38px; padding: 0 5px; border-radius: 8px; }
+  .po-logo img { max-height: 18px; }
+  .po-grelha { grid-template-columns: 1fr; gap: 10px; margin-top: 26px; }
+  .po-cartao { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border-radius: 14px; }
+  .po-cartao h3 { margin: 0 0 4px; font-size: 1.02rem; }
+  .po-icone { width: 40px; height: 40px; border-radius: 11px; }
+}
