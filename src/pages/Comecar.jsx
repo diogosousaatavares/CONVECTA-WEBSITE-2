@@ -81,7 +81,8 @@ const TIPOS_NEGOCIO = [
 ];
 
 const campo = {
-  width: '100%', padding: '12px 14px', borderRadius: 10, fontSize: 15,
+  // 16px: no iPhone, um campo com letra mais pequena faz zoom ao tocar.
+  width: '100%', padding: '12px 14px', borderRadius: 10, fontSize: 16,
   border: '1px solid var(--cv-linha)', background: 'var(--cv-card)',
   color: 'var(--cv-ink)', fontFamily: 'inherit',
 };
@@ -536,56 +537,6 @@ export default function Comecar() {
               ))}
             </div>
 
-            <div style={{
-              padding: 20, borderRadius: 14,
-              border: '1px solid var(--cv-amarelo)', background: 'var(--cv-card)',
-            }}>
-              <div style={{ fontSize: 12, fontWeight: 600, opacity: .65, letterSpacing: .6 }}>
-                O PLANO QUE TE SERVE
-              </div>
-              <div style={{ fontSize: 22, fontWeight: 700, margin: '6px 0 2px' }}>{plano.nome}</div>
-              <div style={{ fontSize: 15 }}>
-                <strong style={{ fontSize: 24 }}>
-                  {periodo === 'quinzenal'
-                    ? euros(misto ? plano.precoQuinzenalMisto : plano.precoQuinzenal)
-                    : misto
-                    ? (periodo === 'anual' ? euros(plano.precoMesAnualMisto) : euros(plano.precoMisto))
-                    : (periodo === 'anual' ? euros(plano.precoMesAnual) : euros(plano.preco))}
-                </strong>
-                <span style={{ opacity: .7 }}>{periodo === 'quinzenal' ? ' de 15 em 15 dias' : ' por mês'}</span>
-                {periodo === 'anual' && (
-                  <span style={{ opacity: .7 }}> — {euros(misto ? plano.precoAnoMisto : plano.precoAno)} pagos de uma vez</span>
-                )}
-              </div>
-              {misto && (
-                <div style={{ fontSize: 14, opacity: .8, marginTop: 4 }}>
-                  {euros(periodo === 'anual' ? plano.precoMesAnual : periodo === 'quinzenal' ? plano.precoQuinzenal : plano.preco)} do plano + metade pelo segundo tipo.
-                </div>
-              )}
-              <div style={{ ...ajuda, marginTop: 8 }}>
-                {misto ? `${plano.profissionaisTexto} por área — ${plano.profissionais * 2} no total.` : `${plano.profissionaisTexto}. ${plano.resumo}`}
-              </div>
-
-              <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
-                {['quinzenal', 'mensal', 'anual'].map(p => (
-                  <button
-                    key={p}
-                    onClick={() => setPeriodo(p)}
-                    style={{
-                      padding: '7px 14px', borderRadius: 100, fontSize: 13, fontWeight: 600,
-                      cursor: 'pointer', fontFamily: 'inherit',
-                      border: `1px solid ${periodo === p ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
-                      background: periodo === p ? 'var(--cv-amarelo)' : 'transparent',
-                      color: periodo === p ? 'var(--cv-amarelo-texto)' : 'var(--cv-ink)',
-                    }}
-                  >
-                    {p === 'mensal' ? 'Mensal' : p === 'quinzenal' ? '15 em 15 dias' : `Anual, −${Math.round(DESCONTO_ANUAL * 100)} %`}
-                  </button>
-                ))}
-              </div>
-
-            </div>
-
             <Botao onClick={() => avancar(2)} style={{ marginTop: 28 }}>
               Continuar <ArrowRight size={17} />
             </Botao>
@@ -675,6 +626,59 @@ export default function Comecar() {
                        placeholder="Pelo menos 8 caracteres"
                        onChange={e => c('password', e.target.value)} />
               </div>
+            </div>
+
+            {/* O preço é a última coisa que se vê (15/10/2026, pedido do Diogo). */}
+            <div style={{ marginTop: 28 }}>
+            <div style={{
+              padding: 20, borderRadius: 14,
+              border: '1px solid var(--cv-amarelo)', background: 'var(--cv-card)',
+            }}>
+              <div style={{ fontSize: 12, fontWeight: 600, opacity: .65, letterSpacing: .6 }}>
+                O PLANO QUE TE SERVE
+              </div>
+              <div style={{ fontSize: 22, fontWeight: 700, margin: '6px 0 2px' }}>{plano.nome}</div>
+              <div style={{ fontSize: 15 }}>
+                <strong style={{ fontSize: 24 }}>
+                  {periodo === 'quinzenal'
+                    ? euros(misto ? plano.precoQuinzenalMisto : plano.precoQuinzenal)
+                    : misto
+                    ? (periodo === 'anual' ? euros(plano.precoMesAnualMisto) : euros(plano.precoMisto))
+                    : (periodo === 'anual' ? euros(plano.precoMesAnual) : euros(plano.preco))}
+                </strong>
+                <span style={{ opacity: .7 }}>{periodo === 'quinzenal' ? ' de 15 em 15 dias' : ' por mês'}</span>
+                {periodo === 'anual' && (
+                  <span style={{ opacity: .7 }}> — {euros(misto ? plano.precoAnoMisto : plano.precoAno)} pagos de uma vez</span>
+                )}
+              </div>
+              {misto && (
+                <div style={{ fontSize: 14, opacity: .8, marginTop: 4 }}>
+                  {euros(periodo === 'anual' ? plano.precoMesAnual : periodo === 'quinzenal' ? plano.precoQuinzenal : plano.preco)} do plano + metade pelo segundo tipo.
+                </div>
+              )}
+              <div style={{ ...ajuda, marginTop: 8 }}>
+                {misto ? `${plano.profissionaisTexto} por área — ${plano.profissionais * 2} no total.` : `${plano.profissionaisTexto}. ${plano.resumo}`}
+              </div>
+
+              <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
+                {['quinzenal', 'mensal', 'anual'].map(p => (
+                  <button
+                    key={p}
+                    onClick={() => setPeriodo(p)}
+                    style={{
+                      padding: '7px 14px', borderRadius: 100, fontSize: 13, fontWeight: 600,
+                      cursor: 'pointer', fontFamily: 'inherit',
+                      border: `1px solid ${periodo === p ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
+                      background: periodo === p ? 'var(--cv-amarelo)' : 'transparent',
+                      color: periodo === p ? 'var(--cv-amarelo-texto)' : 'var(--cv-ink)',
+                    }}
+                  >
+                    {p === 'mensal' ? 'Mensal' : p === 'quinzenal' ? '15 em 15 dias' : `Anual, −${Math.round(DESCONTO_ANUAL * 100)} %`}
+                  </button>
+                ))}
+              </div>
+
+            </div>
             </div>
 
             {/* ── Juntar mais alguma coisa? (15/10/2026) ─────────────── */}

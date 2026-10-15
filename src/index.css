@@ -2074,3 +2074,12 @@ body.cv-com-barra { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
   .po-cartao h3 { margin: 0 0 4px; font-size: 1.02rem; }
   .po-icone { width: 40px; height: 40px; border-radius: 11px; }
 }
+
+/* ── No telemóvel o site comporta-se como uma app (15/10/2026) ───────────
+   Sem zoom ao tocar duas vezes nem ao entrar num campo (letra ≥ 16px), e o
+   texto não cresce sozinho ao rodar o telemóvel. */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { touch-action: manipulation; }
+@media (max-width: 767px) {
+  input, select, textarea { font-size: 16px !important; }
+}
