@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { ArrowRight, ArrowLeft, Check, Mail, AlertTriangle } from 'lucide-react';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { ArrowRight, ArrowLeft, Check, Mail, AlertTriangle, Scissors, Wind, Hand, Flower2 } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, DESCONTO_ANUAL } from '@/lib/seo';
 import { VERSAO_ACORDO } from '@/lib/seo';
@@ -122,24 +122,17 @@ export default function Comecar() {
   );
 
   const [barbearia, setBarbearia] = useState({ nome: '', telefone: '', morada: '', nif: '' });
-  // ?tipo=misto (o botão «Criar a conta com dois tipos») chega com o misto
-  // escolhido e a pergunta «Quais são os dois?» aberta.
-  const [tipo, setTipo] = useState(params.get('tipo') === 'misto' ? 'misto' : 'barbearia');
-  // Os dois lados de um espaço misto (tipo === 'misto').
-  const [lados, setLados] = useState(['barbearia', 'estetica']);
-  const misto = tipo === 'misto';
-  // Quem vem do botão «Criar a conta com dois tipos» vê logo a pergunta dos dois lados.
-  useEffect(() => {
-    if (params.get('tipo') !== 'misto') return;
-    const t = setTimeout(() => document.getElementById('dois-lados')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 250);
-    return () => clearTimeout(t);
-  }, []);
-  const escolherLado = v => setLados(l => (l.includes(v) ? l.filter(x => x !== v) : [...l, v].slice(-2)));
-  const [tipoEscolhido, setTipoEscolhidoCru] = useState(false);
-  // Trocar de ecrã dentro do passo 1 (tipo → pessoas) volta ao topo: sem
-  // isto, quem tocava num cartão em baixo caía a meio do ecrã seguinte,
-  // com a pergunta lá em cima, fora de vista (12/10/2026).
-  const setTipoEscolhido = v => { setTipoEscolhidoCru(v); window.scrollTo?.({ top: 0, behavior: 'smooth' }); };
+  /*
+   * O TIPO (15/10/2026, à Fresha): escolhe-se um ou dois quadrados. Dois
+   * quadrados = dois tipos no mesmo espaço (o «misto», com dois negócios
+   * ligados); o primeiro escolhido é o principal.
+   */
+  const [tipos, setTipos] = useState(params.get('tipo') === 'misto' ? ['barbearia', 'estetica'] : []);
+  const misto = tipos.length === 2;
+  const tipo = misto ? 'misto' : (tipos[0] || 'barbearia');
+  const lados = misto ? tipos : [];
+  const tocarTipo = v => setTipos(l => (l.includes(v) ? l.filter(x => x !== v) : [...l, v].slice(-2)));
+  const navigate = useNavigate();
   const [conta, setConta] = useState({ nome: '', email: '', telefone: '', password: '' });
   // Aceitação dos Termos, da Privacidade e do acordo RGPD (art. 28.º).
   // Tem de ser um gesto da pessoa — uma caixa por marcar, não um texto.
@@ -194,12 +187,22 @@ export default function Comecar() {
    */
   const avancar = (n) => {
     setErro('');
-    if (n === 3 && !barbearia.nome.trim()) return setErro('Escreve o nome do teu negócio.');
-    if (n === 3 && !slug) return setErro('Esse nome não dá um endereço válido. Usa letras e números.');
+    if (n > passo) {
+      if (passo === 1 && !barbearia.nome.trim()) return setErro('Escreve o nome do teu negócio.');
+      if (passo === 1 && !slug) return setErro('Esse nome não dá um endereço válido. Usa letras e números.');
+      if (passo === 2 && !tipos.length) return setErro('Escolhe o tipo do teu negócio.');
+      if (passo === 4) {
+        if (!conta.nome.trim()) return setErro('Escreve o teu nome.');
+        if (!conta.email.includes('@')) return setErro('Escreve um email válido.');
+        if (!telefoneValido(conta.telefone)) return setErro('Escreve o teu telemóvel, com 9 dígitos.');
+        if (conta.password.length < 8) return setErro('A palavra-passe tem de ter pelo menos 8 caracteres.');
+      }
+    }
     try { window.trackEvent?.('comecar_passo', { passo: n, plano: planoId, barbeiros }); } catch { /* sem analytics */ }
     setPasso(n);
-    window.scrollTo?.({ top: 0, behavior: 'smooth' });
+    window.scrollTo?.({ top: 0 });
   };
+
 
   // Depois de a conta existir, as respostas seguem para a tabela dos
   // contactos, ja com nome e telemovel. Se falhar, nao se diz nada a ninguem.
@@ -401,7 +404,24 @@ export default function Comecar() {
     );
   }
 
-  // ── Formulário ──────────────────────────────────────────────────────────
+  // ── Formulário (15/10/2026, à Fresha: um ecrã, uma pergunta) ──────────
+  const TOTAL = 5;
+  const sobre = { fontSize: 13, fontWeight: 600, color: 'var(--cv-ink-3)', margin: '0 0 6px' };
+  const titulo = { fontSize: 'clamp(26px, 7vw, 32px)', lineHeight: 1.15, margin: '0 0 8px', fontWeight: 700, letterSpacing: '-.01em' };
+  const sub = { fontSize: 15, color: 'var(--cv-ink-2)', margin: '0 0 24px', lineHeight: 1.5 };
+  const linhaOpcao = on => ({
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', textAlign: 'left',
+    padding: '18px 16px', borderRadius: 14, font: 'inherit', fontSize: 16, fontWeight: 600, color: 'var(--cv-ink)', cursor: 'pointer',
+    border: `1.5px solid ${on ? 'var(--cv-ink)' : 'var(--cv-linha)'}`, background: 'var(--cv-card)',
+  });
+  const ICONE = { barbearia: Scissors, cabeleireiro: Wind, unhas: Hand, estetica: Flower2 };
+  const EQUIPA = [
+    { n: 1, l: 'Só eu' },
+    { n: 5, l: '2 a 5 pessoas' },
+    { n: 15, l: '6 a 15 pessoas' },
+  ];
+  const seguinte = passo < TOTAL ? () => avancar(passo + 1) : registar;
+
   return (
     <>
       <Seo
@@ -410,381 +430,149 @@ export default function Comecar() {
         caminho="/comecar"
         noindex
       />
-      <main style={{ maxWidth: 620, margin: '0 auto',
-        /* Os lados um a um, e nunca o atalho `padding`: um `padding` inline
-           reescreve os quatro de uma vez e apaga, sem avisar, qualquer
-           margem posta noutro sitio. A barra de cima e `position: fixed`
-           (80px, 96px em ecra grande), por isso a pagina tem de se afastar
-           dela por si — com os 64px que aqui estavam, as duas primeiras
-           linhas do cartao liam-se por baixo da barra. */
-        paddingLeft: 20, paddingRight: 20, paddingBottom: 120,
-        paddingTop: 144 }}>
+      <div className="cm">
+        <header className="cm-topo">
+          <div className="cm-progresso" aria-label={`Passo ${passo} de ${TOTAL}`}>
+            {Array.from({ length: TOTAL }, (_, i) => <span key={i} className={i < passo ? 'on' : ''} />)}
+          </div>
+          <button type="button" className="cm-voltar" aria-label="Voltar"
+            onClick={() => (passo > 1 ? avancar(passo - 1) : navigate('/'))}>
+            <ArrowLeft size={22} />
+          </button>
+        </header>
 
-        {/* ── 0. As quatro perguntas, antes de tudo ───────────────────── */}
-        {naEntrada ? (
-          <PorqueConvecta
-            onFim={r => { setRespostas(r); setNaEntrada(false); window.scrollTo?.({ top: 0, behavior: 'smooth' }); }}
-            onSaltar={() => { try { window.trackEvent?.('porque_convecta_saltado'); } catch { /* sem analytics */ } setNaEntrada(false); }}
-          />
-        ) : (<>
+        <main className="cm-corpo">
+          <p style={sobre}>Criar conta</p>
 
-        {/* Os tres passos com nome: "Passo 2 de 3" diz quanto falta, mas nao
-            diz o que vem. Saber que o proximo e "Conta" tira a pergunta
-            "o que e que me vao pedir a seguir?", que e a que faz fechar. */}
-        <ol style={{ display: 'flex', gap: 6, margin: '0 0 10px', padding: 0, listStyle: 'none' }} aria-label={`Passo ${passo} de 3`}>
-          {ETAPAS.map((nome, i) => {
-            const n = i + 1;
-            const feitoJa = n < passo, actual = n === passo;
-            return (
-              <li key={nome} style={{ flex: 1 }} aria-current={actual ? 'step' : undefined}>
-                <div style={{ height: 3, borderRadius: 2, background: n <= passo ? 'var(--cv-amarelo)' : 'var(--cv-linha)' }} />
-                <div style={{ fontSize: 12, fontWeight: actual ? 700 : 600, marginTop: 8, opacity: actual ? 1 : feitoJa ? .8 : .45, display: 'flex', alignItems: 'center', gap: 4 }}>
-                  {feitoJa && <Check size={12} />}{nome}
-                </div>
-              </li>
-            );
-          })}
-        </ol>
-        {/* As garantias do hero desaparecem quando se entra aqui. Repetem-se,
-            numa linha, para nao parecer que o registo e onde a armadilha esta. */}
-        <p style={{ fontSize: 12, opacity: .6, margin: '0 0 30px' }}>
-          Sem cartão para começar · 14 dias grátis · cancelas sozinho no painel
-        </p>
+          {passo === 1 && (
+            <section>
+              <h1 style={titulo}>Qual é o nome do teu negócio?</h1>
+              <p style={sub}>É o nome que os teus clientes vão ver.</p>
+              <input style={{ ...campo, fontSize: 18, padding: '16px' }} value={barbearia.nome} autoFocus
+                placeholder={{ cabeleireiro: 'Salão Bela', unhas: 'Nails by Ana', estetica: 'Espaço Pele' }[tipos[0]] || 'RC Cuts'}
+                onChange={e => b('nome', e.target.value)} onKeyDown={e => { if (e.key === 'Enter') seguinte(); }} />
+              <p className="cm-endereco">{slug || 'o-teu-negocio'}<span>.marcacoes.app</span></p>
+            </section>
+          )}
 
-        {/* ── 1. Quantos barbeiros ────────────────────────────────────── */}
-        {/* ── 1a. Que tipo de negocio (10/10/2026) — a primeira pergunta ─ */}
-        {passo === 1 && !tipoEscolhido && (
-          <section>
-            <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>Que tipo de negócio tens?</h1>
-            <p style={{ fontSize: 15, opacity: .8, margin: '0 0 24px', lineHeight: 1.6 }}>
-              A app nasce com as palavras, os serviços de exemplo e as cores do teu tipo de negócio. Mudas tudo depois.
-            </p>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
-              {TIPOS_NEGOCIO.map(t => (
-                <button key={t.v} type="button" aria-pressed={misto && t.v === 'misto'}
-                  onClick={() => {
-                    setTipo(t.v);
-                    try { window.trackEvent?.('comecar_tipo', { tipo: t.v }); } catch { /* sem analytics */ }
-                    // O misto ainda tem de dizer quais são os dois; os outros seguem já.
-                    if (t.v !== 'misto') setTipoEscolhido(true);
-                  }}
-                  style={{
-                    textAlign: 'left', padding: '18px 18px', borderRadius: 14, cursor: 'pointer',
-                    fontFamily: 'inherit', background: 'var(--cv-card)', color: 'var(--cv-ink)',
-                    border: `1px solid ${misto && t.v === 'misto' ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
-                    display: 'flex', flexDirection: 'column', gap: 4, minHeight: 84,
-                  }}>
-                  <span style={{ fontSize: 18, fontWeight: 700 }}>{t.l}</span>
-                  <span style={{ fontSize: 14, opacity: .7 }}>{t.d}</span>
-                </button>
-              ))}
-            </div>
-            {misto && (
-              <div id="dois-lados" style={{ scrollMarginTop: 120, marginTop: 16, padding: 18, borderRadius: 14, border: '1px solid var(--cv-amarelo)', background: 'var(--cv-card)' }}>
-                <div style={{ fontSize: 16, fontWeight: 700, marginBottom: 12 }}>Quais são os dois?</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                  {TIPOS_NEGOCIO.filter(t => t.v !== 'misto').map(t => {
-                    const on = lados.includes(t.v);
-                    return (
-                      <button key={t.v} type="button" onClick={() => escolherLado(t.v)} aria-pressed={on}
-                        style={{ padding: '10px 14px', borderRadius: 999, cursor: 'pointer', fontFamily: 'inherit', fontSize: 14, fontWeight: on ? 700 : 500,
-                          border: `1px solid ${on ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`, background: on ? 'rgba(232,185,35,.14)' : 'transparent', color: 'var(--cv-ink)' }}>
-                        {on ? '✓ ' : ''}{t.l}
-                      </button>
-                    );
-                  })}
-                </div>
-                <Botao onClick={() => lados.length === 2 && setTipoEscolhido(true)} disabled={lados.length !== 2} style={{ marginTop: 16 }}>
-                  Continuar <ArrowRight size={17} />
-                </Botao>
+          {passo === 2 && (
+            <section>
+              <h1 style={titulo}>Que tipo de negócio é?</h1>
+              <p style={sub}>Tens dois no mesmo espaço? Escolhe os dois.</p>
+              <div className="cm-grelha">
+                {TIPOS_NEGOCIO.filter(t => t.v !== 'misto').map(t => {
+                  const i = tipos.indexOf(t.v);
+                  const Ic = ICONE[t.v] || Scissors;
+                  return (
+                    <button key={t.v} type="button" aria-pressed={i >= 0} onClick={() => tocarTipo(t.v)}
+                      className={`cm-tile${i >= 0 ? ' on' : ''}`}>
+                      {i === 0 && misto && <span className="cm-principal">Principal</span>}
+                      <Ic size={26} strokeWidth={1.6} />
+                      <span>{t.v === 'unhas' ? 'Unhas e pestanas' : t.l}</span>
+                    </button>
+                  );
+                })}
               </div>
-            )}
-          </section>
-        )}
+            </section>
+          )}
 
-        {/* ── 1b. Quantas pessoas ──────────────────────────────────────── */}
-        {passo === 1 && tipoEscolhido && (
-          <section>
-            <button type="button" onClick={() => setTipoEscolhido(false)}
-              style={{ background: 'none', border: 0, padding: 0, margin: '0 0 14px', cursor: 'pointer',
-                fontFamily: 'inherit', fontSize: 14, color: 'var(--cv-ink-2)', textDecoration: 'underline' }}>
-              {misto
-                ? lados.map(v => TIPOS_NEGOCIO.find(t => t.v === v)?.l).filter(Boolean).join(' + ')
-                : (TIPOS_NEGOCIO.find(t => t.v === tipo) || TIPOS_NEGOCIO[0]).l} · mudar
-            </button>
-            <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>
-              Quantas pessoas trabalham no teu negócio?
-            </h1>
-            <p style={{ fontSize: 15, opacity: .8, margin: '0 0 28px', lineHeight: 1.6 }}>
-              {misto ? 'Contando contigo, nos dois lados. É só isto que decide o plano.' : 'Contando contigo. É só isto que decide o plano.'}
-            </p>
-
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 28 }}>
-              {[1, 2, 3, 4, 5, 6, 8, 10, 15].map(n => (
-                <button
-                  key={n}
-                  onClick={() => { setBarbeiros(n); setPlanoEscolhido(null); }}
-                  style={{
-                    minWidth: 52, padding: '12px 0', borderRadius: 10, fontSize: 16, fontWeight: 700,
-                    cursor: 'pointer', fontFamily: 'inherit',
-                    border: `1px solid ${barbeiros === n ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
-                    background: barbeiros === n ? 'var(--cv-amarelo)' : 'var(--cv-card)',
-                    color: barbeiros === n ? 'var(--cv-amarelo-texto)' : 'var(--cv-ink)',
-                  }}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-
-            <Botao onClick={() => avancar(2)} style={{ marginTop: 28 }}>
-              Continuar <ArrowRight size={17} />
-            </Botao>
-          </section>
-        )}
-
-        {/* ── 2. A barbearia ──────────────────────────────────────────── */}
-        {passo === 2 && (
-          <section>
-            <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>Como se chama o teu negócio?</h1>
-            <p style={{ fontSize: 15, opacity: .8, margin: '0 0 28px', lineHeight: 1.6 }}>
-              O nome curto, o que dizes ao telefone. É só isto — o resto preenches no painel, quando quiseres.
-            </p>
-
-            <label style={rotulo}>Nome do negócio</label>
-            <input
-              style={{ ...campo, fontSize: 18, padding: '14px 16px' }}
-              value={barbearia.nome}
-              placeholder={{ barbearia: 'RC Cuts', cabeleireiro: 'Salão Bela', unhas: 'Nails by Ana', estetica: 'Espaço Pele' }[tipo] || 'RC Cuts'}
-              autoFocus
-              onChange={e => b('nome', e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter') avancar(3); }}
-            />
-
-            {/* O momento. O nome vira endereco enquanto ele escreve — e a
-                primeira vez que ve a coisa dele com o nome dele. Telefone,
-                morada e NIF sairam daqui: cada campo a mais, mesmo opcional,
-                e gente que fecha o separador. Pedem-se la dentro. */}
-            <div style={{
-              marginTop: 16, padding: '18px 20px', borderRadius: 14,
-              border: `1px solid ${slug ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
-              background: 'var(--cv-card)', transition: 'border-color .2s',
-            }}>
-              <div style={{ fontSize: 12, fontWeight: 600, opacity: .65, letterSpacing: .6 }}>O TEU SITE VAI SER</div>
-              <div style={{ fontSize: 'clamp(18px, 4.5vw, 24px)', fontWeight: 700, marginTop: 6, wordBreak: 'break-all', color: slug ? 'var(--cv-ink)' : 'var(--cv-ink-3)' }}>
-                {slug || 'o-teu-negocio'}<span style={{ opacity: .55, fontWeight: 500 }}>.marcacoes.app</span>
-              </div>
-              <div style={{ ...ajuda, marginTop: 8 }}>
-                {slug ? 'É este o endereço que vais partilhar no Instagram e no WhatsApp.' : 'Escreve o nome e vê o endereço nascer.'}
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: 12, marginTop: 28, alignItems: 'center' }}>
-              <button onClick={() => setPasso(1)} style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6, background: 'none',
-                border: 'none', cursor: 'pointer', font: 'inherit', opacity: .7, padding: 8,
-              }}>
-                <ArrowLeft size={16} /> Voltar
-              </button>
-              <Botao onClick={() => avancar(3)}>
-                Continuar <ArrowRight size={17} />
-              </Botao>
-            </div>
-            {erro && <Aviso texto={erro} />}
-          </section>
-        )}
-
-        {/* ── 3. A conta ──────────────────────────────────────────────── */}
-        {passo === 3 && (
-          <section>
-            <h1 style={{ fontSize: 30, lineHeight: 1.2, margin: '0 0 10px' }}>A tua conta</h1>
-            <p style={{ fontSize: 15, opacity: .8, margin: '0 0 28px', lineHeight: 1.6 }}>
-              É com este email e esta palavra-passe que entras no painel todos os dias.
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
-              <div>
-                <label style={rotulo}>O teu nome *</label>
-                <input style={campo} value={conta.nome} placeholder="Rui Costa" autoComplete="name"
-                       onChange={e => c('nome', e.target.value)} />
-              </div>
-              <div>
-                <label style={rotulo}>Email *</label>
-                <input style={campo} type="email" value={conta.email} placeholder="rui@exemplo.pt"
-                       autoComplete="email" onChange={e => c('email', e.target.value)} />
-              </div>
-              <div>
-                <label style={rotulo}>Telemóvel *</label>
-                <input style={campo} type="tel" inputMode="tel" value={conta.telefone}
-                       placeholder="912 345 678" autoComplete="tel"
-                       onChange={e => c('telefone', e.target.value)} />
-                <div style={ajuda}>Só para falarmos contigo se alguma coisa correr mal na montagem. Não vai para lado nenhum.</div>
-              </div>
-              <div>
-                <label style={rotulo}>Palavra-passe *</label>
-                <input style={campo} type="password" value={conta.password} autoComplete="new-password"
-                       placeholder="Pelo menos 8 caracteres"
-                       onChange={e => c('password', e.target.value)} />
-              </div>
-            </div>
-
-            {/* O preço é a última coisa que se vê (15/10/2026, pedido do Diogo). */}
-            <div style={{ marginTop: 28 }}>
-            <div style={{
-              padding: 20, borderRadius: 14,
-              border: '1px solid var(--cv-amarelo)', background: 'var(--cv-card)',
-            }}>
-              <div style={{ fontSize: 12, fontWeight: 600, opacity: .65, letterSpacing: .6 }}>
-                O PLANO QUE TE SERVE
-              </div>
-              <div style={{ fontSize: 22, fontWeight: 700, margin: '6px 0 2px' }}>{plano.nome}</div>
-              <div style={{ fontSize: 15 }}>
-                <strong style={{ fontSize: 24 }}>
-                  {periodo === 'quinzenal'
-                    ? euros(misto ? plano.precoQuinzenalMisto : plano.precoQuinzenal)
-                    : misto
-                    ? (periodo === 'anual' ? euros(plano.precoMesAnualMisto) : euros(plano.precoMisto))
-                    : (periodo === 'anual' ? euros(plano.precoMesAnual) : euros(plano.preco))}
-                </strong>
-                <span style={{ opacity: .7 }}>{periodo === 'quinzenal' ? ' de 15 em 15 dias' : ' por mês'}</span>
-                {periodo === 'anual' && (
-                  <span style={{ opacity: .7 }}> — {euros(misto ? plano.precoAnoMisto : plano.precoAno)} pagos de uma vez</span>
-                )}
-              </div>
-              {misto && (
-                <div style={{ fontSize: 14, opacity: .8, marginTop: 4 }}>
-                  {euros(periodo === 'anual' ? plano.precoMesAnual : periodo === 'quinzenal' ? plano.precoQuinzenal : plano.preco)} do plano + metade pelo segundo tipo.
-                </div>
-              )}
-              <div style={{ ...ajuda, marginTop: 8 }}>
-                {misto ? `${plano.profissionaisTexto} por área — ${plano.profissionais * 2} no total.` : `${plano.profissionaisTexto}. ${plano.resumo}`}
-              </div>
-
-              <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
-                {['quinzenal', 'mensal', 'anual'].map(p => (
-                  <button
-                    key={p}
-                    onClick={() => setPeriodo(p)}
-                    style={{
-                      padding: '7px 14px', borderRadius: 100, fontSize: 13, fontWeight: 600,
-                      cursor: 'pointer', fontFamily: 'inherit',
-                      border: `1px solid ${periodo === p ? 'var(--cv-amarelo)' : 'var(--cv-linha)'}`,
-                      background: periodo === p ? 'var(--cv-amarelo)' : 'transparent',
-                      color: periodo === p ? 'var(--cv-amarelo-texto)' : 'var(--cv-ink)',
-                    }}
-                  >
-                    {p === 'mensal' ? 'Mensal' : p === 'quinzenal' ? '15 em 15 dias' : `Anual, −${Math.round(DESCONTO_ANUAL * 100)} %`}
+          {passo === 3 && (
+            <section>
+              <h1 style={titulo}>Quantas pessoas trabalham {misto ? 'no espaço' : 'contigo'}?</h1>
+              <p style={sub}>Contando contigo.</p>
+              <div style={{ display: 'grid', gap: 10 }}>
+                {EQUIPA.map(o => (
+                  <button key={o.n} type="button" onClick={() => { setBarbeiros(o.n); setPlanoEscolhido(null); }} style={linhaOpcao(barbeiros === o.n)}>
+                    {o.l}{barbeiros === o.n && <Check size={20} />}
                   </button>
                 ))}
               </div>
+            </section>
+          )}
 
-            </div>
-            </div>
+          {passo === 4 && (
+            <section>
+              <h1 style={titulo}>Cria a tua conta</h1>
+              <p style={sub}>É com isto que entras no painel.</p>
+              <div style={{ display: 'grid', gap: 14 }}>
+                <input style={campo} value={conta.nome} placeholder="O teu nome" autoComplete="name" onChange={e => c('nome', e.target.value)} />
+                <input style={campo} type="email" value={conta.email} placeholder="Email" autoComplete="email" onChange={e => c('email', e.target.value)} />
+                <input style={campo} type="tel" inputMode="tel" value={conta.telefone} placeholder="Telemóvel" autoComplete="tel" onChange={e => c('telefone', e.target.value)} />
+                <input style={campo} type="password" value={conta.password} placeholder="Palavra-passe (mínimo 8)" autoComplete="new-password" onChange={e => c('password', e.target.value)} />
+              </div>
+            </section>
+          )}
 
-            {/* ── Juntar mais alguma coisa? (15/10/2026) ─────────────── */}
-            <div style={{ marginTop: 28 }}>
-              <div style={{ fontSize: 17, fontWeight: 700, marginBottom: 4 }}>Queres juntar mais alguma coisa?</div>
-              <div style={{ ...ajuda, marginBottom: 12 }}>Podes juntar ou tirar depois, no painel.</div>
+          {passo === 5 && (
+            <section>
+              <h1 style={titulo}>O teu plano</h1>
+              <p style={sub}>Hoje não pagas nada. Experimentas primeiro.</p>
+
+              <div className="cm-plano">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}>
+                  <strong style={{ fontSize: 20 }}>{plano.nome}</strong>
+                  <span>
+                    <strong style={{ fontSize: 24 }}>
+                      {periodo === 'quinzenal'
+                        ? euros(misto ? plano.precoQuinzenalMisto : plano.precoQuinzenal)
+                        : periodo === 'anual'
+                          ? euros(misto ? plano.precoMesAnualMisto : plano.precoMesAnual)
+                          : euros(misto ? plano.precoMisto : plano.preco)}
+                    </strong>
+                    <span style={{ color: 'var(--cv-ink-3)' }}>{periodo === 'quinzenal' ? ' /15 dias' : ' /mês'}</span>
+                  </span>
+                </div>
+                <div className="cm-periodos">
+                  {['quinzenal', 'mensal', 'anual'].map(p => (
+                    <button key={p} type="button" onClick={() => setPeriodo(p)} className={periodo === p ? 'on' : ''}>
+                      {p === 'mensal' ? 'Mensal' : p === 'quinzenal' ? '15 dias' : `Anual −${Math.round(DESCONTO_ANUAL * 100)}%`}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               {(() => {
                 const incluido = ['profissional', 'business'].includes(planoId);
-                const preco = periodo === 'quinzenal' ? '+2,49 € de 15 em 15 dias' : periodo === 'anual' ? '+50,90 € por ano' : '+4,99 € por mês';
+                const preco = periodo === 'quinzenal' ? '+2,49 €' : periodo === 'anual' ? '+50,90 €/ano' : '+4,99 €';
                 const on = incluido || comPagamentos;
                 return (
-                  <button type="button" aria-pressed={on} disabled={incluido} onClick={() => setComPagamentos(v => !v)} style={cartaoExtra(on)}>
+                  <button type="button" aria-pressed={on} disabled={incluido} onClick={() => setComPagamentos(v => !v)}
+                    style={{ ...linhaOpcao(on), marginTop: 12, alignItems: 'center', gap: 12 }}>
                     <span style={caixinha(on)}>{on && <Check size={15} />}</span>
                     <span style={{ flex: 1, minWidth: 0 }}>
-                      <strong style={{ display: 'block', fontSize: 15.5 }}>Pagamentos online</strong>
-                      <span style={{ display: 'block', fontSize: 14, opacity: .75, lineHeight: 1.5 }}>O cliente paga ao marcar: acabam as faltas. O dinheiro cai na tua conta.</span>
-                      <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 8 }}>
+                      Pagamentos online
+                      <span style={{ display: 'flex', gap: 5, marginTop: 8 }}>
                         {['visa', 'mastercard', 'applepay', 'googlepay', 'mbway'].map(id => (
-                          <span key={id} style={{ width: 44, height: 28, boxSizing: 'border-box', padding: '0 4px', borderRadius: 6, background: '#fff', border: '1px solid var(--cv-linha)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <img src={`/pagamentos/${id}.png`} alt="" style={{ display: 'block', maxHeight: 14, maxWidth: '100%', width: 'auto', height: 'auto' }} />
-                          </span>
+                          <span key={id} className="cm-logo"><img src={`/pagamentos/${id}.png`} alt="" /></span>
                         ))}
                       </span>
                     </span>
-                    <span style={{ fontSize: 13.5, fontWeight: 700, whiteSpace: 'nowrap', color: incluido ? '#15803D' : 'var(--cv-ink)' }}>
-                      {incluido ? 'Incluído' : preco}
-                    </span>
+                    <span style={{ fontSize: 14, whiteSpace: 'nowrap', color: incluido ? '#15803D' : 'var(--cv-ink)' }}>{incluido ? 'Incluído' : preco}</span>
                   </button>
                 );
               })()}
 
-              {(() => {
-                const base = misto ? lados[0] : tipo;
-                const nomeDe = v => TIPOS_NEGOCIO.find(t => t.v === v)?.l || v;
-                const metade = periodo === 'quinzenal' ? `+${euros(plano.precoQuinzenalMisto - plano.precoQuinzenal)} de 15 em 15 dias` : periodo === 'anual' ? `+${euros(plano.precoMesAnualMisto - plano.precoMesAnual)} por mês` : `+${euros(plano.precoMisto - plano.preco)} por mês`;
-                return (
-                  <div style={{ ...cartaoExtra(misto), display: 'block', marginTop: 10, cursor: 'default' }}>
-                    <button type="button" aria-pressed={misto}
-                      onClick={() => { if (misto) { setTipo(lados[0]); setAEscolherSegundo(false); } else setAEscolherSegundo(v => !v); }}
-                      style={{ display: 'flex', gap: 12, alignItems: 'flex-start', width: '100%', background: 'none', border: 0, padding: 0, font: 'inherit', color: 'inherit', textAlign: 'left', cursor: 'pointer' }}>
-                      <span style={caixinha(misto)}>{misto && <Check size={15} />}</span>
-                      <span style={{ flex: 1, minWidth: 0 }}>
-                        <strong style={{ display: 'block', fontSize: 15.5 }}>Outro tipo de negócio no mesmo espaço</strong>
-                        <span style={{ display: 'block', fontSize: 14, opacity: .75, lineHeight: 1.5 }}>
-                          {misto ? `${nomeDe(lados[0])} + ${nomeDe(lados[1])}: duas apps, a mesma conta.` : 'Duas apps numa só, com o mesmo login. Cada uma com o seu site.'}
-                        </span>
-                      </span>
-                      <span style={{ fontSize: 13.5, fontWeight: 700, whiteSpace: 'nowrap' }}>{metade}</span>
-                    </button>
-                    {!misto && aEscolherSegundo && (
-                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 12, paddingLeft: 34 }}>
-                        {TIPOS_NEGOCIO.filter(t => t.v !== 'misto' && t.v !== base).map(t => (
-                          <button key={t.v} type="button" onClick={() => { setLados([base, t.v]); setTipo('misto'); setAEscolherSegundo(false); }}
-                            style={{ padding: '8px 14px', borderRadius: 100, border: '1px solid var(--cv-linha)', background: 'var(--cv-ground)', font: 'inherit', fontSize: 14, fontWeight: 600, cursor: 'pointer', color: 'var(--cv-ink)' }}>
-                            {t.l}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              })()}
-            </div>
+              <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer', marginTop: 20, fontSize: 14, lineHeight: 1.5, color: 'var(--cv-ink-2)' }}>
+                <input type="checkbox" checked={aceita} onChange={e => { setAceita(e.target.checked); setErro(''); }}
+                  style={{ width: 20, height: 20, marginTop: 1, flexShrink: 0, accentColor: '#1a1714' }} />
+                <span>
+                  Aceito os <Link to="/termos" target="_blank">Termos</Link>, a{' '}
+                  <Link to="/privacidade" target="_blank">Privacidade</Link> e o{' '}
+                  <Link to="/acordo-rgpd" target="_blank">Acordo RGPD</Link>.
+                </span>
+              </label>
+            </section>
+          )}
 
-            <div style={{
-              marginTop: 24, padding: 16, borderRadius: 12,
-              border: '1px solid var(--cv-linha)', background: 'var(--cv-card)',
-              fontSize: 14, lineHeight: 1.6,
-            }}>
-              <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                <Check size={18} style={{ color: 'var(--cv-amarelo)', flexShrink: 0, marginTop: 2 }} />
-                <div>
-                  <strong>Hoje não pagas nada.</strong> O cartão só é pedido lá dentro,
-                  depois de veres o painel montado.
-                </div>
-              </div>
-            </div>
+          {erro && <Aviso texto={erro} />}
+        </main>
 
-            <div style={{ display: 'flex', gap: 12, marginTop: 28, alignItems: 'center', flexWrap: 'wrap' }}>
-              <button onClick={() => setPasso(2)} style={{
-                display: 'inline-flex', alignItems: 'center', gap: 6, background: 'none',
-                border: 'none', cursor: 'pointer', font: 'inherit', opacity: .7, padding: 8,
-              }}>
-                <ArrowLeft size={16} /> Voltar
-              </button>
-              <Botao onClick={registar} disabled={aEnviar}>
-                {aEnviar ? 'A criar…' : <>Criar a minha conta <ArrowRight size={17} /></>}
-              </Botao>
-            </div>
-
-            {erro && <Aviso texto={erro} />}
-
-            <label style={{ ...ajuda, marginTop: 20, display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer' }}>
-              <input type="checkbox" checked={aceita} onChange={e => { setAceita(e.target.checked); setErro(''); }}
-                style={{ width: 18, height: 18, marginTop: 2, flexShrink: 0, accentColor: '#1a1714' }} />
-              <span>
-                Li e aceito os <Link to="/termos" target="_blank">Termos</Link>, a{' '}
-                <Link to="/privacidade" target="_blank">Política de Privacidade</Link> e o{' '}
-                <Link to="/acordo-rgpd" target="_blank">Acordo de subcontratação de dados (RGPD)</Link>.
-              </span>
-            </label>
-          </section>
-        )}
-        </>)}
-      </main>
+        <footer className="cm-baixo">
+          <button type="button" className="cm-continuar" onClick={seguinte} disabled={aEnviar}>
+            {passo < TOTAL ? <>Continuar <ArrowRight size={18} /></> : aEnviar ? 'A criar…' : <>Criar a minha conta <ArrowRight size={18} /></>}
+          </button>
+        </footer>
+      </div>
     </>
   );
 }

@@ -58,15 +58,14 @@ const Paginas = () => {
       </div>
     }>
       <Routes>
+        {/* O registo fica FORA do SiteLayout desde 15/10/2026: no telemóvel é
+            um ecrã de app (como o da Fresha), com seta para voltar ao site. */}
+        <Route path="/comecar" element={<Comecar />} />
         <Route element={<SiteLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/funcionalidades" element={<Funcionalidades />} />
           <Route path="/como-funciona" element={<ComoFunciona />} />
           <Route path="/precos" element={<Precos />} />
-          {/* O registo da barbearia. Fica dentro do SiteLayout de proposito:
-              quem hesita a meio do formulario tem de poder ir aos Precos ou
-              aos Termos e voltar, em vez de ficar preso num ecra sem saida. */}
-          <Route path="/comecar" element={<Comecar />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/instagram" element={<Instagram />} />

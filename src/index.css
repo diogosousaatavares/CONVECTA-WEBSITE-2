@@ -2083,3 +2083,29 @@ html, body { touch-action: manipulation; }
 @media (max-width: 767px) {
   input, select, textarea { font-size: 16px !important; }
 }
+
+/* ── /comecar como uma app (15/10/2026, referência: registo da Fresha) ──
+   Um ecrã, uma pergunta: barra de progresso em cima, seta para voltar,
+   título grande e o botão «Continuar» sempre em baixo. Sem barra do site. */
+.cm { min-height: 100vh; min-height: 100dvh; background: var(--cv-ground); color: var(--cv-ink); display: flex; flex-direction: column; }
+.cm-topo { position: sticky; top: 0; z-index: 5; background: var(--cv-ground); padding: calc(10px + env(safe-area-inset-top, 0px)) 20px 6px; max-width: 560px; width: 100%; margin: 0 auto; box-sizing: border-box; }
+.cm-progresso { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; }
+.cm-progresso span { height: 4px; border-radius: 4px; background: var(--cv-linha); }
+.cm-progresso span.on { background: var(--cv-ink); }
+.cm-voltar { margin: 14px 0 0 -8px; width: 44px; height: 44px; display: grid; place-items: center; border: 0; background: none; color: var(--cv-ink); cursor: pointer; border-radius: 50%; }
+.cm-corpo { flex: 1; width: 100%; max-width: 560px; margin: 0 auto; padding: 8px 20px 120px; box-sizing: border-box; }
+.cm-endereco { margin: 12px 2px 0; font-size: 15px; font-weight: 600; color: var(--cv-ink); word-break: break-all; }
+.cm-endereco span { color: var(--cv-ink-3); font-weight: 500; }
+.cm-grelha { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cm-tile { position: relative; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 28px; min-height: 118px; padding: 18px 16px; border-radius: 16px; border: 1.5px solid var(--cv-linha); background: var(--cv-card); color: var(--cv-ink); font: inherit; font-size: 15px; font-weight: 600; text-align: left; cursor: pointer; }
+.cm-tile.on { border-color: var(--cv-ink); box-shadow: inset 0 0 0 1px var(--cv-ink); }
+.cm-principal { position: absolute; top: 10px; right: 10px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; background: var(--cv-amarelo); color: var(--cv-amarelo-texto); }
+.cm-plano { padding: 18px 16px; border-radius: 16px; border: 1.5px solid var(--cv-ink); background: var(--cv-card); }
+.cm-periodos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 14px; }
+.cm-periodos button { padding: 10px 4px; border-radius: 10px; border: 1px solid var(--cv-linha); background: transparent; font: inherit; font-size: 14px; font-weight: 600; color: var(--cv-ink); cursor: pointer; }
+.cm-periodos button.on { background: var(--cv-ink); color: #fff; border-color: var(--cv-ink); }
+.cm-logo { width: 38px; height: 24px; box-sizing: border-box; padding: 0 4px; border-radius: 5px; background: #fff; border: 1px solid var(--cv-linha); display: inline-flex; align-items: center; justify-content: center; }
+.cm-logo img { display: block; max-height: 12px; max-width: 100%; width: auto; height: auto; }
+.cm-baixo { position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; background: linear-gradient(to top, var(--cv-ground) 70%, transparent); padding: 18px 20px calc(16px + env(safe-area-inset-bottom, 0px)); }
+.cm-continuar { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; max-width: 520px; margin: 0 auto; padding: 16px; border-radius: 999px; border: 0; background: var(--cv-ink); color: #fff; font: inherit; font-size: 16px; font-weight: 700; cursor: pointer; }
+.cm-continuar:disabled { opacity: .6; cursor: default; }
