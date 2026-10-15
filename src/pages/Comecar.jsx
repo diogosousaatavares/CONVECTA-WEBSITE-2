@@ -67,6 +67,21 @@ function slugDe(nome) {
 }
 
 const PAINEL = 'https://administrador.marcacoes.app';
+
+/*
+ * A SESSÃO VAI NO ENDEREÇO (15/10/2026). O site e o painel são domínios
+ * diferentes e não partilham a sessão. Leva-se a sessão no fragmento (#),
+ * no formato que o supabase-js do painel já sabe ler sozinho — e ele entra
+ * sem escrever a palavra-passe outra vez. O fragmento nunca vai ao servidor.
+ */
+function sessaoNoEndereco(session) {
+  if (!session?.access_token || !session?.refresh_token) return '';
+  const p = new URLSearchParams({
+    access_token: session.access_token, refresh_token: session.refresh_token,
+    expires_in: String(session.expires_in || 3600), token_type: 'bearer', type: 'signup',
+  });
+  return `#${p.toString()}`;
+}
 const ETAPAS = ['Plano', 'Negócio', 'Conta'];
 
 /* O tipo de negócio (10/10/2026). Vai para a função registar-barbearia, que
@@ -262,12 +277,13 @@ export default function Comecar() {
     const { data, error } = await sb.functions.invoke('registar-barbearia', { body: dadosDaBarbearia() });
     let motivo = data?.erro;
     if (error && !motivo) { try { motivo = (await error.context?.json())?.erro; } catch { motivo = ''; } motivo = motivo || error.message; }
+    const { data: { session } } = await sb.auth.getSession();
     await sb.auth.signOut().catch(() => {});
     if (motivo) { setErro(motivo); return true; }
     if (data?.jaExistia) { setErro(`Essa conta já tem o negócio «${data.nome || data.slug}». Entra no painel para a usares.`); return true; }
     try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo, contaExistente: true }); } catch { /* sem analytics */ }
     enviarRespostas();
-    window.location.href = `${PAINEL}/entrar`;
+    window.location.href = `${PAINEL}/entrar${sessaoNoEndereco(session)}`;
     return true;
   }
 
@@ -339,7 +355,7 @@ export default function Comecar() {
        */
       if (data?.session) {
         enviarRespostas();
-        window.location.href = `${PAINEL}/entrar`;
+        window.location.href = `${PAINEL}/entrar${sessaoNoEndereco(data.session)}`;
         return;
       }
 
