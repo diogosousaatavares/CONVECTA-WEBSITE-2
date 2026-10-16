@@ -8,6 +8,8 @@ export const CAMINHOS_CONTEUDO = [
   "/sobre",
   "/agenda-online-barbearia",
   "/marcacoes-online-barbearia",
+  "/marcacoes-online",
+  "/agendamento-online",
   "/gestao-barbearia",
   "/gestao-clientes-barbearia",
   "/comissoes-barbeiros",

@@ -222,7 +222,7 @@ export const BLOG_INDICE = {
   tituloSeo: "Blog — guias para donos de barbearia em Portugal | Convecta",
   descricao: "Guias práticos para gerir uma barbearia em Portugal: software de marcações, marketplaces e comissões, preços reais, faltas, comissões dos barbeiros. Escritos pela Convecta, com datas e fontes.",
   olho: "Blog",
-  lead: "Guias curtos, com números e fontes, sobre o que trava o dia de uma barbearia. Escritos por quem faz a Convecta — e diz quando está a falar da Convecta.",
+  lead: "Guias curtos, com números e fontes, sobre o que trava o dia de uma barbearia. Escritos pela equipa da Convecta — e dizem quando estão a falar da Convecta.",
   atualizado: ATUALIZADO,
   blocos: [
     { tipo: "ligacoes", itens: ARTIGOS.map((a) => ({ titulo: a.titulo, caminho: a.caminho, texto: a.resumo })) },

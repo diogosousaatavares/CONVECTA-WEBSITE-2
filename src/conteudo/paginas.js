@@ -91,7 +91,7 @@ export const PILAR = {
       { q: "Onde ficam os dados?", a: "Na União Europeia, numa base de dados isolada por barbearia: uma barbearia nunca vê os dados de outra. A Convecta é responsável pelo tratamento nos termos do RGPD e assina um acordo de subcontratação com cada barbearia ([ver o acordo](/acordo-rgpd))." },
     ] },
     h2("Quem faz a Convecta", "quem"),
-    p(`A Convecta é feita por ${SITE.titular}, em Alfena, no concelho de Valongo, distrito do Porto. Visita as barbearias, configura o sistema com o dono e dá suporte por telefone e WhatsApp em dias úteis. Mais em [Sobre a Convecta](/sobre).`),
+    p(`A Convecta é uma empresa portuguesa, com sede em Alfena, no concelho de Valongo, distrito do Porto. A equipa comercial visita as barbearias e configura o sistema com o dono; a equipa de suporte responde por telefone e WhatsApp em dias úteis; a equipa de produto constrói o sistema a partir do que ouve nas barbearias. O responsável é Diogo Tavares. Mais em [Sobre a Convecta](/sobre).`),
   ],
   fecho: { titulo: "Experimenta na tua barbearia. 14 dias à experiência, sem comissões." },
 };
@@ -100,10 +100,10 @@ export const PILAR = {
 export const SOBRE = {
   caminho: "/sobre",
   titulo: "Sobre a Convecta",
-  tituloSeo: "Sobre a Convecta — quem faz o software de marcações para barbearias, salões e estética",
-  descricao: "A Convecta é um software de marcações e gestão para barbearias, salões e estética, feito em Alfena (Valongo, Porto) por Diogo Tavares. Quem somos, onde estamos, como trabalhamos e os dados legais.",
+  tituloSeo: "Sobre a Convecta — software de marcações online para barbearias, salões e estética",
+  descricao: "A Convecta é uma empresa portuguesa de software de marcações online e gestão para barbearias, salões e estética, com sede no Porto. Quem somos, onde estamos, como trabalhamos e os dados legais.",
   olho: "Quem somos",
-  lead: "Marcações online e gestão para barbearias, salões e estética, feito no Porto por quem vai lá a cada porta.",
+  lead: "Marcações online e gestão para barbearias, salões e estética. Uma empresa portuguesa, do Porto, que vai a cada porta.",
   atualizado: ATUALIZADO,
   tipo: "sobre",
   blocos: [
@@ -118,12 +118,12 @@ export const SOBRE = {
       ["Idioma", "Português de Portugal"],
       ["Dados", "Guardados na União Europeia, isolados por negócio, com acordo de subcontratação RGPD"],
       ["Suporte", "Telefone e WhatsApp em dias úteis; visita ao teu negócio para configurar, no Grande Porto"],
-      ["Responsável", `${SITE.titular}, empresário em nome individual, NIF ${SITE.nif}`],
+      ["Responsável legal", `${SITE.titular}, NIF ${SITE.nif}`],
       ["Morada", `${SITE.morada.rua}, ${SITE.morada.codigoPostal} ${SITE.morada.cidade}, Portugal`],
       ["Contacto", `${SITE.email} · ${SITE.telefone}`],
     ] },
     h2("Quem faz"),
-    p(`A Convecta é feita por ${SITE.titular} (Diogo Tavares), de Alfena, concelho de Valongo. Não é uma empresa de software com dezenas de pessoas: é uma pessoa que vai às barbearias e aos salões, ouve o que trava o dia de quem lá trabalha, e constrói o sistema à volta disso. É por isso que a Convecta faz menos coisas do que os programas genéricos — e faz as que um negócio destes usa todos os dias.`),
+    p("A Convecta é uma empresa portuguesa com sede em Alfena, concelho de Valongo, no Grande Porto. Tem três equipas: a comercial, que vai às barbearias e aos salões e configura o sistema com o dono; o suporte, que responde por telefone e WhatsApp; e o produto, que constrói o sistema a partir do que se ouve nos negócios. O responsável é Diogo Tavares. É por isso que a Convecta faz menos coisas do que os programas genéricos — e faz as que um negócio destes usa todos os dias."),
     h2("Como trabalhamos"),
     lista([
       "**Só vendemos o que existe.** A lista do que a app faz, e do que ainda não faz, está pública em [Funcionalidades](/funcionalidades). Se uma coisa não grava no painel, não está no site.",
@@ -494,4 +494,111 @@ export const VS_ZAPPY = comparacao({
   ],
 });
 
-export const PAGINAS = [PILAR, SOBRE, AGENDA, MARCACOES, GESTAO, CLIENTES, COMISSOES, APP, VS_FRESHA, VS_TREATWELL, VS_BOOKSY, VS_BUK, VS_ZAPPY];
+
+/* ───────────── Páginas genéricas (16/10/2026): «marcações online» e
+   «agendamento online» sem o nicho no nome, para quem pesquisa isso no
+   Google sem dizer barbearia. ───────────── */
+const generica = ({ caminho, titulo, tituloSeo, descricao, olho, lead, blocos, faq }) => ({
+  caminho, titulo, tituloSeo, descricao, olho, lead, atualizado: "2026-10-16",
+  migalhas: [{ nome: "Funcionalidades", caminho: "/funcionalidades" }],
+  blocos: [
+    ...blocos,
+    h2("Perguntas frequentes"),
+    { tipo: "faq", itens: faq },
+    h2("Para o teu tipo de negócio"),
+    { tipo: "ligacoes", itens: [
+      { titulo: "Software para barbearias", caminho: "/software-para-barbearias", texto: "Agenda por barbeiro, comissões, caixa e cartão de fidelidade." },
+      { titulo: "Marcações online para barbearias", caminho: "/marcacoes-online-barbearia", texto: "O site da barbearia com marcações 24/7." },
+      { titulo: "A app com o nome do teu negócio", caminho: "/app-para-barbearia", texto: "Guarda-se no telemóvel do cliente, sem loja de apps." },
+      { titulo: "Preços", caminho: "/precos", texto: PRECO_FRASE },
+    ] },
+  ],
+  faq,
+});
+
+export const MARCACOES_ONLINE = generica({
+  caminho: "/marcacoes-online",
+  titulo: "Marcações online para o teu negócio",
+  tituloSeo: "Marcações online — sistema de marcações para barbearias, salões, unhas e estética",
+  descricao: "Sistema de marcações online em Portugal: os clientes marcam sozinhos no site do teu negócio, a qualquer hora, e tu recebes a notificação no telemóvel. Para barbearias, cabeleireiros, unhas, estética e clínicas. Desde 19,99 €/mês, sem comissões.",
+  olho: "Marcações online",
+  lead: "Os teus clientes marcam sozinhos, a qualquer hora, no site com o nome do teu negócio. O telemóvel só toca para te avisar que entrou mais uma.",
+  blocos: [
+    p("Marcações online são marcações que o cliente faz sozinho, pelo telemóvel, sem te ligar nem mandar mensagem: escolhe o serviço, a pessoa e a hora entre as que estão livres, e a marcação entra na tua agenda na hora. A Convecta dá a cada negócio o seu site de marcações, com o nome, o logótipo e as cores dele, e um painel para gerir o dia."),
+    h2("Como funciona"),
+    { tipo: "ol", itens: [
+      "Crias a conta em dois minutos: nome do negócio, tipo (barbearia, cabeleireiro, unhas, estética, clínica), serviços e horário.",
+      "Recebes o teu link — o-teu-negocio.marcacoes.app — e pões no Instagram, no Google e no WhatsApp.",
+      "O cliente abre o link, escolhe serviço, profissional e hora, e confirma. Tu recebes a notificação no telemóvel.",
+      "Antes da marcação, o cliente recebe um aviso. Se não puder vir, desmarca sozinho e a hora volta a ficar livre.",
+    ] },
+    h2("Para que negócios serve"),
+    lista([
+      "**Barbearias** — agenda por barbeiro, comissões, caixa e cartão de fidelidade.",
+      "**Salões de cabeleireiro** — serviços com duração diferente por profissional, coloração e tratamentos.",
+      "**Unhas e estética** — serviços longos, sinal ao marcar para acabar com as faltas, fotos dos trabalhos.",
+      "**Clínicas e consultórios** — avaliações gratuitas, consultas presenciais ou por videochamada.",
+      "**Espaços mistos** — barbearia e unhas no mesmo espaço, cada um com a sua app e o seu link, no mesmo login.",
+    ]),
+    h2("O que ganhas com marcações online"),
+    lista([
+      "**Menos telefone.** O cliente marca às 23h no sofá; tu vês de manhã.",
+      "**Menos faltas.** Aviso automático antes da marcação, e pagamento online (metade ou tudo) nos serviços que escolheres.",
+      "**Agenda sempre certa.** Só aparecem horas livres; não há marcações em cima umas das outras.",
+      "**Clientes que voltam.** Cartão de fidelidade digital, histórico de visitas e aniversários.",
+      "**Sem comissões.** Pagas a mensalidade e mais nada — cada marcação é tua.",
+    ]),
+    h2("O que o cliente vê"),
+    p("Um site com o teu nome e as tuas cores, que se guarda no ecrã do telemóvel como uma app. Nunca vê a marca Convecta nem outras barbearias ou salões: só o teu negócio. Não precisa de instalar nada nem de ir a uma loja de apps."),
+    h2("Quanto custa"),
+    p(`${PRECO_FRASE} Experimentas 14 dias sem cartão. Os pagamentos online são um extra; o dinheiro vai direto para a tua conta.`),
+    { tipo: "cta", texto: "Criar o meu site de marcações", secundario: { caminho: "/precos", texto: "Ver os planos" } },
+  ],
+  faq: [
+    { q: "Os clientes têm de instalar uma app?", a: "Não. Abrem o teu link no browser e, se quiserem, guardam-no no ecrã principal — fica como uma app, com o teu logótipo e notificações." },
+    { q: "Posso escolher quem pode marcar o quê?", a: "Sim. Defines os serviços, a duração, quem os faz, o horário de cada pessoa e até quando se pode marcar (2 semanas, 1 mês, 2 meses…)." },
+    { q: "E se o cliente não aparecer?", a: "Recebe um aviso antes da marcação e pode desmarcar sozinho até ao prazo que definires. Podes ainda pedir metade ou o valor todo ao marcar, nos serviços que quiseres." },
+    { q: "Serve para mais do que uma pessoa?", a: "Sim: de 1 a 15 profissionais, cada um com a sua coluna na agenda, o seu horário e a sua comissão." },
+    { q: "Tenho barbearia e unhas no mesmo espaço. Dá?", a: "Dá. Cada tipo tem a sua app e o seu link, com os seus serviços e a sua equipa, e tu trocas entre os dois no mesmo painel." },
+  ],
+});
+
+export const AGENDAMENTO_ONLINE = generica({
+  caminho: "/agendamento-online",
+  titulo: "Agendamento online para barbearias, salões e estética",
+  tituloSeo: "Agendamento online — sistema de agendamento para barbearias, salões, unhas e estética",
+  descricao: "Sistema de agendamento online em Portugal: agenda por profissional, os clientes agendam sozinhos pelo site do teu negócio, avisos automáticos, pagamento ao agendar e cartão de fidelidade. Desde 19,99 €/mês, sem comissões.",
+  olho: "Agendamento online",
+  lead: "Uma agenda que se enche sozinha: o cliente agenda pelo teu link, tu recebes a notificação, e o dia fica organizado por profissional.",
+  blocos: [
+    p("Agendamento online é o mesmo que marcações online: o cliente escolhe serviço, profissional e hora no site do teu negócio, e a marcação entra na agenda sem ninguém atender o telefone. A Convecta é um sistema de agendamento feito em Portugal para barbearias, salões de cabeleireiro, unhas, estética e clínicas — com a agenda, a caixa, as comissões e o cartão de fidelidade no mesmo painel."),
+    h2("A agenda, por dentro"),
+    lista([
+      "**Uma coluna por profissional**, com o horário de cada um, as pausas e as férias.",
+      "**Vistas de dia, 3 dias, semana e mês**, no telemóvel e no computador.",
+      "**Horas certas ou encostadas**: abres vagas de 30 em 30 minutos, de hora em hora, ou cada vaga começa onde a anterior acabou.",
+      "**Bloqueios** para almoço, formação ou uma saída — o cliente não vê essas horas.",
+      "**Lista de espera** para os dias cheios: quando vaga uma hora, avisas o primeiro da lista.",
+    ]),
+    h2("O que acontece depois de agendar"),
+    { tipo: "ol", itens: [
+      "O cliente recebe a confirmação no telemóvel (automática, ou depois de tu confirmares com um toque).",
+      "Horas antes, recebe um aviso. Pode desmarcar sozinho até ao prazo que definires.",
+      "No dia, confirmas a presença, fechas a conta — serviço, produtos, forma de pagamento — e a caixa, a comissão e o stock ficam certos sozinhos.",
+      "O carimbo do cartão de fidelidade entra; ao fim de X visitas, a seguinte é grátis.",
+    ] },
+    h2("Agendamento com pagamento"),
+    p("Nos serviços em que as faltas custam caro, podes pedir metade ou o valor todo ao agendar — cartão, Apple Pay, Google Pay ou MB WAY. O dinheiro vai direto para a tua conta; a Convecta não fica com nada."),
+    h2("Quanto custa"),
+    p(`${PRECO_FRASE} Sem comissões por agendamento, sem custo por mensagem, 14 dias à experiência.`),
+    { tipo: "cta", texto: "Começar grátis", secundario: { caminho: "/como-funciona", texto: "Ver como funciona" } },
+  ],
+  faq: [
+    { q: "Agendamento online e marcações online são a mesma coisa?", a: "Sim. Em Portugal diz-se mais «marcações»; no Brasil, «agendamento». A Convecta serve as duas." },
+    { q: "Posso agendar eu, no balcão ou ao telefone?", a: "Sim. Na agenda tocas numa hora livre e marcas em segundos, com ou sem ficha de cliente." },
+    { q: "O cliente pode reagendar?", a: "Pode desmarcar e marcar outra hora sozinho, dentro do prazo que definires. Tu reagendas no painel a qualquer momento." },
+    { q: "Dá para ver a agenda no computador e no telemóvel?", a: "Dá. É o mesmo painel; no telemóvel guarda-se no ecrã como uma app." },
+  ],
+});
+
+export const PAGINAS = [PILAR, SOBRE, AGENDA, MARCACOES, MARCACOES_ONLINE, AGENDAMENTO_ONLINE, GESTAO, CLIENTES, COMISSOES, APP, VS_FRESHA, VS_TREATWELL, VS_BOOKSY, VS_BUK, VS_ZAPPY];
