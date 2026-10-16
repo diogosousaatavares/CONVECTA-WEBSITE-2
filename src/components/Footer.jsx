@@ -42,6 +42,9 @@ export default function Footer() {
               <Link to="/comecar" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Começar
               </Link>
+              <a href="https://administrador.marcacoes.app/entrar" className="text-sm font-semibold hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink)" }}>
+                Iniciar sessão
+              </a>
             </div>
           </div>
 

@@ -4,6 +4,10 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ConvectaLogo from "@/components/ConvectaLogo";
 
+// Onde o dono entra no painel. Antes não havia nada no site a dizer isto e
+// os clientes perguntavam «onde é que inicio a sessão no computador?».
+export const PAINEL_ENTRAR = "https://administrador.marcacoes.app/entrar";
+
 const navLinks = [
   { label: "Software", path: "/software-para-barbearias" },
   { label: "Funcionalidades", path: "/funcionalidades" },
@@ -85,7 +89,12 @@ export default function Navbar() {
             })}
           </div>
 
-          <div className="hidden lg:block">
+          <div className="hidden lg:flex items-center gap-5">
+            <a href={PAINEL_ENTRAR}
+              className="text-sm font-semibold transition-opacity hover:opacity-70"
+              style={{ color: sobreVideo ? "#fff" : "var(--cv-ink)" }}>
+              Iniciar sessão
+            </a>
             {/* Cheio, nao contornado. Este e o unico botao da barra e e o
                 que paga o site: um botao de contorno le-se como secundario e
                 perde-se ao lado do menu. */}
@@ -176,7 +185,14 @@ export default function Navbar() {
                 })}
               </div>
 
-              <div className="mt-auto">
+              <div className="mt-auto flex flex-col gap-3">
+                <a
+                  href={PAINEL_ENTRAR}
+                  className="w-full block text-center px-6 py-3.5 text-sm font-semibold"
+                  style={{ border: "1px solid var(--cv-ink)", color: "var(--cv-ink)", borderRadius: 100 }}
+                >
+                  Iniciar sessão
+                </a>
                 <Link
                   to="/comecar"
                   onClick={() => setMobileOpen(false)}
