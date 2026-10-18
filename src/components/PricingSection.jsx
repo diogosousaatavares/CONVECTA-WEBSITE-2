@@ -204,7 +204,7 @@ function Item({ children, icone: Icone }) {
 }
 
 /* ── a seccao ───────────────────────────────────────────────────── */
-export default function PricingSection({ nivelTitulo = "h2" }) {
+export default function PricingSection({ nivelTitulo = "h2", semApelo = false }) {
   const Titulo = nivelTitulo;
   // os titulos nao podem saltar niveis: h1 -> h2, h2 -> h3
   const NivelNome = nivelTitulo === "h1" ? "h2" : "h3";
@@ -276,7 +276,9 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
         {/* O apelo. Ate aqui mandava-o ver uma barbearia de outra pessoa:
             agora monta-se a dele, com o nome dele. Ver a casa dos outros nao
             prende ninguem; ver a propria, prende. */}
-        <div className="pr-apelo">
+        {/* Na página inicial sai (18/10/2026): no lugar dele entra o
+            «Montar o meu negócio», logo a seguir aos planos. */}
+        {!semApelo && <div className="pr-apelo">
           <div>
             {React.createElement(NivelNome, { className: "cv-h3", style: { margin: 0 } }, "Vê-a com o teu nome, hoje.")}
           </div>
@@ -288,7 +290,7 @@ export default function PricingSection({ nivelTitulo = "h2" }) {
               Ver tudo o que faz
             </Link>
           </div>
-        </div>
+        </div>}
       </div>
     </section>
   );

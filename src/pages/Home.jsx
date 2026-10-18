@@ -99,14 +99,15 @@ export default function Home() {
       {/* ── 3. Personalização — o ponto forte, para experimentar ──── */}
       <PersonalizacaoDemo />
 
-      {/* ── 4. Acesso total (as provas) ─────────────────────────── */}
-      <AcessoTotal />
-
       {/* ── 5. Pagamentos online (15/10/2026) ───────────────────── */}
       <PagamentosOnline />
 
       {/* ── 6. Planos ───────────────────────────────────────────── */}
-      <PricingSection />
+      <PricingSection semApelo />
+
+      {/* ── 6b. Montar o meu negócio: logo a seguir aos planos, no lugar do
+          «Vê-a com o teu nome, hoje» (18/10/2026, pedido do Diogo) ──── */}
+      <AcessoTotal />
 
       {/* ── 7. Perguntas ────────────────────────────────────────── */}
       <section className="cv-wrap cv-sec">
