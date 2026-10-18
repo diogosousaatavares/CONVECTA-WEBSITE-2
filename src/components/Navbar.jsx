@@ -13,7 +13,6 @@ const navLinks = [
   { label: "Funcionalidades", path: "/funcionalidades" },
   { label: "Como Funciona", path: "/como-funciona" },
   { label: "Preços", path: "/precos" },
-  { label: "Blog", path: "/blog" },
   { label: "Contacto", path: "/contacto" },
 ];
 

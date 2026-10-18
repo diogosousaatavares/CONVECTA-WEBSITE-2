@@ -65,14 +65,7 @@ export default function PagamentosOnlinePagina() {
         ld={ld}
       />
 
-      {/* 1. A imagem primeiro */}
-      <section className="cv-wrap pol-capa">
-        <picture>
-          <source media="(max-width: 700px)" srcSet={`${CAPA}-900.jpg`} />
-          <img src={`${CAPA}.jpg`} width="1672" height="941" alt="Um cliente paga a marcação no telemóvel e o barbeiro recebe o pagamento na hora" fetchpriority="high" />
-        </picture>
-      </section>
-
+      {/* A imagem de capa saiu a 18/10/2026 (pedido do Diogo). */}
       <section className="cv-wrap pol-intro">
         <p className="cv-olho">Pagamentos online</p>
         <h1 className="cv-h1 pol-h1">O cliente paga ao marcar. <span className="cv-marca">Acabam as faltas.</span></h1>

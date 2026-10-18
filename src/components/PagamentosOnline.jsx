@@ -28,17 +28,8 @@ export default function PagamentosOnline() {
   return (
     <section id="pagamentos" className="cv-wrap cv-sec po" aria-labelledby="po-titulo">
       <div className="po2">
+        {/* Sem imagem (18/10/2026, pedido do Diogo). */}
         <ScrollReveal>
-          <Link to="/pagamentos-online" className="po2-imagem" aria-label="Saber mais sobre os pagamentos online">
-            <picture>
-              <source media="(max-width: 700px)" srcSet="/pagamentos/pagamentos-online-capa-v1-900.jpg" />
-              <img src="/pagamentos/pagamentos-online-capa-v1.jpg" width="1672" height="941" loading="lazy"
-                alt="Um cliente paga a marcação no telemóvel e o barbeiro recebe o pagamento" />
-            </picture>
-          </Link>
-        </ScrollReveal>
-
-        <ScrollReveal delay={0.08}>
           <div className="po2-texto">
             <p className="cv-olho">Pagamentos online</p>
             <h2 id="po-titulo" className="cv-h2 po-titulo">
