@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Check, Plus, Minus } from "lucide-react";
+import { ArrowRight, Check, Plus, Minus, Play } from "lucide-react";
 import Seo from "@/components/Seo";
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
@@ -20,6 +20,29 @@ import { migalhasLd, faqLd, SITE } from "@/lib/seo";
  * public/pagamentos/ e mudar CAPA aqui.
  */
 const CAPA = "/pagamentos/pagamentos-online-capa-v1";
+// O tutorial: como ligar a conta Stripe (18/10/2026).
+const VIDEO_ID = "ViSip1m6-K0";
+
+/* O vídeo só carrega o YouTube quando se carrega no play: a página não fica
+   mais pesada para quem não o vê. */
+function VideoTutorial() {
+  const [aVer, setAVer] = useState(false);
+  return (
+    <div className="pol-video">
+      {aVer ? (
+        <iframe src={`https://www.youtube-nocookie.com/embed/${VIDEO_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1&hl=pt`}
+          title="Como ligar os pagamentos online na Convecta"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+      ) : (
+        <button type="button" onClick={() => setAVer(true)} aria-label="Ver o vídeo: como ligar os pagamentos online">
+          <img src={`https://i.ytimg.com/vi/${VIDEO_ID}/hqdefault.jpg`} alt="" loading="lazy" />
+          <span className="pol-video-play"><Play size={26} fill="currentColor" /></span>
+          <span className="pol-video-txt">Vê como se liga, passo a passo</span>
+        </button>
+      )}
+    </div>
+  );
+}
 
 const LOGOS = [
   ["visa", "Visa"], ["mastercard", "Mastercard"], ["applepay", "Apple Pay"],
@@ -94,6 +117,7 @@ export default function PagamentosOnlinePagina() {
             </ScrollReveal>
           ))}
         </ol>
+        <ScrollReveal><VideoTutorial /></ScrollReveal>
       </section>
 
       {/* 3. Tu decides */}
