@@ -34,6 +34,7 @@ const Comecar = lazy(() => import('@/pages/Comecar'));
 const Funcionalidades = lazy(() => import('@/pages/Booking'));
 const ComoFunciona = lazy(() => import('@/pages/BookingSection'));
 const Conteudo = lazy(() => import('@/pages/Conteudo'));
+const PagamentosOnlinePagina = lazy(() => import('@/pages/PagamentosOnlinePagina'));
 import { CAMINHOS_CONTEUDO } from '@/conteudo/caminhos';
 
 // E um site publico: nao ha login, nao ha utilizadores, nao ha nada a
@@ -66,6 +67,7 @@ const Paginas = () => {
           <Route path="/funcionalidades" element={<Funcionalidades />} />
           <Route path="/como-funciona" element={<ComoFunciona />} />
           <Route path="/precos" element={<Precos />} />
+          <Route path="/pagamentos-online" element={<PagamentosOnlinePagina />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/contacto" element={<Contacto />} />
           <Route path="/instagram" element={<Instagram />} />

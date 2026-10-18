@@ -29,6 +29,7 @@ const ROTAS = [
   "/funcionalidades",
   "/como-funciona",
   "/precos",
+  "/pagamentos-online",
   "/comecar",
   "/faq",
   "/contacto",

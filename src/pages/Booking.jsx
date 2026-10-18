@@ -144,11 +144,6 @@ const AINDA_NAO = [
   },
   {
     icon: Ban,
-    titulo: "Pagamentos online pelo cliente",
-    texto: "O cliente paga no balcão, como sempre — dinheiro, MB Way, cartão, o que tu aceitares. A Convecta regista o método no checkout; não cobra ao cliente nem fica com nada.",
-  },
-  {
-    icon: Ban,
     titulo: "Assinaturas, pacotes e cupões",
     texto: "Não fazem parte da app hoje. Quando fizerem, aparecem aqui primeiro — não vendemos o que ainda não gravou uma única marcação.",
   },

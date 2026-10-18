@@ -36,6 +36,9 @@ export default function Footer() {
               <Link to="/como-funciona" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Como Funciona
               </Link>
+              <Link to="/pagamentos-online" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
+                Pagamentos online
+              </Link>
               <Link to="/precos" className="text-sm hover:opacity-70 transition-colors" style={{ color: "var(--cv-ink-2)" }}>
                 Preços
               </Link>
