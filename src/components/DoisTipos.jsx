@@ -36,12 +36,12 @@ export default function DoisTipos() {
       </h3>
 
       <div className="dt-conta">
-        <Icone src="/dois-tipos/barbearia.png" nome="Barbearia" legenda="a app dos cortes" i={0} />
+        <Icone src="/dois-tipos/barbearia.webp" nome="Barbearia" legenda="a app dos cortes" i={0} />
         <motion.span className="dt-sinal" aria-hidden="true" {...entrada(1)}>+</motion.span>
-        <Icone src="/dois-tipos/salao.png" nome="Salão" legenda="a app da estética" i={2} />
+        <Icone src="/dois-tipos/salao.webp" nome="Salão" legenda="a app da estética" i={2} />
         <motion.span className="dt-sinal" aria-hidden="true" {...entrada(3)}>=</motion.span>
         <motion.figure className="dt-app dt-resultado" {...entrada(4)}>
-          <img className="dt-icone" src="/dois-tipos/convecta.png" alt="Ícone da app Convecta" width="512" height="512" loading="lazy" />
+          <img className="dt-icone" src="/dois-tipos/convecta.webp" alt="Ícone da app Convecta" width="512" height="512" loading="lazy" />
           <figcaption><b>1 app de gestão</b><span>dois tipos, uma conta</span></figcaption>
         </motion.figure>
       </div>

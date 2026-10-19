@@ -91,16 +91,30 @@ export default function HeroVideo() {
     v.setAttribute("playsinline", "");
     v.setAttribute("webkit-playsinline", "");
     v.poster = qual.poster;
-    v.src = qual.src;
     if (navigator.connection?.saveData) { v.dataset.parado = "1"; return; }
     const tentar = () => v.play().catch(() => {});
     const aoTocar = () => { tentar(); tirar(); };
     const tirar = () => ["touchstart", "click", "scroll", "keydown"].forEach(e => window.removeEventListener(e, aoTocar));
-    v.play().catch(() => {
-      ["touchstart", "click", "scroll", "keydown"].forEach(e => window.addEventListener(e, aoTocar, { passive: true, once: true }));
-    });
-    v.addEventListener("canplay", tentar, { once: true });
-    return tirar;
+    /*
+     * O vídeo é fundo decorativo: a fotografia do topo (.hv-fundo) já está
+     * no ecrã. Carregá-lo só DEPOIS de a página pintar — senão ~1,7 MB
+     * competem com o que o cliente precisa de ver primeiro e atrasam tudo
+     * (Speed Index). Espera-se pelo 'load' e por um momento parado.
+     */
+    let cancelado = false;
+    const arrancar = () => {
+      if (cancelado || !ref.current) return;
+      const vv = ref.current;
+      vv.src = qual.src;
+      vv.play().catch(() => {
+        ["touchstart", "click", "scroll", "keydown"].forEach(e => window.addEventListener(e, aoTocar, { passive: true, once: true }));
+      });
+      vv.addEventListener("canplay", tentar, { once: true });
+    };
+    const agendar = () => (window.requestIdleCallback ? requestIdleCallback(arrancar, { timeout: 2500 }) : setTimeout(arrancar, 1200));
+    if (document.readyState === "complete") agendar();
+    else window.addEventListener("load", agendar, { once: true });
+    return () => { cancelado = true; tirar(); window.removeEventListener("load", agendar); };
   }, []);
 
   /*
@@ -134,7 +148,7 @@ export default function HeroVideo() {
     <section id="solucoes" className="hv">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="hv-fundo" aria-hidden="true" />
-      <video ref={ref} className="hv-video" muted loop playsInline preload="auto" aria-hidden="true" />
+      <video ref={ref} className="hv-video" muted loop playsInline preload="none" aria-hidden="true" />
       <div className="hv-veu" aria-hidden="true" />
 
       <div className="cv-wrap hv-conteudo">
