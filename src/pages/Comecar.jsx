@@ -137,6 +137,10 @@ export default function Comecar() {
   );
 
   const [barbearia, setBarbearia] = useState({ nome: '', telefone: '', morada: '', nif: '' });
+  // Indicação (19/10/2026): o código do amigo que o trouxe (do ?ref= ou à mão).
+  const refInicial = (params.get('ref') || '').trim().toUpperCase().slice(0, 16);
+  const [codigoAmigo, setCodigoAmigo] = useState(refInicial);
+  const [mostrarCodigo, setMostrarCodigo] = useState(false);
   /*
    * O TIPO (15/10/2026, à Fresha): escolhe-se um ou dois quadrados. Dois
    * quadrados = dois tipos no mesmo espaço (o «misto», com dois negócios
@@ -252,6 +256,8 @@ export default function Comecar() {
       // Marca a versão do formulário: é o que permite à função exigir o
       // número aos registos novos sem trancar quem ficou a meio do anterior.
       registo_versao: 2,
+      // O código do amigo que o indicou (1.º mês a metade para quem entra).
+      ref: codigoAmigo.trim() || undefined,
       // Prova da aceitação do acordo RGPD: que versão e quando.
       acordo_rgpd_versao: VERSAO_ACORDO,
       acordo_rgpd_aceite_em: new Date().toISOString(),
@@ -468,6 +474,16 @@ export default function Comecar() {
                 placeholder={{ cabeleireiro: 'Salão Bela', unhas: 'Nails by Ana', estetica: 'Espaço Pele' }[tipos[0]] || 'RC Cuts'}
                 onChange={e => b('nome', e.target.value)} onKeyDown={e => { if (e.key === 'Enter') seguinte(); }} />
               <p className="cm-endereco">{slug || 'o-teu-negocio'}<span>.marcacoes.app</span></p>
+
+              {refInicial ? (
+                <div className="cm-amigo-ok">🎁 Entraste pelo convite de um amigo. O teu <b>1.º mês fica a metade</b>.</div>
+              ) : mostrarCodigo ? (
+                <input style={{ ...campo, marginTop: 14 }} value={codigoAmigo}
+                  placeholder="Código de amigo (ex. RASTA-2K7)"
+                  onChange={e => setCodigoAmigo(e.target.value.toUpperCase().slice(0, 16))} />
+              ) : (
+                <button type="button" className="cm-amigo-link" onClick={() => setMostrarCodigo(true)}>Tens um código de amigo?</button>
+              )}
             </section>
           )}
 
