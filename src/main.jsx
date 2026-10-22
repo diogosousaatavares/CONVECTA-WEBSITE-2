@@ -14,6 +14,11 @@ if (GA_ID) {
   document.head.appendChild(s);
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { window.dataLayer.push(arguments); };
+  // Consent Mode v2 (22/10/2026): sem aceitar os cookies, o GA mede sem
+  // cookies (pings anónimos); ao aceitar na faixa, passa a medir completo.
+  let aceitou = false;
+  try { aceitou = localStorage.getItem('convecta_cookie_consent') === 'accepted'; } catch { /* sem armazenamento */ }
+  window.gtag('consent', 'default', { analytics_storage: aceitou ? 'granted' : 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500 });
   window.gtag('js', new Date());
   window.gtag('config', GA_ID, { anonymize_ip: true });
 }

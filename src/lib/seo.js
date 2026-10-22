@@ -175,7 +175,7 @@ export const PRECO_MENSAL_TEXTO = PLANO_BASE.precoTexto;
 
 // Google Analytics: vazio ate haver uma propriedade criada. Com isto vazio
 // nao se carrega nada — nem o script, nem cookies. Preenche-se com "G-…".
-export const GA_ID = "";
+export const GA_ID = "G-7H211N5W0C";
 
 /*
  * O que a app faz hoje. Esta lista alimenta os dados estruturados

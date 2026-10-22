@@ -29,6 +29,7 @@ export default function CookieConsent() {
     try {
       localStorage.setItem(CONSENT_KEY, "accepted");
     } catch {}
+    try { window.gtag?.('consent', 'update', { analytics_storage: 'granted' }); } catch {}
     setVisible(false);
   };
 
