@@ -1,3 +1,4 @@
+import { lerOrigem } from '@/lib/origem';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { ArrowRight, ArrowLeft, Check, Mail, AlertTriangle, Scissors, Wind, Hand, Flower2 } from 'lucide-react';
@@ -258,6 +259,8 @@ export default function Comecar() {
       registo_versao: 2,
       // O código do amigo que o indicou (1.º mês a metade para quem entra).
       ref: codigoAmigo.trim() || undefined,
+      // De onde veio (UTM das stories/posts, ou o referrer). Ver lib/origem.js.
+      origem_marketing: lerOrigem() || undefined,
       // Prova da aceitação do acordo RGPD: que versão e quando.
       acordo_rgpd_versao: VERSAO_ACORDO,
       acordo_rgpd_aceite_em: new Date().toISOString(),

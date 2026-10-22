@@ -9,10 +9,12 @@ import { ContactModalProvider } from '@/lib/ContactModalContext';
 import ContactModal from '@/components/ContactModal';
 import SiteLayout from '@/components/SiteLayout';
 import { GA_ID } from '@/lib/seo';
+import { guardarOrigem } from '@/lib/origem';
 
 function PageTracker() {
   const location = useLocation();
   useEffect(() => {
+    guardarOrigem();   // UTM / ref da visita, para o registo (origem_marketing)
     if (GA_ID && typeof window.gtag === 'function') {
       window.gtag('config', GA_ID, {
         page_path: location.pathname + location.search,
