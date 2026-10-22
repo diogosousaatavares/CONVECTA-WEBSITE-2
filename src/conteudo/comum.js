@@ -79,7 +79,7 @@ export const TEMAS = {
 
 export const NAO_FAZ = [
   "Lembretes por SMS ou WhatsApp (os avisos são por notificação no telemóvel e por email).",
-  "Pagamentos online pelo cliente (paga no balcão, como sempre).",
+  "Pagamentos online pelo cliente no Essencial (extra de 4,99 €/mês; incluídos no Profissional e Business).",
   "Faturação certificada (a Convecta dá o Excel mensal; a fatura é passada no teu programa de faturação).",
   "Marketplace: a Convecta não traz clientes novos de uma montra; traz os teus para marcarem sozinhos.",
 ];

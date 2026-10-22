@@ -29,7 +29,7 @@ const INCLUI = [
 ];
 
 const NAO_INCLUI = [
-  "Pagamentos online pelo cliente — o cliente paga no balcão, como sempre",
+  "Pagamentos online pelo cliente no plano Essencial — são um extra de 4,99 €/mês (incluídos no Profissional e no Business)",
   "Um domínio próprio (o teu endereço em marcacoes.app está incluído)",
   "Gestão de redes sociais, publicidade ou produção de conteúdos",
 ];

@@ -94,6 +94,14 @@
       "destination": "/comecar.html"
     },
     {
+      "source": "/pagamentos-online",
+      "destination": "/pagamentos-online.html"
+    },
+    {
+      "source": "/acordo-rgpd",
+      "destination": "/acordo-rgpd.html"
+    },
+    {
       "source": "/software-para-barbearias",
       "destination": "/software-para-barbearias.html"
     },
