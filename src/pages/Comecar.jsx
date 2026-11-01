@@ -8,6 +8,7 @@ import { VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
 import PorqueConvecta, { textoRespostas } from '@/components/PorqueConvecta';
 import { enviarContacto } from '@/lib/contactos';
+import AbrirNoNavegador from '@/components/AbrirNoNavegador';
 
 /*
  * Começar — o registo da barbearia, sem ninguém do nosso lado.
@@ -448,7 +449,7 @@ export default function Comecar() {
   const seguinte = passo < TOTAL ? () => avancar(passo + 1) : registar;
 
   return (
-    <>
+    <AbrirNoNavegador>
       <Seo
         titulo="Começar"
         descricao="Cria a conta do teu negócio. 14 dias à experiência, sem pagar nada hoje."
@@ -540,52 +541,13 @@ export default function Comecar() {
 
           {passo === 5 && (
             <section>
-              <h1 style={titulo}>O teu plano</h1>
-              <p style={sub}>Hoje não pagas nada. Experimentas primeiro.</p>
-
-              <div className="cm-plano">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: 10 }}>
-                  <strong style={{ fontSize: 20 }}>{plano.nome}</strong>
-                  <span>
-                    <strong style={{ fontSize: 24 }}>
-                      {periodo === 'quinzenal'
-                        ? euros(misto ? plano.precoQuinzenalMisto : plano.precoQuinzenal)
-                        : periodo === 'anual'
-                          ? euros(misto ? plano.precoMesAnualMisto : plano.precoMesAnual)
-                          : euros(misto ? plano.precoMisto : plano.preco)}
-                    </strong>
-                    <span style={{ color: 'var(--cv-ink-3)' }}>{periodo === 'quinzenal' ? ' /15 dias' : ' /mês'}</span>
-                  </span>
-                </div>
-                <div className="cm-periodos">
-                  {['quinzenal', 'mensal', 'anual'].map(p => (
-                    <button key={p} type="button" onClick={() => setPeriodo(p)} className={periodo === p ? 'on' : ''}>
-                      {p === 'mensal' ? 'Mensal' : p === 'quinzenal' ? '15 dias' : `Anual −${Math.round(DESCONTO_ANUAL * 100)}%`}
-                    </button>
-                  ))}
-                </div>
+              {/* 01/11/2026 (Diogo): sem «O teu plano» aqui — o preço fala-se no fim. */}
+              <h1 style={titulo}>Está quase.</h1>
+              <p style={sub}>Vamos redirecionar-te agora para a tua aplicação de gestão de marcações. Lá tens um vídeo curto que te mostra tudo, passo a passo.</p>
+              <div className="cm-plano" style={{ display: 'grid', gap: 8 }}>
+                <strong style={{ fontSize: 17 }}>{slug || 'o-teu-negocio'}.marcacoes.app</strong>
+                <span style={{ fontSize: 14, color: 'var(--cv-ink-2)' }}>A página de marcações {barbearia.nome.trim() ? `da ${barbearia.nome.trim()}` : 'do teu negócio'} e o teu painel ficam prontos a seguir.</span>
               </div>
-
-              {(() => {
-                const incluido = ['profissional', 'business'].includes(planoId);
-                const preco = periodo === 'quinzenal' ? '+2,49 €' : periodo === 'anual' ? '+50,90 €/ano' : '+4,99 €';
-                const on = incluido || comPagamentos;
-                return (
-                  <button type="button" aria-pressed={on} disabled={incluido} onClick={() => setComPagamentos(v => !v)}
-                    style={{ ...linhaOpcao(on), marginTop: 12, alignItems: 'center', gap: 12 }}>
-                    <span style={caixinha(on)}>{on && <Check size={15} />}</span>
-                    <span style={{ flex: 1, minWidth: 0 }}>
-                      Pagamentos online
-                      <span style={{ display: 'flex', gap: 5, marginTop: 8 }}>
-                        {['visa', 'mastercard', 'applepay', 'googlepay', 'mbway'].map(id => (
-                          <span key={id} className="cm-logo"><img src={`/pagamentos/${id}.png`} alt="" /></span>
-                        ))}
-                      </span>
-                    </span>
-                    <span style={{ fontSize: 14, whiteSpace: 'nowrap', color: incluido ? '#15803D' : 'var(--cv-ink)' }}>{incluido ? 'Incluído' : preco}</span>
-                  </button>
-                );
-              })()}
 
               <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer', marginTop: 20, fontSize: 14, lineHeight: 1.5, color: 'var(--cv-ink-2)' }}>
                 <input type="checkbox" checked={aceita} onChange={e => { setAceita(e.target.checked); setErro(''); }}
@@ -608,7 +570,7 @@ export default function Comecar() {
           </button>
         </footer>
       </div>
-    </>
+    </AbrirNoNavegador>
   );
 }
 

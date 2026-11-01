@@ -50,12 +50,7 @@ export default function PersonalizacaoDemo() {
       <ScrollReveal>
         <p className="cv-olho">Personalização</p>
         <h2 className="cv-h2">A app é do teu negócio. <span className="cv-marca">Não é nossa.</span></h2>
-        <p className="cv-texto pd-sub">Tudo isto, em qualquer plano. O plano só muda quantos profissionais tens.</p>
-        {/* 12/10/2026: dois tipos na mesma loja — tem de se ver na primeira página. */}
-        <p className="cv-texto pd-sub pd-misto">
-          <strong>Barbearia e estética no mesmo espaço?</strong> Também dá: o site ganha duas frentes e o segundo tipo é a metade.{" "}
-          <Link to="/precos#misto">Ver como funciona</Link>
-        </p>
+        {/* 01/11/2026 (Diogo): sem os textos pequenos por baixo do título. */}
       </ScrollReveal>
 
       <ul className="pd-cartoes">

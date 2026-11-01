@@ -24,7 +24,12 @@ import { PRECO_DESDE_TEXTO } from "@/lib/seo";
  * estar perfeito em nenhuma delas: numa página de dez ecrãs, quem lê até ao
  * meio não tem nada em que carregar.
  */
-export default function BarraComecarFixa({ alvo }) {
+/* 01/11/2026 (Diogo): a barra fixa de baixo («Sem cartão para começar ·
+   Começar grátis») sai — o botão do topo e os da página chegam. */
+export default function BarraComecarFixa() { return null }
+
+// eslint-disable-next-line no-unused-vars
+function BarraAntiga({ alvo }) {
   const [visivel, setVisivel] = useState(false);
 
   useEffect(() => {

@@ -39,7 +39,7 @@ export default function PagamentosOnline() {
               {VANTAGENS.map(({ Ic, t, d }) => (
                 <li key={t}>
                   <span className="po-icone"><Ic size={18} strokeWidth={1.9} /></span>
-                  <span><b>{t}.</b> {d}</span>
+                  <span><b>{t}</b></span>{/* 01/11/2026 (Diogo): só o título, sem o texto cinzento */}{void d}
                 </li>
               ))}
             </ul>
