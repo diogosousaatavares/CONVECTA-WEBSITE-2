@@ -2199,3 +2199,17 @@ html, body { touch-action: manipulation; }
 /* Código de amigo no /comecar (19/10/2026) */
 .cm-amigo-ok { margin-top: 16px; padding: 12px 14px; border-radius: 12px; background: rgba(254,233,109,.18); border: 1px solid var(--cv-amarelo); font-size: 14.5px; color: var(--cv-ink); line-height: 1.5; }
 .cm-amigo-link { margin-top: 14px; background: none; border: 0; padding: 0; color: var(--cv-ink-2); font: inherit; font-size: 14px; text-decoration: underline; cursor: pointer; }
+
+/* ── Google Reviews (01/11/2026) ───────────────────────────────────── */
+.gr-site { display: grid; gap: 28px; }
+.gr-site-cab { display: grid; gap: 14px; justify-items: center; text-align: center; }
+.gr-site-cab .cv-h2 { max-width: 22ch; text-wrap: balance; }
+.gr-site-sub { margin: 0; max-width: 58ch; font-size: 1.05rem; line-height: 1.6; color: var(--cv-ink-2, #4a4540); }
+.gr-site-img { display: block; width: 100%; height: auto; border-radius: 28px; box-shadow: 0 30px 60px -36px rgba(30, 24, 10, .45); }
+.gr-site-fim { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; text-align: center; }
+.gr-site-preco { font-size: 1rem; color: var(--cv-ink-2, #4a4540); }
+.gr-site-preco b { color: var(--cv-ink, #1a1714); }
+@media (max-width: 720px) {
+  .gr-site-img { border-radius: 22px; max-width: 480px; margin: 0 auto; }
+  .gr-site-fim { flex-direction: column; gap: 12px; }
+}

@@ -10,6 +10,7 @@ import FundoLinhas from "@/components/FundoLinhas";
 import HeroVideo from "@/components/HeroVideo";
 import AcessoTotal, { VideoApps } from "@/components/AcessoTotal";
 import PagamentosOnline from "@/components/PagamentosOnline";
+import GoogleReviews from "@/components/GoogleReviews";
 import PersonalizacaoDemo from "@/components/PersonalizacaoDemo";
 import BotaoComecar from "@/components/BotaoComecar";
 import BarraComecarFixa from "@/components/BarraComecarFixa";
@@ -101,6 +102,9 @@ export default function Home() {
 
       {/* ── 5. Pagamentos online (15/10/2026) ───────────────────── */}
       <PagamentosOnline />
+
+      {/* ── 5b. Google Reviews (01/11/2026) ─────────────────────── */}
+      <GoogleReviews />
 
       {/* ── 6. Planos ───────────────────────────────────────────── */}
       <PricingSection semApelo />
