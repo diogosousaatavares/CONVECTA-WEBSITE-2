@@ -8,7 +8,7 @@ import { VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
 import PorqueConvecta, { textoRespostas } from '@/components/PorqueConvecta';
 import { enviarContacto } from '@/lib/contactos';
-import AbrirNoNavegador from '@/components/AbrirNoNavegador';
+import AbrirNoNavegador, { emBrowserDeApp } from '@/components/AbrirNoNavegador';
 
 /*
  * Começar — o registo da barbearia, sem ninguém do nosso lado.
@@ -76,6 +76,16 @@ const PAINEL = 'https://administrador.marcacoes.app';
  * no formato que o supabase-js do painel já sabe ler sozinho — e ele entra
  * sem escrever a palavra-passe outra vez. O fragmento nunca vai ao servidor.
  */
+/* 01/11/2026: no fim do registo. Fora do Instagram vai direto para o painel
+   (como sempre). Dentro do Instagram/Facebook/TikTok a sessão viaja em
+   ?sessao= (o #… não sobrevive à passagem para o Chrome no Android) e mostra-
+   -se o ecrã «Abre no navegador». O painel converte ?sessao= no # do Supabase
+   (index.html do convecta-admin). */
+function urlDoPainel(session) {
+  const h = sessaoNoEndereco(session).replace(/^#/, '');
+  if (!emBrowserDeApp()) return `${PAINEL}/entrar${h ? '#' + h : ''}`;
+  return `${PAINEL}/entrar${h ? '?sessao=' + encodeURIComponent(btoa(h)) : ''}`;
+}
 function sessaoNoEndereco(session) {
   if (!session?.access_token || !session?.refresh_token) return '';
   const p = new URLSearchParams({
@@ -128,6 +138,13 @@ export default function Comecar() {
   const [params] = useSearchParams();
 
   const [passo, setPasso] = useState(1);
+  // 01/11/2026: no fim, dentro do Instagram, o endereço do painel para abrir no navegador.
+  const [fimNaApp, setFimNaApp] = useState('');
+  const irParaPainel = session => {
+    const url = urlDoPainel(session);
+    if (emBrowserDeApp()) { setFimNaApp(url); window.scrollTo(0, 0); }
+    else window.location.href = url;
+  };
   const [barbeiros, setBarbeiros] = useState(1);
   // Abre sempre nos 15 dias (13/10/2026, pedido do Diogo); mensal ou anual só
   // se vier escolhido da página de preços (?periodo=mensal|anual).
@@ -293,7 +310,7 @@ export default function Comecar() {
     if (data?.jaExistia) { setErro(`Essa conta já tem o negócio «${data.nome || data.slug}». Entra no painel para a usares.`); return true; }
     try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo, contaExistente: true }); } catch { /* sem analytics */ }
     enviarRespostas();
-    window.location.href = `${PAINEL}/entrar${sessaoNoEndereco(session)}`;
+    irParaPainel(session);
     return true;
   }
 
@@ -365,7 +382,7 @@ export default function Comecar() {
        */
       if (data?.session) {
         enviarRespostas();
-        window.location.href = `${PAINEL}/entrar${sessaoNoEndereco(data.session)}`;
+        irParaPainel(data.session);
         return;
       }
 
@@ -448,8 +465,11 @@ export default function Comecar() {
   ];
   const seguinte = passo < TOTAL ? () => avancar(passo + 1) : registar;
 
+  // No fim do registo dentro do Instagram: o ecrã «Abre no navegador».
+  if (fimNaApp) return <AbrirNoNavegador url={fimNaApp} />;
+
   return (
-    <AbrirNoNavegador>
+    <>
       <Seo
         titulo="Começar"
         descricao="Cria a conta do teu negócio. 14 dias à experiência, sem pagar nada hoje."
@@ -570,7 +590,7 @@ export default function Comecar() {
           </button>
         </footer>
       </div>
-    </AbrirNoNavegador>
+    </>
   );
 }
 

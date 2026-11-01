@@ -20,27 +20,23 @@ export function emBrowserDeApp() {
 const ehAndroid = () => /Android/i.test(navigator.userAgent || '');
 const ehIOS = () => /iPhone|iPad|iPod/i.test(navigator.userAgent || '');
 
-export default function AbrirNoNavegador({ children }) {
-  const [preso, setPreso] = useState(false);
+/*
+ * 01/11/2026 (Diogo): o registo faz-se normalmente, mesmo dentro do Instagram.
+ * Este ecrã só aparece NO FIM, depois de criada a conta: em vez de abrir o
+ * painel dentro do Instagram (onde não fica guardado), manda abri-lo no
+ * navegador. `url` é o painel, já com a sessão (?sessao=…), por isso entra
+ * logo, sem pedir a palavra-passe.
+ */
+export function abrirForaDaApp(url) {
+  if (ehAndroid()) window.location.href = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(url)};end`;
+  else if (ehIOS()) window.location.href = `x-safari-${url}`;
+}
+
+export default function AbrirNoNavegador({ url }) {
   const [copiado, setCopiado] = useState(false);
-  useEffect(() => {
-    if (!emBrowserDeApp()) return;
-    setPreso(true);
-    const url = window.location.href;
-    // Android: o Chrome abre sozinho. Fica o ecrã por baixo caso não abra.
-    if (ehAndroid()) {
-      const semEsquema = url.replace(/^https?:\/\//, '');
-      window.location.href = `intent://${semEsquema}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(url)};end`;
-    }
-  }, []);
-
-  if (!preso) return children;
-
-  const url = typeof window !== 'undefined' ? window.location.href : 'https://convecta.pt/comecar';
-  const abrir = () => {
-    if (ehAndroid()) window.location.href = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
-    else if (ehIOS()) window.location.href = `x-safari-${url}`;
-  };
+  // Android: tenta abrir o Chrome logo, sozinho.
+  useEffect(() => { if (ehAndroid()) abrirForaDaApp(url); }, [url]);
+  const abrir = () => abrirForaDaApp(url);
   const copiar = async () => {
     try { await navigator.clipboard.writeText(url); setCopiado(true); setTimeout(() => setCopiado(false), 2500); } catch { /* sem clipboard */ }
   };
@@ -48,10 +44,10 @@ export default function AbrirNoNavegador({ children }) {
   return (
     <div style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', padding: '28px 20px', background: 'var(--cv-fundo, #f6f4ef)', color: 'var(--cv-ink, #1a1714)', fontFamily: 'inherit' }}>
       <div style={{ maxWidth: 420, width: '100%', display: 'grid', gap: 18, textAlign: 'center' }}>
-        <div style={{ fontSize: 46 }}>🧭</div>
-        <h1 style={{ fontSize: 26, lineHeight: 1.2, margin: 0, fontWeight: 800 }}>Abre no teu navegador para criares a conta</h1>
+        <div style={{ fontSize: 46 }}>🎉</div>
+        <h1 style={{ fontSize: 26, lineHeight: 1.2, margin: 0, fontWeight: 800 }}>Conta criada! Abre a tua aplicação no navegador</h1>
         <p style={{ fontSize: 15.5, lineHeight: 1.55, margin: 0, color: 'var(--cv-ink-2, #4a4540)' }}>
-          Dentro do Instagram a página pode fechar a qualquer momento e perdes tudo o que escreveste. No {ehIOS() ? 'Safari' : 'Chrome'} fica tudo guardado.
+          Dentro do Instagram a aplicação não fica guardada. No {ehIOS() ? 'Safari' : 'Chrome'} entras já com a tua conta e podes pô-la no ecrã do telemóvel.
         </p>
         <button type="button" onClick={abrir}
           style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '15px 22px', borderRadius: 100, border: 'none', fontSize: 16, fontWeight: 800, cursor: 'pointer', background: 'var(--cv-amarelo, #FEE96D)', color: 'var(--cv-amarelo-texto, #1a1714)', fontFamily: 'inherit' }}>
