@@ -12,7 +12,7 @@ import ScrollReveal from "@/components/ScrollReveal";
  * amarela que respira. Dinamismo: o telemóvel flutua, chegam avaliações
  * novas («+1 ★★★★★») e o contador sobe — é a ideia do suplemento a
  * acontecer à frente de quem lê. Tudo pára com «reduzir movimento».
- * 2,99 €/mês, em qualquer plano (src/lib/extras.js do painel).
+ * 02/11/2026: grátis por tempo limitado, em todos os planos.
  */
 const VANTAGENS = [
   { Ic: Star, t: "Ganha mais confiança", d: "Quem vê muitas estrelas marca sem medo." },
@@ -47,7 +47,7 @@ export default function GoogleReviews() {
       <div className="grs-grelha">
         <div className="grs-texto">
           <ScrollReveal>
-            <p className="cv-olho">Novo · Google Reviews</p>
+            <p className="cv-olho">Novo · Google Reviews · grátis por tempo limitado</p>
             <h2 id="grs-titulo" className="cv-h2">
               Mais avaliações no Google. <span className="cv-marca">Sem teres de pedir.</span>
             </h2>
@@ -66,7 +66,7 @@ export default function GoogleReviews() {
           <ScrollReveal delay={0.32}>
             <div className="grs-fim">
               <Link to="/comecar" className="dt-cta">Começar grátis <ArrowRight size={18} /></Link>
-              <span className="grs-preco"><b>+2,99 €/mês</b> · em qualquer plano</span>
+              <span className="grs-preco"><b>Grátis</b> · por tempo limitado, em todos os planos</span>
             </div>
           </ScrollReveal>
         </div>
