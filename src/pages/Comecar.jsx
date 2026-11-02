@@ -70,6 +70,13 @@ function slugDe(nome) {
 
 const PAINEL = 'https://administrador.marcacoes.app';
 
+// 02/11/2026: os endereços que são nossos (igual a subdominio_reservado, CRIAR_BARBEARIA.sql).
+const RESERVADOS = ['www', 'admin', 'administrador', 'api', 'app', 'super', 'superadmin',
+  'portal', 'painel', 'mail', 'email', 'static', 'cdn', 'assets', 'blog',
+  'suporte', 'ajuda', 'conta', 'login', 'convecta', 'gestao'];
+// 02/11/2026: um email a sério, não só um «@».
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 /*
  * A SESSÃO VAI NO ENDEREÇO (15/10/2026). O site e o painel são domínios
  * diferentes e não partilham a sessão. Leva-se a sessão no fragmento (#),
@@ -77,14 +84,21 @@ const PAINEL = 'https://administrador.marcacoes.app';
  * sem escrever a palavra-passe outra vez. O fragmento nunca vai ao servidor.
  */
 /* 01/11/2026: no fim do registo. Fora do Instagram vai direto para o painel
-   (como sempre). Dentro do Instagram/Facebook/TikTok a sessão viaja em
-   ?sessao= (o #… não sobrevive à passagem para o Chrome no Android) e mostra-
-   -se o ecrã «Abre no navegador». O painel converte ?sessao= no # do Supabase
-   (index.html do convecta-admin). */
-function urlDoPainel(session) {
+   (como sempre). Dentro do Instagram/Facebook/TikTok mostra-se o ecrã «Abre
+   no navegador» (o #… não sobrevive à passagem para o Chrome no Android).
+   02/11/2026: nesse caso a sessão JÁ NÃO viaja no endereço (?sessao= levava
+   os tokens para o histórico e para a área de transferência). Pede-se à
+   função ligacao-painel um código de uso único (1 hora) e o painel troca-o
+   por sessão em /entrar?token_hash=…&type=magiclink. */
+async function urlDoPainel(session) {
   const h = sessaoNoEndereco(session).replace(/^#/, '');
   if (!emBrowserDeApp()) return `${PAINEL}/entrar${h ? '#' + h : ''}`;
-  return `${PAINEL}/entrar${h ? '?sessao=' + encodeURIComponent(btoa(h)) : ''}`;
+  if (!session?.access_token) return `${PAINEL}/entrar`;
+  try {
+    const { data } = await supabase().functions.invoke('ligacao-painel', { body: {}, headers: { Authorization: `Bearer ${session.access_token}` } });
+    if (data?.token_hash) return `${PAINEL}/entrar?token_hash=${encodeURIComponent(data.token_hash)}&type=magiclink`;
+  } catch { /* sem código: entra com a palavra-passe */ }
+  return `${PAINEL}/entrar`;
 }
 function sessaoNoEndereco(session) {
   if (!session?.access_token || !session?.refresh_token) return '';
@@ -140,8 +154,8 @@ export default function Comecar() {
   const [passo, setPasso] = useState(1);
   // 01/11/2026: no fim, dentro do Instagram, o endereço do painel para abrir no navegador.
   const [fimNaApp, setFimNaApp] = useState('');
-  const irParaPainel = session => {
-    const url = urlDoPainel(session);
+  const irParaPainel = async session => {
+    const url = await urlDoPainel(session);
     if (emBrowserDeApp()) { setFimNaApp(url); window.scrollTo(0, 0); }
     else window.location.href = url;
   };
@@ -214,6 +228,19 @@ export default function Comecar() {
   const planoId = planoEscolhido || planoPara(misto ? Math.ceil(barbeiros / 2) : barbeiros);
   const plano = useMemo(() => PLANOS.find(p => p.id === planoId) || PLANOS[1], [planoId]);
   const slug = slugDe(barbearia.nome);
+  // 02/11/2026: diz-se logo se o endereço já está ocupado (o servidor põe -2;
+  // antes a pessoa só descobria no painel). businesses_public é legível a anon.
+  const [slugOcupado, setSlugOcupado] = useState('');
+  useEffect(() => {
+    if (!slug || !temSupabase()) { setSlugOcupado(''); return; }
+    const t = setTimeout(async () => {
+      try {
+        const { data } = await supabase().from('businesses_public').select('slug').eq('slug', slug).limit(1);
+        setSlugOcupado(data?.length ? slug : '');
+      } catch { setSlugOcupado(''); }
+    }, 500);
+    return () => clearTimeout(t);
+  }, [slug]);
 
   const b = (k, v) => setBarbearia(x => ({ ...x, [k]: v }));
   const c = (k, v) => setConta(x => ({ ...x, [k]: v }));
@@ -228,10 +255,11 @@ export default function Comecar() {
     if (n > passo) {
       if (passo === 1 && !barbearia.nome.trim()) return setErro('Escreve o nome do teu negócio.');
       if (passo === 1 && !slug) return setErro('Esse nome não dá um endereço válido. Usa letras e números.');
+      if (passo === 1 && RESERVADOS.includes(slug)) return setErro('Esse nome dá um endereço que é nosso. Escolhe outro.');
       if (passo === 2 && !tipos.length) return setErro('Escolhe o tipo do teu negócio.');
       if (passo === 4) {
         if (!conta.nome.trim()) return setErro('Escreve o teu nome.');
-        if (!conta.email.includes('@')) return setErro('Escreve um email válido.');
+        if (!EMAIL_RE.test(conta.email.trim())) return setErro('Escreve um email válido.');
         if (!telefoneValido(conta.telefone)) return setErro('Escreve o teu telemóvel, com 9 dígitos.');
         if (conta.password.length < 8) return setErro('A palavra-passe tem de ter pelo menos 8 caracteres.');
       }
@@ -292,35 +320,21 @@ export default function Comecar() {
   }
 
   /*
-   * O email já tem conta (cliente de uma barbearia, por exemplo). Uma conta
-   * é uma pessoa; a pessoa pode ter a barbearia dela. Entra-se com a
-   * palavra-passe dessa conta e pede-se à função registar-barbearia que a
-   * crie nessa conta. Devolve true se ficou tratado (feito ou com erro dito).
+   * 02/11/2026: o caminho «email já tem conta → entra com a palavra-passe e
+   * cria a barbearia nessa conta» saiu. Dizia a quem quer que fosse se um
+   * email tinha conta (e deixava tentar palavras-passe a partir do site).
+   * Agora esse caso mostra o mesmo «vai ao teu email» que o registo normal;
+   * quem já tem conta entra no painel com a palavra-passe dela.
    */
-  async function criarComContaExistente() {
-    const sb = supabase();
-    const { error: erroEntrar } = await sb.auth.signInWithPassword({ email: conta.email.trim().toLowerCase(), password: conta.password });
-    if (erroEntrar) return false;
-    const { data, error } = await sb.functions.invoke('registar-barbearia', { body: dadosDaBarbearia() });
-    let motivo = data?.erro;
-    if (error && !motivo) { try { motivo = (await error.context?.json())?.erro; } catch { motivo = ''; } motivo = motivo || error.message; }
-    const { data: { session } } = await sb.auth.getSession();
-    await sb.auth.signOut().catch(() => {});
-    if (motivo) { setErro(motivo); return true; }
-    if (data?.jaExistia) { setErro(`Essa conta já tem o negócio «${data.nome || data.slug}». Entra no painel para a usares.`); return true; }
-    try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo, contaExistente: true }); } catch { /* sem analytics */ }
-    enviarRespostas();
-    irParaPainel(session);
-    return true;
-  }
 
   async function registar() {
     setErro('');
 
     if (!barbearia.nome.trim()) return setErro('Escreve o nome do teu negócio.');
     if (!slug) return setErro('Esse nome não dá um endereço válido. Usa letras e números.');
+    if (RESERVADOS.includes(slug)) return setErro('Esse nome dá um endereço que é nosso. Escolhe outro.');
     if (!conta.nome.trim()) return setErro('Escreve o teu nome.');
-    if (!conta.email.includes('@')) return setErro('Escreve um email válido.');
+    if (!EMAIL_RE.test(conta.email.trim())) return setErro('Escreve um email válido.');
     if (!conta.telefone.trim()) return setErro('Escreve o teu telemóvel — é por aí que falamos contigo se alguma coisa correr mal.');
     if (!telefoneValido(conta.telefone)) return setErro('Esse número não parece certo. Escreve os 9 dígitos, por exemplo 912 345 678.');
     if (conta.password.length < 8) return setErro('A palavra-passe tem de ter pelo menos 8 caracteres.');
@@ -348,11 +362,8 @@ export default function Comecar() {
       if (error) {
         const m = (error.message || '').toLowerCase();
         if (/already registered|already been registered|user already/.test(m)) {
-          // Já tem conta (por exemplo, como cliente de uma barbearia). Não é
-          // razão para não abrir a dele: entra com a palavra-passe dessa
-          // conta e a barbearia é criada nela.
-          if (await criarComContaExistente()) return;
-          setErro('Já existe uma conta com esse email. Se a palavra-passe que escreveste é a dessa conta, tenta outra vez; se te esqueceste, recupera-a no painel.');
+          // 02/11/2026: não se diz que o email já tem conta (ver nota acima).
+          setFeito(true);
         } else if (/rate|too many/.test(m)) {
           setErro('Já foram feitas várias tentativas. Espera um minuto e tenta outra vez.');
         } else if (/password/.test(m)) {
@@ -366,14 +377,18 @@ export default function Comecar() {
        * O Supabase, de proposito, NAO diz "esse email ja existe". Devolve um
        * sucesso falso, sem enviar nada — para ninguem usar este formulario
        * para descobrir quem tem conta, testando emails um a um. O sinal que
-       * deixa e este: um utilizador sem identidades. Sem isto, a pessoa via
-       * "vai ao teu email" para um email que nunca ia sair, e ficava a espera.
+       * deixa e este: um utilizador sem identidades.
+       * 02/11/2026: mostra-se o mesmo ecrã «vai ao teu email» — se o site
+       * dissesse «já existe», qualquer um descobria quem tem conta, email a
+       * email. Quem já tem conta entra no painel com a palavra-passe dela.
        */
       if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) {
-        if (await criarComContaExistente()) return;
-        setErro('Já existe uma conta com esse email. Se a palavra-passe que escreveste é a dessa conta, tenta outra vez; se te esqueceste, recupera-a no painel.');
+        setFeito(true);
         return;
       }
+
+      // 02/11/2026: conta-se a conta criada nos dois caminhos (com ou sem sessão).
+      try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo }); } catch { /* sem analytics */ }
 
       /*
        * Se veio uma sessao, a confirmacao de email esta desligada no Supabase
@@ -382,11 +397,10 @@ export default function Comecar() {
        */
       if (data?.session) {
         enviarRespostas();
-        irParaPainel(data.session);
+        await irParaPainel(data.session);
         return;
       }
 
-      try { window.trackEvent?.('comecar_conta_criada', { plano: planoId, barbeiros, periodo }); } catch { /* sem analytics */ }
       enviarRespostas();
       setFeito(true);
     } catch (e) {
@@ -429,6 +443,11 @@ export default function Comecar() {
           <p style={{ fontSize: 15, lineHeight: 1.6, opacity: .85, marginTop: 18 }}>
             Se não estiver na caixa de entrada, <strong>procura no spam ou no lixo</strong> —
             é a primeira vez que te escrevemos e é aí que costuma cair.
+          </p>
+          {/* 02/11/2026: quem já tinha conta (cliente de uma barbearia, por exemplo) vê este
+              mesmo ecrã — não se diz se o email existe. A saída é entrar no painel. */}
+          <p style={{ fontSize: 15, lineHeight: 1.6, opacity: .85, marginTop: 12 }}>
+            Já tinhas conta com este email? Então não chega mensagem nenhuma: <a href={`${PAINEL}/entrar`} style={{ fontWeight: 700 }}>entra no painel</a> com a tua palavra-passe e cria lá o teu negócio.
           </p>
           <div style={{
             marginTop: 28, padding: 16, borderRadius: 12,
@@ -498,6 +517,9 @@ export default function Comecar() {
                 placeholder={{ cabeleireiro: 'Salão Bela', unhas: 'Nails by Ana', estetica: 'Espaço Pele' }[tipos[0]] || 'RC Cuts'}
                 onChange={e => b('nome', e.target.value)} onKeyDown={e => { if (e.key === 'Enter') seguinte(); }} />
               <p className="cm-endereco">{slug || 'o-teu-negocio'}<span>.marcacoes.app</span></p>
+              {slugOcupado && slugOcupado === slug && (
+                <p style={ajuda}>Esse endereço já está ocupado — vai ficar <b>{slug}-2</b>.marcacoes.app. Podes mudar o nome se preferires.</p>
+              )}
 
               {refInicial ? (
                 <div className="cm-amigo-ok">🎁 Entraste pelo convite de um amigo. O teu <b>1.º mês fica a metade</b>.</div>

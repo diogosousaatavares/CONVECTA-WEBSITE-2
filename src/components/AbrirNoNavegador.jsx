@@ -24,8 +24,9 @@ const ehIOS = () => /iPhone|iPad|iPod/i.test(navigator.userAgent || '');
  * 01/11/2026 (Diogo): o registo faz-se normalmente, mesmo dentro do Instagram.
  * Este ecrã só aparece NO FIM, depois de criada a conta: em vez de abrir o
  * painel dentro do Instagram (onde não fica guardado), manda abri-lo no
- * navegador. `url` é o painel, já com a sessão (?sessao=…), por isso entra
- * logo, sem pedir a palavra-passe.
+ * navegador. `url` é o painel com um código de uso único (?token_hash=…,
+ * 1 hora — função ligacao-painel, 02/11/2026), por isso entra logo, sem
+ * pedir a palavra-passe. A sessão em si já não vai no endereço.
  */
 export function abrirForaDaApp(url) {
   if (ehAndroid()) window.location.href = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(url)};end`;
@@ -64,6 +65,8 @@ export default function AbrirNoNavegador({ url }) {
           style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '12px 18px', borderRadius: 100, border: '1.5px solid var(--cv-linha, #e6e2d9)', background: 'transparent', fontSize: 14.5, fontWeight: 700, cursor: 'pointer', color: 'inherit', fontFamily: 'inherit' }}>
           {copiado ? <><Check size={16} /> Link copiado — cola no navegador</> : <><Copy size={16} /> Copiar o link</>}
         </button>
+        {/* 02/11/2026: o link leva um código de uso único. */}
+        <p style={{ margin: 0, fontSize: 12.5, opacity: .65 }}>O link entra sem palavra-passe (válido uma vez, 1 hora). Depois disso entras com o email e a palavra-passe.</p>
       </div>
     </div>
   );

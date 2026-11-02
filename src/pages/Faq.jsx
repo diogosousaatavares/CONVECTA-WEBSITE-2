@@ -5,6 +5,8 @@ import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
 import { PLANOS, faqLd, migalhasLd } from "@/lib/seo";
 import BarraComecarFixa from "@/components/BarraComecarFixa";
+// 02/11/2026: a duração da experiência vem de um sítio só (dizia «o mês»).
+import { TESTE_TEXTO } from "@/conteudo/comum";
 
 const faqs = [
   {
@@ -13,7 +15,7 @@ const faqs = [
   },
   {
     q: "Posso experimentar antes de decidir?",
-    a: "Sim, e sem falar com ninguém. Crias o teu negócio em dois minutos — o site nasce logo com o teu nome — e montas os serviços, os horários e as cores sem dar cartão nenhum. Recebes marcações desde o primeiro dia, sem cartão, durante 14 dias. No fim, se quiseres continuar, registas o cartão no painel; se não, não pagas nada.",
+    a: `Sim, e sem falar com ninguém. Crias o teu negócio em dois minutos — o site nasce logo com o teu nome — e montas os serviços, os horários e as cores sem dar cartão nenhum. Recebes marcações desde o primeiro dia, sem cartão, durante ${TESTE_TEXTO}. No fim, se quiseres continuar, registas o cartão no painel; se não, não pagas nada.`,
   },
   {
     q: "Como é que os meus clientes marcam?",
@@ -61,7 +63,7 @@ const faqs = [
   },
   {
     q: "Já uso outra agenda. Vale a pena mudar?",
-    a: "Se a tua agenda é o papel ou o WhatsApp, o que ganhas é o telemóvel a tocar a cada marcação e zero marcações em cima umas das outras. Se já usas outro sistema, monta o teu negócio aqui em dois minutos e compara os dois lado a lado durante o mês à experiência — é a comparação mais honesta que te podemos oferecer.",
+    a: `Se a tua agenda é o papel ou o WhatsApp, o que ganhas é o telemóvel a tocar a cada marcação e zero marcações em cima umas das outras. Se já usas outro sistema, monta o teu negócio aqui em dois minutos e compara os dois lado a lado durante os ${TESTE_TEXTO} à experiência — é a comparação mais honesta que te podemos oferecer.`,
   },
   {
     q: "E se precisar de ajuda?",

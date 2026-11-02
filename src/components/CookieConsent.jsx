@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { Cookie } from "lucide-react";
 
 /*
- * O aviso de cookies. So diz a verdade: nao ha cookies de publicidade nem de
- * estatisticas neste site (o Google Analytics so entra quando houver um ID
- * em lib/seo.js — e nesse dia este aviso volta a ter duas opcoes).
+ * O aviso de cookies. 02/11/2026: o Google Analytics ja esta ligado (GA_ID em
+ * lib/seo.js), por isso o aviso diz isso mesmo e tem duas opcoes. «So o
+ * essencial» deixa o analytics_storage em denied (Consent Mode, main.jsx).
  */
 const CONSENT_KEY = "convecta_cookie_consent";
 
@@ -32,6 +32,12 @@ export default function CookieConsent() {
     try { window.gtag?.('consent', 'update', { analytics_storage: 'granted' }); } catch {}
     setVisible(false);
   };
+  const recusar = () => {
+    try {
+      localStorage.setItem(CONSENT_KEY, "essential");
+    } catch {}
+    setVisible(false);
+  };
 
   if (!visible) return null;
 
@@ -54,8 +60,8 @@ export default function CookieConsent() {
         <div className="flex items-start gap-3 flex-1">
           <Cookie size={20} className="shrink-0 mt-0.5" style={{ color: "var(--cv-amarelo-texto)" }} />
           <p className="text-xs sm:text-sm text-ink-2 leading-relaxed">
-            Este site não usa cookies de publicidade nem de rastreio. Guarda no teu browser só o
-            essencial: esta escolha.{" "}
+            Usamos o Google Analytics para perceber como o site é usado. Sem cookies de
+            publicidade.{" "}
             <Link to="/privacidade" className="underline text-ink transition-colors">
               Saber mais
             </Link>
@@ -63,11 +69,18 @@ export default function CookieConsent() {
         </div>
         <div className="flex items-center gap-3 w-full sm:w-auto shrink-0">
           <button
+            onClick={recusar}
+            className="flex-1 sm:flex-none px-5 py-2.5 text-xs font-bold uppercase tracking-wide transition-transform hover:scale-105"
+            style={{ background: "transparent", color: "var(--cv-ink)", border: "1px solid var(--cv-linha)", borderRadius: 100 }}
+          >
+            Só o essencial
+          </button>
+          <button
             onClick={accept}
             className="flex-1 sm:flex-none px-5 py-2.5 text-xs font-bold uppercase tracking-wide rounded-sm transition-transform hover:scale-105"
             style={{ backgroundColor: "var(--cv-ink)", color: "#fff", borderRadius: 100 }}
           >
-            Entendi
+            Aceitar
           </button>
         </div>
       </div>
