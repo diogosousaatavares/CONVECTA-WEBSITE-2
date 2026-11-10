@@ -159,7 +159,7 @@ function Opcao({ on, children, onClick }) {
  * (public/motion/entrada.html), dentro de um iframe: corre sempre. Avisa
  * quando o botão deve aparecer ('botao') e quando acaba ('fim').
  */
-const MOTION = { src: '/motion/entrada.html?v=2', maxSeg: 18 };
+const MOTION = { src: '/motion/entrada-v2.html', maxSeg: 18 };
 
 function MotionApp({ onCta, onFim }) {
   const [botao, setBotao] = useState(false);
