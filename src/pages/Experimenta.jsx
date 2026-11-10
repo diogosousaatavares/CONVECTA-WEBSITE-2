@@ -67,7 +67,12 @@ const FAQ = [
 ];
 
 // O que muda — só o título, sem texto pequeno (10/11/2026, Diogo).
-const MUDA = ['Mais organização', 'Menos tempo ao telemóvel', 'Imagem mais profissional', 'Equipa mais fácil de gerir'];
+const MUDA = [
+  ['Mais organização', '/brand/muda/agenda.png'],
+  ['Menos tempo ao telemóvel', '/brand/muda/telefone.png'],
+  ['Imagem mais profissional', '/brand/muda/app.png'],
+  ['Equipa mais fácil de gerir', '/brand/muda/equipa.png'],
+];
 
 /*
  * DEPOIMENTOS — SÓ VERDADEIROS (10/11/2026). Cada um tem de ser de um cliente
@@ -388,10 +393,11 @@ export default function Experimenta() {
       <section className="xp-muda">
         <Palavras texto="O que muda." />
         <div className="xp-muda-grelha">
-          {MUDA.map((t, i) => (
+          {MUDA.map(([t, img], i) => (
             <Revela key={t} atraso={0.05} de={i % 2 ? 'direita' : 'esquerda'} className="xp-muda-item">
-              <Check size={20} />
+              <span className="xp-muda-icone"><img src={img} alt="" width="160" height="160" loading="lazy" /></span>
               <b>{t}</b>
+              <span className="xp-muda-ok" aria-hidden="true"><Check size={16} /></span>
             </Revela>
           ))}
         </div>
@@ -751,6 +757,22 @@ const CSS = `
 .xp-google-selo{display:inline-flex;align-items:center;gap:14px;padding:14px 22px;border-radius:999px;background:var(--xp-claro);color:var(--xp-tinta);text-decoration:none;box-shadow:0 18px 40px -24px rgba(0,0,0,.6)}
 .xp-google-selo b{font-size:22px}.xp-google-selo small{display:block;font-size:13px;color:var(--xp-tinta-suave)}
 .xp-google-estrelas{color:#F5B301;letter-spacing:2px;font-size:15px}
+/* O QUE MUDA, caprichado (10/11/2026) */
+.xp-muda-item{position:relative;display:grid!important;grid-template-columns:auto 1fr auto;align-items:center;gap:18px!important;padding:22px!important;border-radius:22px!important;background:linear-gradient(160deg,#37302A,#2A2521)!important;border:1px solid var(--xp-linha)!important;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;overflow:hidden}
+.xp-muda-item::after{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(254,233,109,.16),transparent 70%);pointer-events:none}
+.xp-muda-item:hover{transform:translateY(-3px);border-color:rgba(254,233,109,.4)!important;box-shadow:0 24px 50px -30px rgba(254,233,109,.45)}
+.xp-muda-icone{width:72px;height:72px;border-radius:20px;display:grid;place-items:center;background:rgba(251,250,248,.06);border:1px solid var(--xp-linha)}
+.xp-muda-icone img{width:48px;height:48px;object-fit:contain}
+.xp-muda-item b{font-family:'DM Serif Display',Georgia,serif;font-weight:400!important;font-size:clamp(22px,2.4vw,27px)!important;line-height:1.12}
+.xp-muda-ok{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--xp-amarelo);color:#141210}
+.xp-muda-ok svg{color:#141210!important;margin:0!important}
+@media (prefers-reduced-motion:reduce){.xp-muda-item{transition:none}}
+/* COMO FUNCIONA: a grelha continua, escura sobre o claro */
+.xp-como::before{background-color:var(--xp-claro);background-image:linear-gradient(rgba(28,25,22,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(28,25,22,.07) 1px,transparent 1px);background-size:56px 56px;animation:xpGrelha 18s linear infinite}
+@media (prefers-reduced-motion:reduce){.xp-como::before{animation:none}}
+/* REDES: os ícones com as cores de cada uma */
+.xp-rede-insta .xp-rede-icone{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);color:#fff;border:none}
+.xp-rede-wpp .xp-rede-icone{background:#25D366;color:#fff;border:none}
 .xp-rodape{text-align:center;font-size:13px;color:var(--xp-suave);padding:30px 0 0}
 .xp-rodape a{color:inherit}
 .xp-obrigado{max-width:620px!important;padding:90px 0 40px}
