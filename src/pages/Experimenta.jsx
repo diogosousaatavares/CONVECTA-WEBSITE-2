@@ -126,7 +126,7 @@ function Opcao({ on, children, onClick }) {
  * O vídeo tem o fundo da marca (#24201C), por isso fica «contido» num ecrã
  * da mesma cor: enche o ecrã sem cortar nada, em qualquer telemóvel.
  */
-const MOTION = { entrada: '/video/motion-entrada-v3.mp4', loop: '/video/motion-loop-v3.mp4', fim: '/video/motion-loop-v3.jpg', botaoEm: 13.4, logoEm: 11.5, maxSeg: 18 };
+const MOTION = { entrada: '/video/motion-entrada-v4.mp4', loop: '/video/motion-loop-v4.mp4', fim: '/video/motion-loop-v4.jpg', botaoEm: 13.4, logoEm: 11.5, maxSeg: 18 };
 
 function MotionApp({ onCta, onFim, onLogo }) {
   const v1 = useRef(null);
@@ -181,25 +181,8 @@ export default function Experimenta() {
     return () => { h.style.overflow = ''; b.style.overflow = ''; };
   }, [entrou]);
   const fimEntrada = useCallback(() => setEntrou(true), []);
-  // O LOGOTIPO: aparece ao centro, onde estava no vídeo, e no fim sobe para a esquerda.
-  const logoRef = useRef(null);
-  const [logo, setLogo] = useState('escondido'); // escondido → centro → esquerda
-  const mostrarLogo = useCallback(() => setLogo(l => {
-    if (l !== 'escondido') return l;
-    try {
-      const el = logoRef.current, ecra = document.querySelector('.xp-motion-ecra');
-      if (el && ecra) {
-        el.style.transition = 'none'; el.style.transform = 'none';
-        const r = el.getBoundingClientRect(), e = ecra.getBoundingClientRect();
-        el.style.transform = ''; void el.offsetWidth; el.style.transition = '';
-        el.style.setProperty('--dx', `${window.innerWidth / 2 - (r.left + r.width / 2)}px`);
-        el.style.setProperty('--dy', `${e.top + e.height * (117 / 1920) - (r.top + r.height / 2)}px`);
-        el.style.setProperty('--k', `${(e.width * 0.39) / r.width}`);
-      }
-    } catch { /* */ }
-    return 'centro';
-  }), []);
-  useEffect(() => { if (entrou) { mostrarLogo(); const t = setTimeout(() => setLogo('esquerda'), 60); return () => clearTimeout(t); } }, [entrou, mostrarLogo]);
+  // O LOGOTIPO: só no cabeçalho; aparece quando a animação acaba (10/11/2026).
+  const logo = entrou ? 'esquerda' : 'escondido';
   const [menu, setMenu] = useState(false);
   useEffect(() => {
     if (!menu) return;
@@ -325,7 +308,7 @@ export default function Experimenta() {
       <div className="xp-brilho" aria-hidden="true" />
 
       <header className="xp-topo xp-topo-sobre">
-        <Link to="/" ref={logoRef} className={`xp-marca xp-marca-${logo}`} aria-label="Convecta"><img src="/brand/convecta-logo-novo-claro.png" alt="Convecta" width="903" height="160" /></Link>
+        <Link to="/" className={`xp-marca xp-marca-${logo}`} aria-label="Convecta"><img src="/brand/convecta-logo-novo-claro.png" alt="Convecta" width="903" height="160" /></Link>
         <div className={`xp-topo-acoes${entrou ? '' : ' xp-topo-escondido'}`}>
           <button type="button" className="xp-btn xp-btn-pequeno" onClick={irAoFormulario}>Experimentar grátis</button>
           <button type="button" className="xp-menu-btn" onClick={() => setMenu(true)} aria-label="Abrir o menu" aria-expanded={menu}><Menu size={22} /></button>
@@ -361,11 +344,11 @@ export default function Experimenta() {
       </AnimatePresence>
 
       {/* ENTRADA: o vídeo interativo (caos → Convecta → app), com o botão a sério no fim */}
-      <MotionApp onCta={irAoFormulario} onFim={fimEntrada} onLogo={mostrarLogo} />
+      <MotionApp onCta={irAoFormulario} onFim={fimEntrada} />
 
-      {/* DEPOIS DA ENTRADA: fundo vivo — manchas de cor a mexer devagar por trás de tudo */}
+      {/* DEPOIS DA ENTRADA: a grelha leve por trás de tudo, a deslizar devagar */}
       <div className="xp-vivo">
-      <div className="xp-aurora" aria-hidden="true"><i className="a1" /><i className="a2" /><i className="a3" /><i className="a4" /><i className="a5" /></div>
+      <div className="xp-grelha" aria-hidden="true" />
 
       {/* UM DIA COM A CONVECTA — exemplo */}
       <section className="xp-dia">
@@ -540,10 +523,9 @@ const CSS = `
 .xp-topo-sobre{transition:opacity .5s ease,transform .5s ease}
 .xp-topo-acoes{display:flex;align-items:center;gap:10px;transition:opacity .5s ease,transform .5s ease}
 .xp-topo-sobre{transition:none}
-.xp-marca{transform-origin:center;transition:transform .9s cubic-bezier(.65,0,.35,1),opacity .6s ease}
-.xp-marca-escondido{opacity:0;transform:translate(var(--dx,0),var(--dy,0)) scale(var(--k,1.6))}
-.xp-marca-centro{opacity:1;transform:translate(var(--dx,0),var(--dy,0)) scale(var(--k,1.6));transition:opacity .6s ease}
-.xp-marca-esquerda{opacity:1;transform:none}
+.xp-marca{transition:opacity .6s ease}
+.xp-marca-escondido{opacity:0;pointer-events:none}
+.xp-marca-esquerda{opacity:1}
 @media (prefers-reduced-motion:reduce){.xp-marca{transition:none!important}}
 .xp-menu-btn{width:44px;height:44px;border-radius:999px;border:1px solid var(--xp-linha);background:rgba(36,32,28,.6);color:var(--xp-texto);display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(8px)}
 .xp-menu{position:fixed;inset:0;z-index:50;background:#24201C;display:flex;flex-direction:column;padding:20px 16px calc(24px + env(safe-area-inset-bottom,0px));overflow-y:auto}
@@ -616,46 +598,17 @@ const CSS = `
 .xp-acoes{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:12px}
 .xp-voltar{display:inline-flex;align-items:center;gap:6px;border:none;background:none;color:var(--xp-suave);font-family:inherit;font-size:15px;cursor:pointer;padding:8px 0}
 .xp-nota{text-align:center;font-size:13.5px;color:var(--xp-suave);margin:14px 0 0}
-/* ---- FUNDO VIVO E CORES (10/11/2026, Diogo: «mais dinâmico, mais cores») ---- */
-.xp{--c-amarelo:#FEE96D;--c-coral:#FF7A59;--c-verde:#3DD9A0;--c-violeta:#9B87F5;--c-azul:#5AB0FF}
 .xp-vivo{position:relative;margin:0 -16px;padding:40px 16px 20px;overflow:hidden;isolation:isolate}
-.xp-aurora{position:absolute;inset:0;z-index:-1;pointer-events:none}
-.xp-aurora i{position:absolute;width:62vmax;height:62vmax;border-radius:50%;filter:blur(90px);opacity:.30;mix-blend-mode:screen;will-change:transform}
-.xp-aurora .a1{background:var(--c-amarelo);top:-10%;left:-20%;animation:xpFlutua1 26s ease-in-out infinite alternate}
-.xp-aurora .a2{background:var(--c-coral);top:18%;right:-25%;animation:xpFlutua2 31s ease-in-out infinite alternate}
-.xp-aurora .a3{background:var(--c-violeta);top:42%;left:-25%;animation:xpFlutua3 28s ease-in-out infinite alternate}
-.xp-aurora .a4{background:var(--c-verde);top:62%;right:-20%;animation:xpFlutua1 34s ease-in-out infinite alternate-reverse;opacity:.24}
-.xp-aurora .a5{background:var(--c-azul);bottom:-15%;left:10%;animation:xpFlutua2 29s ease-in-out infinite alternate-reverse;opacity:.22}
-.xp-aurora::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(251,250,248,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(251,250,248,.035) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:linear-gradient(180deg,transparent,#000 15%,#000 85%,transparent);mask-image:linear-gradient(180deg,transparent,#000 15%,#000 85%,transparent)}
-@keyframes xpFlutua1{0%{transform:translate(0,0) scale(1)}50%{transform:translate(18vw,8vh) scale(1.15)}100%{transform:translate(6vw,-6vh) scale(.9)}}
-@keyframes xpFlutua2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-16vw,10vh) scale(.88)}100%{transform:translate(-4vw,-8vh) scale(1.12)}}
-@keyframes xpFlutua3{0%{transform:translate(0,0) scale(.95)}50%{transform:translate(14vw,-10vh) scale(1.1)}100%{transform:translate(22vw,6vh) scale(1)}}
-@media (prefers-reduced-motion:reduce){.xp-aurora i{animation:none}}
-/* cartões de vidro: deixam ver a cor por trás */
-.xp-vivo .xp-dia li,.xp-vivo .xp-muda-item,.xp-vivo .xp-faixa-item,.xp-vivo .xp-cartao-form,.xp-vivo .xp-depo-cartao{background:rgba(40,35,31,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
-/* uma cor por linha */
-.xp-dia li,.xp-muda-item,.xp-faixa-item{--c:var(--c-amarelo)}
-.xp-dia ol>:nth-child(5n+2) li,.xp-muda-grelha>:nth-child(4n+2),.xp-faixa-item:nth-child(5n+2){--c:var(--c-coral)}
-.xp-dia ol>:nth-child(5n+3) li,.xp-muda-grelha>:nth-child(4n+3),.xp-faixa-item:nth-child(5n+3){--c:var(--c-verde)}
-.xp-dia ol>:nth-child(5n+4) li,.xp-muda-grelha>:nth-child(4n+4),.xp-faixa-item:nth-child(5n+4){--c:var(--c-violeta)}
-.xp-faixa-item:nth-child(5n+5){--c:var(--c-azul)}
-.xp-dia li::before{background:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent)}
-.xp-hora{color:var(--c)}
-.xp-muda-item{border-color:color-mix(in srgb,var(--c) 30%,transparent)}
-.xp-muda-item svg{color:#141210;background:var(--c);border-radius:50%;padding:3px;width:22px;height:22px}
-.xp-faixa-item{border-top:3px solid var(--c)}
-.xp-faixa-item b{color:var(--c)}
-.xp-vivo h2 .xp-palavra:last-child{background:linear-gradient(90deg,var(--c-amarelo),var(--c-coral));-webkit-background-clip:text;background-clip:text;color:transparent}
-.xp-cartao-form{border:1px solid transparent!important;background:linear-gradient(rgba(40,35,31,.9),rgba(40,35,31,.9)) padding-box,linear-gradient(135deg,var(--c-amarelo),var(--c-coral),var(--c-violeta)) border-box!important;box-shadow:0 30px 120px -40px rgba(155,135,245,.45),0 20px 80px -40px rgba(254,233,109,.4)!important}
-/* segue a convecta */
+.xp-grelha{position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(251,250,248,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(251,250,248,.045) 1px,transparent 1px);background-size:56px 56px;animation:xpGrelha 18s linear infinite;-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
+@keyframes xpGrelha{to{background-position:56px 56px}}
+@media (prefers-reduced-motion:reduce){.xp-grelha{animation:none}}
 .xp-redes{padding:20px 0 70px;max-width:760px!important;text-align:center}
 .xp-redes-grelha{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px;text-align:left}
-.xp-rede a{display:flex;align-items:center;gap:14px;padding:18px;border-radius:20px;color:#fff;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
-.xp-rede a:hover{transform:translateY(-3px)}
-.xp-rede a>span:nth-child(2){flex:1;display:grid;gap:2px}.xp-rede b{font-size:17px}.xp-rede small{font-size:13.5px;opacity:.85}
-.xp-rede-icone{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.18)}
-.xp-rede-insta a{background:linear-gradient(135deg,#F9CE34 0%,#EE2A7B 50%,#6228D7 100%);box-shadow:0 20px 60px -24px rgba(238,42,123,.7)}
-.xp-rede-wpp a{background:linear-gradient(135deg,#25D366,#128C7E);box-shadow:0 20px 60px -24px rgba(37,211,102,.6)}
+.xp-rede a{display:flex;align-items:center;gap:14px;padding:18px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha);color:var(--xp-texto);text-decoration:none;transition:transform .2s ease,border-color .2s ease}
+.xp-rede a:hover{transform:translateY(-2px);border-color:rgba(254,233,109,.45)}
+.xp-rede a>span:nth-child(2){flex:1;display:grid;gap:2px}.xp-rede b{font-size:17px;font-weight:600}.xp-rede small{font-size:13.5px;color:var(--xp-suave)}
+.xp-rede a>svg{color:var(--xp-amarelo)}
+.xp-rede-icone{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:rgba(254,233,109,.12);color:var(--xp-amarelo)}
 @media (max-width:560px){.xp-redes-grelha{grid-template-columns:1fr}}
 .xp-rodape{text-align:center;font-size:13px;color:var(--xp-suave);padding:30px 0 0}
 .xp-rodape a{color:inherit}
