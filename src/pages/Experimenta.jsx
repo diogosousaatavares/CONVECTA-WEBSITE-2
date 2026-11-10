@@ -152,46 +152,38 @@ function Opcao({ on, children, onClick }) {
  * O vídeo tem o fundo da marca (#24201C), por isso fica «contido» num ecrã
  * da mesma cor: enche o ecrã sem cortar nada, em qualquer telemóvel.
  */
-const MOTION = { entrada: '/video/motion-entrada-v4.mp4', loop: '/video/motion-loop-v4.mp4', fim: '/video/motion-loop-v4.jpg', botaoEm: 13.4, logoEm: 11.5, maxSeg: 18 };
+/*
+ * 10/11/2026: a entrada deixou de ser um vídeo .mp4 — no Instagram e com a
+ * poupança de bateria do iPhone os vídeos não arrancam sozinhos, e saltava
+ * logo para o fim. Agora a animação é uma página animada a sério
+ * (public/motion/entrada.html), dentro de um iframe: corre sempre. Avisa
+ * quando o botão deve aparecer ('botao') e quando acaba ('fim').
+ */
+const MOTION = { src: '/motion/entrada.html', maxSeg: 18 };
 
-function MotionApp({ onCta, onFim, onLogo }) {
-  const v1 = useRef(null);
-  const [fase, setFase] = useState('entrada'); // entrada → loop | fim (sem animação)
+function MotionApp({ onCta, onFim }) {
   const [botao, setBotao] = useState(false);
   const acabou = useRef(false);
-  const fechar = useCallback((fim) => {
+  const fechar = useCallback(() => {
     setBotao(true);
-    onLogo && onLogo();
-    setFase(fim);
     if (!acabou.current) { acabou.current = true; onFim && onFim(); }
-  }, [onFim, onLogo]);
+  }, [onFim]);
   useEffect(() => {
-    let poupa = false;
-    try { poupa = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !!navigator.connection?.saveData; } catch { /* */ }
-    if (poupa) { fechar('fim'); return; }
     try { window.scrollTo(0, 0); } catch { /* */ }
-    const el = v1.current;
-    if (el) { el.muted = true; el.defaultMuted = true; el.setAttribute('muted', ''); el.setAttribute('playsinline', ''); }
-    const p = el && el.play();
-    // Se o primeiro play falhar (o vídeo ainda não carregou), tenta outra vez quando der para tocar;
-    // só se falhar de novo (ex.: poupança de bateria no iPhone) é que mostra logo o fim.
-    if (p && p.catch) p.catch(() => {
-      const tentar = () => { const q = el.play(); if (q && q.catch) q.catch(() => fechar('fim')); };
-      if (el.readyState >= 3) tentar(); else el.addEventListener('canplay', tentar, { once: true });
-    });
-    const seguranca = setTimeout(() => fechar('loop'), MOTION.maxSeg * 1000); // se o vídeo encravar, a página não fica presa
-    return () => clearTimeout(seguranca);
+    const ouvir = ev => {
+      if (ev.origin !== window.location.origin) return;
+      const m = ev.data && ev.data.convectaEntrada;
+      if (m === 'botao') setBotao(true);
+      if (m === 'fim') fechar();
+    };
+    window.addEventListener('message', ouvir);
+    const seguranca = setTimeout(fechar, MOTION.maxSeg * 1000); // se algo encravar, a página não fica presa
+    return () => { window.removeEventListener('message', ouvir); clearTimeout(seguranca); };
   }, [fechar]);
   return (
     <section className="xp-motion" aria-label="Do caos das mensagens à tua app Convecta">
       <div className="xp-motion-ecra">
-        {fase === 'fim' && <img src={MOTION.fim} alt="" />}
-        {fase === 'entrada' && (
-          <video ref={v1} src={MOTION.entrada} muted playsInline autoPlay preload="auto" aria-hidden="true"
-            onTimeUpdate={e => { const c = e.currentTarget.currentTime; if (c >= MOTION.logoEm && onLogo) onLogo(); if (c >= MOTION.botaoEm) setBotao(true); }}
-            onEnded={() => fechar('loop')} onError={() => fechar('fim')} />
-        )}
-        {fase === 'loop' && <video ref={el => { if (el) { el.muted = true; el.setAttribute('muted', ''); } }} src={MOTION.loop} poster={MOTION.fim} muted playsInline autoPlay loop aria-hidden="true" />}
+        <iframe src={MOTION.src} title="Do caos das mensagens à tua app Convecta" tabIndex={-1} aria-hidden="true" />
         <button type="button" className={`xp-btn xp-motion-btn${botao ? ' on' : ''}`} onClick={onCta} tabIndex={botao ? 0 : -1}>
           Quero a minha app grátis <ArrowRight size={18} />
         </button>
@@ -679,7 +671,7 @@ const CSS = `
 .xp-menu-fim{margin:auto auto 0;padding-top:32px;max-width:1080px;width:100%;display:grid;gap:14px;color:var(--xp-suave);font-size:14.5px}
 .xp-menu-fim a{color:var(--xp-suave)}
 @media (max-width:420px){.xp-topo-acoes .xp-btn-pequeno{padding:9px 13px;font-size:13px}}
-.xp-motion-ecra video,.xp-motion-ecra img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.xp-motion-ecra iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;background:#24201C;pointer-events:none}
 .xp-motion-btn{position:absolute;left:50%;top:91.4%;transform:translate(-50%,-50%) scale(.85);opacity:0;pointer-events:none;white-space:nowrap;font-size:3.7cqw;padding:3.1cqw 5.2cqw;gap:1.2cqw;transition:opacity .35s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
 .xp-motion-btn svg{width:3.8cqw;height:3.8cqw}
 .xp-motion-btn.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}

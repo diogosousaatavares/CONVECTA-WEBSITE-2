@@ -1,0 +1,120 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"><style>
+@font-face{font-family:'DMS';src:url(dmserif.woff2) format('woff2');font-weight:400}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#24201C}
+#cena{position:absolute;left:50%;top:50%;transform-origin:center;width:1080px;height:1920px;overflow:hidden;background:#24201C;font-family:Inter,sans-serif;color:#FBFAF8}
+#amarelo{position:absolute;inset:0;background:#FEE96D;opacity:0}
+.titulo{position:absolute;left:0;right:0;text-align:center;font-family:'DMS',serif;font-weight:400}
+#t1{top:190px;font-size:96px;line-height:1.05}
+#t1 em{font-style:normal;color:#FF3B30;position:relative;display:inline-block}
+#risco{position:absolute;left:-8%;top:54%;height:12px;width:116%;border-radius:6px;background:#FBFAF8;transform-origin:left center;transform:rotate(-4deg) scaleX(0)}
+.chip{position:absolute;display:flex;align-items:center;gap:22px;padding:28px 36px;border-radius:36px;background:#2F2A25;border:2px solid rgba(251,250,248,.10);font-size:40px;font-weight:600;white-space:nowrap;box-shadow:0 30px 60px -20px rgba(0,0,0,.6);transform-origin:center}
+.chip .ic{width:76px;height:76px;font-size:54px;line-height:64px;text-align:center;object-fit:contain;flex-shrink:0;font-family:"Noto Color Emoji"}
+.chip svg{width:56px;height:56px;stroke:#FF8A7A;flex-shrink:0}
+.chip.bolha{background:#FBFAF8;color:#24201C;border:none;border-bottom-left-radius:8px}
+.chip.bolha svg{stroke:#24201C}
+#logo{position:absolute;left:50%;top:50%;width:520px;height:auto;transform:translate(-50%,-50%);overflow:visible}
+#logo .b,#logo .y{stroke-width:7;stroke-linejoin:round;fill-opacity:0}
+#logo .b{stroke:#FBFAF8;fill:#FBFAF8}
+#logo .y{stroke:#FEE96D;fill:#FEE96D}
+#flood{position:absolute;left:50%;top:50%;width:80px;height:80px;margin:-40px 0 0 -40px;border-radius:50%;background:#FEE96D;transform:scale(0)}
+#tel{position:absolute;left:50%;top:50%;width:640px;height:1300px;margin:-650px 0 0 -320px;border-radius:84px;padding:22px;background:linear-gradient(160deg,#3a342e,#171411);box-shadow:inset 0 0 0 2px rgba(255,255,255,.08);opacity:0}
+#app{width:100%;height:100%;object-fit:cover;background:#fff;object-position:top;display:block}
+#ecra{position:relative;width:100%;height:100%;border-radius:64px;background:#1C1916;overflow:hidden}
+#topo{position:relative;z-index:2;height:230px;background:#FEE96D;color:#24201C;display:flex;flex-direction:column;justify-content:flex-end;padding:0 46px 36px}
+#topo small{font-size:26px;font-weight:600;opacity:.7}
+#topo b{font-family:'DMS',serif;font-weight:400;font-size:58px;line-height:1.05}
+.linha{display:flex;align-items:center;gap:26px;margin:26px 34px 0;padding:24px 26px;border-radius:30px;background:#2E2924;border:2px solid rgba(251,250,248,.07)}
+.linha i{width:84px;height:84px;border-radius:24px;background:rgba(254,233,109,.14);display:grid;place-items:center;flex-shrink:0}
+.linha svg{width:46px;height:46px;stroke:#FEE96D}
+.linha b{display:block;font-size:34px;font-weight:700}
+.linha span{display:block;font-size:26px;color:rgba(251,250,248,.66);margin-top:4px}
+#sol{top:250px;font-size:120px;color:#FEE96D;opacity:0}
+#lista{position:absolute;left:90px;right:90px;top:470px;display:grid;gap:26px}
+.ck{display:flex;align-items:center;gap:30px;padding:28px 34px;border-radius:34px;background:#2E2924;border:2px solid rgba(251,250,248,.08);opacity:0}
+.ck .ce{width:88px;height:88px;object-fit:contain;flex-shrink:0}
+.ck b{flex:1;font-size:46px;font-weight:700}
+.ck .ok{width:70px;height:70px;border-radius:50%;background:#FEE96D;color:#24201C;font-size:42px;font-weight:900;display:grid;place-items:center;transform:scale(0)}
+#t2{top:1420px;font-size:104px;line-height:1.02;opacity:0}
+#t2 .p{display:inline-block}
+#t2 .am{color:#FEE96D}
+#btn{position:absolute;left:50%;top:1700px;transform:translateX(-50%);padding:34px 56px;border-radius:999px;background:#FEE96D;color:#24201C;font-size:40px;font-weight:700;white-space:nowrap;box-shadow:0 30px 80px -20px rgba(254,233,109,.6);opacity:0}
+#marca{position:absolute;left:50%;top:80px;width:420px;transform:translateX(-50%);opacity:0}
+</style></head><body><div id="cena">
+<div id="amarelo"></div>
+<div class="titulo" id="t1">O teu dia<br>é <em>isto<i id="risco"></i></em>?</div>
+<div class="chip bolha"><img class="ic" src="ic/mensagens.png">Tens vaga às 5?</div><div class="chip"><img class="ic" src="ic/telefone.png">3 chamadas perdidas</div><div class="chip"><img class="ic" src="ic/instagram.png">+9 mensagens</div><div class="chip"><img class="ic" src="ic/caderno.png">Caderno cheio de riscos</div><div class="chip"><img class="ic" src="ic/cruz.png">Faltou outra vez</div><div class="chip"><img class="ic" src="ic/tesoura.png">A responder a meio do corte</div><div class="chip"><img class="ic" src="ic/grafico.png">Menos clientes</div><div class="chip"><img class="ic" src="ic/google.png">Ninguém te encontra no Google</div>
+<div id="flood"></div>
+<svg id="logo" viewBox="355 840 470 382"><g id="lg"><path class="b" d="M478 962 L594 962 C613 962 629 977 629 996 C629 1015 613 1031 594 1031 L565 1031 C537 1031 512 1054 512 1082 C512 1110 535 1133 563 1133 L658 1133 C665 1133 669 1140 666 1146 C648 1185 613 1212 577 1212 L470 1212 C412 1212 365 1160 365 1100 L365 1075 C365 1013 418 962 478 962 Z"/><path class="y" d="M512 932 C522 885 560 852 602 852 L708 852 C770 852 815 900 815 965 L815 1012 C815 1070 770 1116 715 1116 L598 1116 C580 1116 564 1101 564 1083 C564 1065 580 1050 598 1050 L636 1050 C665 1050 688 1026 688 997 C688 968 665 944 636 944 L518 944 C512 944 510 938 512 932 Z"/></g></svg>
+<div id="tel"><div id="ecra"><video id="app" src="app-loop.mp4" poster="app-poster.jpg" muted playsinline loop preload="auto"></video></div></div>
+<div class="titulo" id="sol">A solução</div><div id="lista"><div class="ck"><img class="ce" src="ic/k-app.png"><b>A tua app</b><span class="ok">✓</span></div><div class="ck"><img class="ce" src="ic/k-sino.png"><b>Lembretes automáticos</b><span class="ok">✓</span></div><div class="ck"><img class="ce" src="ic/k-pagamentos.png"><b>Pagamentos online</b><span class="ok">✓</span></div><div class="ck"><img class="ce" src="ic/k-faturacao.png"><b>Mais faturação</b><span class="ok">✓</span></div><div class="ck"><img class="ce" src="ic/k-google.png"><b>Avaliações no Google</b><span class="ok">✓</span></div><div class="ck"><img class="ce" src="ic/k-agenda.png"><b>Agenda organizada</b><span class="ok">✓</span></div></div>
+
+<div class="titulo" id="t2"><span class="p">Mais</span> <span class="p">marcações.</span><br><span class="p am">Menos</span> <span class="p am">mensagens.</span></div>
+
+<div id="fim" style="position:absolute;inset:0;background:#24201C;opacity:0"></div></div>
+<script>
+const NAPP=370;const CH=[{"x": 300, "y": 520, "r": -6, "t": 0.5}, {"x": 760, "y": 690, "r": 5, "t": 0.85}, {"x": 470, "y": 880, "r": -3, "t": 1.2}, {"x": 640, "y": 1070, "r": 7, "t": 1.55}, {"x": 300, "y": 1250, "r": -8, "t": 1.9}, {"x": 600, "y": 1430, "r": 4, "t": 2.25}, {"x": 790, "y": 1600, "r": -5, "t": 2.6}, {"x": 470, "y": 1770, "r": 3, "t": 2.95}];
+const $=s=>document.querySelector(s);
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const p=(t,a,b)=>cl((t-a)/(b-a));
+const eo=x=>1-Math.pow(1-x,3), ei=x=>x*x*x, eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const back=x=>{const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const L={};document.querySelectorAll('#logo path').forEach(e=>{L[e.getAttribute('class')]=e.getTotalLength();e.style.strokeDasharray=e.getTotalLength()});
+window.render=function(t){
+  // 1 · o caos
+  const t1=$('#t1'); const a1=eo(p(t,0.1,0.7)), s1=p(t,4.4,4.9); document.getElementById('risco').style.transform=`rotate(-4deg) scaleX(${eio(p(t,3.5,3.85))})`;
+  t1.style.opacity=a1*(1-s1); t1.style.transform=`translateY(${(1-a1)*40}px)`;
+  const conv=eio(p(t,4.3,5.2));
+  document.querySelectorAll('.chip').forEach((el,i)=>{
+    const c=CH[i]; const ap=p(t,c.t,c.t+0.45); const sc=ap<=0?0:back(ap);
+    const jit=Math.sin(t*6+i*1.7)*4*(1-conv);
+    const x=c.x+(540-c.x)*conv, y=c.y+(960-c.y)*conv;
+    el.style.opacity=(ap>0?1:0)*(1-p(t,4.9,5.2));
+    el.style.left=x+'px'; el.style.top=y+'px';
+    el.style.transform=`translate(-50%,-50%) rotate(${c.r*(1-conv)+jit*.3}deg) scale(${sc*(1-0.8*conv)})`;
+  });
+  // 2 · o símbolo desenha-se e o amarelo enche
+  const lg=$('#logo'); const sl=p(t,5.0,5.15);
+  lg.style.opacity=sl*(1-p(t,6.7,6.9));
+  const db=eio(p(t,5.0,5.8)), dy=eio(p(t,5.15,5.95));
+  const b=lg.querySelector('.b'), y=lg.querySelector('.y');
+  b.style.strokeDashoffset=L.b*(1-db); y.style.strokeDashoffset=L.y*(1-dy);
+  const f=p(t,5.75,6.05); b.style.fillOpacity=f; y.style.fillOpacity=f; b.style.strokeWidth=7*(1-f); y.style.strokeWidth=7*(1-f);
+  const pop=p(t,6.0,6.35); const ps=pop>0&&pop<1?1+Math.sin(pop*Math.PI)*0.08:1;
+  $('#lg').style.transform=`scale(${ps}) rotate(${-Math.sin(pop*Math.PI)*4}deg)`; $('#lg').style.transformOrigin='590px 1030px';
+  const fl=Math.pow(p(t,6.2,6.9),2); $('#flood').style.transform=`scale(${fl*60})`;
+  $('#flood').style.opacity=1-p(t,6.9,7.3);
+  // 3 · abre-se a app
+  const so=eo(p(t,6.95,7.5)), sx=eio(p(t,11.0,11.7));
+  $('#sol').style.opacity=so*(1-sx); $('#sol').style.transform=`translateY(${(1-so)*40}px)`;
+  document.querySelectorAll('.ck').forEach((el,i)=>{const a=p(t,7.6+i*0.5,8.0+i*0.5), e=back(a), k=back(p(t,7.85+i*0.5,8.2+i*0.5));
+    el.style.opacity=(a>0?Math.min(1,a*2):0)*(1-sx); el.style.transform=`translateX(${(1-e)*90 - sx*1100}px)`;
+    el.querySelector('.ok').style.transform=`scale(${k})`;});
+  const ti=eio(p(t,11.0,11.8)); const tel=$('#tel');
+  tel.style.opacity=ti>0?1:0; tel.style.transform=`translate(${(1-ti)*1100}px,-60px) scale(0.72)`;
+  if(t>=11&&!window.__tocou){window.__tocou=1;const v=$('#app');v.muted=true;const q=v.play();q&&q.catch&&q.catch(()=>{});}
+  const t2=$('#t2'); t2.style.opacity=1;
+  t2.querySelectorAll('.p').forEach((w,i)=>{const a=eo(p(t,12.6+i*0.15,13.2+i*0.15)); w.style.opacity=a; w.style.transform=`translateY(${(1-a)*50}px)`; w.style.filter=`blur(${(1-a)*8}px)`;});
+  
+};
+
+// ----- A CORRER NO SITE (sem vídeo: a animação é a própria página) -----
+const FIM=14.0, BOTAO=13.4;
+const cena=document.getElementById('cena');
+function encaixa(){const k=Math.min(innerWidth/1080,innerHeight/1920);cena.style.transform=`translate(-50%,-50%) scale(${k})`;}
+addEventListener('resize',encaixa);encaixa();
+const avisa=m=>{try{parent.postMessage({convectaEntrada:m},location.origin)}catch(e){}};
+let poupa=false;try{poupa=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+if(poupa){window.render(FIM);avisa('botao');avisa('fim');}
+else{
+  let t0=null,botao=false;
+  const passo=now=>{if(t0===null)t0=now;const t=Math.min(FIM,(now-t0)/1000);window.render(t);
+    if(!botao&&t>=BOTAO){botao=true;avisa('botao');}
+    if(t<FIM)requestAnimationFrame(passo);else avisa('fim');};
+  const arranca=()=>requestAnimationFrame(passo);
+  // espera pelas letras e pelos ícones (no máximo 1,2 s) para não começar a meio
+  Promise.race([Promise.all([document.fonts.ready,...[...document.images].map(i=>i.decode().catch(()=>{}))]),new Promise(r=>setTimeout(r,1200))]).then(arranca);
+  window.render(0);
+}
+
+</script></body></html>
