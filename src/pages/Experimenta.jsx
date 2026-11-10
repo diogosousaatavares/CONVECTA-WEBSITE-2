@@ -194,6 +194,73 @@ function MotionApp({ onCta, onFim, onLogo }) {
   );
 }
 
+/*
+ * A TUA APP, COM A TUA MARCA (10/11/2026). Barbearias de EXEMPLO (não são
+ * clientes — está escrito na página): mostram que a app leva o nome, o
+ * logotipo e as cores de cada barbearia. O telemóvel muda de marca sozinho;
+ * tocar num logotipo da faixa mostra essa.
+ */
+const EXEMPLOS = [
+  { nome: 'Alpha Barber Studio', logo: 'alpha', cor: '#D4A537', fundo: '#141414' },
+  { nome: "The Gentleman's Cut", logo: 'gentlemans-cut', cor: '#E8D3A8', fundo: '#4A1418' },
+  { nome: 'Royal Blade', logo: 'royal-blade', cor: '#E2B33C', fundo: '#121212' },
+  { nome: 'Barbearia Dom Duarte', logo: 'dom-duarte', cor: '#D9B45A', fundo: '#10301F' },
+  { nome: 'Corte Nobre', logo: 'corte-nobre', cor: '#C9A24A', fundo: '#1A1A1A' },
+  { nome: 'Vintage Barber Club', logo: 'vintage', cor: '#E9D8B4', fundo: '#4A2E1C' },
+  { nome: 'Império Barbearia', logo: 'imperio', cor: '#E0A92E', fundo: '#141210' },
+  { nome: 'O Cavalheiro', logo: 'o-cavalheiro', cor: '#2B2B2B', fundo: '#E6E3DE', claro: true },
+  { nome: 'Black Crown', logo: 'black-crown', cor: '#E5B94A', fundo: '#0E0E0E' },
+  { nome: 'The Golden Razor', logo: 'golden-razor', cor: '#F2C230', fundo: '#151515' },
+];
+const SERVICOS_EXEMPLO = [['Corte', '30 min'], ['Corte + Barba', '45 min'], ['Barba', '20 min']];
+
+function MarcaPropria() {
+  const [i, setI] = useState(0);
+  const [parado, setParado] = useState(false);
+  const reduz = useReducedMotion();
+  useEffect(() => {
+    if (parado) return;
+    const t = setInterval(() => setI(x => (x + 1) % EXEMPLOS.length), 2600);
+    return () => clearInterval(t);
+  }, [parado]);
+  const e = EXEMPLOS[i];
+  const tinta = e.claro ? '#1C1916' : '#FBFAF8';
+  return (
+    <section className="xp-propria">
+      <div className="xp-propria-texto">
+        <Palavras texto="A tua app, com a tua marca." />
+        <Revela><p>O teu nome, o teu logotipo, as tuas cores. Os teus clientes marcam na <b>tua</b> app — não na de outro.</p></Revela>
+      </div>
+      <div className="xp-propria-tel" aria-label={`Exemplo: a app da ${e.nome}`}>
+        <span className="xp-propria-exemplo">Exemplo</span>
+        <AnimatePresence mode="wait">
+          <motion.div key={e.logo} className="xp-propria-ecra" style={{ background: e.fundo, color: tinta }}
+            initial={reduz ? false : { opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={reduz ? undefined : { opacity: 0, scale: 1.03 }} transition={{ duration: 0.35 }}>
+            <img src={`/brand/exemplos/${e.logo}.png`} alt="" width="240" height="240" />
+            <b>{e.nome}</b>
+            <span className="xp-propria-btn" style={{ background: e.cor, color: e.claro ? '#FBFAF8' : '#141210' }}>Marcar agora</span>
+            <div className="xp-propria-lista">
+              {SERVICOS_EXEMPLO.map(([sv, d]) => (
+                <span key={sv} style={{ borderColor: e.claro ? 'rgba(28,25,22,.12)' : 'rgba(251,250,248,.12)' }}><b>{sv}</b><small>{d}</small></span>
+              ))}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+      <div className="xp-propria-faixa" onMouseEnter={() => setParado(true)} onMouseLeave={() => setParado(false)}>
+        <div className="xp-propria-trilho">
+          {[...EXEMPLOS, ...EXEMPLOS].map((x, k) => (
+            <button key={k} type="button" className={x.logo === e.logo ? 'on' : ''} onClick={() => { setI(k % EXEMPLOS.length); setParado(true); }} aria-hidden={k >= EXEMPLOS.length} tabIndex={k >= EXEMPLOS.length ? -1 : 0} aria-label={`Ver o exemplo ${x.nome}`}>
+              <img src={`/brand/exemplos/${x.logo}.png`} alt="" width="240" height="240" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      </div>
+      <p className="xp-mini xp-propria-nota">Barbearias de exemplo, para mostrar como fica. A tua leva o teu nome e o teu logotipo.</p>
+    </section>
+  );
+}
+
 export default function Experimenta() {
   useEffect(() => { try { guardarOrigem(); } catch { /* sem armazenamento */ } }, []);
   const reduz = useReducedMotion();
@@ -417,6 +484,9 @@ export default function Experimenta() {
         </ol>
         <Revela><button type="button" className="xp-btn" onClick={() => irAoFormulario('como')}>Quero a minha app grátis <ArrowRight size={18} /></button></Revela>
       </section>
+
+      {/* A TUA APP, COM A TUA MARCA — exemplos */}
+      <MarcaPropria />
 
       {/* UM DIA COM A CONVECTA — exemplo */}
       <section className="xp-dia">
@@ -773,6 +843,29 @@ const CSS = `
 /* REDES: os ícones com as cores de cada uma */
 .xp-rede-insta .xp-rede-icone{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);color:#fff;border:none}
 .xp-rede-wpp .xp-rede-icone{background:#25D366;color:#fff;border:none}
+/* A TUA APP, COM A TUA MARCA */
+.xp-propria{padding:0 0 90px;max-width:1000px!important;display:grid;grid-template-columns:1fr 340px;gap:24px 48px;align-items:center}
+.xp-propria-texto p{font-size:18px;line-height:1.55;color:var(--xp-suave);margin:16px 0 0;max-width:44ch}
+.xp-propria-texto b{color:var(--xp-amarelo);font-weight:600}
+.xp-propria-tel{box-sizing:border-box;position:relative;justify-self:center;width:300px;height:560px;border-radius:46px;padding:12px;background:linear-gradient(160deg,#3a342e,#151210);box-shadow:inset 0 0 0 2px rgba(255,255,255,.08),0 40px 80px -40px rgba(0,0,0,.8)}
+.xp-propria-exemplo{position:absolute;top:-12px;left:50%;transform:translateX(-50%);z-index:2;padding:5px 12px;border-radius:999px;background:var(--xp-amarelo);color:#141210;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.xp-propria-ecra{box-sizing:border-box;width:100%;height:100%;border-radius:36px;display:flex;flex-direction:column;align-items:center;padding:34px 18px 18px;gap:12px;text-align:center;overflow:hidden}
+.xp-propria-ecra>img{width:132px;height:132px;border-radius:50%;box-shadow:0 18px 40px -18px rgba(0,0,0,.7)}
+.xp-propria-ecra>b{font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:24px;line-height:1.1}
+.xp-propria-btn{width:100%;padding:13px;border-radius:999px;font-weight:700;font-size:15px}
+.xp-propria-lista{width:100%;display:grid;gap:8px;margin-top:4px}
+.xp-propria-lista span{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-radius:14px;border:1px solid;font-size:14px;text-align:left}
+.xp-propria-lista small{opacity:.7}
+.xp-propria-faixa{grid-column:1/-1;overflow:hidden;margin:16px -16px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.xp-propria-trilho{display:flex;gap:12px;width:max-content;padding:8px 0;animation:xpRola 40s linear infinite}
+.xp-propria-faixa:hover .xp-propria-trilho{animation-play-state:paused}
+.xp-propria-trilho button{width:92px;height:92px;padding:0;border:none;border-radius:50%;background:none;cursor:pointer;opacity:.6;transition:opacity .25s ease,transform .25s ease,box-shadow .25s ease}
+.xp-propria-trilho button img{width:100%;height:100%;border-radius:50%;display:block}
+.xp-propria-trilho button:hover,.xp-propria-trilho button.on{opacity:1;transform:scale(1.06)}
+.xp-propria-trilho button.on{box-shadow:0 0 0 3px var(--xp-amarelo)}
+.xp-propria-nota{grid-column:1/-1;text-align:center}
+@media (max-width:760px){.xp-propria{grid-template-columns:1fr}.xp-propria-tel{width:270px;height:510px}}
+@media (prefers-reduced-motion:reduce){.xp-propria-trilho{animation:none;flex-wrap:wrap;width:auto;justify-content:center;padding:8px 16px}}
 .xp-rodape{text-align:center;font-size:13px;color:var(--xp-suave);padding:30px 0 0}
 .xp-rodape a{color:inherit}
 .xp-obrigado{max-width:620px!important;padding:90px 0 40px}
