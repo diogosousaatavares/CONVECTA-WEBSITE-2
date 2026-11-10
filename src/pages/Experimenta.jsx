@@ -48,6 +48,24 @@ const DIA = [
 ];
 
 /* O que muda — os ganhos, ditos pela Convecta (não são citações de clientes). */
+// Como funciona — 3 passos (10/11/2026).
+const COMO = [
+  ['Respondes a 5 perguntas', 'Demora 2 minutos. Sem cartão.'],
+  ['A tua app fica criada', 'Com o nome da tua barbearia. Ajudamos-te a pôr tudo a funcionar.'],
+  ['Os clientes marcam sozinhos', 'Partilhas o link e as marcações entram na agenda.'],
+];
+
+// Perguntas frequentes — as dúvidas de quem ainda não experimentou (10/11/2026; rever as respostas, Diogo).
+const FAQ = [
+  ['Preciso de cartão para experimentar?', 'Não. São 14 dias grátis e não pedimos cartão.'],
+  ['Os meus clientes têm de instalar alguma coisa?', 'Não. Marcam pelo link da tua barbearia, no telemóvel, em poucos segundos.'],
+  ['E se os clientes faltarem?', 'Recebem lembretes automáticos antes da marcação. Menos faltas, menos cadeiras vazias.'],
+  ['Posso receber pagamentos online?', 'Sim. Podes ativar os pagamentos online e o cliente paga ao marcar.'],
+  ['Funciona se tiver uma equipa?', 'Sim. Cada profissional tem os seus horários e a sua agenda, tudo à vista.'],
+  ['Não percebo nada de tecnologia. Consigo?', 'Consegues. Criamos a app contigo e ajudamos-te a configurar tudo numa chamada.'],
+  ['Ainda tenho dúvidas. Falo com quem?', 'Fala connosco no WhatsApp: 914 874 725. Respondemos nós, não é um robô.'],
+];
+
 // O que muda — só o título, sem texto pequeno (10/11/2026, Diogo).
 const MUDA = ['Mais organização', 'Menos tempo ao telemóvel', 'Imagem mais profissional', 'Equipa mais fácil de gerir'];
 
@@ -177,6 +195,17 @@ export default function Experimenta() {
     return () => { h.style.overflow = ''; b.style.overflow = ''; };
   }, [entrou]);
   const fimEntrada = useCallback(() => setEntrou(true), []);
+  // A barra fixa: aparece depois da entrada, ao rolar, e sai quando o formulário está à vista.
+  const [barra, setBarra] = useState(false);
+  useEffect(() => {
+    if (!entrou) return;
+    let formVisto = false;
+    const ver = () => setBarra(window.scrollY > window.innerHeight * 0.6 && !formVisto);
+    const io = typeof IntersectionObserver !== 'undefined' ? new IntersectionObserver(([e]) => { formVisto = e.isIntersecting; ver(); }, { threshold: 0.15 }) : null;
+    if (io && formRef.current) io.observe(formRef.current);
+    window.addEventListener('scroll', ver, { passive: true }); ver();
+    return () => { window.removeEventListener('scroll', ver); io && io.disconnect(); };
+  }, [entrou]);
   // O LOGOTIPO: só no cabeçalho; aparece quando a animação acaba (10/11/2026).
   const logo = entrou ? 'esquerda' : 'escondido';
   const [menu, setMenu] = useState(false);
@@ -199,7 +228,7 @@ export default function Experimenta() {
   const s = (k, v) => setF(x => ({ ...x, [k]: v }));
   const slug = slugDe(f.barbearia);
 
-  const irAoFormulario = () => { formRef.current?.scrollIntoView({ behavior: reduz ? 'auto' : 'smooth', block: 'center' }); try { window.trackEvent?.('landing_cta'); } catch { /* */ } };
+  const irAoFormulario = (onde) => { formRef.current?.scrollIntoView({ behavior: reduz ? 'auto' : 'smooth', block: 'center' }); try { window.trackEvent?.('landing_cta', { onde: typeof onde === 'string' ? onde : 'topo' }); } catch { /* */ } };
 
   const validar = p => {
     const k = PASSOS[p];
@@ -299,7 +328,8 @@ export default function Experimenta() {
   /* ── A LANDING ────────────────────────────────────────────────────────── */
   return (
     <main className="xp">
-      <Seo titulo="Experimenta a Convecta 14 dias grátis" descricao="A tua barbearia com app de marcações própria, lembretes automáticos e menos faltas. 14 dias grátis, sem cartão." caminho="/experimenta" />
+      <Seo titulo="Experimenta a Convecta 14 dias grátis" descricao="A tua barbearia com app de marcações própria, lembretes automáticos e menos faltas. 14 dias grátis, sem cartão." caminho="/experimenta"
+        ld={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: FAQ.map(([q, r]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: r } })) }} />
       <style>{CSS}</style>
       <div className="xp-brilho" aria-hidden="true" />
 
@@ -346,18 +376,6 @@ export default function Experimenta() {
       <div className="xp-vivo">
       <div className="xp-grelha" aria-hidden="true" />
 
-      {/* UM DIA COM A CONVECTA — exemplo */}
-      <section className="xp-dia">
-        <Palavras texto="Um dia com a Convecta." /><Revela><p className="xp-mini">Exemplo.</p></Revela>
-        <ol>
-          {DIA.map((c, i) => (
-            <Revela key={c.h} atraso={i * 0.06}>
-              <li><span className="xp-hora">{c.h}</span><span><strong>{c.t}</strong> <small>{c.d}</small></span></li>
-            </Revela>
-          ))}
-        </ol>
-      </section>
-
       {/* O QUE MUDA */}
       <section className="xp-muda">
         <Palavras texto="O que muda." />
@@ -369,6 +387,33 @@ export default function Experimenta() {
             </Revela>
           ))}
         </div>
+      </section>
+
+      {/* COMO FUNCIONA — 3 passos */}
+      <section className="xp-como">
+        <Palavras texto="Como funciona." />
+        <ol className="xp-como-passos">
+          {COMO.map(([t, d], i) => (
+            <Revela key={t} atraso={i * 0.08} className="xp-como-passo">
+              <span className="xp-como-n">{i + 1}</span>
+              <b>{t}</b>
+              <span>{d}</span>
+            </Revela>
+          ))}
+        </ol>
+        <Revela><button type="button" className="xp-btn" onClick={() => irAoFormulario('como')}>Quero a minha app grátis <ArrowRight size={18} /></button></Revela>
+      </section>
+
+      {/* UM DIA COM A CONVECTA — exemplo */}
+      <section className="xp-dia">
+        <Palavras texto="Um dia com a Convecta." /><Revela><p className="xp-mini">Exemplo.</p></Revela>
+        <ol>
+          {DIA.map((c, i) => (
+            <Revela key={c.h} atraso={i * 0.06}>
+              <li><span className="xp-hora">{c.h}</span><span><strong>{c.t}</strong> <small>{c.d}</small></span></li>
+            </Revela>
+          ))}
+        </ol>
       </section>
 
       {/* DEPOIMENTOS VERDADEIROS — só aparecem quando houver */}
@@ -456,6 +501,27 @@ export default function Experimenta() {
         </div>
       </section>
 
+      {/* PERGUNTAS — respondem às dúvidas antes de experimentar (abre e fecha) */}
+      <section className="xp-faq" id="perguntas">
+        <Palavras texto="Perguntas frequentes." />
+        <div className="xp-faq-lista">
+          {FAQ.map(([q, r]) => (
+            <details key={q} className="xp-faq-item">
+              <summary>{q}<span className="xp-faq-mais" aria-hidden="true" /></summary>
+              <p>{r}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* CHAMADA FINAL */}
+      <section className="xp-final">
+        <Palavras texto="A tua barbearia, com a tua app." />
+        <Revela><p>Os clientes marcam sozinhos. Tu cortas.</p></Revela>
+        <Revela><button type="button" className="xp-btn" onClick={() => irAoFormulario('final')}>Quero a minha app grátis <ArrowRight size={18} /></button>
+          <p className="xp-mini">14 dias grátis · sem cartão</p></Revela>
+      </section>
+
       {/* SEGUE A CONVECTA */}
       <section className="xp-redes">
         <Palavras texto="Segue a Convecta." />
@@ -479,7 +545,18 @@ export default function Experimenta() {
       </section>
       </div>
 
-      <footer className="xp-rodape">Convecta · <a href="https://convecta.pt">convecta.pt</a> · 914 874 725</footer>
+      <footer className="xp-rodape">Convecta · <a href="https://convecta.pt">convecta.pt</a> · <a href="tel:+351914874725">914 874 725</a> · <a href="mailto:geral@convecta.pt">geral@convecta.pt</a> · © {new Date().getFullYear()}</footer>
+
+      {/* NO TELEMÓVEL: barra fixa com o botão, depois de rolar (some quando o formulário está à vista) */}
+      <div className={`xp-barra${barra ? ' on' : ''}`} aria-hidden={!barra}>
+        <button type="button" className="xp-btn" tabIndex={barra ? 0 : -1} onClick={() => irAoFormulario('barra')}>Quero a minha app grátis <ArrowRight size={18} /></button>
+      </div>
+      {/* WHATSAPP: sempre à mão, com a mensagem já escrita */}
+      {entrou && (
+        <a className="xp-wpp" href={`https://wa.me/351914874725?text=${encodeURIComponent('Olá! Vi a página da Convecta e tenho uma dúvida sobre a app para a minha barbearia.')}`} target="_blank" rel="noopener noreferrer" aria-label="Falar connosco no WhatsApp" onClick={() => { try { window.trackEvent?.('landing_whatsapp_flutuante'); } catch { /* */ } }}>
+          <MessageCircle size={26} />
+        </a>
+      )}
     </main>
   );
 }
@@ -606,6 +683,34 @@ const CSS = `
 .xp-rede a>svg{color:var(--xp-amarelo)}
 .xp-rede-icone{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:rgba(254,233,109,.12);color:var(--xp-amarelo)}
 @media (max-width:560px){.xp-redes-grelha{grid-template-columns:1fr}}
+.xp-como{padding:0 0 90px;max-width:900px!important}
+.xp-como-passos{list-style:none;margin:26px 0 28px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.xp-como-passo{display:grid;gap:8px;align-content:start;padding:22px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha)}
+.xp-como-n{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--xp-amarelo);color:#141210;font-family:'DM Serif Display',Georgia,serif;font-size:22px;margin-bottom:6px}
+.xp-como-passo b{font-size:18px;font-weight:600}.xp-como-passo>span:last-child{font-size:15px;line-height:1.5;color:var(--xp-suave)}
+.xp-faq{padding:60px 0 70px;max-width:760px!important}
+.xp-faq-lista{display:grid;gap:10px;margin-top:24px}
+.xp-faq-item{border-radius:16px;background:var(--xp-cartao);border:1px solid var(--xp-linha);overflow:hidden}
+.xp-faq-item[open]{border-color:rgba(254,233,109,.35)}
+.xp-faq-item summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;font-size:17px;font-weight:600}
+.xp-faq-item summary::-webkit-details-marker{display:none}
+.xp-faq-item summary:focus-visible{outline:2px solid var(--xp-amarelo);outline-offset:-2px;border-radius:16px}
+.xp-faq-mais{position:relative;width:18px;height:18px;flex-shrink:0}
+.xp-faq-mais::before,.xp-faq-mais::after{content:"";position:absolute;left:0;top:8px;width:18px;height:2px;border-radius:2px;background:var(--xp-amarelo);transition:transform .25s ease}
+.xp-faq-mais::after{transform:rotate(90deg)}
+.xp-faq-item[open] .xp-faq-mais::after{transform:rotate(0)}
+.xp-faq-item p{margin:0;padding:0 20px 18px;font-size:15.5px;line-height:1.55;color:var(--xp-suave)}
+.xp-final{padding:40px 0 80px;max-width:760px!important;text-align:center}
+.xp-final h2{font-size:clamp(36px,7vw,60px)!important}
+.xp-final>div>p:not(.xp-mini){font-size:18px;color:var(--xp-suave);margin:12px 0 26px}
+.xp-barra{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,rgba(36,32,28,0),rgba(36,32,28,.92) 35%);transform:translateY(110%);transition:transform .35s ease;display:none}
+.xp-barra .xp-btn{width:100%}
+.xp-barra.on{transform:none}
+.xp-wpp{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:41;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#25D366;color:#fff;box-shadow:0 12px 30px -8px rgba(0,0,0,.6);transition:transform .2s ease,bottom .35s ease}
+.xp-wpp:hover{transform:scale(1.06)}
+@media (max-width:767px){.xp-barra{display:block}.xp-barra.on~.xp-wpp{bottom:calc(88px + env(safe-area-inset-bottom,0px))}.xp-rodape{padding-bottom:90px}}
+@media (max-width:760px){.xp-como-passos{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.xp-barra,.xp-faq-mais::before,.xp-faq-mais::after{transition:none}}
 .xp-rodape{text-align:center;font-size:13px;color:var(--xp-suave);padding:30px 0 0}
 .xp-rodape a{color:inherit}
 .xp-obrigado{max-width:620px!important;padding:90px 0 40px}
