@@ -33,6 +33,7 @@ const Termos = lazy(() => import('@/pages/Termos'));
 const AcordoRgpd = lazy(() => import('@/pages/AcordoRgpd'));
 const Precos = lazy(() => import('@/pages/Precos'));
 const Comecar = lazy(() => import('@/pages/Comecar'));
+const Experimenta = lazy(() => import('@/pages/Experimenta'));
 const Funcionalidades = lazy(() => import('@/pages/Booking'));
 const ComoFunciona = lazy(() => import('@/pages/BookingSection'));
 const Conteudo = lazy(() => import('@/pages/Conteudo'));
@@ -64,6 +65,8 @@ const Paginas = () => {
         {/* O registo fica FORA do SiteLayout desde 15/10/2026: no telemóvel é
             um ecrã de app (como o da Fresha), com seta para voltar ao site. */}
         <Route path="/comecar" element={<Comecar />} />
+        {/* 10/11/2026: a landing de conversão (link da bio do Instagram), sem menu. */}
+        <Route path="/experimenta" element={<Experimenta />} />
         <Route element={<SiteLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/funcionalidades" element={<Funcionalidades />} />
