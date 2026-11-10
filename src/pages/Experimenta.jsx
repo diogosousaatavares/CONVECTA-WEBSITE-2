@@ -22,7 +22,6 @@ import { lerOrigem, guardarOrigem } from '@/lib/origem';
  */
 
 const PAINEL = 'https://administrador.marcacoes.app';
-const REEL_EMBED = 'https://www.instagram.com/reel/DffqKjniPyI/embed';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const RESERVADOS = ['www', 'admin', 'administrador', 'api', 'app', 'super', 'superadmin', 'portal', 'painel', 'mail', 'email', 'static', 'cdn', 'assets', 'blog', 'suporte', 'ajuda', 'conta', 'login', 'convecta', 'gestao'];
 const slugDe = nome => (nome || '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
@@ -63,6 +62,21 @@ const MUDA = [
  * Formato: { nome: 'Rui', barbearia: 'Rasta Village', frase: '…', foto: '/provas/rui.jpg', estrelas: 5 }
  */
 const DEPOIMENTOS = [];
+
+/* 10/11/2026: os 10 ganhos que o Diogo escreveu, a rolar — como frases da
+   Convecta, sem nome de barbearia, sem estrelas e sem aspas. */
+const GANHOS = [
+  ['Mais organização', 'Uma visão clara de tudo o que acontece na barbearia.'],
+  ['Mais profissionalismo', 'Uma plataforma própria, com a tua identidade.'],
+  ['Clientes marcam a qualquer hora', 'Sem mensagens nem esperar por resposta.'],
+  ['Menos tempo ao telemóvel', 'Mais tempo para quem está na cadeira.'],
+  ['Equipa mais fácil de gerir', 'Horários e marcações de cada profissional, à vista.'],
+  ['Menos falhas nas marcações', 'Adeus apontamentos e mensagens perdidas.'],
+  ['Melhor experiência do cliente', 'Escolhe o serviço e o profissional em segundos.'],
+  ['Mais controlo do negócio', 'Toda a informação num só sítio.'],
+  ['Simples de usar', 'Começas sem complicações.'],
+  ['Pronto para crescer', 'As ferramentas para gerir melhor e crescer.'],
+];
 
 /* O vídeo da entrada — o mesmo da página inicial (HeroVideo): um só, pelo tamanho do ecrã. */
 const VIDEO = {
@@ -326,12 +340,15 @@ export default function Experimenta() {
         </section>
       )}
 
-      {/* O VÍDEO DA RASTA VILLAGE */}
-      <section className="xp-video">
-        <Palavras texto="Quem já usa." /><Revela><p className="xp-mini">Rasta Village</p></Revela>
-        <Revela className="xp-video-moldura">
-          <iframe src={REEL_EMBED} title="Testemunho da Rasta Village sobre a Convecta" loading="lazy" allow="encrypted-media; picture-in-picture" allowFullScreen />
-        </Revela>
+      {/* A FAIXA A ROLAR — os ganhos (ditos pela Convecta, sem nomes nem estrelas) */}
+      <section className="xp-faixa" aria-label="O que os barbeiros ganham com a Convecta">
+        <div className="xp-faixa-trilho">
+          {[...GANHOS, ...GANHOS].map((g, i) => (
+            <div key={i} className="xp-faixa-item" aria-hidden={i >= GANHOS.length}>
+              <b>{g[0]}</b><span>{g[1]}</span>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* O FORMULÁRIO, PASSO A PASSO */}
@@ -447,9 +464,14 @@ const CSS = `
 .xp-estrelas{color:var(--xp-amarelo);letter-spacing:2px}
 .xp-depo-quem{display:flex;gap:12px;align-items:center}.xp-depo-quem img{width:44px;height:44px;border-radius:50%;object-fit:cover}
 .xp-depo-quem small{color:var(--xp-suave)}
-.xp-video{padding:0 0 90px;text-align:center}
-.xp-video-moldura{margin:26px auto 0;width:min(400px,100%);border-radius:20px;overflow:hidden;background:#fff;border:1px solid var(--xp-linha)}
-.xp-video-moldura iframe{display:block;width:100%;height:640px;border:0}
+.xp-faixa{max-width:none!important;margin:0 -16px 90px!important;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.xp-faixa-trilho{display:flex;gap:12px;width:max-content;animation:xpRola 60s linear infinite}
+.xp-faixa:hover .xp-faixa-trilho{animation-play-state:paused}
+.xp-faixa-item{display:grid;gap:6px;width:280px;padding:20px 22px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha)}
+.xp-faixa-item b{font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:22px;line-height:1.15;color:var(--xp-amarelo)}
+.xp-faixa-item span{font-size:14.5px;line-height:1.5;color:var(--xp-suave)}
+@keyframes xpRola{to{transform:translateX(calc(-50% - 6px))}}
+@media (prefers-reduced-motion:reduce){.xp-faixa-trilho{animation:none;flex-wrap:wrap;width:auto;padding:0 16px}}
 .xp-form{padding:0 0 40px;max-width:640px!important;text-align:center}
 .xp-cartao-form{margin-top:26px;text-align:left;padding:26px 22px 22px;border-radius:24px;background:var(--xp-cartao);border:1px solid rgba(254,233,109,.35);box-shadow:0 30px 100px -40px rgba(254,233,109,.35);overflow:hidden}
 .xp-progresso{height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
@@ -486,5 +508,5 @@ const CSS = `
 .xp-lista li svg{color:var(--xp-amarelo);flex-shrink:0;margin-top:3px}
 @media (max-width:900px){.xp-beneficios{grid-template-columns:1fr 1fr}}
 @media (max-width:767px){.xp-heroi-texto{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}.xp-heroi h1{font-size:clamp(44px,12vw,58px)}}
-.xp-muda-grelha{}@media (max-width:560px){.xp-muda-grelha{grid-template-columns:1fr}.xp-beneficios{grid-template-columns:1fr}.xp-video-moldura iframe{height:560px}.xp-cartao-form{padding:22px 16px 18px}.xp-pergunta{font-size:21px}}
+.xp-muda-grelha{}@media (max-width:560px){.xp-muda-grelha{grid-template-columns:1fr}.xp-beneficios{grid-template-columns:1fr}.xp-cartao-form{padding:22px 16px 18px}.xp-pergunta{font-size:21px}}
 `;
