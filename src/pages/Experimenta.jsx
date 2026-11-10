@@ -48,12 +48,8 @@ const DIA = [
 ];
 
 /* O que muda — os ganhos, ditos pela Convecta (não são citações de clientes). */
-const MUDA = [
-  ['Mais organização', 'Todas as marcações num só sítio, com uma visão clara do dia.'],
-  ['Menos tempo ao telemóvel', 'Deixas de responder a mensagens e dás o tempo aos clientes que estão na cadeira.'],
-  ['Imagem mais profissional', 'Uma app própria, com a identidade da tua barbearia.'],
-  ['Equipa mais simples de gerir', 'Os horários e as marcações de cada profissional, à vista.'],
-];
+// O que muda — só o título, sem texto pequeno (10/11/2026, Diogo).
+const MUDA = ['Mais organização', 'Menos tempo ao telemóvel', 'Imagem mais profissional', 'Equipa mais fácil de gerir'];
 
 /*
  * DEPOIMENTOS — SÓ VERDADEIROS (10/11/2026). Cada um tem de ser de um cliente
@@ -82,11 +78,11 @@ const PASSOS = ['barbearia', 'profissionais', 'gestao', 'melhorar', 'contacto', 
 
 const sobe = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } };
 
-function Revela({ children, atraso = 0, className }) {
+function Revela({ children, atraso = 0, className, de }) {
   const reduz = useReducedMotion();
   if (reduz) return <div className={className}>{children}</div>;
   return (
-    <motion.div className={className} variants={sobe} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} transition={{ delay: atraso }}>
+    <motion.div className={className} variants={de ? { hidden: { opacity: 0, x: de === 'esquerda' ? -70 : 70 }, show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } } : sobe} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} transition={{ delay: atraso }}>
       {children}
     </motion.div>
   );
@@ -366,10 +362,10 @@ export default function Experimenta() {
       <section className="xp-muda">
         <Palavras texto="O que muda." />
         <div className="xp-muda-grelha">
-          {MUDA.map(([t, d], i) => (
-            <Revela key={t} atraso={i * 0.06} className="xp-muda-item">
-              <Check size={18} />
-              <span><b>{t}</b><br /><small>{d}</small></span>
+          {MUDA.map((t, i) => (
+            <Revela key={t} atraso={0.05} de={i % 2 ? 'direita' : 'esquerda'} className="xp-muda-item">
+              <Check size={20} />
+              <b>{t}</b>
             </Revela>
           ))}
         </div>
@@ -553,11 +549,11 @@ const CSS = `
 .xp-dia li::before{content:"";position:absolute;left:-29px;top:24px;width:12px;height:12px;border-radius:50%;background:var(--xp-amarelo);box-shadow:0 0 0 5px rgba(254,233,109,.15)}
 .xp-dia small{color:var(--xp-suave);font-size:14.5px}
 .xp-hora{font-weight:700;color:var(--xp-amarelo);font-variant-numeric:tabular-nums;min-width:52px}
-.xp-muda{padding:0 0 90px;max-width:900px!important}
+.xp-muda{padding:0 0 90px;max-width:900px!important;overflow-x:clip}
 .xp-muda-grelha{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px}
-.xp-muda-item{display:flex;gap:12px;align-items:flex-start;padding:18px;border-radius:16px;background:var(--xp-cartao);border:1px solid var(--xp-linha);font-size:16.5px;line-height:1.45}
-.xp-muda-item svg{color:var(--xp-amarelo);flex-shrink:0;margin-top:3px}
-.xp-muda-item b{font-weight:600}.xp-muda-item small{color:var(--xp-suave);font-size:14.5px}
+.xp-muda-item{display:flex;gap:12px;align-items:center;padding:20px 18px;border-radius:16px;background:var(--xp-cartao);border:1px solid var(--xp-linha);font-size:16.5px;line-height:1.45}
+.xp-muda-item svg{color:var(--xp-amarelo);flex-shrink:0}
+.xp-muda-item b{font-weight:600;font-size:18px}.xp-muda-item small{color:var(--xp-suave);font-size:14.5px}
 .xp-depo{padding:0 0 60px}
 .xp-depo-grelha{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
 .xp-depo-cartao{padding:22px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha);display:grid;gap:14px;align-content:start}
