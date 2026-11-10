@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Check, Mail, Menu, X, Instagram, MessageCircle } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Mail, Menu, X, Instagram, MessageCircle, Play } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
@@ -171,8 +171,14 @@ function MotionApp({ onCta, onFim, onLogo }) {
     if (poupa) { fechar('fim'); return; }
     try { window.scrollTo(0, 0); } catch { /* */ }
     const el = v1.current;
+    if (el) { el.muted = true; el.defaultMuted = true; el.setAttribute('muted', ''); el.setAttribute('playsinline', ''); }
     const p = el && el.play();
-    if (p && p.catch) p.catch(() => fechar('fim'));   // sem autoplay (ex.: poupança de bateria): mostra já o fim
+    // Se o primeiro play falhar (o vídeo ainda não carregou), tenta outra vez quando der para tocar;
+    // só se falhar de novo (ex.: poupança de bateria no iPhone) é que mostra logo o fim.
+    if (p && p.catch) p.catch(() => {
+      const tentar = () => { const q = el.play(); if (q && q.catch) q.catch(() => fechar('fim')); };
+      if (el.readyState >= 3) tentar(); else el.addEventListener('canplay', tentar, { once: true });
+    });
     const seguranca = setTimeout(() => fechar('loop'), MOTION.maxSeg * 1000); // se o vídeo encravar, a página não fica presa
     return () => clearTimeout(seguranca);
   }, [fechar]);
@@ -185,7 +191,7 @@ function MotionApp({ onCta, onFim, onLogo }) {
             onTimeUpdate={e => { const c = e.currentTarget.currentTime; if (c >= MOTION.logoEm && onLogo) onLogo(); if (c >= MOTION.botaoEm) setBotao(true); }}
             onEnded={() => fechar('loop')} onError={() => fechar('fim')} />
         )}
-        {fase === 'loop' && <video src={MOTION.loop} poster={MOTION.fim} muted playsInline autoPlay loop aria-hidden="true" />}
+        {fase === 'loop' && <video ref={el => { if (el) { el.muted = true; el.setAttribute('muted', ''); } }} src={MOTION.loop} poster={MOTION.fim} muted playsInline autoPlay loop aria-hidden="true" />}
         <button type="button" className={`xp-btn xp-motion-btn${botao ? ' on' : ''}`} onClick={onCta} tabIndex={botao ? 0 : -1}>
           Quero a minha app grátis <ArrowRight size={18} />
         </button>
@@ -195,68 +201,32 @@ function MotionApp({ onCta, onFim, onLogo }) {
 }
 
 /*
- * A TUA APP, COM A TUA MARCA (10/11/2026). Barbearias de EXEMPLO (não são
- * clientes — está escrito na página): mostram que a app leva o nome, o
- * logotipo e as cores de cada barbearia. O telemóvel muda de marca sozinho;
- * tocar num logotipo da faixa mostra essa.
+ * O VÍDEO DO YOUTUBE (o mesmo da página inicial — «Duas apps. Um só sistema.»).
+ * Só uma imagem com play; o YouTube só entra quando alguém carrega (sem
+ * cookies de rastreio até lá).
  */
-const EXEMPLOS = [
-  { nome: 'Alpha Barber Studio', logo: 'alpha', cor: '#D4A537', fundo: '#141414' },
-  { nome: "The Gentleman's Cut", logo: 'gentlemans-cut', cor: '#E8D3A8', fundo: '#4A1418' },
-  { nome: 'Royal Blade', logo: 'royal-blade', cor: '#E2B33C', fundo: '#121212' },
-  { nome: 'Barbearia Dom Duarte', logo: 'dom-duarte', cor: '#D9B45A', fundo: '#10301F' },
-  { nome: 'Corte Nobre', logo: 'corte-nobre', cor: '#C9A24A', fundo: '#1A1A1A' },
-  { nome: 'Vintage Barber Club', logo: 'vintage', cor: '#E9D8B4', fundo: '#4A2E1C' },
-  { nome: 'Império Barbearia', logo: 'imperio', cor: '#E0A92E', fundo: '#141210' },
-  { nome: 'O Cavalheiro', logo: 'o-cavalheiro', cor: '#2B2B2B', fundo: '#E6E3DE', claro: true },
-  { nome: 'Black Crown', logo: 'black-crown', cor: '#E5B94A', fundo: '#0E0E0E' },
-  { nome: 'The Golden Razor', logo: 'golden-razor', cor: '#F2C230', fundo: '#151515' },
-];
-const SERVICOS_EXEMPLO = [['Corte', '30 min'], ['Corte + Barba', '45 min'], ['Barba', '20 min']];
-
-function MarcaPropria() {
-  const [i, setI] = useState(0);
-  const [parado, setParado] = useState(false);
-  const reduz = useReducedMotion();
-  useEffect(() => {
-    if (parado) return;
-    const t = setInterval(() => setI(x => (x + 1) % EXEMPLOS.length), 2600);
-    return () => clearInterval(t);
-  }, [parado]);
-  const e = EXEMPLOS[i];
-  const tinta = e.claro ? '#1C1916' : '#FBFAF8';
+const YT_ID = '96XY7C_AlTQ';
+function VideoDuasApps() {
+  const [aPassar, setAPassar] = useState(false);
   return (
-    <section className="xp-propria">
-      <div className="xp-propria-texto">
-        <Palavras texto="A tua app, com a tua marca." />
-        <Revela><p>O teu nome, o teu logotipo, as tuas cores. Os teus clientes marcam na <b>tua</b> app — não na de outro.</p></Revela>
-      </div>
-      <div className="xp-propria-tel" aria-label={`Exemplo: a app da ${e.nome}`}>
-        <span className="xp-propria-exemplo">Exemplo</span>
-        <AnimatePresence mode="wait">
-          <motion.div key={e.logo} className="xp-propria-ecra" style={{ background: e.fundo, color: tinta }}
-            initial={reduz ? false : { opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} exit={reduz ? undefined : { opacity: 0, scale: 1.03 }} transition={{ duration: 0.35 }}>
-            <img src={`/brand/exemplos/${e.logo}.png`} alt="" width="240" height="240" />
-            <b>{e.nome}</b>
-            <span className="xp-propria-btn" style={{ background: e.cor, color: e.claro ? '#FBFAF8' : '#141210' }}>Marcar agora</span>
-            <div className="xp-propria-lista">
-              {SERVICOS_EXEMPLO.map(([sv, d]) => (
-                <span key={sv} style={{ borderColor: e.claro ? 'rgba(28,25,22,.12)' : 'rgba(251,250,248,.12)' }}><b>{sv}</b><small>{d}</small></span>
-              ))}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-      <div className="xp-propria-faixa" onMouseEnter={() => setParado(true)} onMouseLeave={() => setParado(false)}>
-        <div className="xp-propria-trilho">
-          {[...EXEMPLOS, ...EXEMPLOS].map((x, k) => (
-            <button key={k} type="button" className={x.logo === e.logo ? 'on' : ''} onClick={() => { setI(k % EXEMPLOS.length); setParado(true); }} aria-hidden={k >= EXEMPLOS.length} tabIndex={k >= EXEMPLOS.length ? -1 : 0} aria-label={`Ver o exemplo ${x.nome}`}>
-              <img src={`/brand/exemplos/${x.logo}.png`} alt="" width="240" height="240" loading="lazy" />
+    <section className="xp-yt" id="video">
+      <Palavras texto="Duas apps. Um só sistema." />
+      <Revela><p className="xp-yt-sub">Tu geres. O teu cliente marca.</p></Revela>
+      <Revela>
+        <div className="xp-yt-caixa">
+          {aPassar ? (
+            <iframe src={`https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1&hl=pt`}
+              title="Convecta — duas apps, um só sistema" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+          ) : (
+            <button type="button" onClick={() => { setAPassar(true); try { window.trackEvent?.('landing_video_youtube'); } catch { /* */ } }} aria-label="Ver o vídeo: duas apps, um só sistema">
+              <img src="/duas-apps-poster.jpg" alt="" loading="lazy" />
+              <span className="xp-yt-veu" />
+              <span className="xp-yt-play"><Play size={30} fill="#141210" stroke="#141210" /></span>
+              <span className="xp-yt-dura">2 min · com som</span>
             </button>
-          ))}
+          )}
         </div>
-      </div>
-      <p className="xp-mini xp-propria-nota">Barbearias de exemplo, para mostrar como fica. A tua leva o teu nome e o teu logotipo.</p>
+      </Revela>
     </section>
   );
 }
@@ -456,6 +426,10 @@ export default function Experimenta() {
       <div className="xp-vivo">
       <div className="xp-grelha" aria-hidden="true" />
 
+      {/* O VÍDEO — logo a seguir à entrada */}
+      <VideoDuasApps />
+
+
       {/* O QUE MUDA */}
       <section className="xp-muda">
         <Palavras texto="O que muda." />
@@ -484,9 +458,6 @@ export default function Experimenta() {
         </ol>
         <Revela><button type="button" className="xp-btn" onClick={() => irAoFormulario('como')}>Quero a minha app grátis <ArrowRight size={18} /></button></Revela>
       </section>
-
-      {/* A TUA APP, COM A TUA MARCA — exemplos */}
-      <MarcaPropria />
 
       {/* UM DIA COM A CONVECTA — exemplo */}
       <section className="xp-dia">
@@ -843,29 +814,17 @@ const CSS = `
 /* REDES: os ícones com as cores de cada uma */
 .xp-rede-insta .xp-rede-icone{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);color:#fff;border:none}
 .xp-rede-wpp .xp-rede-icone{background:#25D366;color:#fff;border:none}
-/* A TUA APP, COM A TUA MARCA */
-.xp-propria{padding:0 0 90px;max-width:1000px!important;display:grid;grid-template-columns:1fr 340px;gap:24px 48px;align-items:center}
-.xp-propria-texto p{font-size:18px;line-height:1.55;color:var(--xp-suave);margin:16px 0 0;max-width:44ch}
-.xp-propria-texto b{color:var(--xp-amarelo);font-weight:600}
-.xp-propria-tel{box-sizing:border-box;position:relative;justify-self:center;width:300px;height:560px;border-radius:46px;padding:12px;background:linear-gradient(160deg,#3a342e,#151210);box-shadow:inset 0 0 0 2px rgba(255,255,255,.08),0 40px 80px -40px rgba(0,0,0,.8)}
-.xp-propria-exemplo{position:absolute;top:-12px;left:50%;transform:translateX(-50%);z-index:2;padding:5px 12px;border-radius:999px;background:var(--xp-amarelo);color:#141210;font-size:11.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
-.xp-propria-ecra{box-sizing:border-box;width:100%;height:100%;border-radius:36px;display:flex;flex-direction:column;align-items:center;padding:34px 18px 18px;gap:12px;text-align:center;overflow:hidden}
-.xp-propria-ecra>img{width:132px;height:132px;border-radius:50%;box-shadow:0 18px 40px -18px rgba(0,0,0,.7)}
-.xp-propria-ecra>b{font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:24px;line-height:1.1}
-.xp-propria-btn{width:100%;padding:13px;border-radius:999px;font-weight:700;font-size:15px}
-.xp-propria-lista{width:100%;display:grid;gap:8px;margin-top:4px}
-.xp-propria-lista span{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-radius:14px;border:1px solid;font-size:14px;text-align:left}
-.xp-propria-lista small{opacity:.7}
-.xp-propria-faixa{grid-column:1/-1;overflow:hidden;margin:16px -16px 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.xp-propria-trilho{display:flex;gap:12px;width:max-content;padding:8px 0;animation:xpRola 40s linear infinite}
-.xp-propria-faixa:hover .xp-propria-trilho{animation-play-state:paused}
-.xp-propria-trilho button{width:92px;height:92px;padding:0;border:none;border-radius:50%;background:none;cursor:pointer;opacity:.6;transition:opacity .25s ease,transform .25s ease,box-shadow .25s ease}
-.xp-propria-trilho button img{width:100%;height:100%;border-radius:50%;display:block}
-.xp-propria-trilho button:hover,.xp-propria-trilho button.on{opacity:1;transform:scale(1.06)}
-.xp-propria-trilho button.on{box-shadow:0 0 0 3px var(--xp-amarelo)}
-.xp-propria-nota{grid-column:1/-1;text-align:center}
-@media (max-width:760px){.xp-propria{grid-template-columns:1fr}.xp-propria-tel{width:270px;height:510px}}
-@media (prefers-reduced-motion:reduce){.xp-propria-trilho{animation:none;flex-wrap:wrap;width:auto;justify-content:center;padding:8px 16px}}
+.xp-yt{padding:30px 0 90px;max-width:900px!important;text-align:center}
+.xp-yt-sub{font-size:17px;color:var(--xp-suave);margin:10px 0 24px}
+.xp-yt-caixa{position:relative;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#000;border:1px solid var(--xp-linha);box-shadow:0 30px 80px -40px rgba(0,0,0,.8)}
+.xp-yt-caixa iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.xp-yt-caixa button{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:none;cursor:pointer}
+.xp-yt-caixa img{width:100%;height:100%;object-fit:cover;display:block}
+.xp-yt-veu{position:absolute;inset:0;background:rgba(0,0,0,.28)}
+.xp-yt-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:78px;height:78px;border-radius:50%;background:var(--xp-amarelo);display:grid;place-items:center;box-shadow:0 10px 34px rgba(0,0,0,.45);transition:transform .2s ease}
+.xp-yt-play svg{margin-left:4px}
+.xp-yt-caixa button:hover .xp-yt-play{transform:translate(-50%,-50%) scale(1.07)}
+.xp-yt-dura{position:absolute;left:14px;bottom:14px;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.6);color:#fff;font-size:12.5px;font-weight:600}
 .xp-rodape{text-align:center;font-size:13px;color:var(--xp-suave);padding:30px 0 0}
 .xp-rodape a{color:inherit}
 .xp-obrigado{max-width:620px!important;padding:90px 0 40px}
