@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Check, Mail, BellRing, Smartphone, MessageCircleOff, ChevronDown } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Mail, ChevronDown } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
@@ -119,6 +119,51 @@ function Opcao({ on, children, onClick }) {
     <motion.button type="button" onClick={onClick} aria-pressed={on} whileTap={{ scale: 0.97 }} className={`xp-opcao${on ? ' on' : ''}`}>
       <span className="xp-opcao-marca">{on && <Check size={14} strokeWidth={3} />}</span>{children}
     </motion.button>
+  );
+}
+
+/*
+ * O VÍDEO INTERATIVO (10/11/2026, Diogo): o caos (mensagens, chamadas,
+ * faltas…) junta-se, vira Convecta, «A solução» em checklist e entra o
+ * telemóvel com a app a passar. Toca uma vez quando aparece no ecrã; no fim
+ * fica no último quadro com a app sempre a rolar (motion-loop) e o botão
+ * «Quero a minha app grátis» é um botão a sério, por cima do vídeo.
+ */
+const MOTION = { entrada: '/video/motion-entrada.mp4', loop: '/video/motion-loop.mp4', fim: '/video/motion-loop.jpg', botaoEm: 13.4 };
+
+function MotionApp({ onCta }) {
+  const caixa = useRef(null);
+  const v1 = useRef(null);
+  const [fase, setFase] = useState('espera'); // espera → entrada → loop
+  const [botao, setBotao] = useState(false);
+  useEffect(() => {
+    let poupa = false;
+    try { poupa = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !!navigator.connection?.saveData; } catch { /* */ }
+    if (poupa || typeof IntersectionObserver === 'undefined') { setFase('fim'); setBotao(true); return; }
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setFase(f => (f === 'espera' ? 'entrada' : f)); io.disconnect(); }
+    }, { threshold: 0.35 });
+    if (caixa.current) io.observe(caixa.current);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (fase === 'entrada' && v1.current) { const p = v1.current.play(); if (p && p.catch) p.catch(() => { setFase('fim'); setBotao(true); }); }
+  }, [fase]);
+  return (
+    <section className="xp-motion" ref={caixa} aria-label="Do caos das mensagens à tua app Convecta">
+      <div className="xp-motion-ecra">
+        {fase === 'fim' && <img src={MOTION.fim} alt="" />}
+        {(fase === 'espera' || fase === 'entrada') && (
+          <video ref={v1} src={MOTION.entrada} muted playsInline preload="auto" aria-hidden="true"
+            onTimeUpdate={e => { if (e.currentTarget.currentTime >= MOTION.botaoEm) setBotao(true); }}
+            onEnded={() => { setBotao(true); setFase('loop'); }} />
+        )}
+        {fase === 'loop' && <video src={MOTION.loop} poster={MOTION.fim} muted playsInline autoPlay loop aria-hidden="true" />}
+        <button type="button" className={`xp-btn xp-motion-btn${botao ? ' on' : ''}`} onClick={onCta} tabIndex={botao ? 0 : -1}>
+          Quero a minha app grátis <ArrowRight size={18} />
+        </button>
+      </div>
+    </section>
   );
 }
 
@@ -282,20 +327,8 @@ export default function Experimenta() {
       </section>
       <div id="xp-depois" />
 
-      {/* BENEFÍCIOS */}
-      <section className="xp-beneficios">
-        {[
-          [Smartphone, 'A tua app', 'Com o nome da tua barbearia.'],
-          [BellRing, 'Lembretes', 'Menos faltas.'],
-          [MessageCircleOff, 'Menos WhatsApp', 'Os clientes marcam sozinhos.'],
-        ].map(([Ic, t, d], i) => (
-          <Revela key={t} atraso={i * 0.08} className="xp-cartao">
-            <span className="xp-cartao-icone"><Ic size={20} /></span>
-            <b>{t}</b>
-            <span>{d}</span>
-          </Revela>
-        ))}
-      </section>
+      {/* O CAOS → A CONVECTA: animação com o botão a sério no fim (substitui os 3 cartões) */}
+      <MotionApp onCta={irAoFormulario} />
 
       {/* UM DIA COM A CONVECTA — exemplo */}
       <section className="xp-dia">
@@ -441,6 +474,13 @@ const CSS = `
 .xp-mais svg{animation:xpDesce 2s ease-in-out infinite}
 @keyframes xpDesce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @media (prefers-reduced-motion:reduce){.xp-mais svg{animation:none}}
+.xp-motion{max-width:none!important;display:flex;justify-content:center;padding:0 0 80px}
+.xp-motion-ecra{position:relative;container-type:inline-size;width:min(100%,calc(92svh * 9 / 16));aspect-ratio:9/16;border-radius:28px;overflow:hidden;background:#24201C}
+.xp-motion-ecra video,.xp-motion-ecra img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.xp-motion-btn{position:absolute;left:50%;top:91.4%;transform:translate(-50%,-50%) scale(.85);opacity:0;pointer-events:none;white-space:nowrap;font-size:3.7cqw;padding:3.1cqw 5.2cqw;gap:1.2cqw;transition:opacity .35s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
+.xp-motion-btn svg{width:3.8cqw;height:3.8cqw}
+.xp-motion-btn.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+@media (max-width:560px){.xp-motion{margin:0 -16px!important;padding-bottom:60px}.xp-motion-ecra{border-radius:0;width:100%}}
 .xp-beneficios{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 0 80px}
 .xp-cartao{display:grid;gap:8px;align-content:start;padding:22px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha)}
 .xp-cartao-icone{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(254,233,109,.12);color:var(--xp-amarelo);margin-bottom:6px}
