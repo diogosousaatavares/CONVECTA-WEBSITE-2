@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Check, Mail } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Mail, Menu, X } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
@@ -126,18 +126,19 @@ function Opcao({ on, children, onClick }) {
  * O vídeo tem o fundo da marca (#24201C), por isso fica «contido» num ecrã
  * da mesma cor: enche o ecrã sem cortar nada, em qualquer telemóvel.
  */
-const MOTION = { entrada: '/video/motion-entrada.mp4', loop: '/video/motion-loop.mp4', fim: '/video/motion-loop.jpg', botaoEm: 13.4, maxSeg: 18 };
+const MOTION = { entrada: '/video/motion-entrada.mp4', loop: '/video/motion-loop.mp4', fim: '/video/motion-loop.jpg', botaoEm: 13.4, logoEm: 11.5, maxSeg: 18 };
 
-function MotionApp({ onCta, onFim }) {
+function MotionApp({ onCta, onFim, onLogo }) {
   const v1 = useRef(null);
   const [fase, setFase] = useState('entrada'); // entrada → loop | fim (sem animação)
   const [botao, setBotao] = useState(false);
   const acabou = useRef(false);
   const fechar = useCallback((fim) => {
     setBotao(true);
+    onLogo && onLogo();
     setFase(fim);
     if (!acabou.current) { acabou.current = true; onFim && onFim(); }
-  }, [onFim]);
+  }, [onFim, onLogo]);
   useEffect(() => {
     let poupa = false;
     try { poupa = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !!navigator.connection?.saveData; } catch { /* */ }
@@ -155,7 +156,7 @@ function MotionApp({ onCta, onFim }) {
         {fase === 'fim' && <img src={MOTION.fim} alt="" />}
         {fase === 'entrada' && (
           <video ref={v1} src={MOTION.entrada} muted playsInline autoPlay preload="auto" aria-hidden="true"
-            onTimeUpdate={e => { if (e.currentTarget.currentTime >= MOTION.botaoEm) setBotao(true); }}
+            onTimeUpdate={e => { const c = e.currentTarget.currentTime; if (c >= MOTION.logoEm && onLogo) onLogo(); if (c >= MOTION.botaoEm) setBotao(true); }}
             onEnded={() => fechar('loop')} onError={() => fechar('fim')} />
         )}
         {fase === 'loop' && <video src={MOTION.loop} poster={MOTION.fim} muted playsInline autoPlay loop aria-hidden="true" />}
@@ -180,6 +181,32 @@ export default function Experimenta() {
     return () => { h.style.overflow = ''; b.style.overflow = ''; };
   }, [entrou]);
   const fimEntrada = useCallback(() => setEntrou(true), []);
+  // O LOGOTIPO: aparece ao centro, onde estava no vídeo, e no fim sobe para a esquerda.
+  const logoRef = useRef(null);
+  const [logo, setLogo] = useState('escondido'); // escondido → centro → esquerda
+  const mostrarLogo = useCallback(() => setLogo(l => {
+    if (l !== 'escondido') return l;
+    try {
+      const el = logoRef.current, ecra = document.querySelector('.xp-motion-ecra');
+      if (el && ecra) {
+        el.style.transition = 'none'; el.style.transform = 'none';
+        const r = el.getBoundingClientRect(), e = ecra.getBoundingClientRect();
+        el.style.transform = ''; void el.offsetWidth; el.style.transition = '';
+        el.style.setProperty('--dx', `${window.innerWidth / 2 - (r.left + r.width / 2)}px`);
+        el.style.setProperty('--dy', `${e.top + e.height * (117 / 1920) - (r.top + r.height / 2)}px`);
+        el.style.setProperty('--k', `${(e.width * 0.39) / r.width}`);
+      }
+    } catch { /* */ }
+    return 'centro';
+  }), []);
+  useEffect(() => { if (entrou) { mostrarLogo(); const t = setTimeout(() => setLogo('esquerda'), 60); return () => clearTimeout(t); } }, [entrou, mostrarLogo]);
+  const [menu, setMenu] = useState(false);
+  useEffect(() => {
+    if (!menu) return;
+    const k = e => e.key === 'Escape' && setMenu(false);
+    window.addEventListener('keydown', k); document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', k); document.body.style.overflow = ''; };
+  }, [menu]);
   const [passo, setPasso] = useState(0);
   const [dir, setDir] = useState(1);
   const [f, setF] = useState({ nome: '', barbearia: '', telefone: '', email: '', password: '' });
@@ -297,13 +324,44 @@ export default function Experimenta() {
       <style>{CSS}</style>
       <div className="xp-brilho" aria-hidden="true" />
 
-      <header className={`xp-topo xp-topo-sobre${entrou ? '' : ' xp-topo-escondido'}`}>
-        <Link to="/" className="xp-marca" aria-label="Convecta"><img src="/brand/convecta-logo-novo-claro.png" alt="Convecta" width="903" height="160" /></Link>
-        <button type="button" className="xp-btn xp-btn-pequeno" onClick={irAoFormulario}>Experimentar grátis</button>
+      <header className="xp-topo xp-topo-sobre">
+        <Link to="/" ref={logoRef} className={`xp-marca xp-marca-${logo}`} aria-label="Convecta"><img src="/brand/convecta-logo-novo-claro.png" alt="Convecta" width="903" height="160" /></Link>
+        <div className={`xp-topo-acoes${entrou ? '' : ' xp-topo-escondido'}`}>
+          <button type="button" className="xp-btn xp-btn-pequeno" onClick={irAoFormulario}>Experimentar grátis</button>
+          <button type="button" className="xp-menu-btn" onClick={() => setMenu(true)} aria-label="Abrir o menu" aria-expanded={menu}><Menu size={22} /></button>
+        </div>
       </header>
 
+      {/* O MENU: o essencial do site, sem preços */}
+      <AnimatePresence>
+        {menu && (
+          <motion.nav className="xp-menu" aria-label="Menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
+            <div className="xp-menu-topo">
+              <img src="/brand/convecta-logo-novo-claro.png" alt="Convecta" width="903" height="160" />
+              <button type="button" className="xp-menu-btn" onClick={() => setMenu(false)} aria-label="Fechar o menu"><X size={22} /></button>
+            </div>
+            <motion.ul initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.05 } } }}>
+              {[
+                ['Saber mais sobre a Convecta', '/'],
+                ['Funcionalidades', '/funcionalidades'],
+                ['Como funciona', '/como-funciona'],
+                ['Pagamentos online', '/pagamentos-online'],
+                ['Perguntas frequentes', '/faq'],
+                ['Contacto', '/contacto'],
+              ].map(([t, to]) => (
+                <motion.li key={to} variants={sobe}><Link to={to} onClick={() => setMenu(false)}>{t} <ArrowRight size={20} /></Link></motion.li>
+              ))}
+            </motion.ul>
+            <div className="xp-menu-fim">
+              <button type="button" className="xp-btn" onClick={() => { setMenu(false); setTimeout(irAoFormulario, 260); }}>Quero a minha app grátis <ArrowRight size={18} /></button>
+              <a href="tel:+351914874725">914 874 725</a> · <a href="mailto:geral@convecta.pt">geral@convecta.pt</a>
+            </div>
+          </motion.nav>
+        )}
+      </AnimatePresence>
+
       {/* ENTRADA: o vídeo interativo (caos → Convecta → app), com o botão a sério no fim */}
-      <MotionApp onCta={irAoFormulario} onFim={fimEntrada} />
+      <MotionApp onCta={irAoFormulario} onFim={fimEntrada} onLogo={mostrarLogo} />
 
       {/* UM DIA COM A CONVECTA — exemplo */}
       <section className="xp-dia">
@@ -453,7 +511,24 @@ const CSS = `
 .xp-motion-ecra{position:relative;container-type:inline-size;height:min(100svh,calc(100vw * 16 / 9));aspect-ratio:9/16;background:#24201C}
 .xp-topo-escondido{opacity:0;pointer-events:none;transform:translateY(-10px)}
 .xp-topo-sobre{transition:opacity .5s ease,transform .5s ease}
-@media (max-width:560px){.xp-topo-sobre .xp-marca{visibility:hidden}}
+.xp-topo-acoes{display:flex;align-items:center;gap:10px;transition:opacity .5s ease,transform .5s ease}
+.xp-topo-sobre{transition:none}
+.xp-marca{transform-origin:center;transition:transform .9s cubic-bezier(.65,0,.35,1),opacity .6s ease}
+.xp-marca-escondido{opacity:0;transform:translate(var(--dx,0),var(--dy,0)) scale(var(--k,1.6))}
+.xp-marca-centro{opacity:1;transform:translate(var(--dx,0),var(--dy,0)) scale(var(--k,1.6));transition:opacity .6s ease}
+.xp-marca-esquerda{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.xp-marca{transition:none!important}}
+.xp-menu-btn{width:44px;height:44px;border-radius:999px;border:1px solid var(--xp-linha);background:rgba(36,32,28,.6);color:var(--xp-texto);display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(8px)}
+.xp-menu{position:fixed;inset:0;z-index:50;background:#24201C;display:flex;flex-direction:column;padding:20px 16px calc(24px + env(safe-area-inset-bottom,0px));overflow-y:auto}
+.xp-menu-topo{display:flex;align-items:center;justify-content:space-between;max-width:1080px;width:100%;margin:0 auto}
+.xp-menu-topo img{height:26px;width:auto}
+.xp-menu ul{list-style:none;margin:40px auto 0;padding:0;max-width:1080px;width:100%;display:grid}
+.xp-menu li a{display:flex;align-items:center;justify-content:space-between;padding:20px 2px;border-bottom:1px solid var(--xp-linha);color:var(--xp-texto);text-decoration:none;font-family:'DM Serif Display',serif;font-size:clamp(28px,6vw,40px);line-height:1.1}
+.xp-menu li a svg{color:var(--xp-amarelo);flex-shrink:0}
+.xp-menu li a:hover{color:var(--xp-amarelo)}
+.xp-menu-fim{margin:auto auto 0;padding-top:32px;max-width:1080px;width:100%;display:grid;gap:14px;color:var(--xp-suave);font-size:14.5px}
+.xp-menu-fim a{color:var(--xp-suave)}
+@media (max-width:420px){.xp-topo-acoes .xp-btn-pequeno{padding:9px 13px;font-size:13px}}
 .xp-motion-ecra video,.xp-motion-ecra img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .xp-motion-btn{position:absolute;left:50%;top:91.4%;transform:translate(-50%,-50%) scale(.85);opacity:0;pointer-events:none;white-space:nowrap;font-size:3.7cqw;padding:3.1cqw 5.2cqw;gap:1.2cqw;transition:opacity .35s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
 .xp-motion-btn svg{width:3.8cqw;height:3.8cqw}
