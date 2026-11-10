@@ -397,7 +397,7 @@ export default function Experimenta() {
             <Revela key={t} atraso={0.05} de={i % 2 ? 'direita' : 'esquerda'} className="xp-muda-item">
               <span className="xp-muda-icone"><img src={img} alt="" width="160" height="160" loading="lazy" /></span>
               <b>{t}</b>
-              <span className="xp-muda-ok" aria-hidden="true"><Check size={16} /></span>
+              <span className="xp-muda-ok" aria-hidden="true"><Check size={13} /></span>
             </Revela>
           ))}
         </div>
@@ -758,13 +758,13 @@ const CSS = `
 .xp-google-selo b{font-size:22px}.xp-google-selo small{display:block;font-size:13px;color:var(--xp-tinta-suave)}
 .xp-google-estrelas{color:#F5B301;letter-spacing:2px;font-size:15px}
 /* O QUE MUDA, caprichado (10/11/2026) */
-.xp-muda-item{position:relative;display:grid!important;grid-template-columns:auto 1fr auto;align-items:center;gap:18px!important;padding:22px!important;border-radius:22px!important;background:linear-gradient(160deg,#37302A,#2A2521)!important;border:1px solid var(--xp-linha)!important;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;overflow:hidden}
-.xp-muda-item::after{content:"";position:absolute;right:-60px;top:-60px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(254,233,109,.16),transparent 70%);pointer-events:none}
+.xp-muda-item{position:relative;display:grid!important;grid-template-columns:auto 1fr auto;align-items:center;gap:14px!important;padding:12px 16px 12px 12px!important;border-radius:18px!important;background:linear-gradient(160deg,#37302A,#2A2521)!important;border:1px solid var(--xp-linha)!important;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;overflow:hidden}
+.xp-muda-item::after{content:"";position:absolute;right:-50px;top:-50px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(254,233,109,.16),transparent 70%);pointer-events:none}
 .xp-muda-item:hover{transform:translateY(-3px);border-color:rgba(254,233,109,.4)!important;box-shadow:0 24px 50px -30px rgba(254,233,109,.45)}
-.xp-muda-icone{width:72px;height:72px;border-radius:20px;display:grid;place-items:center;background:rgba(251,250,248,.06);border:1px solid var(--xp-linha)}
-.xp-muda-icone img{width:48px;height:48px;object-fit:contain}
-.xp-muda-item b{font-family:'DM Serif Display',Georgia,serif;font-weight:400!important;font-size:clamp(22px,2.4vw,27px)!important;line-height:1.12}
-.xp-muda-ok{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--xp-amarelo);color:#141210}
+.xp-muda-icone{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:rgba(251,250,248,.06);border:1px solid var(--xp-linha)}
+.xp-muda-icone img{width:34px;height:34px;object-fit:contain}
+.xp-muda-item b{font-family:'DM Serif Display',Georgia,serif;font-weight:400!important;font-size:clamp(18px,2vw,21px)!important;line-height:1.15}
+.xp-muda-ok{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--xp-amarelo);color:#141210}
 .xp-muda-ok svg{color:#141210!important;margin:0!important}
 @media (prefers-reduced-motion:reduce){.xp-muda-item{transition:none}}
 /* COMO FUNCIONA: a grelha continua, escura sobre o claro */
