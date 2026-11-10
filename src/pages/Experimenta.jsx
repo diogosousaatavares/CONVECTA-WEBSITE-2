@@ -696,7 +696,7 @@ const CSS = `
 .xp-mais svg{animation:xpDesce 2s ease-in-out infinite}
 @keyframes xpDesce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @media (prefers-reduced-motion:reduce){.xp-mais svg{animation:none}}
-.xp-motion{max-width:none!important;margin:0 -16px 80px!important;height:100vh;height:100svh;display:flex;align-items:center;justify-content:center;background:#24201C;overflow:hidden}
+.xp-motion{max-width:none!important;margin:0 -16px 0!important;height:100vh;height:100svh;display:flex;align-items:center;justify-content:center;background:#24201C;overflow:hidden}
 .xp-motion-ecra{position:relative;container-type:inline-size;height:min(100svh,calc(100vw * 16 / 9));aspect-ratio:9/16;background:#24201C}
 .xp-topo-escondido{opacity:0;pointer-events:none;transform:translateY(-10px)}
 .xp-topo-sobre{transition:opacity .5s ease,transform .5s ease}
@@ -777,7 +777,7 @@ const CSS = `
 .xp-acoes{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:12px}
 .xp-voltar{display:inline-flex;align-items:center;gap:6px;border:none;background:none;color:var(--xp-suave);font-family:inherit;font-size:15px;cursor:pointer;padding:8px 0}
 .xp-nota{text-align:center;font-size:13.5px;color:var(--xp-suave);margin:14px 0 0}
-.xp-vivo{position:relative;margin:0 -16px;padding:40px 16px 20px;overflow:hidden;isolation:isolate}
+.xp-vivo{position:relative;margin:0 -16px;padding:0 16px 20px;overflow:hidden;isolation:isolate}
 .xp-grelha{position:absolute;inset:0;z-index:-1;pointer-events:none;background-image:linear-gradient(rgba(251,250,248,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(251,250,248,.045) 1px,transparent 1px);background-size:56px 56px;animation:xpGrelha 18s linear infinite;-webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
 @keyframes xpGrelha{to{background-position:56px 56px}}
 @media (prefers-reduced-motion:reduce){.xp-grelha{animation:none}}
@@ -852,7 +852,7 @@ const CSS = `
 /* REDES: os ícones com as cores de cada uma */
 .xp-rede-insta .xp-rede-icone{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);color:#fff;border:none}
 .xp-rede-wpp .xp-rede-icone{background:#25D366;color:#fff;border:none}
-.xp-yt{padding:30px 0 90px;max-width:900px!important;text-align:center}
+.xp-yt{padding:8px 0 90px;max-width:900px!important;text-align:center}
 .xp-yt-sub{font-size:17px;color:var(--xp-suave);margin:10px 0 24px}
 .xp-yt-caixa{position:relative;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#000;border:1px solid var(--xp-linha);box-shadow:0 30px 80px -40px rgba(0,0,0,.8)}
 .xp-yt-caixa iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
