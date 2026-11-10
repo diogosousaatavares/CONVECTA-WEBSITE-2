@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Check, Mail, ChevronDown } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Mail } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
@@ -78,12 +78,6 @@ const GANHOS = [
   ['Pronto para crescer', 'As ferramentas para gerir melhor e crescer.'],
 ];
 
-/* O vídeo da entrada — o mesmo da página inicial (HeroVideo): um só, pelo tamanho do ecrã. */
-const VIDEO = {
-  pc: { src: '/video/entrada-pc-v2.mp4', poster: '/video/entrada-pc-v2.jpg' },
-  tlm: { src: '/video/entrada-tlm-v1.mp4', poster: '/video/entrada-tlm-v1.jpg' },
-};
-
 const PASSOS = ['barbearia', 'profissionais', 'gestao', 'melhorar', 'contacto', 'conta'];
 
 const sobe = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } };
@@ -129,6 +123,11 @@ function Opcao({ on, children, onClick }) {
  * fica no último quadro com a app sempre a rolar (motion-loop) e o botão
  * «Quero a minha app grátis» é um botão a sério, por cima do vídeo.
  */
+/* O fundo: o vídeo da página inicial, desfocado e escurecido (10/11/2026, Diogo). */
+const FUNDO = {
+  pc: { src: '/video/entrada-pc-v2.mp4', poster: '/video/entrada-pc-v2.jpg' },
+  tlm: { src: '/video/entrada-tlm-v1.mp4', poster: '/video/entrada-tlm-v1.jpg' },
+};
 const MOTION = { entrada: '/video/motion-entrada.mp4', loop: '/video/motion-loop.mp4', fim: '/video/motion-loop.jpg', botaoEm: 13.4 };
 
 function MotionApp({ onCta }) {
@@ -136,9 +135,11 @@ function MotionApp({ onCta }) {
   const v1 = useRef(null);
   const [fase, setFase] = useState('espera'); // espera → entrada → loop
   const [botao, setBotao] = useState(false);
+  const [fundo, setFundo] = useState(null);
   useEffect(() => {
     let poupa = false;
     try { poupa = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !!navigator.connection?.saveData; } catch { /* */ }
+    try { setFundo({ ...(window.matchMedia('(max-width: 767px)').matches ? FUNDO.tlm : FUNDO.pc), parado: poupa }); } catch { setFundo({ ...FUNDO.pc, parado: true }); }
     if (poupa || typeof IntersectionObserver === 'undefined') { setFase('fim'); setBotao(true); return; }
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) { setFase(f => (f === 'espera' ? 'entrada' : f)); io.disconnect(); }
@@ -151,6 +152,9 @@ function MotionApp({ onCta }) {
   }, [fase]);
   return (
     <section className="xp-motion" ref={caixa} aria-label="Do caos das mensagens à tua app Convecta">
+      <div className="xp-motion-fundo" aria-hidden="true">
+        {fundo && (fundo.parado ? <img src={fundo.poster} alt="" /> : <video src={fundo.src} poster={fundo.poster} autoPlay muted loop playsInline />)}
+      </div>
       <div className="xp-motion-ecra">
         {fase === 'fim' && <img src={MOTION.fim} alt="" />}
         {(fase === 'espera' || fase === 'entrada') && (
@@ -171,14 +175,6 @@ export default function Experimenta() {
   useEffect(() => { try { guardarOrigem(); } catch { /* sem armazenamento */ } }, []);
   const reduz = useReducedMotion();
   const formRef = useRef(null);
-  const [video, setVideo] = useState(null);
-  useEffect(() => {
-    try {
-      const tlm = window.matchMedia('(max-width: 767px)').matches;
-      const poupa = window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData;
-      setVideo({ ...(tlm ? VIDEO.tlm : VIDEO.pc), parado: !!poupa });
-    } catch { setVideo({ ...VIDEO.pc, parado: true }); }
-  }, []);
   const [passo, setPasso] = useState(0);
   const [dir, setDir] = useState(1);
   const [f, setF] = useState({ nome: '', barbearia: '', telefone: '', email: '', password: '' });
@@ -301,33 +297,7 @@ export default function Experimenta() {
         <button type="button" className="xp-btn xp-btn-pequeno" onClick={irAoFormulario}>Experimentar grátis</button>
       </header>
 
-      {/* HERÓI: o vídeo da entrada, em ecrã inteiro (como na página inicial) */}
-      <section className="xp-heroi">
-        <div className="xp-heroi-fundo" style={video ? { backgroundImage: `url(${video.poster})` } : undefined} aria-hidden="true" />
-        {video && !video.parado && <video className="xp-heroi-video" src={video.src} poster={video.poster} autoPlay muted loop playsInline aria-hidden="true" />}
-        <div className="xp-heroi-veu" aria-hidden="true" />
-        <div className="xp-heroi-texto">
-          <h1>
-            {['Mais', 'marcações.'].map((w, i) => (
-              <motion.span key={w} className="xp-palavra" initial={{ opacity: 0, y: reduz ? 0 : 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}>{w} </motion.span>
-            ))}
-            <br />
-            {['Menos', 'mensagens.'].map((w, i) => (
-              <motion.span key={w} className="xp-palavra xp-amarelo" initial={{ opacity: 0, y: reduz ? 0 : 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.38 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}>{w} </motion.span>
-            ))}
-          </h1>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.7 }}>
-            <button type="button" className="xp-btn" onClick={irAoFormulario}>Quero a minha app grátis <ArrowRight size={18} /></button>
-            <p className="xp-mini">14 dias grátis · sem cartão</p>
-          </motion.div>
-        </div>
-        <button type="button" className="xp-mais" onClick={() => document.getElementById('xp-depois')?.scrollIntoView({ behavior: reduz ? 'auto' : 'smooth' })}>
-          Ver mais <ChevronDown size={18} />
-        </button>
-      </section>
-      <div id="xp-depois" />
-
-      {/* O CAOS → A CONVECTA: animação com o botão a sério no fim (substitui os 3 cartões) */}
+      {/* ENTRADA: o vídeo interativo (caos → Convecta → app), com o botão a sério no fim */}
       <MotionApp onCta={irAoFormulario} />
 
       {/* UM DIA COM A CONVECTA — exemplo */}
@@ -474,13 +444,16 @@ const CSS = `
 .xp-mais svg{animation:xpDesce 2s ease-in-out infinite}
 @keyframes xpDesce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @media (prefers-reduced-motion:reduce){.xp-mais svg{animation:none}}
-.xp-motion{max-width:none!important;display:flex;justify-content:center;padding:0 0 80px}
-.xp-motion-ecra{position:relative;container-type:inline-size;width:min(100%,calc(92svh * 9 / 16));aspect-ratio:9/16;border-radius:28px;overflow:hidden;background:#24201C}
+.xp-motion{max-width:none!important;margin:0 -16px 80px!important;display:flex;justify-content:center;padding:84px 16px 40px;overflow:hidden;isolation:isolate}
+.xp-motion-fundo{position:absolute;inset:0;z-index:-1}
+.xp-motion-fundo video,.xp-motion-fundo img{position:absolute;inset:-40px;width:calc(100% + 80px);height:calc(100% + 80px);object-fit:cover;filter:blur(18px) brightness(.45) saturate(.9)}
+.xp-motion-fundo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(36,32,28,.2) 0%,rgba(36,32,28,.35) 70%,#24201C 100%)}
+.xp-motion-ecra{position:relative;container-type:inline-size;box-shadow:0 30px 80px -30px rgba(0,0,0,.7);width:min(100%,calc((100svh - 100px) * 9 / 16));aspect-ratio:9/16;border-radius:28px;overflow:hidden;background:#24201C}
 .xp-motion-ecra video,.xp-motion-ecra img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .xp-motion-btn{position:absolute;left:50%;top:91.4%;transform:translate(-50%,-50%) scale(.85);opacity:0;pointer-events:none;white-space:nowrap;font-size:3.7cqw;padding:3.1cqw 5.2cqw;gap:1.2cqw;transition:opacity .35s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
 .xp-motion-btn svg{width:3.8cqw;height:3.8cqw}
 .xp-motion-btn.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
-@media (max-width:560px){.xp-motion{margin:0 -16px!important;padding-bottom:60px}.xp-motion-ecra{border-radius:0;width:100%}}
+@media (max-width:560px){.xp-motion{margin:0 -16px 60px!important;padding:76px 16px 24px}.xp-motion-ecra{border-radius:22px;width:100%}}
 .xp-beneficios{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 0 80px}
 .xp-cartao{display:grid;gap:8px;align-content:start;padding:22px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha)}
 .xp-cartao-icone{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(254,233,109,.12);color:var(--xp-amarelo);margin-bottom:6px}

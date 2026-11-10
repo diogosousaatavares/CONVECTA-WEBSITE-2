@@ -152,8 +152,8 @@
     <script>
       (function () {
         var e = document.getElementById('cv-abertura');
-        // 10/11/2026: a landing /experimenta também abre com o logotipo.
-        if (e && location.pathname !== '/' && location.pathname !== '/index.html' && location.pathname !== '/experimenta') e.remove();
+        // 10/11/2026: a /experimenta já não abre com o logotipo — a entrada é o vídeo interativo.
+        if (e && location.pathname !== '/' && location.pathname !== '/index.html') e.remove();
       })();
     </script>
     <div id="root"></div>
