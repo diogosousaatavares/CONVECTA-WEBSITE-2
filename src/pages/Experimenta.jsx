@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Check, Mail, BellRing, Smartphone, MessageCircleOff } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Mail, BellRing, Smartphone, MessageCircleOff, ChevronDown } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
@@ -64,6 +64,12 @@ const MUDA = [
  */
 const DEPOIMENTOS = [];
 
+/* O vídeo da entrada — o mesmo da página inicial (HeroVideo): um só, pelo tamanho do ecrã. */
+const VIDEO = {
+  pc: { src: '/video/entrada-pc-v2.mp4', poster: '/video/entrada-pc-v2.jpg' },
+  tlm: { src: '/video/entrada-tlm-v1.mp4', poster: '/video/entrada-tlm-v1.jpg' },
+};
+
 const PASSOS = ['barbearia', 'profissionais', 'gestao', 'melhorar', 'contacto', 'conta'];
 
 const sobe = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } };
@@ -106,6 +112,14 @@ export default function Experimenta() {
   useEffect(() => { try { guardarOrigem(); } catch { /* sem armazenamento */ } }, []);
   const reduz = useReducedMotion();
   const formRef = useRef(null);
+  const [video, setVideo] = useState(null);
+  useEffect(() => {
+    try {
+      const tlm = window.matchMedia('(max-width: 767px)').matches;
+      const poupa = window.matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData;
+      setVideo({ ...(tlm ? VIDEO.tlm : VIDEO.pc), parado: !!poupa });
+    } catch { setVideo({ ...VIDEO.pc, parado: true }); }
+  }, []);
   const [passo, setPasso] = useState(0);
   const [dir, setDir] = useState(1);
   const [f, setF] = useState({ nome: '', barbearia: '', telefone: '', email: '', password: '' });
@@ -223,15 +237,17 @@ export default function Experimenta() {
       <style>{CSS}</style>
       <div className="xp-brilho" aria-hidden="true" />
 
-      <header className="xp-topo">
+      <header className="xp-topo xp-topo-sobre">
         <Link to="/" className="xp-marca" aria-label="Convecta"><img src="/brand/convecta-logo-novo-claro.png" alt="Convecta" width="903" height="160" /></Link>
         <button type="button" className="xp-btn xp-btn-pequeno" onClick={irAoFormulario}>Experimentar grátis</button>
       </header>
 
-      {/* HERÓI: a promessa e a app a mexer */}
+      {/* HERÓI: o vídeo da entrada, em ecrã inteiro (como na página inicial) */}
       <section className="xp-heroi">
+        <div className="xp-heroi-fundo" style={video ? { backgroundImage: `url(${video.poster})` } : undefined} aria-hidden="true" />
+        {video && !video.parado && <video className="xp-heroi-video" src={video.src} poster={video.poster} autoPlay muted loop playsInline aria-hidden="true" />}
+        <div className="xp-heroi-veu" aria-hidden="true" />
         <div className="xp-heroi-texto">
-          <motion.span className="xp-etiqueta" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>Para barbearias</motion.span>
           <h1>
             {['Mais', 'marcações.'].map((w, i) => (
               <motion.span key={w} className="xp-palavra" initial={{ opacity: 0, y: reduz ? 0 : 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}>{w} </motion.span>
@@ -241,20 +257,16 @@ export default function Experimenta() {
               <motion.span key={w} className="xp-palavra xp-amarelo" initial={{ opacity: 0, y: reduz ? 0 : 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.38 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}>{w} </motion.span>
             ))}
           </h1>
-          <motion.p className="xp-sub" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.65 }}>
-            Os clientes marcam sozinhos. Tu cortas.
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8 }}>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.7 }}>
             <button type="button" className="xp-btn" onClick={irAoFormulario}>Quero a minha app grátis <ArrowRight size={18} /></button>
-            <p className="xp-mini">14 dias grátis · sem cartão · pronta hoje</p>
+            <p className="xp-mini">14 dias grátis · sem cartão</p>
           </motion.div>
         </div>
-        <motion.div className="xp-telefone" initial={{ opacity: 0, y: reduz ? 0 : 60, rotate: reduz ? 0 : 4 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
-          <motion.div animate={reduz ? {} : { y: [0, -10, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }} className="xp-telefone-moldura">
-            <video src="/phone-demo.mp4" poster="/phone-demo.jpg" autoPlay muted loop playsInline aria-label="A app Convecta a ser usada no telemóvel" />
-          </motion.div>
-        </motion.div>
+        <button type="button" className="xp-mais" onClick={() => document.getElementById('xp-depois')?.scrollIntoView({ behavior: reduz ? 'auto' : 'smooth' })}>
+          Ver mais <ChevronDown size={18} />
+        </button>
       </section>
+      <div id="xp-depois" />
 
       {/* BENEFÍCIOS */}
       <section className="xp-beneficios">
@@ -397,16 +409,21 @@ const CSS = `
 .xp-btn:disabled{opacity:.6;cursor:default;transform:none}
 .xp button:focus-visible,.xp a:focus-visible,.xp input:focus-visible{outline:2px solid var(--xp-amarelo);outline-offset:3px}
 .xp-btn-pequeno{padding:10px 16px;font-size:14px;box-shadow:none}
-.xp-heroi{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:40px 0 70px}
-.xp-etiqueta{display:inline-block;font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--xp-amarelo);margin-bottom:18px}
-.xp-heroi h1{font-size:clamp(46px,7.8vw,92px);line-height:1;letter-spacing:-.01em;margin:0 0 22px}
+.xp-topo-sobre{position:absolute!important;top:0;left:16px;right:16px;z-index:5;max-width:1080px;margin:0 auto}
+.xp-heroi{position:relative;max-width:none!important;margin:0 -16px 70px!important;min-height:100vh;min-height:100svh;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.xp-heroi-fundo,.xp-heroi-video,.xp-heroi-veu{position:absolute;inset:0;width:100%;height:100%}
+.xp-heroi-fundo{background:#14110e center/cover no-repeat;z-index:-3}
+.xp-heroi-video{object-fit:cover;z-index:-2}
+.xp-heroi-veu{z-index:-1;background:linear-gradient(180deg,rgba(36,32,28,.55) 0%,rgba(36,32,28,0) 25%,rgba(36,32,28,.15) 50%,rgba(36,32,28,.85) 82%,#24201C 100%)}
+.xp-heroi-texto{width:100%;max-width:1080px;margin:0 auto;padding:0 16px 120px}
+.xp-heroi h1{font-size:clamp(46px,7.8vw,96px);line-height:1;letter-spacing:-.01em;margin:0 0 26px;max-width:12ch}
 .xp-palavra{display:inline-block}
 .xp-amarelo{color:var(--xp-amarelo)}
-.xp-sub{font-size:19px;line-height:1.55;max-width:520px;margin:0 0 28px;color:var(--xp-suave)}
 .xp-mini{font-size:14px;color:var(--xp-suave);margin:14px 0 0}
-.xp-telefone{display:flex;justify-content:center}
-.xp-telefone-moldura{width:min(300px,72vw);aspect-ratio:9/19;border-radius:44px;padding:12px;background:linear-gradient(160deg,#3a342e,#171411);box-shadow:0 40px 120px -30px rgba(254,233,109,.35),0 0 0 1px rgba(255,255,255,.08) inset}
-.xp-telefone-moldura video{width:100%;height:100%;object-fit:cover;border-radius:34px;display:block;background:#000}
+.xp-mais{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;border:0;background:none;color:rgba(251,250,248,.75);font:inherit;font-size:12.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;cursor:pointer}
+.xp-mais svg{animation:xpDesce 2s ease-in-out infinite}
+@keyframes xpDesce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+@media (prefers-reduced-motion:reduce){.xp-mais svg{animation:none}}
 .xp-beneficios{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 0 80px}
 .xp-cartao{display:grid;gap:8px;align-content:start;padding:22px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha)}
 .xp-cartao-icone{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(254,233,109,.12);color:var(--xp-amarelo);margin-bottom:6px}
@@ -467,6 +484,7 @@ const CSS = `
 .xp-lista{list-style:none;padding:0;margin:24px 0 28px;display:grid;gap:10px}
 .xp-lista li{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:var(--xp-cartao);border:1px solid var(--xp-linha);font-size:15.5px;line-height:1.5}
 .xp-lista li svg{color:var(--xp-amarelo);flex-shrink:0;margin-top:3px}
-@media (max-width:900px){.xp-heroi{grid-template-columns:1fr;text-align:center;padding-top:20px}.xp-sub{margin-left:auto;margin-right:auto}.xp-beneficios{grid-template-columns:1fr 1fr}}
+@media (max-width:900px){.xp-beneficios{grid-template-columns:1fr 1fr}}
+@media (max-width:767px){.xp-heroi-texto{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}.xp-heroi h1{font-size:clamp(44px,12vw,58px)}}
 .xp-muda-grelha{}@media (max-width:560px){.xp-muda-grelha{grid-template-columns:1fr}.xp-beneficios{grid-template-columns:1fr}.xp-video-moldura iframe{height:560px}.xp-cartao-form{padding:22px 16px 18px}.xp-pergunta{font-size:21px}}
 `;
