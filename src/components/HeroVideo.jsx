@@ -33,7 +33,8 @@ const CSS = `
 .hv { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; background: #14110e; color: #fff; isolation: isolate; }
 .hv-fundo, .hv-video, .hv-veu { position: absolute; inset: 0; width: 100%; height: 100%; }
 .hv-fundo { background: #14110e url(${VIDEO.pc.poster}) center / cover no-repeat; z-index: -3; }
-.hv-video { object-fit: cover; z-index: -2; transform: translateZ(0); }
+.hv-video { object-fit: cover; z-index: -2; transform: translateZ(0); opacity: 0; transition: opacity .6s ease; background: transparent; }
+.hv-video.hv-pronto { opacity: 1; }
 .hv-veu { z-index: -1; background:
   linear-gradient(90deg, rgba(14,12,10,.78) 0%, rgba(14,12,10,.45) 42%, rgba(14,12,10,.12) 70%, rgba(14,12,10,.25) 100%),
   linear-gradient(180deg, rgba(14,12,10,.55) 0%, rgba(14,12,10,0) 22%, rgba(14,12,10,0) 55%, rgba(14,12,10,.7) 100%); }
@@ -89,7 +90,10 @@ export default function HeroVideo() {
     v.setAttribute("muted", "");
     v.setAttribute("playsinline", "");
     v.setAttribute("webkit-playsinline", "");
-    v.poster = qual.poster;
+    // Sem «poster» no vídeo (10/11/2026): no iPhone o poster do <video> não
+    // respeita o object-fit e aparecia esticado/torto — a fotografia já está
+    // por trás (.hv-fundo). O vídeo só aparece quando estiver mesmo a tocar.
+    v.addEventListener("playing", () => v.classList.add("hv-pronto"), { once: true });
     if (navigator.connection?.saveData) { v.dataset.parado = "1"; return; }
     const tentar = () => v.play().catch(() => {});
     const aoTocar = () => { tentar(); tirar(); };
@@ -147,7 +151,7 @@ export default function HeroVideo() {
     <section id="solucoes" className="hv">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="hv-fundo" aria-hidden="true" />
-      <video ref={ref} className="hv-video" muted loop playsInline preload="none" aria-hidden="true" />
+      <video ref={ref} className="hv-video" muted loop playsInline preload="none" disablePictureInPicture aria-hidden="true" />
       <div className="hv-veu" aria-hidden="true" />
 
       <div className="cv-wrap hv-conteudo">
@@ -164,7 +168,7 @@ export default function HeroVideo() {
             to="/precos"
             onClick={() => { try { window.trackEvent?.("ver_precos_click", { origem: "hero" }); } catch {} }}
           >
-            Ver os planos <ArrowRight size={15} />
+            Pedir o meu preço <ArrowRight size={15} />
           </Link>
         </div>
 

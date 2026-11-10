@@ -15,7 +15,7 @@ import FundoLinhas from "@/components/FundoLinhas";
 
 /* ── o pedido de preço (10/11/2026: o site deixa de mostrar preços) ── */
 const PROFISSIONAIS = ["Só eu", "2 a 3", "4 a 6", "7 ou mais"];
-const PRECISA = ["Marcações online", "Lembretes automáticos", "Pagamentos online", "Gestão da equipa", "Caixa e comissões", "Website da barbearia"];
+const PRECISA = ["Pagamentos online", "Lembretes", "Gestão da equipa", "Website"];
 const telLimpo = t => String(t || "").replace(/[^\d+]/g, "");
 const telValido = t => telLimpo(t).replace(/^\+?351/, "").replace(/\D/g, "").length === 9;
 
@@ -76,12 +76,12 @@ function PedidoPreco() {
         <div className="pp-chips">{PROFISSIONAIS.map(p => <Chip key={p} on={prof === p} onClick={() => setProf(p)}>{p}</Chip>)}</div>
       </div>
       <div>
-        <p className="pp-rotulo">O que precisas? <span>(opcional)</span></p>
+        <p className="pp-rotulo">O que precisas?</p>
         <div className="pp-chips">{PRECISA.map(p => <Chip key={p} on={precisa.includes(p)} onClick={() => setPrecisa(l => l.includes(p) ? l.filter(x => x !== p) : [...l, p])}>{p}</Chip>)}</div>
       </div>
       {erro && <p className="pp-erro" role="alert">{erro}</p>}
       <button type="submit" className="cv-btn pp-enviar" disabled={aEnviar}>{aEnviar ? "A enviar…" : <>Quero saber o meu preço <ArrowRight size={15} /></>}</button>
-      <p className="pp-nota">Respondemos no mesmo dia útil. Sem compromisso.</p>
+      <p className="pp-nota">Sem compromisso.</p>
     </form>
   );
 }
@@ -131,21 +131,20 @@ export default function PricingSection({ nivelTitulo = "h2", semApelo = false })
             Um preço à medida da tua barbearia.
           </Titulo>
           <p className="cv-texto" style={{ margin: "16px auto 0", maxWidth: "56ch" }}>
-            Não há duas barbearias iguais. O preço varia com o que precisas: quantos profissionais
-            são, se queres pagamentos online, website, gestão da equipa. Diz-nos como é a tua e
-            ligamos-te com uma proposta — sem compromisso.
+            O preço varia com o que a tua barbearia precisa. Deixa o contacto e
+            ligamos-te com uma proposta.
           </p>
         </motion.div>
 
         <div className="pp-grelha">
           <ul className="pp-porque">
             {[
-              ["Pagas só o que usas", "O preço sobe e desce com a tua equipa e com o que ativas."],
+              ["Pagas só o que usas", ""],
               ["Sem comissões por marcação", "Cada marcação é tua por inteiro."],
               ["14 dias grátis, sem cartão", "Experimentas antes de decidir."],
               ["Suporte por quem fez a app", "Telefone e WhatsApp, em dias úteis."],
             ].map(([t, d]) => (
-              <li key={t}><span className="pp-v"><Check size={13} strokeWidth={3} /></span><span><b>{t}</b><small>{d}</small></span></li>
+              <li key={t}><span className="pp-v"><Check size={13} strokeWidth={3} /></span><span><b>{t}</b>{void d}</span></li>
             ))}
           </ul>
           <PedidoPreco />
