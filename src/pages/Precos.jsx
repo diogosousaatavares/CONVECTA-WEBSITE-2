@@ -6,7 +6,7 @@ import PricingSection from "@/components/PricingSection";
 import ScrollReveal from "@/components/ScrollReveal";
 import CtaSection from "@/components/CtaSection";
 import BotaoComecar from "@/components/BotaoComecar";
-import { PLANOS, DESCONTO_ANUAL, PRECO_DESDE_TEXTO, migalhasLd, faqLd, softwareLd } from "@/lib/seo";
+import { migalhasLd, faqLd, softwareLd } from "@/lib/seo";
 import BarraComecarFixa from "@/components/BarraComecarFixa";
 
 /*
@@ -29,18 +29,18 @@ const INCLUI = [
 ];
 
 const NAO_INCLUI = [
-  "Pagamentos online pelo cliente no plano Essencial — são um extra de 4,99 €/mês (incluídos no Profissional e no Business)",
+  "Funcionalidades extra que não precisas — o preço é feito com o que usas",
   "Um domínio próprio (o teu endereço em marcacoes.app está incluído)",
   "Gestão de redes sociais, publicidade ou produção de conteúdos",
 ];
 
 const PERGUNTAS = [
-  { q: "Qual é a diferença entre os três planos?", a: `A plataforma é exatamente a mesma nos três: agenda, clientes, caixa, comissões, produtos, stock, relatórios e fidelização. O que muda é quantos profissionais cabem — ${PLANOS.map(p => `${p.nome}, ${p.profissionaisTexto.toLowerCase()}, ${p.precoTexto}/mês`).join("; ")}. Não há limite de marcações em nenhum deles, e a personalização do site está em todos.` },
-  { q: "E se a minha equipa crescer?", a: "Mudas de plano e continuas com os mesmos dados, a mesma agenda e o mesmo endereço. Não se recomeça nada." },
+  { q: "Porque é que não há preços na página?", a: "Porque não há duas barbearias iguais. O preço depende de quantos profissionais são e do que precisas — pagamentos online, website, gestão da equipa. Deixa o contacto e fazemos-te uma proposta à medida, sem compromisso." },
+  { q: "E se a minha equipa crescer?", a: "Ajustamos o plano e continuas com os mesmos dados, a mesma agenda e o mesmo endereço. Não se recomeça nada." },
   { q: "Há comissões por marcação?", a: "Não. Zero. Cada marcação que entra é tua por inteiro. A Convecta ganha a mensalidade e mais nada." },
-  { q: "Há fidelização ou período mínimo?", a: "No plano mensal não: cancelas quando quiseres. Se escolheres pagar o ano de uma vez, aí sim, o compromisso é de doze meses — é o que paga o desconto. Se saíres, os teus dados são apagados a pedido." },
-  { q: "Como se paga?", a: `Por mês ou por ano, com fatura. No anual pagas os doze meses de uma vez com ${Math.round(DESCONTO_ANUAL * 100)} % de desconto — é o único caso em que há compromisso de um ano. No mensal cancelas quando quiseres. Os primeiros 14 dias são à experiência, sem cartão. Depois, pela Stripe: registas o cartão no painel e só aí começa a cobrança. Cancelas sozinho no painel, quando quiseres.` },
-  { q: "O preço inclui IVA?", a: "O preço que vês é o que pagas. A Convecta está no regime de isenção de IVA (artigo 53.º do CIVA), por isso a fatura não acresce IVA — vem com a menção «IVA – regime de isenção». Se um dia o enquadramento mudar, avisamos antes e a mudança só se aplica ao período seguinte." },
+  { q: "Há fidelização ou período mínimo?", a: "No pagamento mensal não: cancelas quando quiseres. Se escolheres pagar o ano de uma vez, o compromisso é de doze meses — é o que paga o desconto. Se saíres, os teus dados são apagados a pedido." },
+  { q: "Como se paga?", a: "Por mês ou por ano, com fatura. Os primeiros 14 dias são à experiência, sem cartão. Depois, pela Stripe: registas o cartão no painel e só aí começa a cobrança." },
+  { q: "O preço inclui IVA?", a: "O preço da proposta é o que pagas. A Convecta está no regime de isenção de IVA (artigo 53.º do CIVA), por isso a fatura não acresce IVA — vem com a menção «IVA – regime de isenção»." },
 ];
 
 export default function Precos() {
@@ -53,8 +53,8 @@ export default function Precos() {
   return (
     <div className="pt-24" style={{ backgroundColor: "var(--cv-ground)" }}>
       <Seo
-        titulo={`Preços — desde ${PRECO_DESDE_TEXTO}/mês, sem comissões por marcação`}
-        descricao={`Três planos, desde ${PRECO_DESDE_TEXTO} por mês por negócio: ${PLANOS.map(p => `${p.nome} ${p.precoTexto} (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três — marcações online, agenda, caixa, comissões, stock, relatórios e fidelização. Sem taxa de adesão, sem comissões por marcação e sem fidelização no plano mensal.`}
+        titulo="Preços — à medida da tua barbearia, sem comissões por marcação"
+        descricao="O preço da Convecta é feito à medida de cada barbearia: depende de quantos profissionais são e do que precisas. Sem taxa de adesão, sem comissões por marcação e 14 dias grátis, sem cartão. Pede a tua proposta."
         caminho="/precos"
         ld={ld}
       />
@@ -112,13 +112,13 @@ export default function Precos() {
             <h2 className="font-heading text-3xl lg:text-5xl text-ink mb-6 leading-tight">Quanto custa não ter marcações online?</h2>
             <div className="space-y-5 text-ink-2 text-base leading-relaxed">
               <p>
-                Um corte de 15 € que fica por marcar porque o cliente escreveu no WhatsApp às 22h e tu só viste de manhã — e ele entretanto foi a outro lado — custa 15 €. Dois por mês pagam a Convecta. Uma hora marcada duas vezes por engano, um cliente que apareceu e outro que teve de esperar, custa mais do que dinheiro.
+                Um corte de 15 € que fica por marcar porque o cliente escreveu no WhatsApp às 22h e tu só viste de manhã — e ele entretanto foi a outro lado — custa 15 €. Uma hora marcada duas vezes por engano, um cliente que apareceu e outro que teve de esperar, custa mais do que dinheiro.
               </p>
               <p>
                 Nas plataformas de marcações que cobram comissão, cada cliente novo pode ficar-lhes com 20 % ou mais do serviço, e o cliente é "delas": vê a concorrência ao lado do teu negócio. Na Convecta, a mensalidade é fixa, o site é o do teu negócio, e o cliente é teu.
               </p>
               <p>
-                O plano de entrada são {PRECO_DESDE_TEXTO} por mês — cerca de {(PLANOS[0].preco / 30).toFixed(2).replace(".", ",")} € por dia. Menos do que o café e o pastel que pagas a quem vem esperar por uma hora que afinal já estava dada.
+                A Convecta tem uma mensalidade fixa, feita à medida do que a tua barbearia precisa — e paga-se com as marcações que deixas de perder.
               </p>
             </div>
             <div className="mt-8">

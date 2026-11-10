@@ -79,12 +79,12 @@ export const TEMAS = {
 
 export const NAO_FAZ = [
   "Lembretes por SMS ou WhatsApp (os avisos são por notificação no telemóvel e por email).",
-  "Pagamentos online pelo cliente no Essencial (extra de 4,99 €/mês; incluídos no Profissional e Business).",
+  "Pagamentos online pelo cliente: entram na proposta, se precisares deles.",
   "Faturação certificada (a Convecta dá o Excel mensal; a fatura é passada no teu programa de faturação).",
   "Marketplace: a Convecta não traz clientes novos de uma montra; traz os teus para marcarem sozinhos.",
 ];
 
-export const PRECO_FRASE = `Três planos por negócio, ${PLANOS_TEXTO}; desde ${PRECO_DESDE_TEXTO}/mês, ${Math.round(DESCONTO_ANUAL * 100)} % mais barato no anual, sem comissões por marcação nem por cliente novo. Montar o teu negócio na Convecta não exige cartão; para começar a receber marcações regista-se o cartão e há ${TESTE_TEXTO} à experiência, sem ser cobrado nada.`;
+export const PRECO_FRASE = `O preço é à medida de cada negócio — depende de quantos profissionais são e do que precisa —, sem comissões por marcação nem por cliente novo. Pede a proposta em [Preços](/precos). Há ${TESTE_TEXTO} à experiência, sem cartão.`;
 
 /*
  * Concorrentes. Verificado nas paginas oficiais a 24 set 2026. Tudo o que

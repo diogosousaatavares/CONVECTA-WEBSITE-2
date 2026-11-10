@@ -47,7 +47,7 @@ const faqs = [
   },
   {
     q: "Quanto custa? Há comissões por marcação?",
-    a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. A plataforma é a mesma nos três e não há limite de marcações em nenhum. Sem comissões por marcação e sem taxa de adesão. No plano mensal não há fidelização: cancelas quando quiseres (no anual o compromisso é de doze meses, que é o que paga o desconto). Os preços são finais — a Convecta está no regime de isenção de IVA (art. 53.º do CIVA), por isso não acresce IVA.`,
+    a: `O preço é à medida de cada barbearia: depende de quantos profissionais são e do que precisas (pagamentos online, website, gestão da equipa). Pede a tua proposta na página de Preços. Não há limite de marcações, nem comissões por marcação, nem taxa de adesão. No pagamento mensal não há fidelização. A Convecta está no regime de isenção de IVA (art. 53.º do CIVA), por isso não acresce IVA.`,
   },
   {
     q: "Quanto tempo até estar a funcionar?",
@@ -92,7 +92,7 @@ export default function Faq() {
     <div>
       <Seo
         titulo="Perguntas frequentes sobre marcações online para barbearias, salões e estética"
-        descricao="Como os teus clientes marcam online, como ficas a saber, cancelamentos, cartão de fidelidade, caixa, comissões, contabilista, preços (desde 19,99 €/mês) e segurança dos dados. As respostas antes de criares o teu negócio na Convecta."
+        descricao="Como os teus clientes marcam online, como ficas a saber, cancelamentos, cartão de fidelidade, caixa, comissões, contabilista, preços (à medida) e segurança dos dados. As respostas antes de criares o teu negócio na Convecta."
         caminho="/faq"
         ld={[faqLd(faqs), migalhasLd([{ nome: "Início", caminho: "/" }, { nome: "Perguntas frequentes", caminho: "/faq" }])]}
       />

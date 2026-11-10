@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
-import { PRECO_DESDE_TEXTO } from '@/lib/seo';
 
 /*
  * «Porquê a Convecta» — quatro perguntas logo à entrada do /comecar.
@@ -93,7 +92,7 @@ const TEMPO = {
 
 const ANTES = {
   conhecia: 'Não conhecias — agora conheces, e estás a dois minutos de a ter.',
-  caro: `Planos desde ${PRECO_DESDE_TEXTO}/mês, sem comissões. E começas à experiência, sem cartão.`,
+  caro: `Preço à medida da tua barbearia, sem comissões por marcação. E começas à experiência, sem cartão.`,
   complicado: 'Montar a conta demora dois minutos, e é já a seguir. O resto fazes ao teu ritmo, e nós ajudamos.',
   tempo: 'São dois minutos agora. Depois disso é tempo que ganhas, não tempo que gastas.',
   clientes: 'Os teus clientes e o histórico vêm contigo: entregas a lista como a tiveres e nós carregamos.',

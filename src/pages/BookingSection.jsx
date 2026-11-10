@@ -82,7 +82,7 @@ const PERGUNTAS = [
   { q: "Preciso de saber de informática?", a: "Não. Se sabes usar o WhatsApp, sabes usar o painel. E a configuração inicial fazemo-la contigo ao telefone." },
   { q: "Tenho de instalar alguma coisa?", a: "Não. O painel abre no browser do telemóvel ou do computador, e podes guardá-lo no ecrã principal como uma app. Os teus clientes também não instalam nada." },
   { q: "E se já tenho clientes marcados noutro sítio?", a: "Podes começar a receber marcações novas na Convecta e ir fechando as antigas onde estão. Marcações feitas ao telefone lanças à mão no painel, em segundos." },
-  { q: "Quanto custa e quando começo a pagar?", a: `Desde ${PRECO_DESDE_TEXTO} por mês, por negócio, conforme o número de profissionais. Sem taxa de adesão e sem comissões por marcação. A mensalidade começa quando o teu negócio fica ativo.` },
+  { q: "Quanto custa e quando começo a pagar?", a: `O preço é à medida: depende do número de profissionais e do que precisas. Sem taxa de adesão e sem comissões por marcação. A mensalidade começa quando o teu negócio fica ativo.` },
 ];
 
 export default function ComoFunciona() {
@@ -95,7 +95,7 @@ export default function ComoFunciona() {
     <main id="main-content" style={{ backgroundColor: "var(--cv-ground)" }} className="booking-page text-ink min-h-screen">
       <Seo
         titulo="Como funciona: do registo às marcações online no teu negócio"
-        descricao="Seis passos, sem burocracia: crias o teu negócio em dois minutos, montas serviços e equipa, ligas as notificações, partilhas o link e os clientes começam a marcar online — 14 dias à experiência, sem cartão. Desde 19,99 €/mês, sem comissões."
+        descricao="Seis passos, sem burocracia: crias o teu negócio em dois minutos, montas serviços e equipa, ligas as notificações, partilhas o link e os clientes começam a marcar online — 14 dias à experiência, sem cartão. Preço à medida, sem comissões."
         caminho="/como-funciona"
         ld={ld}
       />

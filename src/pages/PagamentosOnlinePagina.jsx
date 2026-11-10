@@ -67,7 +67,7 @@ const PERGUNTAS = [
   { q: "A Convecta fica com alguma parte?", a: "Não. O dinheiro vai direto para a conta Stripe do teu negócio. Só o Stripe cobra a comissão dele: 1,5 % + 0,25 € por pagamento com cartão europeu, Apple Pay, Google Pay ou MB WAY. Num corte de 15 € recebes 14,52 €." },
   { q: "Preciso de ter empresa?", a: "Não. No Stripe escolhes «Empresário em nome individual» se trabalhas por conta própria, ou «Sociedade» se tens empresa. Pedem a tua identificação e o IBAN, como um banco pediria." },
   { q: "E se o cliente não aparecer?", a: "Quem paga ao marcar quase sempre aparece. Se faltar, o que pagou fica contigo. Se quiseres devolver, fazes isso no teu Stripe em dois cliques." },
-  { q: "Quanto custa?", a: "Está incluído nos planos Profissional e Business. No Essencial é um extra de 4,99 €/mês, que ligas e desligas no painel quando quiseres." },
+  { q: "Quanto custa?", a: "Entra na proposta à medida da tua barbearia, se precisares dele. Liga-se e desliga-se no painel quando quiseres." },
   { q: "O cliente tem de instalar alguma coisa?", a: "Não. Marca na app do teu negócio, como sempre, e paga no mesmo passo — com cartão, Apple Pay, Google Pay ou MB WAY." },
 ];
 
@@ -138,7 +138,7 @@ export default function PagamentosOnlinePagina() {
           <div><span className="pol-grande">1,5 % + 0,25 €</span><span>do Stripe, por pagamento</span></div>
           <div><span className="pol-grande">14,52 €</span><span>é o que recebes num corte de 15 €</span></div>
         </div>
-        <p className="cv-mini" style={{ marginTop: 18 }}>Incluído nos planos Profissional e Business. No Essencial é um extra de 4,99 €/mês. Passar o dinheiro para o banco é grátis.</p>
+        <p className="cv-mini" style={{ marginTop: 18 }}>Entra na proposta à medida da tua barbearia. Passar o dinheiro para o banco é grátis.</p>
       </section>
 
       {/* 5. Perguntas */}

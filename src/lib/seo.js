@@ -285,34 +285,7 @@ export function softwareLd() {
     inLanguage: "pt-PT",
     countryOfOrigin: { "@type": "Country", name: "Portugal" },
     audience: { "@type": "BusinessAudience", audienceType: "Barbearias, salões de cabeleireiro, unhas e estética" },
-    // Tres planos: o Google mostra "a partir de" com o intervalo de precos.
-    offers: {
-      "@type": "AggregateOffer",
-      priceCurrency: "EUR",
-      lowPrice: PLANOS[0].preco.toFixed(2),
-      highPrice: PLANOS[PLANOS.length - 1].preco.toFixed(2),
-      offerCount: PLANOS.length,
-      url: `${SITE.url}/precos`,
-      offers: PLANOS.map(pl => ({
-        "@type": "Offer",
-        name: `Convecta Booking — ${pl.nome}`,
-        description: `${pl.profissionaisTexto}. ${pl.resumo}`,
-        price: pl.preco.toFixed(2),
-        priceCurrency: "EUR",
-        url: `${SITE.url}/precos`,
-        availability: "https://schema.org/InStock",
-        category: "Subscrição mensal por negócio",
-        priceSpecification: {
-          "@type": "UnitPriceSpecification",
-          price: pl.preco.toFixed(2),
-          priceCurrency: "EUR",
-          unitText: "mês",
-          billingIncrement: 1,
-          referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
-        },
-        seller: { "@id": `${SITE.url}/#organization` },
-      })),
-    },
+    // 10/11/2026: sem preços públicos (são à medida) — sem «offers».
     provider: { "@id": `${SITE.url}/#organization` },
   };
 }

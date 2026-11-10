@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import BotaoComecar from "@/components/BotaoComecar";
-import { PRECO_DESDE_TEXTO } from "@/lib/seo";
 
 /*
  * O TOPO DA PÁGINA INICIAL EM VÍDEO (12/10/2026, pedido do Diogo).
@@ -170,7 +169,7 @@ export default function HeroVideo() {
         </div>
 
         <p className="hv-nota">
-          Sem cartão para começar · 14 dias à experiência · Planos desde {PRECO_DESDE_TEXTO}/mês
+          Sem cartão para começar · 14 dias à experiência · Preço à medida
         </p>
       </div>
 

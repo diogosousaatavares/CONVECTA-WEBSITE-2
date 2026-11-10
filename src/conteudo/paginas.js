@@ -43,7 +43,7 @@ export const PILAR = {
   caminho: "/software-para-barbearias",
   titulo: "Software de marcações e gestão para barbearias",
   tituloSeo: "Software de marcações para barbearias em Portugal — Convecta",
-  descricao: `Software de marcações online e gestão para barbearias em Portugal: site de marcações com o nome da barbearia, agenda por barbeiro, caixa, comissões, stock e cartão de fidelidade. Desde ${PRECO_DESDE_TEXTO}/mês, sem comissões.`,
+  descricao: `Software de marcações online e gestão para barbearias em Portugal: site de marcações com o nome da barbearia, agenda por barbeiro, caixa, comissões, stock e cartão de fidelidade. Preço à medida, sem comissões.`,
   olho: "Software para barbearias",
   lead: DEFINICAO + " Feito em Portugal, em português de Portugal, para barbearias com um barbeiro ou com quinze.",
   atualizado: ATUALIZADO,
@@ -64,7 +64,7 @@ export const PILAR = {
     p("Dizemo-lo antes de assinares, para não o descobrires depois."),
     lista(NAO_FAZ),
     h2("Para quem é", "para-quem"),
-    { tipo: "tabela", cabecalho: ["Barbearia", "Plano", "Preço"], linhas: PLANOS.map((pl) => [pl.resumo.replace(/\.$/, ""), `${pl.nome} · ${pl.profissionaisTexto.toLowerCase()}`, `${pl.precoTexto}/mês, ou ${pl.precoMesAnualTexto}/mês no anual`]) },
+    { tipo: "tabela", cabecalho: ["Barbearia", "Plano", "Preço"], linhas: PLANOS.map((pl) => [pl.resumo.replace(/\.$/, ""), `${pl.nome} · ${pl.profissionaisTexto.toLowerCase()}`, "À medida"]) },
     p(`Não há limite de marcações em nenhum plano, nem taxa de adesão. No anual pagas os doze meses de uma vez com ${desconto} % de desconto. Os preços completos, com o que inclui e o que não inclui, estão em [Preços](/precos).`),
     h2("Marketplace ou software próprio?", "marketplace"),
     p("Há duas famílias de ferramentas para barbearias. Os **marketplaces** (Fresha, Treatwell, Booksy) são montras: a barbearia fica listada ao lado das outras, e por cada cliente novo que chega pela montra a plataforma fica com uma percentagem — 20 % na Fresha e 25 % na Treatwell, segundo as páginas de preços deles a " + VERIFICADO_TEXTO + ". O **software próprio**, como a Convecta, é a agenda da tua barbearia: o site é teu, o cliente é teu, e pagas uma mensalidade fixa."),
@@ -83,7 +83,7 @@ export const PILAR = {
     h2("Perguntas frequentes", "faq"),
     { tipo: "faq", itens: [
       { q: "Qual é o melhor software de marcações para barbearia em Portugal?", a: "Depende do que precisas. Se queres clientes novos de uma montra e não te importas de pagar comissão, um marketplace (Fresha, Treatwell, Booksy). Se queres o teu próprio site de marcações e gestão da barbearia com mensalidade fixa e sem comissões, a Convecta é feita para isso. Fizemos uma lista honesta, com a Convecta na mesma grelha que os outros, em [Melhores softwares de marcações para barbearias em Portugal](/blog/melhores-softwares-marcacoes-barbearias-portugal)." },
-      { q: "Há software de marcações grátis para barbearia?", a: "Há planos grátis noutros programas (BUK e EasyWeek tinham, a " + VERIFICADO_TEXTO + "), normalmente limitados a um colaborador ou a poucas marcações. A Convecta não tem plano grátis: tens 14 dias à experiência sem cartão, a receber marcações desde o início, e depois " + PRECO_DESDE_TEXTO + "/mês no plano de entrada, com tudo incluído." },
+      { q: "Há software de marcações grátis para barbearia?", a: "Há planos grátis noutros programas (BUK e EasyWeek tinham, a " + VERIFICADO_TEXTO + "), normalmente limitados a um colaborador ou a poucas marcações. A Convecta não tem plano grátis: tens 14 dias à experiência sem cartão, a receber marcações desde o início, e depois uma mensalidade à medida da tua barbearia, com tudo incluído." },
       { q: "Os clientes precisam de instalar alguma app?", a: "Não. Marcam pelo site da barbearia no browser do telemóvel. Se quiserem, guardam-no no ecrã principal e fica lá como uma app, com o teu nome e logótipo. Criam conta uma vez, com o email, para verem as marcações e receberem os avisos." },
       { q: "A Convecta manda lembretes por SMS ou WhatsApp?", a: "Não. Os avisos ao cliente — marcação confirmada, cancelada, e o aviso antes do corte — vão por notificação no telemóvel e por email, sem custo por mensagem. SMS e WhatsApp não existem na Convecta hoje." },
       { q: "Serve para uma barbearia com vários barbeiros?", a: "Sim. Cada barbeiro tem a coluna dele na agenda, o horário dele e a comissão dele. Pode entrar no painel com a conta dele e ver a agenda, os clientes e a conta de comissões dele — sem ver o financeiro da casa. O dono escolhe se ele vê a agenda toda ou só a coluna dele." },
@@ -152,7 +152,7 @@ const funcionalidade = ({ caminho, titulo, tituloSeo, descricao, olho, lead, blo
     { tipo: "faq", itens: faq },
     h2("Tudo o resto que a Convecta faz"),
     { tipo: "ligacoes", itens: FUNCIONALIDADES_LIGACOES.filter((l) => l.caminho !== caminho) },
-    p(`Tudo incluído em todos os planos, desde ${PRECO_DESDE_TEXTO}/mês. A visão completa está em [Software para barbearias](/software-para-barbearias) e a lista, sem exageros, em [Funcionalidades](/funcionalidades).`),
+    p(`Tudo incluído, com um preço à medida da tua barbearia. A visão completa está em [Software para barbearias](/software-para-barbearias) e a lista, sem exageros, em [Funcionalidades](/funcionalidades).`),
   ],
 });
 
@@ -380,7 +380,7 @@ export const VS_FRESHA = comparacao({
   tabela: [
     ["Modelo", "Marketplace + software", "Software próprio do teu negócio"],
     ["Comissão por cliente novo", "20 % (marketplace)", "0 %"],
-    ["Mensalidade", "Plano pago desde 19,95 US$/mês", `Desde ${PRECO_DESDE_TEXTO}/mês`],
+    ["Mensalidade", "Plano pago desde 19,95 US$/mês", "À medida, sem comissões"],
     ["Site com o nome do teu negócio", "Perfil na Fresha", true],
     ["Cliente vê a concorrência", true, false],
     ["Lembretes", "SMS e WhatsApp pagos por mensagem", "Notificação e email, sem custo"],
@@ -432,7 +432,7 @@ export const VS_BOOKSY = comparacao({
     ["Modelo", "Marketplace + app", "Software próprio do teu negócio"],
     ["App para o cliente", "App Booksy (lojas)", "Site do teu negócio instalável (sem lojas), com o teu nome"],
     ["Cliente vê a concorrência", true, false],
-    ["Preço", "Não verificado para Portugal", `Desde ${PRECO_DESDE_TEXTO}/mês, público`],
+    ["Preço", "Não verificado para Portugal", "À medida, sem comissões"],
     ["Comissão por cliente novo", "Depende do plano; confirma no site deles", "0 %"],
     ["Lembretes", "SMS", "Notificação e email, sem custo"],
     ["Caixa, comissões, stock", "Parcial; confirma no site deles", true],
@@ -455,7 +455,7 @@ export const VS_BUK = comparacao({
   tabela: [
     ["Feito para", "Vários setores", "Barbearias, salões e estética"],
     ["Plano grátis", "Sim, 1 colaborador", "Não (14 dias à experiência)"],
-    ["Preço dos planos pagos", "Pro 15,99 €/mês · Pro+ 25,99 €/mês", `${PLANOS.map((pl) => `${pl.nome} ${pl.precoTexto}`).join(" · ")}/mês`],
+    ["Preço dos planos pagos", "Pro 15,99 €/mês · Pro+ 25,99 €/mês", "À medida"],
     ["Comissões por marcação", "0 %", "0 %"],
     ["Lembretes", "SMS", "Notificação e email, sem custo"],
     ["Pagamentos online (MB WAY, cartão)", true, true],
@@ -465,7 +465,7 @@ export const VS_BUK = comparacao({
     ["Suporte", "Online", "Telefone e WhatsApp, visita ao teu negócio (Grande Porto)"],
   ],
   faq: [
-    { q: "A BUK é mais barata?", a: "No plano grátis e no Pro (15,99 €), sim. A Convecta começa em " + PRECO_DESDE_TEXTO + "/mês e inclui a gestão toda: caixa, comissões, stock, Excel e cartão de fidelidade. Compara o que cada plano inclui, não só o preço." },
+    { q: "A BUK é mais barata?", a: "No plano grátis e no Pro (15,99 €), sim. O preço da Convecta é à medida e inclui a gestão toda: caixa, comissões, stock, Excel e cartão de fidelidade. Compara o que cada plano inclui, não só o preço." },
     { q: "A Convecta tem SMS?", a: "Não. Os avisos vão por notificação no telemóvel e por email, sem custo por mensagem." },
   ],
 });
@@ -480,7 +480,7 @@ export const VS_ZAPPY = comparacao({
   tabela: [
     ["Feito para", "Vários setores (clínicas, ginásios, salões, barbearias)", "Barbearias, salões e estética"],
     ["Faturação certificada", true, "Não (Excel mensal para o contabilista)"],
-    ["Preço", "20 € a 119 €/mês", `${PRECO_DESDE_TEXTO} a ${PLANOS[PLANOS.length - 1].precoTexto}/mês`],
+    ["Preço", "20 € a 119 €/mês", "À medida"],
     ["Comissões por marcação", "0 %", "0 %"],
     ["Site de marcações com o nome do teu negócio", "Confirma no site deles", true],
     ["App instalável com o teu design", null, true],
@@ -520,7 +520,7 @@ export const MARCACOES_ONLINE = generica({
   caminho: "/marcacoes-online",
   titulo: "Marcações online para o teu negócio",
   tituloSeo: "Marcações online — sistema de marcações para barbearias, salões, unhas e estética",
-  descricao: "Sistema de marcações online em Portugal: os clientes marcam sozinhos no site do teu negócio, a qualquer hora, e tu recebes a notificação no telemóvel. Para barbearias, cabeleireiros, unhas, estética e clínicas. Desde 19,99 €/mês, sem comissões.",
+  descricao: "Sistema de marcações online em Portugal: os clientes marcam sozinhos no site do teu negócio, a qualquer hora, e tu recebes a notificação no telemóvel. Para barbearias, cabeleireiros, unhas, estética e clínicas. Preço à medida, sem comissões.",
   olho: "Marcações online",
   lead: "Os teus clientes marcam sozinhos, a qualquer hora, no site com o nome do teu negócio. O telemóvel só toca para te avisar que entrou mais uma.",
   blocos: [
@@ -567,7 +567,7 @@ export const AGENDAMENTO_ONLINE = generica({
   caminho: "/agendamento-online",
   titulo: "Agendamento online para barbearias, salões e estética",
   tituloSeo: "Agendamento online — sistema de agendamento para barbearias, salões, unhas e estética",
-  descricao: "Sistema de agendamento online em Portugal: agenda por profissional, os clientes agendam sozinhos pelo site do teu negócio, avisos automáticos, pagamento ao agendar e cartão de fidelidade. Desde 19,99 €/mês, sem comissões.",
+  descricao: "Sistema de agendamento online em Portugal: agenda por profissional, os clientes agendam sozinhos pelo site do teu negócio, avisos automáticos, pagamento ao agendar e cartão de fidelidade. Preço à medida, sem comissões.",
   olho: "Agendamento online",
   lead: "Uma agenda que se enche sozinha: o cliente agenda pelo teu link, tu recebes a notificação, e o dia fica organizado por profissional.",
   blocos: [

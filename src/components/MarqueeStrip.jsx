@@ -8,7 +8,7 @@ const defaultItems = [
   "Cartão de Fidelidade Digital",
   "Caixa e Comissões",
   "Excel para o Contabilista",
-  "Desde 19,99 € por Mês",
+  "Preço à medida",
   "Sem Fidelização no Mensal",
   "Feito no Porto",
 ];

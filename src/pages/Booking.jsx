@@ -306,7 +306,7 @@ export default function Funcionalidades() {
                 <strong className="text-ink">Gestão</strong> é o que acontece depois do serviço. No checkout registas como pagou, o desconto e a gorjeta; a comissão do profissional e o carimbo do cliente ficam feitos no mesmo toque. No fim do dia fechas a caixa. No fim do mês, o Excel do contabilista sai com um botão. Os produtos que vendes ao balcão saem do stock.
               </p>
               <p>
-                Tudo isto por uma <strong className="text-ink">mensalidade fixa desde {PRECO_DESDE_TEXTO}</strong>, sem comissões por marcação, sem fidelização no mensal, num plano escolhido pelo tamanho da tua equipa. É um <strong className="text-ink">software de gestão para barbearias, salões e estética</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
+                Tudo isto por uma <strong className="text-ink">mensalidade fixa, à medida da tua barbearia</strong>, sem comissões por marcação e sem fidelização no mensal. É um <strong className="text-ink">software de gestão para barbearias, salões e estética</strong> feito no Porto, por uma equipa pequena, que atende o telefone.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3 text-sm">
@@ -360,7 +360,7 @@ export default function Funcionalidades() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <BotaoComecar grande>Começar grátis</BotaoComecar>
               <Link to="/precos" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-xs font-bold uppercase tracking-wide rounded-sm bg-card text-ink hover:bg-[#F2EFEA] border border-linha transition-all duration-200">
-                <span>Ver os preços: desde {PRECO_DESDE_TEXTO}/mês</span>
+                <span>Pedir o meu preço</span>
               </Link>
             </div>
             <p className="text-center text-ink-3 text-xs mt-4">

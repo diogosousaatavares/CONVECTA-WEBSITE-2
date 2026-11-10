@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { PRECO_DESDE_TEXTO } from "@/lib/seo";
 
 /*
  * O botão que não sai do ecrã, no telemóvel.
@@ -79,7 +78,7 @@ function BarraAntiga({ alvo }) {
         @media (prefers-reduced-motion: reduce) { .cv-barra-fixa { transition: none; } }
       ` }} />
       <div className={`cv-barra-fixa${visivel ? " on" : ""}`} aria-hidden={!visivel}>
-        <small>Sem cartão para começar<br />Desde {PRECO_DESDE_TEXTO}/mês</small>
+        <small>Sem cartão para começar<br />Preço à medida</small>
         <Link
           to="/comecar"
           tabIndex={visivel ? 0 : -1}

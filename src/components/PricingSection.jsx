@@ -1,205 +1,88 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Shield, Zap, ArrowRight, Headphones, Users } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import DoisTipos from "@/components/DoisTipos";
-import { PLANOS, DESCONTO_ANUAL } from '@/lib/seo';
+import { enviarContacto } from '@/lib/contactos';
 import FundoLinhas from "@/components/FundoLinhas";
-import MarcaWhatsApp from "@/components/MarcaWhatsApp";
 
 /*
- * Os precos.
- *
- * Tres planos. A plataforma e a mesma nos tres — agenda, clientes, caixa,
- * comissoes, stock, relatorios, fidelizacao, design. O que muda e quantos
- * profissionais cabem, e o website no Business.
- *
- * O botao mensal/anual nao inventa numeros: o desconto e os valores por ano
- * saem todos de lib/seo.js, para nao haver dois sitios a dizer coisas
- * diferentes sobre o mesmo preco.
+ * Os preços (10/11/2026, Diogo): o site deixa de mostrar valores. O preço é à
+ * medida de cada barbearia — profissionais, pagamentos online, website… —, e
+ * no lugar dos planos fica um formulário curto que pede o contacto (vai para
+ * os contactos, como os pedidos de demonstração).
  */
 
-const GARANTIAS = [
-  { icon: Shield, titulo: "Sem fidelização", texto: "No mensal cancelas quando quiseres.", textoAnual: "No anual o compromisso é de 12 meses — é o que paga o desconto." },
-  { icon: Zap, titulo: "No ar em dois minutos", texto: "Crias a conta e o site nasce logo. Sem esperar por ninguém." },
-  { icon: Headphones, titulo: "Suporte por quem fez a app", texto: "Resposta até 24 horas úteis." },
-];
+/* ── o pedido de preço (10/11/2026: o site deixa de mostrar preços) ── */
+const PROFISSIONAIS = ["Só eu", "2 a 3", "4 a 6", "7 ou mais"];
+const PRECISA = ["Marcações online", "Lembretes automáticos", "Pagamentos online", "Gestão da equipa", "Caixa e comissões", "Website da barbearia"];
+const telLimpo = t => String(t || "").replace(/[^\d+]/g, "");
+const telValido = t => telLimpo(t).replace(/^\+?351/, "").replace(/\D/g, "").length === 9;
 
-const PERCENTAGEM = Math.round(DESCONTO_ANUAL * 100);
-
-/* ── o botao mensal / anual ─────────────────────────────────────── */
-// 15 dias · Mensal · Anual (o de 15 dias desde 12/10/2026, primeiro).
-const PERIODOS = [
-  { v: "quinzenal", l: "15 dias" },
-  { v: "mensal", l: "Mensal" },
-  { v: "anual", l: "Anual" },
-];
-function Alternador({ periodo, mudar }) {
+function Chip({ on, children, onClick }) {
   return (
-    <div style={{ display: "flex", justifyContent: "center", marginTop: 34 }}>
-      <div
-        role="group"
-        aria-label="Escolher pagamento mensal, de 15 em 15 dias ou anual"
-        style={{
-          display: "inline-flex", alignItems: "center", gap: 4, padding: 4,
-          background: "var(--cv-card)", border: "1px solid var(--cv-linha)",
-          borderRadius: 100, boxShadow: "0 10px 30px -22px rgba(36,32,28,0.5)",
-        }}
-      >
-        {PERIODOS.map(({ v, l }) => {
-          const ativo = periodo === v;
-          const op = v === "anual";
-          return (
-            <button
-              key={v}
-              type="button"
-              onClick={() => mudar(v)}
-              aria-pressed={ativo}
-              style={{
-                position: "relative", border: 0, cursor: "pointer", font: "inherit",
-                borderRadius: 100, padding: "10px 20px", fontSize: 13.5, fontWeight: 600,
-                background: ativo ? "var(--cv-ink)" : "transparent",
-                color: ativo ? "#fff" : "var(--cv-ink-2)",
-                display: "inline-flex", alignItems: "center", gap: 8,
-                transition: "background 0.18s ease, color 0.18s ease",
-              }}
-            >
-              {l}
-              {op && (
-                <span
-                  style={{
-                    fontSize: 10.5, fontWeight: 800, letterSpacing: "0.06em",
-                    background: "var(--cv-amarelo)", color: "#24201C",
-                    padding: "3px 8px", borderRadius: 100, whiteSpace: "nowrap",
-                  }}
-                >
-                  −{PERCENTAGEM}%
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
-    </div>
+    <button type="button" onClick={onClick} className={`pp-chip${on ? " on" : ""}`} aria-pressed={on}>
+      {on && <Check size={13} strokeWidth={3} />}{children}
+    </button>
   );
 }
 
-/* ── um cartao ──────────────────────────────────────────────────── */
-function Cartao({ plano, periodo, nivelNome = "h3" }) {
-  const anual = periodo === "anual";
-  const quinzenal = periodo === "quinzenal";
-  const Nome = nivelNome;
-  const destaque = !!plano.destaque;
-  const valor = anual ? plano.precoMesAnualTexto : quinzenal ? plano.precoQuinzenalTexto : plano.precoTexto;
-
-  return (
-    <div
-      style={{
-        position: "relative",
-        display: "flex", flexDirection: "column", width: "100%",
-        background: "var(--cv-card)",
-        borderRadius: 20,
-        border: destaque ? "1.5px solid var(--cv-ink)" : "1px solid var(--cv-linha)",
-        boxShadow: destaque
-          ? "0 40px 80px -46px rgba(36,32,28,0.55), 0 0 0 6px rgba(254,233,109,0.42)"
-          : "0 18px 44px -40px rgba(36,32,28,0.45)",
-        overflow: "hidden",
-        transform: destaque ? "translateY(-8px)" : "none",
-      }}
-    >
-      {/* a faixa amarela: e isto que faz o plano do meio saltar a vista */}
-      <div
-        className={destaque ? "pr-faixa" : "pr-faixa pr-faixa-vazia"}
-        style={{
-          height: 38, display: "flex", alignItems: "center", justifyContent: "center",
-          background: destaque ? "var(--cv-amarelo)" : "transparent",
-          borderBottom: destaque ? "1px solid rgba(36,32,28,0.12)" : "1px solid transparent",
-        }}
-      >
-        {destaque && (
-          <span style={{ fontSize: 10.5, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase", color: "#24201C" }}>
-            ★ Mais escolhido
-          </span>
-        )}
+function PedidoPreco() {
+  const [f, setF] = useState({ nome: "", barbearia: "", telefone: "", email: "" });
+  const [prof, setProf] = useState("");
+  const [precisa, setPrecisa] = useState([]);
+  const [erro, setErro] = useState("");
+  const [aEnviar, setAEnviar] = useState(false);
+  const [feito, setFeito] = useState(false);
+  const s = (k, v) => setF(x => ({ ...x, [k]: v }));
+  async function enviar(e) {
+    e.preventDefault();
+    if (!f.nome.trim()) return setErro("Escreve o teu nome.");
+    if (!f.barbearia.trim()) return setErro("Escreve o nome da barbearia.");
+    if (!telValido(f.telefone)) return setErro("Escreve o teu telemóvel (9 dígitos).");
+    if (!prof) return setErro("Diz-nos quantos profissionais são.");
+    setErro(""); setAEnviar(true);
+    try {
+      await enviarContacto({
+        nome: f.nome.trim(), negocio: f.barbearia.trim(), telefone: telLimpo(f.telefone), email: f.email.trim().toLowerCase(),
+        mensagem: ["Pedido de preço (site).", `Profissionais: ${prof}`, precisa.length ? `Precisa de: ${precisa.join(", ")}` : ""].filter(Boolean).join("\n"),
+      });
+      try { window.trackEvent?.("pedido_preco", { profissionais: prof }); } catch { /* */ }
+      setFeito(true);
+    } catch (err) { setErro(err.message || "Não foi possível enviar. Tenta outra vez."); } finally { setAEnviar(false); }
+  }
+  if (feito) {
+    return (
+      <div className="pp-cartao pp-feito">
+        <div className="pp-ok"><Check size={24} strokeWidth={3} /></div>
+        <p className="cv-h3" style={{ margin: 0 }}>Recebemos, {f.nome.trim().split(" ")[0]}.</p>
+        <p className="cv-texto" style={{ margin: 0 }}>Ligamos-te com uma proposta à medida da {f.barbearia.trim()}. Se preferires, fala já connosco:</p>
+        <a className="cv-btn" href={`https://wa.me/351914874725?text=${encodeURIComponent("Olá! Pedi o preço da Convecta no site.")}`} target="_blank" rel="noopener noreferrer">WhatsApp · 914 874 725 <ArrowRight size={15} /></a>
       </div>
-
-      <div style={{ padding: "26px 26px 26px", display: "flex", flexDirection: "column", flex: 1 }}>
-        <Nome className="cv-h3" style={{ margin: 0 }}>{plano.nome}</Nome>
-        <p style={{ fontSize: "1rem", color: "var(--cv-ink-2)", margin: "5px 0 0" }}>{plano.resumo}</p>
-
-        <div style={{ display: "flex", alignItems: "baseline", gap: 7, flexWrap: "wrap", marginTop: 22 }}>
-          <span style={{ fontFamily: "var(--font-heading)", fontSize: "2.6rem", lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>
-            {valor}
-          </span>
-          <span style={{ fontSize: "1rem", color: "var(--cv-ink-2)" }}>{quinzenal ? "/ 15 dias" : "/ mês"}</span>
-        </div>
-
-        <p style={{ fontSize: "0.95rem", color: anual ? "var(--cv-amarelo-texto)" : "var(--cv-ink-3)", margin: "10px 0 0", lineHeight: 1.55, minHeight: 34 }}>
-          {anual
-            ? <>Pago de uma vez: {plano.precoAnoTexto}/ano. Poupas {plano.poupancaAnoTexto}.</>
-            : quinzenal
-            ? <>Cobrado de 15 em 15 dias. Cancelas quando quiseres.</>
-            : <>Ou {plano.precoMesAnualTexto}/mês se pagares o ano de uma vez.</>}
-        </p>
-
-        <div
-          style={{
-            display: "flex", alignItems: "center", gap: 9,
-            margin: "20px 0 18px", padding: "11px 14px", borderRadius: 12,
-            background: "rgba(254,233,109,0.3)",
-          }}
-        >
-          <Users size={16} strokeWidth={1.8} color="var(--cv-amarelo-texto)" />
-          <span style={{ fontSize: "1rem", fontWeight: 700 }}>{plano.profissionaisTexto}</span>
-        </div>
-
-        {/* Aqui havia tres linhas, iguais nos tres cartoes. O que e igual
-            diz-se uma vez por baixo dos cartoes, nao tres vezes lado a lado. */}
-        <div style={{ flex: 1, minHeight: 8 }} />
-
-        {/* Ate aqui o botao mandava para o formulario de contacto: alguem
-            interessado tinha de escrever um email e esperar por resposta. A
-            maior parte nao escreve. Agora vai direito ao registo, ja com o
-            plano e o periodo que ele estava a olhar. */}
-        <Link to={`/comecar?plano=${plano.id}&periodo=${periodo}`} style={{ textDecoration: "none" }}>
-          <motion.span
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            style={{
-              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-              width: "100%", padding: "13px 16px", borderRadius: 100,
-              background: destaque ? "var(--cv-ink)" : "transparent",
-              color: destaque ? "#fff" : "var(--cv-ink)",
-              border: destaque ? "1px solid var(--cv-ink)" : "1px solid var(--cv-linha)",
-              fontSize: "1rem", fontWeight: 600, cursor: "pointer",
-            }}
-          >
-            Começar com o {plano.nome} <ArrowRight size={14} />
-          </motion.span>
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-function Item({ children, icone: Icone }) {
+    );
+  }
   return (
-    <li style={{ display: "flex", alignItems: "flex-start", gap: 9 }}>
-      {Icone === MarcaWhatsApp ? (
-        <span style={{ marginTop: 1 }}><MarcaWhatsApp tamanho={18} /></span>
-      ) : (
-        <span
-          style={{
-            width: 18, height: 18, borderRadius: "50%", background: "rgba(254,233,109,0.35)",
-            display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1,
-          }}
-        >
-          {Icone ? <Icone size={10} strokeWidth={2.6} color="var(--cv-amarelo-texto)" />
-                 : <Check size={10} strokeWidth={3} color="var(--cv-amarelo-texto)" />}
-        </span>
-      )}
-      <span style={{ fontSize: "1rem", lineHeight: 1.5, color: "var(--cv-ink-2)" }}>{children}</span>
-    </li>
+    <form className="pp-cartao" onSubmit={enviar} noValidate>
+      <div className="pp-linha2">
+        <input className="pp-campo" value={f.nome} onChange={e => s("nome", e.target.value)} placeholder="O teu nome" autoComplete="name" aria-label="O teu nome" />
+        <input className="pp-campo" value={f.barbearia} onChange={e => s("barbearia", e.target.value)} placeholder="Nome da barbearia" autoComplete="organization" aria-label="Nome da barbearia" />
+      </div>
+      <div className="pp-linha2">
+        <input className="pp-campo" type="tel" inputMode="tel" value={f.telefone} onChange={e => s("telefone", e.target.value)} placeholder="Telemóvel" autoComplete="tel" aria-label="Telemóvel" />
+        <input className="pp-campo" type="email" inputMode="email" value={f.email} onChange={e => s("email", e.target.value)} placeholder="Email (opcional)" autoComplete="email" aria-label="Email" />
+      </div>
+      <div>
+        <p className="pp-rotulo">Quantos profissionais são?</p>
+        <div className="pp-chips">{PROFISSIONAIS.map(p => <Chip key={p} on={prof === p} onClick={() => setProf(p)}>{p}</Chip>)}</div>
+      </div>
+      <div>
+        <p className="pp-rotulo">O que precisas? <span>(opcional)</span></p>
+        <div className="pp-chips">{PRECISA.map(p => <Chip key={p} on={precisa.includes(p)} onClick={() => setPrecisa(l => l.includes(p) ? l.filter(x => x !== p) : [...l, p])}>{p}</Chip>)}</div>
+      </div>
+      {erro && <p className="pp-erro" role="alert">{erro}</p>}
+      <button type="submit" className="cv-btn pp-enviar" disabled={aEnviar}>{aEnviar ? "A enviar…" : <>Quero saber o meu preço <ArrowRight size={15} /></>}</button>
+      <p className="pp-nota">Respondemos no mesmo dia útil. Sem compromisso.</p>
+    </form>
   );
 }
 
@@ -208,13 +91,32 @@ export default function PricingSection({ nivelTitulo = "h2", semApelo = false })
   const Titulo = nivelTitulo;
   // os titulos nao podem saltar niveis: h1 -> h2, h2 -> h3
   const NivelNome = nivelTitulo === "h1" ? "h2" : "h3";
-  // Abre nos 15 dias: é o primeiro e o mais baixo (pedido do Diogo, 12/10/2026).
-  const [periodo, setPeriodo] = useState("quinzenal");
-  const anual = periodo === "anual";
 
   return (
     <section id="precos" className="cv-sec" style={{ position: "relative", overflow: "hidden" }}>
       <FundoLinhas />
+      <style>{`
+.pp-grelha{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:28px;align-items:start;margin:40px auto 0;max-width:1000px}
+.pp-porque{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.pp-porque li{display:flex;gap:12px;align-items:flex-start}
+.pp-porque b{display:block;font-size:1.05rem}.pp-porque small{display:block;color:var(--cv-ink-2);font-size:.95rem;margin-top:2px}
+.pp-v{width:24px;height:24px;border-radius:50%;background:var(--cv-amarelo,#FEE96D);color:#111;display:grid;place-items:center;flex-shrink:0;margin-top:1px}
+.pp-cartao{display:grid;gap:16px;padding:24px;border-radius:22px;background:#fff;border:1px solid var(--cv-linha);box-shadow:0 24px 60px -36px rgba(0,0,0,.35);text-align:left}
+.pp-linha2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pp-campo{width:100%;padding:14px 15px;border-radius:12px;border:1px solid var(--cv-linha);background:var(--cv-ground,#FBFAF8);font:inherit;font-size:1rem;color:var(--cv-ink)}
+.pp-campo:focus{outline:2px solid var(--cv-amarelo,#FEE96D);outline-offset:1px}
+.pp-rotulo{margin:0 0 8px;font-weight:700;font-size:.95rem}.pp-rotulo span{font-weight:500;color:var(--cv-ink-3)}
+.pp-chips{display:flex;flex-wrap:wrap;gap:8px}
+.pp-chip{display:inline-flex;align-items:center;gap:6px;padding:9px 14px;border-radius:999px;border:1px solid var(--cv-linha);background:#fff;font:inherit;font-size:.92rem;font-weight:600;color:var(--cv-ink);cursor:pointer;transition:background .15s,border-color .15s}
+.pp-chip.on{background:var(--cv-amarelo,#FEE96D);border-color:transparent}
+.pp-erro{margin:0;color:#B42318;font-size:.92rem;font-weight:600}
+.pp-enviar{justify-content:center;width:100%}
+.pp-nota{margin:0;text-align:center;font-size:.85rem;color:var(--cv-ink-3)}
+.pp-feito{justify-items:start}
+.pp-ok{width:48px;height:48px;border-radius:50%;background:var(--cv-amarelo,#FEE96D);display:grid;place-items:center;color:#111}
+@media (max-width:860px){.pp-grelha{grid-template-columns:1fr}}
+@media (max-width:520px){.pp-linha2{grid-template-columns:1fr}.pp-cartao{padding:18px}}
+`}</style>
 
       {/* as esferas: o mesmo 3D suave do resto do site */}
       <div aria-hidden="true" className="pr-esferas">
@@ -224,54 +126,33 @@ export default function PricingSection({ nivelTitulo = "h2", semApelo = false })
 
       <div className="cv-wrap" style={{ position: "relative", zIndex: 1 }}>
         <motion.div initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }} style={{ textAlign: "center" }}>
-          <p className="cv-olho" style={{ marginBottom: 14 }}>Planos</p>
+          <p className="cv-olho" style={{ marginBottom: 14 }}>Preços</p>
           <Titulo className="cv-h2" style={{ margin: "0 auto", maxWidth: "18ch" }}>
-            Escolhe pelo tamanho da tua equipa.
+            Um preço à medida da tua barbearia.
           </Titulo>
-          <p className="cv-texto" style={{ margin: "16px auto 0", maxWidth: "54ch" }}>
-            A plataforma é a mesma nos três — nada fica trancado. O que muda é quantos
-            profissionais cabem.
+          <p className="cv-texto" style={{ margin: "16px auto 0", maxWidth: "56ch" }}>
+            Não há duas barbearias iguais. O preço varia com o que precisas: quantos profissionais
+            são, se queres pagamentos online, website, gestão da equipa. Diz-nos como é a tua e
+            ligamos-te com uma proposta — sem compromisso.
           </p>
         </motion.div>
 
-        <Alternador periodo={periodo} mudar={setPeriodo} />
-
-        <div className="cv-planos" style={{ marginTop: 34 }}>
-          {PLANOS.map(plano => (
-            <motion.div
-              key={plano.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.45 }}
-              style={{ display: "flex" }}
-            >
-              <Cartao plano={plano} periodo={periodo} nivelNome={NivelNome} />
-            </motion.div>
-          ))}
+        <div className="pp-grelha">
+          <ul className="pp-porque">
+            {[
+              ["Pagas só o que usas", "O preço sobe e desce com a tua equipa e com o que ativas."],
+              ["Sem comissões por marcação", "Cada marcação é tua por inteiro."],
+              ["14 dias grátis, sem cartão", "Experimentas antes de decidir."],
+              ["Suporte por quem fez a app", "Telefone e WhatsApp, em dias úteis."],
+            ].map(([t, d]) => (
+              <li key={t}><span className="pp-v"><Check size={13} strokeWidth={3} /></span><span><b>{t}</b><small>{d}</small></span></li>
+            ))}
+          </ul>
+          <PedidoPreco />
         </div>
 
-        {/* Os dois tipos no mesmo espaço: secção própria a seguir aos planos (DoisTipos.jsx). */}
+        {/* Os dois tipos no mesmo espaço: secção própria (DoisTipos.jsx). */}
         <DoisTipos />
-
-        {/* Eram três parágrafos (a âncora, o IVA, «os três planos têm tudo») —
-            o Diogo achou confuso, e «os três planos» já está no topo da
-            secção. Fica uma linha pequena com o que é obrigatório dizer. */}
-        <p style={{ textAlign: "center", fontSize: "0.9rem", color: "var(--cv-ink-3)", margin: "56px auto 0", maxWidth: 640, lineHeight: 1.6 }}>
-          Preço final, sem IVA a acrescer (art. 53.º do CIVA) · sem comissões por marcação · sem taxa de adesão
-        </p>
-
-        <div className="pr-garantias">
-          {GARANTIAS.map(g => ({ ...g, texto: anual && g.textoAnual ? g.textoAnual : g.texto })).map(g => (
-            <div key={g.titulo}>
-              <div className="pr-garantia-ico"><g.icon size={16} strokeWidth={1.6} color="var(--cv-ink)" /></div>
-              <div>
-                <p style={{ fontWeight: 700, fontSize: "1rem", margin: 0 }}>{g.titulo}</p>
-                <p style={{ color: "var(--cv-ink-2)", fontSize: "0.95rem", margin: "2px 0 0" }}>{g.texto}</p>
-              </div>
-            </div>
-          ))}
-        </div>
 
         {/* O apelo. Ate aqui mandava-o ver uma barbearia de outra pessoa:
             agora monta-se a dele, com o nome dele. Ver a casa dos outros nao

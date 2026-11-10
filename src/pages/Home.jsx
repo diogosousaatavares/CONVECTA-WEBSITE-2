@@ -34,7 +34,7 @@ const PERGUNTAS = [
   },
   {
     q: "O cliente pode pagar ao marcar?",
-    a: "Sim. Escolhes se paga metade ou o serviço todo, e em que serviços. Paga com cartão, Apple Pay, Google Pay ou MB WAY, e o dinheiro cai na tua conta: a Convecta não fica com nada. Está incluído nos planos Profissional e Business; no Essencial é um extra de 4,99 €/mês.",
+    a: "Sim. Escolhes se paga metade ou o serviço todo, e em que serviços. Paga com cartão, Apple Pay, Google Pay ou MB WAY, e o dinheiro cai na tua conta: a Convecta não fica com nada. Entra na tua proposta, se precisares dele.",
   },
   {
     q: "E se o cliente quiser desmarcar?",
@@ -50,7 +50,7 @@ const PERGUNTAS = [
   },
   {
     q: "Quanto custa?",
-    a: `Três planos, pelo tamanho da equipa: ${PLANOS.map(p => `${p.nome} ${p.precoTexto}/mês (${p.profissionaisTexto.toLowerCase()})`).join(", ")}. Sem comissões por marcação, e o primeiro mês é grátis.`,
+    a: `O preço é à medida da tua barbearia — depende de quantos profissionais são e do que precisas. Sem comissões por marcação, e começas com 14 dias grátis, sem cartão. Pede a tua proposta em Preços.`,
   },
 ];
 
