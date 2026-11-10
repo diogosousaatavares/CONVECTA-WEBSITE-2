@@ -197,11 +197,12 @@ export default function Experimenta() {
   const fimEntrada = useCallback(() => setEntrou(true), []);
   // A barra fixa: aparece depois da entrada, ao rolar, e sai quando o formulário está à vista.
   const [barra, setBarra] = useState(false);
+  const [noForm, setNoForm] = useState(false);
   useEffect(() => {
     if (!entrou) return;
     let formVisto = false;
     const ver = () => setBarra(window.scrollY > window.innerHeight * 0.6 && !formVisto);
-    const io = typeof IntersectionObserver !== 'undefined' ? new IntersectionObserver(([e]) => { formVisto = e.isIntersecting; ver(); }, { threshold: 0.15 }) : null;
+    const io = typeof IntersectionObserver !== 'undefined' ? new IntersectionObserver(([e]) => { formVisto = e.isIntersecting; setNoForm(formVisto); ver(); }, { threshold: 0.15 }) : null;
     if (io && formRef.current) io.observe(formRef.current);
     window.addEventListener('scroll', ver, { passive: true }); ver();
     return () => { window.removeEventListener('scroll', ver); io && io.disconnect(); };
@@ -235,7 +236,7 @@ export default function Experimenta() {
     if (k === 'barbearia') { if (!slug) return 'Escreve o nome da tua barbearia.'; if (RESERVADOS.includes(slug)) return 'Esse nome dá um endereço que é nosso. Escreve-o de outra forma.'; }
     if (k === 'profissionais' && !prof) return 'Escolhe uma opção.';
     if (k === 'gestao' && !gestao) return 'Escolhe uma opção.';
-    if (k === 'contacto') { if (!f.nome.trim()) return 'Escreve o teu nome.'; if (!telValido(f.telefone)) return 'Escreve o teu telemóvel (9 dígitos) — é por aí que te ligamos.'; }
+    if (k === 'contacto') { if (!f.nome.trim()) return 'Escreve o teu nome.'; if (!telValido(f.telefone)) return 'Escreve o teu telemóvel (9 dígitos) — é por aí que te ligamos.'; if (!EMAIL_RE.test(f.email.trim())) return 'Escreve um email válido.'; }
     if (k === 'conta') {
       if (!EMAIL_RE.test(f.email.trim())) return 'Escreve um email válido.';
       if (f.password.length < 8) return 'A palavra-passe tem de ter pelo menos 8 caracteres.';
@@ -475,12 +476,13 @@ export default function Experimenta() {
               {k === 'contacto' && (<>
                 <div className="xp-pergunta">Quem fala connosco?</div>
                 <input className="xp-campo" value={f.nome} onChange={e => s('nome', e.target.value)} placeholder="O teu nome" autoComplete="name" aria-label="O teu nome" />
-                <input className="xp-campo" type="tel" inputMode="tel" value={f.telefone} onChange={e => s('telefone', e.target.value)} onKeyDown={e => e.key === 'Enter' && avancar()} placeholder="Telemóvel" autoComplete="tel" aria-label="Telemóvel" />
+                <input className="xp-campo" type="tel" inputMode="tel" value={f.telefone} onChange={e => s('telefone', e.target.value)} placeholder="Telemóvel" autoComplete="tel" aria-label="Telemóvel" />
+                <input className="xp-campo" type="email" inputMode="email" value={f.email} onChange={e => s('email', e.target.value)} onKeyDown={e => e.key === 'Enter' && avancar()} placeholder="Email" autoComplete="email" aria-label="Email" />
                 <div className="xp-endereco">Ligamos-te hoje para configurarmos tudo contigo.</div>
               </>)}
               {k === 'conta' && (<>
-                <div className="xp-pergunta">Por fim, a tua conta.</div>
-                <input className="xp-campo" type="email" value={f.email} onChange={e => s('email', e.target.value)} placeholder="Email" autoComplete="email" aria-label="Email" />
+                <div className="xp-pergunta">Por fim, a tua palavra-passe.</div>
+                <div className="xp-endereco">Entras na app com <b>{f.email.trim().toLowerCase()}</b>.</div>
                 <input className="xp-campo" type="password" value={f.password} onChange={e => s('password', e.target.value)} onKeyDown={e => e.key === 'Enter' && avancar()} placeholder="Palavra-passe (mínimo 8)" autoComplete="new-password" aria-label="Palavra-passe" />
                 <label className="xp-aceito">
                   <input type="checkbox" checked={aceita} onChange={e => setAceita(e.target.checked)} />
@@ -552,7 +554,7 @@ export default function Experimenta() {
         <button type="button" className="xp-btn" tabIndex={barra ? 0 : -1} onClick={() => irAoFormulario('barra')}>Quero a minha app grátis <ArrowRight size={18} /></button>
       </div>
       {/* WHATSAPP: sempre à mão, com a mensagem já escrita */}
-      {entrou && (
+      {entrou && !noForm && (
         <a className="xp-wpp" href={`https://wa.me/351914874725?text=${encodeURIComponent('Olá! Vi a página da Convecta e tenho uma dúvida sobre a app para a minha barbearia.')}`} target="_blank" rel="noopener noreferrer" aria-label="Falar connosco no WhatsApp" onClick={() => { try { window.trackEvent?.('landing_whatsapp_flutuante'); } catch { /* */ } }}>
           <MessageCircle size={26} />
         </a>
