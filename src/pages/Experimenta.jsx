@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Check, Mail, Menu, X } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Mail, Menu, X, Instagram, MessageCircle } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
@@ -363,6 +363,10 @@ export default function Experimenta() {
       {/* ENTRADA: o vídeo interativo (caos → Convecta → app), com o botão a sério no fim */}
       <MotionApp onCta={irAoFormulario} onFim={fimEntrada} onLogo={mostrarLogo} />
 
+      {/* DEPOIS DA ENTRADA: fundo vivo — manchas de cor a mexer devagar por trás de tudo */}
+      <div className="xp-vivo">
+      <div className="xp-aurora" aria-hidden="true"><i className="a1" /><i className="a2" /><i className="a3" /><i className="a4" /><i className="a5" /></div>
+
       {/* UM DIA COM A CONVECTA — exemplo */}
       <section className="xp-dia">
         <Palavras texto="Um dia com a Convecta." /><Revela><p className="xp-mini">Exemplo.</p></Revela>
@@ -472,6 +476,29 @@ export default function Experimenta() {
           </div>
         </div>
       </section>
+
+      {/* SEGUE A CONVECTA */}
+      <section className="xp-redes">
+        <Palavras texto="Segue a Convecta." />
+        <Revela><p className="xp-mini">Barbearias reais, novidades da app e dicas para encher a agenda.</p></Revela>
+        <div className="xp-redes-grelha">
+          <Revela className="xp-rede xp-rede-insta">
+            <a href="https://www.instagram.com/convecta.pt" target="_blank" rel="noopener noreferrer" onClick={() => { try { window.trackEvent?.('landing_instagram'); } catch { /* */ } }}>
+              <span className="xp-rede-icone"><Instagram size={26} /></span>
+              <span><b>Instagram</b><small>@convecta.pt</small></span>
+              <ArrowRight size={20} />
+            </a>
+          </Revela>
+          <Revela atraso={0.06} className="xp-rede xp-rede-wpp">
+            <a href="https://wa.me/351914874725" target="_blank" rel="noopener noreferrer" onClick={() => { try { window.trackEvent?.('landing_whatsapp'); } catch { /* */ } }}>
+              <span className="xp-rede-icone"><MessageCircle size={26} /></span>
+              <span><b>WhatsApp</b><small>Fala connosco · 914 874 725</small></span>
+              <ArrowRight size={20} />
+            </a>
+          </Revela>
+        </div>
+      </section>
+      </div>
 
       <footer className="xp-rodape">Convecta · <a href="https://convecta.pt">convecta.pt</a> · 914 874 725</footer>
     </main>
@@ -589,6 +616,47 @@ const CSS = `
 .xp-acoes{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:12px}
 .xp-voltar{display:inline-flex;align-items:center;gap:6px;border:none;background:none;color:var(--xp-suave);font-family:inherit;font-size:15px;cursor:pointer;padding:8px 0}
 .xp-nota{text-align:center;font-size:13.5px;color:var(--xp-suave);margin:14px 0 0}
+/* ---- FUNDO VIVO E CORES (10/11/2026, Diogo: «mais dinâmico, mais cores») ---- */
+.xp{--c-amarelo:#FEE96D;--c-coral:#FF7A59;--c-verde:#3DD9A0;--c-violeta:#9B87F5;--c-azul:#5AB0FF}
+.xp-vivo{position:relative;margin:0 -16px;padding:40px 16px 20px;overflow:hidden;isolation:isolate}
+.xp-aurora{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.xp-aurora i{position:absolute;width:62vmax;height:62vmax;border-radius:50%;filter:blur(90px);opacity:.30;mix-blend-mode:screen;will-change:transform}
+.xp-aurora .a1{background:var(--c-amarelo);top:-10%;left:-20%;animation:xpFlutua1 26s ease-in-out infinite alternate}
+.xp-aurora .a2{background:var(--c-coral);top:18%;right:-25%;animation:xpFlutua2 31s ease-in-out infinite alternate}
+.xp-aurora .a3{background:var(--c-violeta);top:42%;left:-25%;animation:xpFlutua3 28s ease-in-out infinite alternate}
+.xp-aurora .a4{background:var(--c-verde);top:62%;right:-20%;animation:xpFlutua1 34s ease-in-out infinite alternate-reverse;opacity:.24}
+.xp-aurora .a5{background:var(--c-azul);bottom:-15%;left:10%;animation:xpFlutua2 29s ease-in-out infinite alternate-reverse;opacity:.22}
+.xp-aurora::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(251,250,248,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(251,250,248,.035) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:linear-gradient(180deg,transparent,#000 15%,#000 85%,transparent);mask-image:linear-gradient(180deg,transparent,#000 15%,#000 85%,transparent)}
+@keyframes xpFlutua1{0%{transform:translate(0,0) scale(1)}50%{transform:translate(18vw,8vh) scale(1.15)}100%{transform:translate(6vw,-6vh) scale(.9)}}
+@keyframes xpFlutua2{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-16vw,10vh) scale(.88)}100%{transform:translate(-4vw,-8vh) scale(1.12)}}
+@keyframes xpFlutua3{0%{transform:translate(0,0) scale(.95)}50%{transform:translate(14vw,-10vh) scale(1.1)}100%{transform:translate(22vw,6vh) scale(1)}}
+@media (prefers-reduced-motion:reduce){.xp-aurora i{animation:none}}
+/* cartões de vidro: deixam ver a cor por trás */
+.xp-vivo .xp-dia li,.xp-vivo .xp-muda-item,.xp-vivo .xp-faixa-item,.xp-vivo .xp-cartao-form,.xp-vivo .xp-depo-cartao{background:rgba(40,35,31,.62);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+/* uma cor por linha */
+.xp-dia li,.xp-muda-item,.xp-faixa-item{--c:var(--c-amarelo)}
+.xp-dia ol>:nth-child(5n+2) li,.xp-muda-grelha>:nth-child(4n+2),.xp-faixa-item:nth-child(5n+2){--c:var(--c-coral)}
+.xp-dia ol>:nth-child(5n+3) li,.xp-muda-grelha>:nth-child(4n+3),.xp-faixa-item:nth-child(5n+3){--c:var(--c-verde)}
+.xp-dia ol>:nth-child(5n+4) li,.xp-muda-grelha>:nth-child(4n+4),.xp-faixa-item:nth-child(5n+4){--c:var(--c-violeta)}
+.xp-faixa-item:nth-child(5n+5){--c:var(--c-azul)}
+.xp-dia li::before{background:var(--c);box-shadow:0 0 0 5px color-mix(in srgb,var(--c) 22%,transparent)}
+.xp-hora{color:var(--c)}
+.xp-muda-item{border-color:color-mix(in srgb,var(--c) 30%,transparent)}
+.xp-muda-item svg{color:#141210;background:var(--c);border-radius:50%;padding:3px;width:22px;height:22px}
+.xp-faixa-item{border-top:3px solid var(--c)}
+.xp-faixa-item b{color:var(--c)}
+.xp-vivo h2 .xp-palavra:last-child{background:linear-gradient(90deg,var(--c-amarelo),var(--c-coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+.xp-cartao-form{border:1px solid transparent!important;background:linear-gradient(rgba(40,35,31,.9),rgba(40,35,31,.9)) padding-box,linear-gradient(135deg,var(--c-amarelo),var(--c-coral),var(--c-violeta)) border-box!important;box-shadow:0 30px 120px -40px rgba(155,135,245,.45),0 20px 80px -40px rgba(254,233,109,.4)!important}
+/* segue a convecta */
+.xp-redes{padding:20px 0 70px;max-width:760px!important;text-align:center}
+.xp-redes-grelha{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px;text-align:left}
+.xp-rede a{display:flex;align-items:center;gap:14px;padding:18px;border-radius:20px;color:#fff;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease}
+.xp-rede a:hover{transform:translateY(-3px)}
+.xp-rede a>span:nth-child(2){flex:1;display:grid;gap:2px}.xp-rede b{font-size:17px}.xp-rede small{font-size:13.5px;opacity:.85}
+.xp-rede-icone{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,.18)}
+.xp-rede-insta a{background:linear-gradient(135deg,#F9CE34 0%,#EE2A7B 50%,#6228D7 100%);box-shadow:0 20px 60px -24px rgba(238,42,123,.7)}
+.xp-rede-wpp a{background:linear-gradient(135deg,#25D366,#128C7E);box-shadow:0 20px 60px -24px rgba(37,211,102,.6)}
+@media (max-width:560px){.xp-redes-grelha{grid-template-columns:1fr}}
 .xp-rodape{text-align:center;font-size:13px;color:var(--xp-suave);padding:30px 0 0}
 .xp-rodape a{color:inherit}
 .xp-obrigado{max-width:620px!important;padding:90px 0 40px}
