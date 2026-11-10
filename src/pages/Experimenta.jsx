@@ -77,6 +77,13 @@ const MUDA = ['Mais organização', 'Menos tempo ao telemóvel', 'Imagem mais pr
  */
 const DEPOIMENTOS = [];
 
+/*
+ * GOOGLE (10/11/2026): a nota e o número de avaliações VERDADEIROS da Convecta
+ * no Google. Enquanto estiver a null, o selo não aparece.
+ * Formato: { nota: 4.9, total: 23, link: 'https://g.page/r/…' }
+ */
+const GOOGLE = null;
+
 /* 10/11/2026: os 10 ganhos que o Diogo escreveu, a rolar — como frases da
    Convecta, sem nome de barbearia, sem estrelas e sem aspas. */
 const GANHOS = [
@@ -417,6 +424,18 @@ export default function Experimenta() {
         </ol>
       </section>
 
+      {/* SELO DO GOOGLE — só com a nota real */}
+      {GOOGLE && (
+        <section className="xp-google">
+          <Revela>
+            <a href={GOOGLE.link} target="_blank" rel="noopener noreferrer" className="xp-google-selo">
+              <svg viewBox="0 0 48 48" width="34" height="34" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+              <span><b>{String(GOOGLE.nota).replace('.', ',')}</b> <span className="xp-google-estrelas" aria-hidden="true">★★★★★</span><small>{GOOGLE.total} avaliações no Google</small></span>
+            </a>
+          </Revela>
+        </section>
+      )}
+
       {/* DEPOIMENTOS VERDADEIROS — só aparecem quando houver */}
       {DEPOIMENTOS.length > 0 && (
         <section className="xp-depo">
@@ -713,6 +732,25 @@ const CSS = `
 @media (max-width:767px){.xp-barra{display:block}.xp-barra.on~.xp-wpp{bottom:calc(88px + env(safe-area-inset-bottom,0px))}.xp-rodape{padding-bottom:90px}}
 @media (max-width:760px){.xp-como-passos{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.xp-barra,.xp-faq-mais::before,.xp-faq-mais::after{transition:none}}
+/* ---- MAIS VIDA (10/11/2026): faixas claras a quebrar o preto e amarelo ---- */
+.xp{--xp-claro:#FBFAF8;--xp-tinta:#1C1916;--xp-tinta-suave:#5E5650}
+.xp-como{color:var(--xp-tinta);padding:70px 0 80px!important;margin-bottom:90px!important}
+.xp-como::before{content:"";position:absolute;inset:0 -100vw;background:var(--xp-claro);z-index:-1}
+.xp-como h2{color:var(--xp-tinta)}
+.xp-como-passo{background:#fff!important;border:1px solid #ECE6DC!important;box-shadow:0 18px 40px -28px rgba(28,25,22,.35)}
+.xp-como-passo>span:last-child{color:var(--xp-tinta-suave)!important}
+.xp-como-n{background:var(--xp-tinta)!important;color:var(--xp-amarelo)!important}
+.xp-faixa-item{background:var(--xp-claro)!important;border:none!important;color:var(--xp-tinta)}
+.xp-faixa-item b{color:var(--xp-tinta)!important}
+.xp-faixa-item span{color:var(--xp-tinta-suave)!important}
+.xp-faixa-item::before{content:"";display:block;width:34px;height:4px;border-radius:4px;background:#E6B800;margin-bottom:6px}
+.xp-depo-cartao{background:var(--xp-claro)!important;color:var(--xp-tinta);border:none!important}
+.xp-depo-cartao p{color:var(--xp-tinta)}.xp-depo-quem small{color:var(--xp-tinta-suave)!important}
+.xp-estrelas{color:#F5B301!important}
+.xp-google{padding:0 0 30px;display:flex;justify-content:center}
+.xp-google-selo{display:inline-flex;align-items:center;gap:14px;padding:14px 22px;border-radius:999px;background:var(--xp-claro);color:var(--xp-tinta);text-decoration:none;box-shadow:0 18px 40px -24px rgba(0,0,0,.6)}
+.xp-google-selo b{font-size:22px}.xp-google-selo small{display:block;font-size:13px;color:var(--xp-tinta-suave)}
+.xp-google-estrelas{color:#F5B301;letter-spacing:2px;font-size:15px}
 .xp-rodape{text-align:center;font-size:13px;color:var(--xp-suave);padding:30px 0 0}
 .xp-rodape a{color:inherit}
 .xp-obrigado{max-width:620px!important;padding:90px 0 40px}
