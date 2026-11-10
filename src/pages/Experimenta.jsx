@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Check, Mail, Play, CalendarCheck, BellRing, Smartphone } from 'lucide-react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { ArrowRight, ArrowLeft, Check, Mail, BellRing, Smartphone, MessageCircleOff } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
@@ -10,34 +11,28 @@ import { lerOrigem, guardarOrigem } from '@/lib/origem';
 /*
  * /experimenta — A LANDING DE CONVERSÃO (10/11/2026, Diogo).
  *
- * Low ticket = muito volume: o Instagram traz gente, esta página converte.
- * Uma página só, sem menu: promessa → prova → como funciona → formulário.
+ * v2: fundo preto, motion, a app a mexer (phone-demo.mp4), um dia com a
+ * Convecta em cenas, o vídeo da Rasta Village e o formulário passo a passo.
+ * As cenas do «dia» são um EXEMPLO e dizem-no — não são depoimentos.
  *
- * O formulário cria a CONTA com o registo de sempre (signUp com os dados no
- * user_metadata, como o /comecar): a app nasce quando ele confirma o email e
- * entra (função registar-barbearia), e é aí que entra no CRM — com as 3
- * respostas de qualificação nos campos do lead (q_profissionais, qual_gestao,
- * necessidade). Lead quente: o Diogo liga no próprio dia e marca a R2.
- * O contacto vai TAMBÉM logo para pedir_contacto, para não se perder quem
- * não confirma o email.
+ * O registo é o de sempre (signUp com os dados no user_metadata): a app nasce
+ * quando ele confirma o email (registar-barbearia), e aí entra no CRM com a
+ * qualificação (q_profissionais, qual_gestao, necessidade) e o push «lead
+ * quente». O contacto vai logo para pedir_contacto, para não se perder.
  */
 
 const PAINEL = 'https://administrador.marcacoes.app';
-const TESTEMUNHO = 'https://www.instagram.com/convecta.pt/reel/DffqKjniPyI/';
+const REEL_EMBED = 'https://www.instagram.com/reel/DffqKjniPyI/embed';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const RESERVADOS = ['www', 'admin', 'administrador', 'api', 'app', 'super', 'superadmin', 'portal', 'painel', 'mail', 'email', 'static', 'cdn', 'assets', 'blog', 'suporte', 'ajuda', 'conta', 'login', 'convecta', 'gestao'];
 const slugDe = nome => (nome || '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
   .replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
 const telLimpo = t => String(t || '').replace(/[\s.\-()]/g, '');
 const telValido = t => /^(\+351|00351)?[92]\d{8}$/.test(telLimpo(t)) || /^\+\d{8,15}$/.test(telLimpo(t));
+const planoPara = n => (n <= 1 ? 'essencial' : n <= 5 ? 'profissional' : 'business');
+const desde = PLANOS[0]?.precoTexto || '';
 
-/* As 3 perguntas de qualificação — as mesmas do CRM (guião da chamada). */
-const PROFISSIONAIS = [
-  { v: 1, l: 'Só eu' },
-  { v: 3, l: '2 a 3' },
-  { v: 5, l: '4 a 5' },
-  { v: 6, l: '6 ou mais' },
-];
+const PROFISSIONAIS = [{ v: 1, l: 'Só eu' }, { v: 3, l: '2 a 3' }, { v: 5, l: '4 a 5' }, { v: 6, l: '6 ou mais' }];
 const GESTAO = [
   { v: 'h2', l: 'WhatsApp, telefone ou caderno' },
   { v: 'h1', l: 'Por ordem de chegada' },
@@ -46,24 +41,57 @@ const GESTAO = [
 ];
 const MELHORAR = ['Menos faltas', 'Mais clientes', 'Menos tempo ao telemóvel', 'Agenda organizada', 'Imagem mais profissional'];
 
-const planoPara = n => (n <= 1 ? 'essencial' : n <= 5 ? 'profissional' : 'business');
-const desde = PLANOS[0]?.precoTexto || '';
+/* Um dia com a Convecta — EXEMPLO ilustrativo (não é um cliente real). */
+const DIA = [
+  { h: '23:40', t: 'Um cliente marca.', d: 'Tu estás a dormir.' },
+  { h: '09:00', t: 'Recebe o lembrete.', d: 'Não se esquece.' },
+  { h: '10:00', t: 'Chega à hora.', d: 'Zero mensagens.' },
+];
 
-const campo = { width: '100%', padding: '13px 14px', borderRadius: 12, fontSize: 16, border: '1px solid var(--cv-linha)', background: '#fff', color: 'var(--cv-ink)', fontFamily: 'inherit' };
-const rotulo = { display: 'block', fontSize: 13.5, fontWeight: 700, margin: '0 0 8px' };
+const PASSOS = ['barbearia', 'profissionais', 'gestao', 'melhorar', 'contacto', 'conta'];
 
-function Pilula({ on, children, onClick }) {
+const sobe = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } };
+
+function Revela({ children, atraso = 0, className }) {
+  const reduz = useReducedMotion();
+  if (reduz) return <div className={className}>{children}</div>;
   return (
-    <button type="button" onClick={onClick} aria-pressed={on}
-      style={{ padding: '10px 14px', borderRadius: 999, fontSize: 14.5, fontWeight: 600, fontFamily: 'inherit', cursor: 'pointer',
-        border: `1.5px solid ${on ? 'var(--cv-ink)' : 'var(--cv-linha)'}`, background: on ? 'var(--cv-ink)' : '#fff', color: on ? '#fff' : 'var(--cv-ink)' }}>
+    <motion.div className={className} variants={sobe} initial="hidden" whileInView="show" viewport={{ once: true, margin: '-60px' }} transition={{ delay: atraso }}>
       {children}
-    </button>
+    </motion.div>
+  );
+}
+
+/* Os títulos aparecem palavra a palavra quando entram no ecrã. */
+function Palavras({ texto, como: Tag = 'h2', className }) {
+  const reduz = useReducedMotion();
+  const palavras = texto.split(' ');
+  if (reduz) return <Tag className={className}>{texto}</Tag>;
+  return (
+    <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: '-80px' }} transition={{ staggerChildren: 0.07 }}>
+      <Tag className={className} aria-label={texto}>
+        {palavras.map((w, i) => (
+          <motion.span key={i} aria-hidden="true" className="xp-palavra" variants={{ hidden: { opacity: 0, y: 24, filter: 'blur(6px)' }, show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } } }}>{w}&nbsp;</motion.span>
+        ))}
+      </Tag>
+    </motion.div>
+  );
+}
+
+function Opcao({ on, children, onClick }) {
+  return (
+    <motion.button type="button" onClick={onClick} aria-pressed={on} whileTap={{ scale: 0.97 }} className={`xp-opcao${on ? ' on' : ''}`}>
+      <span className="xp-opcao-marca">{on && <Check size={14} strokeWidth={3} />}</span>{children}
+    </motion.button>
   );
 }
 
 export default function Experimenta() {
   useEffect(() => { try { guardarOrigem(); } catch { /* sem armazenamento */ } }, []);
+  const reduz = useReducedMotion();
+  const formRef = useRef(null);
+  const [passo, setPasso] = useState(0);
+  const [dir, setDir] = useState(1);
   const [f, setF] = useState({ nome: '', barbearia: '', telefone: '', email: '', password: '' });
   const [prof, setProf] = useState(null);
   const [gestao, setGestao] = useState('');
@@ -73,25 +101,34 @@ export default function Experimenta() {
   const [aEnviar, setAEnviar] = useState(false);
   const [feito, setFeito] = useState(false);
   const s = (k, v) => setF(x => ({ ...x, [k]: v }));
-  const tocarMelhorar = v => setMelhorar(l => (l.includes(v) ? l.filter(x => x !== v) : [...l, v]));
   const slug = slugDe(f.barbearia);
 
-  const irAoFormulario = () => { document.getElementById('formulario')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); try { window.trackEvent?.('landing_cta'); } catch { /* */ } };
+  const irAoFormulario = () => { formRef.current?.scrollIntoView({ behavior: reduz ? 'auto' : 'smooth', block: 'center' }); try { window.trackEvent?.('landing_cta'); } catch { /* */ } };
 
-  async function enviar(e) {
-    e.preventDefault();
-    setErro('');
-    if (!f.nome.trim()) return setErro('Escreve o teu nome.');
-    if (!f.barbearia.trim() || !slug) return setErro('Escreve o nome da tua barbearia.');
-    if (RESERVADOS.includes(slug)) return setErro('Esse nome dá um endereço que é nosso. Escreve-o de outra forma.');
-    if (!telValido(f.telefone)) return setErro('Escreve o teu telemóvel (9 dígitos) — é por aí que te ligamos.');
-    if (!EMAIL_RE.test(f.email.trim())) return setErro('Escreve um email válido.');
-    if (f.password.length < 8) return setErro('A palavra-passe tem de ter pelo menos 8 caracteres.');
-    if (!prof) return setErro('Diz-nos quantos profissionais têm.');
-    if (!gestao) return setErro('Diz-nos como marcam hoje.');
-    if (!aceita) return setErro('Para criar a conta tens de aceitar os Termos e a Política de Privacidade.');
-    if (!temSupabase()) return setErro('O registo não está disponível neste momento. Fala connosco pelo WhatsApp.');
+  const validar = p => {
+    const k = PASSOS[p];
+    if (k === 'barbearia') { if (!slug) return 'Escreve o nome da tua barbearia.'; if (RESERVADOS.includes(slug)) return 'Esse nome dá um endereço que é nosso. Escreve-o de outra forma.'; }
+    if (k === 'profissionais' && !prof) return 'Escolhe uma opção.';
+    if (k === 'gestao' && !gestao) return 'Escolhe uma opção.';
+    if (k === 'contacto') { if (!f.nome.trim()) return 'Escreve o teu nome.'; if (!telValido(f.telefone)) return 'Escreve o teu telemóvel (9 dígitos) — é por aí que te ligamos.'; }
+    if (k === 'conta') {
+      if (!EMAIL_RE.test(f.email.trim())) return 'Escreve um email válido.';
+      if (f.password.length < 8) return 'A palavra-passe tem de ter pelo menos 8 caracteres.';
+      if (!aceita) return 'Para criar a conta tens de aceitar os Termos e a Política de Privacidade.';
+    }
+    return '';
+  };
+  const avancar = () => {
+    const e = validar(passo); setErro(e); if (e) return;
+    try { window.trackEvent?.('landing_passo', { passo: passo + 2 }); } catch { /* */ }
+    if (passo < PASSOS.length - 1) { setDir(1); setPasso(passo + 1); } else enviar();
+  };
+  const recuar = () => { setErro(''); setDir(-1); setPasso(Math.max(0, passo - 1)); };
+  // escolher numa pergunta de um toque avança sozinho
+  const escolherEAvancar = fn => { fn(); setErro(''); setTimeout(() => { setDir(1); setPasso(p => p + 1); }, reduz ? 0 : 260); };
 
+  async function enviar() {
+    if (!temSupabase()) return setErro('O registo não está disponível neste momento. Fala connosco pelo WhatsApp: 914 874 725.');
     const qualificacao = { profissionais: prof, gestao, melhorar };
     const texto = [
       'Landing /experimenta — lead quente.',
@@ -99,9 +136,7 @@ export default function Experimenta() {
       `Como marca hoje: ${GESTAO.find(g => g.v === gestao)?.l}`,
       melhorar.length ? `Quer melhorar: ${melhorar.join(', ')}` : '',
     ].filter(Boolean).join('\n');
-
     setAEnviar(true);
-    // O contacto vai já — se ele não confirmar o email, não se perde.
     enviarContacto({ nome: f.nome.trim(), negocio: f.barbearia.trim(), telefone: telLimpo(f.telefone), email: f.email.trim().toLowerCase(), mensagem: texto }).catch(() => {});
     try {
       const { error } = await supabase().auth.signUp({
@@ -141,107 +176,159 @@ export default function Experimenta() {
       <main className="xp">
         <Seo titulo="A tua app está quase pronta" caminho="/experimenta" noindex />
         <style>{CSS}</style>
-        <div className="xp-obrigado">
-          <div className="xp-icone"><Mail size={26} /></div>
-          <h1>Está quase! Confirma o teu email.</h1>
-          <p>Enviámos uma mensagem para <strong>{f.email.trim().toLowerCase()}</strong>. Carrega no link e entras logo na app da <strong>{f.barbearia.trim()}</strong>, já criada para ti.</p>
-          <ol className="xp-passos">
-            <li><Check size={18} /> <span><b>Confirma o email</b> — se não o vires, procura no spam ou nas promoções.</span></li>
-            <li><Check size={18} /> <span><b>Ligamos-te hoje</b> para o <b>{telLimpo(f.telefone)}</b> e marcamos uma sessão para deixarmos tudo configurado contigo.</span></li>
-            <li><Check size={18} /> <span><b>14 dias grátis</b>, sem cartão. Só pagas se quiseres continuar.</span></li>
+        <div className="xp-brilho" aria-hidden="true" />
+        <motion.div className="xp-obrigado" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <motion.div className="xp-icone" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.15 }}><Mail size={26} /></motion.div>
+          <h1>Está quase. Confirma o teu email.</h1>
+          <p>Enviámos uma mensagem para <strong>{f.email.trim().toLowerCase()}</strong>. Carrega no link e entras na app da <strong>{f.barbearia.trim()}</strong>, já criada para ti.</p>
+          <ol className="xp-lista">
+            <li><Check size={18} /><span><b>Confirma o email</b> — se não o vires, procura no spam ou nas promoções.</span></li>
+            <li><Check size={18} /><span><b>Ligamos-te hoje</b> para o <b>{telLimpo(f.telefone)}</b> e marcamos uma sessão para deixarmos tudo configurado contigo.</span></li>
+            <li><Check size={18} /><span><b>14 dias grátis</b>, sem cartão. Só pagas se quiseres continuar.</span></li>
           </ol>
           <a className="xp-btn" href={`${PAINEL}/entrar`}>Já confirmei — abrir a minha app <ArrowRight size={18} /></a>
-          <p className="xp-nota">Alguma dúvida? Fala connosco pelo WhatsApp: 914 874 725.</p>
-        </div>
+          <p className="xp-nota">Alguma dúvida? WhatsApp 914 874 725.</p>
+        </motion.div>
       </main>
     );
   }
+
+  const k = PASSOS[passo];
+  const slide = {
+    enter: d => ({ opacity: 0, x: reduz ? 0 : d * 40 }),
+    center: { opacity: 1, x: 0 },
+    exit: d => ({ opacity: 0, x: reduz ? 0 : d * -40 }),
+  };
 
   /* ── A LANDING ────────────────────────────────────────────────────────── */
   return (
     <main className="xp">
       <Seo titulo="Experimenta a Convecta 14 dias grátis" descricao="A tua barbearia com app de marcações própria, lembretes automáticos e menos faltas. 14 dias grátis, sem cartão." caminho="/experimenta" />
       <style>{CSS}</style>
+      <div className="xp-brilho" aria-hidden="true" />
 
       <header className="xp-topo">
         <Link to="/" className="xp-marca">CONVECTA</Link>
         <button type="button" className="xp-btn xp-btn-pequeno" onClick={irAoFormulario}>Experimentar grátis</button>
       </header>
 
-      <section className="xp-hero">
-        <span className="xp-etiqueta">Para barbearias</span>
-        <h1>Mais marcações. <br />Menos mensagens.</h1>
-        <p className="xp-sub">A tua barbearia com app de marcações própria: os clientes marcam sozinhos, recebem o lembrete e faltam menos. Tu cortas.</p>
-        <button type="button" className="xp-btn" onClick={irAoFormulario}>Quero a minha app grátis <ArrowRight size={18} /></button>
-        <p className="xp-mini">14 dias grátis · sem cartão · pronta hoje</p>
+      {/* HERÓI: a promessa e a app a mexer */}
+      <section className="xp-heroi">
+        <div className="xp-heroi-texto">
+          <motion.span className="xp-etiqueta" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>Para barbearias</motion.span>
+          <h1>
+            {['Mais', 'marcações.'].map((w, i) => (
+              <motion.span key={w} className="xp-palavra" initial={{ opacity: 0, y: reduz ? 0 : 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}>{w} </motion.span>
+            ))}
+            <br />
+            {['Menos', 'mensagens.'].map((w, i) => (
+              <motion.span key={w} className="xp-palavra xp-amarelo" initial={{ opacity: 0, y: reduz ? 0 : 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.38 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}>{w} </motion.span>
+            ))}
+          </h1>
+          <motion.p className="xp-sub" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.65 }}>
+            Os clientes marcam sozinhos. Tu cortas.
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.8 }}>
+            <button type="button" className="xp-btn" onClick={irAoFormulario}>Quero a minha app grátis <ArrowRight size={18} /></button>
+            <p className="xp-mini">14 dias grátis · sem cartão · pronta hoje</p>
+          </motion.div>
+        </div>
+        <motion.div className="xp-telefone" initial={{ opacity: 0, y: reduz ? 0 : 60, rotate: reduz ? 0 : 4 }} animate={{ opacity: 1, y: 0, rotate: 0 }} transition={{ duration: 1, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
+          <motion.div animate={reduz ? {} : { y: [0, -10, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }} className="xp-telefone-moldura">
+            <video src="/phone-demo.mp4" poster="/phone-demo.jpg" autoPlay muted loop playsInline aria-label="A app Convecta a ser usada no telemóvel" />
+          </motion.div>
+        </motion.div>
       </section>
 
+      {/* BENEFÍCIOS */}
       <section className="xp-beneficios">
         {[
-          [Smartphone, 'A tua app, com o teu nome', 'Os clientes marcam a qualquer hora, sem te mandarem mensagem.'],
-          [BellRing, 'Lembretes automáticos', 'Cada cliente recebe o aviso antes da marcação. Menos cadeiras vazias.'],
-          [CalendarCheck, 'Agenda organizada', 'Tudo num só sítio: marcações, clientes e equipa, no telemóvel.'],
-        ].map(([Ic, t, d]) => (
-          <div key={t} className="xp-cartao">
-            <Ic size={22} />
+          [Smartphone, 'A tua app', 'Com o nome da tua barbearia.'],
+          [BellRing, 'Lembretes', 'Menos faltas.'],
+          [MessageCircleOff, 'Menos WhatsApp', 'Os clientes marcam sozinhos.'],
+        ].map(([Ic, t, d], i) => (
+          <Revela key={t} atraso={i * 0.08} className="xp-cartao">
+            <span className="xp-cartao-icone"><Ic size={20} /></span>
             <b>{t}</b>
             <span>{d}</span>
-          </div>
+          </Revela>
         ))}
       </section>
 
-      <section className="xp-prova">
-        <p className="xp-confiam">Já trabalham com a Convecta: <b>Rasta Village</b> · <b>Dom Cortes</b> · <b>Royal Barber</b></p>
-        <a className="xp-video" href={TESTEMUNHO} target="_blank" rel="noreferrer">
-          <span className="xp-play"><Play size={22} fill="currentColor" /></span>
-          <span><b>Vê o que diz quem já usa</b><br /><small>Testemunho de um cliente · menos de 1 minuto</small></span>
-        </a>
-      </section>
-
-      <section className="xp-como">
-        <h2>Como funciona</h2>
+      {/* UM DIA COM A CONVECTA — exemplo */}
+      <section className="xp-dia">
+        <Palavras texto="Um dia com a Convecta." /><Revela><p className="xp-mini">Exemplo.</p></Revela>
         <ol>
-          <li><b>1</b><span><strong>Preenches o formulário</strong> — leva 1 minuto.</span></li>
-          <li><b>2</b><span><strong>A tua app fica pronta</strong> na hora, com o nome da tua barbearia.</span></li>
-          <li><b>3</b><span><strong>Ligamos-te hoje</strong> e configuramos tudo contigo: serviços, equipa e horários.</span></li>
+          {DIA.map((c, i) => (
+            <Revela key={c.h} atraso={i * 0.06}>
+              <li><span className="xp-hora">{c.h}</span><span><strong>{c.t}</strong> <small>{c.d}</small></span></li>
+            </Revela>
+          ))}
         </ol>
       </section>
 
-      <section id="formulario" className="xp-form">
-        <h2>Cria a tua app grátis</h2>
-        <p className="xp-mini">14 dias grátis, sem cartão.{desde ? ` Depois, desde ${desde}/mês, sem fidelização.` : ''}</p>
-        <form onSubmit={enviar} noValidate>
-          <div className="xp-grelha">
-            <label><span style={rotulo}>O teu nome</span><input style={campo} value={f.nome} onChange={e => s('nome', e.target.value)} autoComplete="name" placeholder="João Silva" /></label>
-            <label><span style={rotulo}>Nome da barbearia</span><input style={campo} value={f.barbearia} onChange={e => s('barbearia', e.target.value)} placeholder="RC Cuts" />
-              {slug && <small className="xp-endereco">A tua app: <b>{slug}.marcacoes.app</b></small>}</label>
-            <label><span style={rotulo}>Telemóvel</span><input style={campo} type="tel" inputMode="tel" value={f.telefone} onChange={e => s('telefone', e.target.value)} autoComplete="tel" placeholder="912 345 678" /></label>
-            <label><span style={rotulo}>Email</span><input style={campo} type="email" value={f.email} onChange={e => s('email', e.target.value)} autoComplete="email" placeholder="nome@exemplo.com" /></label>
-            <label className="xp-largo"><span style={rotulo}>Palavra-passe (para entrares na app)</span><input style={campo} type="password" value={f.password} onChange={e => s('password', e.target.value)} autoComplete="new-password" placeholder="Mínimo 8 caracteres" /></label>
-          </div>
+      {/* O VÍDEO DA RASTA VILLAGE */}
+      <section className="xp-video">
+        <Palavras texto="Quem já usa." /><Revela><p className="xp-mini">Rasta Village</p></Revela>
+        <Revela className="xp-video-moldura">
+          <iframe src={REEL_EMBED} title="Testemunho da Rasta Village sobre a Convecta" loading="lazy" allow="encrypted-media; picture-in-picture" allowFullScreen />
+        </Revela>
+      </section>
 
-          <div className="xp-pergunta">
-            <span style={rotulo}>Quantos profissionais têm?</span>
-            <div className="xp-pilulas">{PROFISSIONAIS.map(p => <Pilula key={p.v} on={prof === p.v} onClick={() => setProf(p.v)}>{p.l}</Pilula>)}</div>
+      {/* O FORMULÁRIO, PASSO A PASSO */}
+      <section className="xp-form" ref={formRef} id="formulario">
+        <Palavras texto="Quero a minha app grátis." /><Revela><p className="xp-mini">1 minuto · 14 dias grátis · sem cartão</p></Revela>
+        <div className="xp-cartao-form">
+          <div className="xp-progresso" aria-label={`Passo ${passo + 1} de ${PASSOS.length}`}>
+            <motion.span animate={{ width: `${((passo + 1) / PASSOS.length) * 100}%` }} transition={{ duration: 0.4 }} />
           </div>
-          <div className="xp-pergunta">
-            <span style={rotulo}>Como marcam hoje?</span>
-            <div className="xp-pilulas">{GESTAO.map(g => <Pilula key={g.v} on={gestao === g.v} onClick={() => setGestao(g.v)}>{g.l}</Pilula>)}</div>
-          </div>
-          <div className="xp-pergunta">
-            <span style={rotulo}>O que queres melhorar? <small style={{ fontWeight: 500, opacity: .6 }}>(podes escolher vários)</small></span>
-            <div className="xp-pilulas">{MELHORAR.map(m => <Pilula key={m} on={melhorar.includes(m)} onClick={() => tocarMelhorar(m)}>{m}</Pilula>)}</div>
-          </div>
-
-          <label className="xp-aceito">
-            <input type="checkbox" checked={aceita} onChange={e => setAceita(e.target.checked)} />
-            <span>Aceito os <Link to="/termos" target="_blank">Termos</Link>, a <Link to="/privacidade" target="_blank">Política de Privacidade</Link> e o <Link to="/acordo-rgpd" target="_blank">Acordo de subcontratação</Link>.</span>
-          </label>
-
+          <div className="xp-passo-num">Passo {passo + 1} de {PASSOS.length}</div>
+          <AnimatePresence mode="wait" custom={dir} initial={false}>
+            <motion.div key={k} custom={dir} variants={slide} initial="enter" animate="center" exit="exit" transition={{ duration: 0.28, ease: 'easeOut' }} className="xp-passo">
+              {k === 'barbearia' && (<>
+                <label className="xp-pergunta" htmlFor="xp-barbearia">Como se chama a tua barbearia?</label>
+                <input id="xp-barbearia" className="xp-campo" value={f.barbearia} onChange={e => s('barbearia', e.target.value)} onKeyDown={e => e.key === 'Enter' && avancar()} placeholder="RC Cuts" autoComplete="organization" />
+                <div className="xp-endereco">{slug ? <>A tua app: <b>{slug}.marcacoes.app</b></> : 'O nome vira o endereço da tua app.'}</div>
+              </>)}
+              {k === 'profissionais' && (<>
+                <div className="xp-pergunta">Quantos profissionais têm?</div>
+                <div className="xp-opcoes">{PROFISSIONAIS.map(p => <Opcao key={p.v} on={prof === p.v} onClick={() => escolherEAvancar(() => setProf(p.v))}>{p.l}</Opcao>)}</div>
+              </>)}
+              {k === 'gestao' && (<>
+                <div className="xp-pergunta">Como marcam hoje?</div>
+                <div className="xp-opcoes">{GESTAO.map(g => <Opcao key={g.v} on={gestao === g.v} onClick={() => escolherEAvancar(() => setGestao(g.v))}>{g.l}</Opcao>)}</div>
+              </>)}
+              {k === 'melhorar' && (<>
+                <div className="xp-pergunta">O que queres melhorar? <small>Podes escolher vários.</small></div>
+                <div className="xp-opcoes">{MELHORAR.map(m => <Opcao key={m} on={melhorar.includes(m)} onClick={() => setMelhorar(l => (l.includes(m) ? l.filter(x => x !== m) : [...l, m]))}>{m}</Opcao>)}</div>
+              </>)}
+              {k === 'contacto' && (<>
+                <div className="xp-pergunta">Quem fala connosco?</div>
+                <input className="xp-campo" value={f.nome} onChange={e => s('nome', e.target.value)} placeholder="O teu nome" autoComplete="name" aria-label="O teu nome" />
+                <input className="xp-campo" type="tel" inputMode="tel" value={f.telefone} onChange={e => s('telefone', e.target.value)} onKeyDown={e => e.key === 'Enter' && avancar()} placeholder="Telemóvel" autoComplete="tel" aria-label="Telemóvel" />
+                <div className="xp-endereco">Ligamos-te hoje para configurarmos tudo contigo.</div>
+              </>)}
+              {k === 'conta' && (<>
+                <div className="xp-pergunta">Por fim, a tua conta.</div>
+                <input className="xp-campo" type="email" value={f.email} onChange={e => s('email', e.target.value)} placeholder="Email" autoComplete="email" aria-label="Email" />
+                <input className="xp-campo" type="password" value={f.password} onChange={e => s('password', e.target.value)} onKeyDown={e => e.key === 'Enter' && avancar()} placeholder="Palavra-passe (mínimo 8)" autoComplete="new-password" aria-label="Palavra-passe" />
+                <label className="xp-aceito">
+                  <input type="checkbox" checked={aceita} onChange={e => setAceita(e.target.checked)} />
+                  <span>Aceito os <Link to="/termos" target="_blank">Termos</Link>, a <Link to="/privacidade" target="_blank">Privacidade</Link> e o <Link to="/acordo-rgpd" target="_blank">Acordo de subcontratação</Link>.</span>
+                </label>
+              </>)}
+            </motion.div>
+          </AnimatePresence>
           {erro && <p className="xp-erro" role="alert">{erro}</p>}
-          <button type="submit" className="xp-btn xp-btn-largo" disabled={aEnviar}>{aEnviar ? 'A criar a tua app…' : <>Criar a minha app grátis <ArrowRight size={18} /></>}</button>
-          <p className="xp-nota">Ligamos-te hoje para configurarmos tudo contigo.</p>
-        </form>
+          <div className="xp-acoes">
+            {passo > 0 ? <button type="button" className="xp-voltar" onClick={recuar}><ArrowLeft size={16} /> Voltar</button> : <span />}
+            {!['profissionais', 'gestao'].includes(k) && (
+              <button type="button" className="xp-btn" onClick={avancar} disabled={aEnviar}>
+                {k === 'conta' ? (aEnviar ? 'A criar a tua app…' : <>Criar a minha app <ArrowRight size={18} /></>) : <>Continuar <ArrowRight size={18} /></>}
+              </button>
+            )}
+          </div>
+        </div>
       </section>
 
       <footer className="xp-rodape">Convecta · <a href="https://convecta.pt">convecta.pt</a> · 914 874 725</footer>
@@ -250,53 +337,75 @@ export default function Experimenta() {
 }
 
 const CSS = `
-.xp{min-height:100vh;background:var(--cv-ground,#FBFAF8);color:var(--cv-ink,#24201C);font-family:inherit;padding:0 16px 40px}
-.xp section,.xp-topo,.xp-rodape,.xp-obrigado{max-width:760px;margin:0 auto}
-.xp-topo{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
-.xp-marca{font-weight:800;letter-spacing:.28em;font-size:15px;color:var(--cv-ink);text-decoration:none}
-.xp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 24px;border-radius:999px;border:none;background:var(--cv-amarelo,#FEE96D);color:#24201C;font-weight:800;font-size:16px;font-family:inherit;cursor:pointer;text-decoration:none}
-.xp-btn:disabled{opacity:.6;cursor:default}
-.xp-btn:focus-visible,.xp button:focus-visible,.xp input:focus-visible{outline:2px solid #24201C;outline-offset:2px}
-.xp-btn-pequeno{padding:10px 16px;font-size:14px}
-.xp-btn-largo{width:100%;margin-top:18px;padding:17px}
-.xp-hero{text-align:center;padding:40px 0 34px}
-.xp-etiqueta{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--cv-amarelo-texto,#8A6D0A);margin-bottom:14px}
-.xp-hero h1{font-size:clamp(38px,8vw,64px);line-height:1.02;letter-spacing:-.03em;margin:0 0 16px;font-weight:900;text-wrap:balance}
-.xp-sub{font-size:18px;line-height:1.55;max-width:560px;margin:0 auto 24px;opacity:.85}
-.xp-mini{font-size:14px;opacity:.7;margin:12px 0 0}
-.xp-beneficios{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;padding:10px 0 28px}
-.xp-cartao{display:grid;gap:6px;padding:18px;border-radius:16px;background:#fff;border:1px solid var(--cv-linha)}
-.xp-cartao b{font-size:16px}.xp-cartao span{font-size:14.5px;line-height:1.5;opacity:.8}
-.xp-prova{display:grid;gap:14px;padding:6px 0 30px;text-align:center}
-.xp-confiam{font-size:15px;margin:0;opacity:.85}
-.xp-video{display:flex;align-items:center;gap:14px;text-align:left;padding:14px 18px;border-radius:16px;background:#24201C;color:#fff;text-decoration:none;justify-self:center}
-.xp-video small{opacity:.7}
-.xp-play{width:46px;height:46px;border-radius:50%;background:var(--cv-amarelo,#FEE96D);color:#24201C;display:grid;place-items:center;flex-shrink:0}
-.xp-como{padding:8px 0 30px}
-.xp-como h2,.xp-form h2{font-size:28px;letter-spacing:-.02em;margin:0 0 14px;font-weight:900}
-.xp-como ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.xp-como li{display:flex;gap:14px;align-items:center;padding:14px 16px;border-radius:14px;background:#fff;border:1px solid var(--cv-linha);font-size:15.5px;line-height:1.45}
-.xp-como li b{width:32px;height:32px;border-radius:50%;background:var(--cv-amarelo,#FEE96D);display:grid;place-items:center;flex-shrink:0}
-.xp-form{padding:26px 20px;border-radius:20px;background:#fff;border:1.5px solid var(--cv-amarelo,#FEE96D);scroll-margin-top:16px}
-.xp-grelha{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
-.xp-largo{grid-column:1/-1}
-.xp-endereco{display:block;font-size:12.5px;opacity:.7;margin-top:6px}
-.xp-pergunta{margin-top:20px}
-.xp-pilulas{display:flex;flex-wrap:wrap;gap:8px}
-.xp-aceito{display:flex;gap:10px;align-items:flex-start;margin-top:20px;font-size:14px;line-height:1.5;cursor:pointer}
-.xp-aceito input{width:20px;height:20px;margin-top:1px;flex-shrink:0}
-.xp-aceito a{color:inherit;text-decoration:underline}
-.xp-erro{margin:14px 0 0;color:#A01E18;font-weight:700;font-size:14.5px}
-.xp-nota{text-align:center;font-size:13.5px;opacity:.7;margin:12px 0 0}
-.xp-rodape{text-align:center;font-size:13px;opacity:.6;padding:28px 0 0}
+.xp{--xp-fundo:#0A0A0B;--xp-cartao:#141416;--xp-linha:rgba(255,255,255,.09);--xp-texto:#F4F1EA;--xp-suave:rgba(244,241,234,.66);--xp-amarelo:#FEE96D;
+  position:relative;min-height:100vh;background:var(--xp-fundo);color:var(--xp-texto);padding:0 16px 40px;overflow-x:hidden;font-family:inherit}
+.xp-brilho{position:absolute;inset:-20% -10% auto;height:720px;pointer-events:none;background:radial-gradient(600px 360px at 70% 20%,rgba(254,233,109,.16),transparent 70%),radial-gradient(500px 300px at 15% 0%,rgba(254,233,109,.07),transparent 70%)}
+.xp section,.xp-topo,.xp-rodape,.xp-obrigado{position:relative;max-width:1080px;margin:0 auto}
+.xp-topo{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+.xp-marca{font-weight:800;letter-spacing:.3em;font-size:14px;color:var(--xp-texto);text-decoration:none}
+.xp-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 26px;border-radius:999px;border:none;background:var(--xp-amarelo);color:#141210;font-weight:800;font-size:16px;font-family:inherit;cursor:pointer;text-decoration:none;box-shadow:0 10px 40px -10px rgba(254,233,109,.55);transition:transform .15s,box-shadow .15s}
+.xp-btn:hover{transform:translateY(-1px);box-shadow:0 14px 44px -10px rgba(254,233,109,.7)}
+.xp-btn:disabled{opacity:.6;cursor:default;transform:none}
+.xp button:focus-visible,.xp a:focus-visible,.xp input:focus-visible{outline:2px solid var(--xp-amarelo);outline-offset:3px}
+.xp-btn-pequeno{padding:10px 16px;font-size:14px;box-shadow:none}
+.xp-heroi{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:40px 0 70px}
+.xp-etiqueta{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--xp-amarelo);margin-bottom:18px}
+.xp-heroi h1{font-size:clamp(42px,7.4vw,84px);line-height:.98;letter-spacing:-.035em;margin:0 0 22px;font-weight:900}
+.xp-palavra{display:inline-block}
+.xp-amarelo{color:var(--xp-amarelo)}
+.xp-sub{font-size:19px;line-height:1.55;max-width:520px;margin:0 0 28px;color:var(--xp-suave)}
+.xp-mini{font-size:14px;color:var(--xp-suave);margin:14px 0 0}
+.xp-telefone{display:flex;justify-content:center}
+.xp-telefone-moldura{width:min(300px,72vw);aspect-ratio:9/19;border-radius:44px;padding:12px;background:linear-gradient(160deg,#2a2a2e,#0f0f11);box-shadow:0 40px 120px -30px rgba(254,233,109,.35),0 0 0 1px rgba(255,255,255,.08) inset}
+.xp-telefone-moldura video{width:100%;height:100%;object-fit:cover;border-radius:34px;display:block;background:#000}
+.xp-beneficios{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 0 80px}
+.xp-cartao{display:grid;gap:8px;align-content:start;padding:22px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha)}
+.xp-cartao-icone{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(254,233,109,.12);color:var(--xp-amarelo);margin-bottom:6px}
+.xp-cartao b{font-size:16.5px}.xp-cartao>span:last-child{font-size:14.5px;line-height:1.5;color:var(--xp-suave)}
+.xp h2{font-size:clamp(30px,4.6vw,46px);letter-spacing:-.03em;margin:0;font-weight:900;line-height:1.05}
+.xp-dia{padding:0 0 90px;max-width:760px!important}
+.xp-dia ol{list-style:none;margin:26px 0 0;padding:0 0 0 22px;border-left:1px solid var(--xp-linha);display:grid;gap:12px}
+.xp-dia li{position:relative;display:flex;gap:16px;align-items:baseline;padding:16px 18px;border-radius:16px;background:var(--xp-cartao);border:1px solid var(--xp-linha);font-size:18px;line-height:1.45}
+.xp-dia li::before{content:"";position:absolute;left:-29px;top:24px;width:12px;height:12px;border-radius:50%;background:var(--xp-amarelo);box-shadow:0 0 0 5px rgba(254,233,109,.15)}
+.xp-dia small{color:var(--xp-suave);font-size:14.5px}
+.xp-hora{font-weight:900;color:var(--xp-amarelo);font-variant-numeric:tabular-nums;min-width:52px}
+.xp-video{padding:0 0 90px;text-align:center}
+.xp-video-moldura{margin:26px auto 0;width:min(400px,100%);border-radius:20px;overflow:hidden;background:#fff;border:1px solid var(--xp-linha)}
+.xp-video-moldura iframe{display:block;width:100%;height:640px;border:0}
+.xp-form{padding:0 0 40px;max-width:640px!important;text-align:center}
+.xp-cartao-form{margin-top:26px;text-align:left;padding:26px 22px 22px;border-radius:24px;background:var(--xp-cartao);border:1px solid rgba(254,233,109,.35);box-shadow:0 30px 100px -40px rgba(254,233,109,.35);overflow:hidden}
+.xp-progresso{height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.xp-progresso span{display:block;height:100%;background:var(--xp-amarelo);border-radius:99px}
+.xp-passo-num{font-size:12.5px;color:var(--xp-suave);margin:12px 0 18px;letter-spacing:.04em}
+.xp-passo{display:grid;gap:12px;min-height:180px;align-content:start}
+.xp-pergunta{font-size:23px;font-weight:800;letter-spacing:-.01em;line-height:1.25;margin-bottom:4px}
+.xp-pergunta small{display:block;font-size:14px;font-weight:500;color:var(--xp-suave);margin-top:4px}
+.xp-campo{width:100%;padding:15px 16px;border-radius:14px;font-size:17px;border:1px solid var(--xp-linha);background:#0E0E10;color:var(--xp-texto);font-family:inherit}
+.xp-campo::placeholder{color:rgba(244,241,234,.35)}
+.xp-endereco{font-size:13.5px;color:var(--xp-suave)}.xp-endereco b{color:var(--xp-amarelo)}
+.xp-opcoes{display:grid;gap:10px}
+.xp-opcao{display:flex;align-items:center;gap:12px;width:100%;padding:15px 16px;border-radius:14px;border:1px solid var(--xp-linha);background:#0E0E10;color:var(--xp-texto);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+.xp-opcao:hover{border-color:rgba(254,233,109,.45)}
+.xp-opcao.on{border-color:var(--xp-amarelo);background:rgba(254,233,109,.08)}
+.xp-opcao-marca{width:22px;height:22px;border-radius:7px;border:1.5px solid rgba(255,255,255,.25);display:grid;place-items:center;flex-shrink:0;color:#141210}
+.xp-opcao.on .xp-opcao-marca{background:var(--xp-amarelo);border-color:var(--xp-amarelo)}
+.xp-aceito{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.5;color:var(--xp-suave);cursor:pointer;margin-top:4px}
+.xp-aceito input{width:20px;height:20px;margin-top:1px;flex-shrink:0;accent-color:#FEE96D}
+.xp-aceito a{color:var(--xp-texto)}
+.xp-erro{margin:14px 0 0;color:#FF8A7A;font-weight:700;font-size:14.5px}
+.xp-acoes{display:flex;justify-content:space-between;align-items:center;margin-top:20px;gap:12px}
+.xp-voltar{display:inline-flex;align-items:center;gap:6px;border:none;background:none;color:var(--xp-suave);font-family:inherit;font-size:15px;cursor:pointer;padding:8px 0}
+.xp-nota{text-align:center;font-size:13.5px;color:var(--xp-suave);margin:14px 0 0}
+.xp-rodape{text-align:center;font-size:13px;color:var(--xp-suave);padding:30px 0 0}
 .xp-rodape a{color:inherit}
-.xp-obrigado{padding:70px 0 40px}
-.xp-icone{width:56px;height:56px;border-radius:50%;background:var(--cv-amarelo,#FEE96D);display:grid;place-items:center;margin-bottom:22px}
-.xp-obrigado h1{font-size:32px;line-height:1.15;margin:0 0 12px;letter-spacing:-.02em}
-.xp-obrigado p{font-size:16.5px;line-height:1.6}
-.xp-passos{list-style:none;padding:0;margin:20px 0 26px;display:grid;gap:10px}
-.xp-passos li{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:#fff;border:1px solid var(--cv-linha);font-size:15px;line-height:1.5}
-.xp-passos li svg{color:#1E7F4E;flex-shrink:0;margin-top:3px}
-@media (max-width:640px){.xp-grelha{grid-template-columns:1fr}.xp-hero{padding-top:26px}.xp-sub{font-size:16.5px}}
-@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.xp-obrigado{max-width:620px!important;padding:90px 0 40px}
+.xp-icone{width:58px;height:58px;border-radius:50%;background:var(--xp-amarelo);color:#141210;display:grid;place-items:center;margin-bottom:24px}
+.xp-obrigado h1{font-size:clamp(30px,5vw,40px);line-height:1.1;margin:0 0 14px;letter-spacing:-.025em;font-weight:900}
+.xp-obrigado p{font-size:17px;line-height:1.6;color:var(--xp-suave)}
+.xp-obrigado strong{color:var(--xp-texto)}
+.xp-lista{list-style:none;padding:0;margin:24px 0 28px;display:grid;gap:10px}
+.xp-lista li{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:var(--xp-cartao);border:1px solid var(--xp-linha);font-size:15.5px;line-height:1.5}
+.xp-lista li svg{color:var(--xp-amarelo);flex-shrink:0;margin-top:3px}
+@media (max-width:900px){.xp-heroi{grid-template-columns:1fr;text-align:center;padding-top:20px}.xp-sub{margin-left:auto;margin-right:auto}.xp-beneficios{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.xp-beneficios{grid-template-columns:1fr}.xp-video-moldura iframe{height:560px}.xp-cartao-form{padding:22px 16px 18px}.xp-pergunta{font-size:21px}}
 `;
