@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowRight, ArrowLeft, Check, Mail, Menu, X, Instagram, MessageCircle, Play } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, Mail, Menu, X, Instagram, MessageCircle, Play, Phone } from 'lucide-react';
 import Seo from '@/components/Seo';
 import { PLANOS, VERSAO_ACORDO } from '@/lib/seo';
 import { supabase, temSupabase } from '@/lib/supabase';
@@ -285,9 +285,26 @@ export default function Experimenta() {
     }
     return '';
   };
+  // 10/11/2026: mal deixa o contacto (passo 5), o lead fica guardado e aparece
+  // «O que acontece a seguir» — com a opção de criar já a app (passo 6).
+  const [seguir, setSeguir] = useState(false);
+  const contactoEnviado = useRef(false);
+  const textoLead = () => [
+    'Landing /experimenta — lead quente.',
+    `Profissionais: ${PROFISSIONAIS.find(p => p.v === prof)?.l}`,
+    `Como marca hoje: ${GESTAO.find(g => g.v === gestao)?.l}`,
+    melhorar.length ? `Quer melhorar: ${melhorar.join(', ')}` : '',
+  ].filter(Boolean).join('\n');
+  const guardarContacto = () => {
+    if (contactoEnviado.current) return;
+    contactoEnviado.current = true;
+    enviarContacto({ nome: f.nome.trim(), negocio: f.barbearia.trim(), telefone: telLimpo(f.telefone), email: f.email.trim().toLowerCase(), mensagem: textoLead() + '\nDeixou o contacto (ainda sem conta criada).' }).catch(() => {});
+    try { window.trackEvent?.('landing_contacto', { profissionais: prof, gestao }); } catch { /* */ }
+  };
   const avancar = () => {
     const e = validar(passo); setErro(e); if (e) return;
     try { window.trackEvent?.('landing_passo', { passo: passo + 2 }); } catch { /* */ }
+    if (PASSOS[passo] === 'contacto') { guardarContacto(); setSeguir(true); setTimeout(() => formRef.current?.scrollIntoView({ behavior: reduz ? 'auto' : 'smooth', block: 'start' }), 50); return; }
     if (passo < PASSOS.length - 1) { setDir(1); setPasso(passo + 1); } else enviar();
   };
   const recuar = () => { setErro(''); setDir(-1); setPasso(Math.max(0, passo - 1)); };
@@ -304,7 +321,7 @@ export default function Experimenta() {
       melhorar.length ? `Quer melhorar: ${melhorar.join(', ')}` : '',
     ].filter(Boolean).join('\n');
     setAEnviar(true);
-    enviarContacto({ nome: f.nome.trim(), negocio: f.barbearia.trim(), telefone: telLimpo(f.telefone), email: f.email.trim().toLowerCase(), mensagem: texto }).catch(() => {});
+    if (!contactoEnviado.current) { contactoEnviado.current = true; enviarContacto({ nome: f.nome.trim(), negocio: f.barbearia.trim(), telefone: telLimpo(f.telefone), email: f.email.trim().toLowerCase(), mensagem: texto }).catch(() => {}); }
     try {
       const { error } = await supabase().auth.signUp({
         email: f.email.trim().toLowerCase(),
@@ -507,6 +524,34 @@ export default function Experimenta() {
       {/* O FORMULÁRIO, PASSO A PASSO */}
       <section className="xp-form" ref={formRef} id="formulario">
         <Palavras texto="Quero a minha app grátis." /><Revela><p className="xp-mini">1 minuto · 14 dias grátis · sem cartão</p></Revela>
+        {seguir ? (
+          <motion.div className="xp-seguir" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
+            <div className="xp-seguir-ok"><Check size={26} /></div>
+            <h3>Obrigado{f.nome.trim() ? `, ${f.nome.trim().split(' ')[0]}` : ''}. Recebemos o teu contacto.</h3>
+            <div className="xp-seguir-rotulo">O que acontece a seguir</div>
+            <ol className="xp-seguir-passos">
+              {[
+                ['Ligamos-te hoje', 'Para conhecer a tua barbearia. 5 minutos.'],
+                ['Montamos a tua app contigo', 'Com o teu nome, os teus serviços e os teus horários.'],
+                ['Começas a receber marcações', '14 dias grátis, sem cartão.'],
+              ].map(([t, d], i) => (
+                <motion.li key={t} initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 + i * 0.12, duration: 0.4 }}>
+                  <span className="xp-seguir-n">{i + 1}</span><span><b>{t}</b><small>{d}</small></span>
+                </motion.li>
+              ))}
+            </ol>
+            <div className="xp-seguir-ja">
+              <b>Não queres esperar?</b>
+              <span>Cria já a tua app — fica pronta em 1 minuto: <b>{slug || 'a-tua-barbearia'}.marcacoes.app</b></span>
+              <button type="button" className="xp-btn" onClick={() => { setSeguir(false); setDir(1); setPasso(PASSOS.indexOf('conta')); try { window.trackEvent?.('landing_criar_ja'); } catch { /* */ } }}>Criar já a minha app <ArrowRight size={18} /></button>
+            </div>
+            <div className="xp-seguir-contactos">
+              <a href="tel:+351914874725"><span><Phone size={20} /></span><small>Telefone</small><b>914 874 725</b></a>
+              <a href={`https://wa.me/351914874725?text=${encodeURIComponent('Olá! Acabei de deixar o meu contacto na página da Convecta.')}`} target="_blank" rel="noopener noreferrer"><span className="wpp"><MessageCircle size={20} /></span><small>WhatsApp</small><b>Fala connosco</b></a>
+              <a href="mailto:geral@convecta.pt"><span><Mail size={20} /></span><small>Email</small><b>geral@convecta.pt</b></a>
+            </div>
+          </motion.div>
+        ) : (
         <div className="xp-cartao-form">
           <div className="xp-progresso" aria-label={`Passo ${passo + 1} de ${PASSOS.length}`}>
             <motion.span animate={{ width: `${((passo + 1) / PASSOS.length) * 100}%` }} transition={{ duration: 0.4 }} />
@@ -559,6 +604,7 @@ export default function Experimenta() {
             )}
           </div>
         </div>
+        )}
       </section>
 
       {/* PERGUNTAS — respondem às dúvidas antes de experimentar (abre e fecha) */}
@@ -817,6 +863,26 @@ const CSS = `
 .xp-yt-play svg{margin-left:4px}
 .xp-yt-caixa button:hover .xp-yt-play{transform:translate(-50%,-50%) scale(1.07)}
 .xp-yt-dura{position:absolute;left:14px;bottom:14px;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.6);color:#fff;font-size:12.5px;font-weight:600}
+/* DEPOIS DO CONTACTO — o que acontece a seguir (10/11/2026) */
+.xp-seguir{margin-top:26px;text-align:left;padding:28px 22px 22px;border-radius:24px;background:var(--xp-cartao);border:1px solid rgba(254,233,109,.35);display:grid;gap:18px}
+.xp-seguir-ok{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:var(--xp-amarelo);color:#141210}
+.xp-seguir h3{font-family:'DM Serif Display',Georgia,serif;font-weight:400;font-size:clamp(26px,5vw,32px);line-height:1.15;margin:0}
+.xp-seguir-rotulo{font-size:12.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--xp-suave)}
+.xp-seguir-passos{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.xp-seguir-passos li{display:flex;gap:14px;align-items:flex-start}
+.xp-seguir-n{font-family:'DM Serif Display',Georgia,serif;font-size:40px;line-height:1;color:var(--xp-amarelo);min-width:30px}
+.xp-seguir-passos b{display:block;font-size:17px;font-weight:600}.xp-seguir-passos small{display:block;font-size:14.5px;color:var(--xp-suave);margin-top:2px}
+.xp-seguir-ja{display:grid;gap:8px;padding:18px;border-radius:18px;background:var(--xp-claro,#FBFAF8);color:#1C1916}
+.xp-seguir-ja>b{font-size:18px}.xp-seguir-ja>span{font-size:14.5px;color:#5E5650}.xp-seguir-ja>span b{color:#1C1916}
+.xp-seguir-ja .xp-btn{margin-top:6px;width:100%;background:#1C1916;color:var(--xp-amarelo);box-shadow:none}
+.xp-seguir-contactos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.xp-seguir-contactos a{display:grid;gap:4px;padding:14px;border-radius:16px;border:1px solid var(--xp-linha);background:rgba(255,255,255,.03);color:var(--xp-texto);text-decoration:none}
+.xp-seguir-contactos a:hover{border-color:rgba(254,233,109,.4)}
+.xp-seguir-contactos a>span{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:rgba(254,233,109,.12);color:var(--xp-amarelo);margin-bottom:4px}
+.xp-seguir-contactos a>span.wpp{background:#25D366;color:#fff}
+.xp-seguir-contactos small{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--xp-suave)}
+.xp-seguir-contactos b{font-size:14.5px;font-weight:600;word-break:break-word}
+@media (max-width:560px){.xp-seguir-contactos{grid-template-columns:1fr}.xp-seguir-contactos a{grid-template-columns:auto 1fr;align-items:center;column-gap:12px}.xp-seguir-contactos a>span{grid-row:span 2;margin:0}}
 .xp-rodape{text-align:center;font-size:13px;color:var(--xp-suave);padding:30px 0 0}
 .xp-rodape a{color:inherit}
 .xp-obrigado{max-width:620px!important;padding:90px 0 40px}
