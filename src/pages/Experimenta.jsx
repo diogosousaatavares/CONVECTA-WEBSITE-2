@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Check, Mail } from 'lucide-react';
@@ -117,50 +117,46 @@ function Opcao({ on, children, onClick }) {
 }
 
 /*
- * O VÍDEO INTERATIVO (10/11/2026, Diogo): o caos (mensagens, chamadas,
- * faltas…) junta-se, vira Convecta, «A solução» em checklist e entra o
- * telemóvel com a app a passar. Toca uma vez quando aparece no ecrã; no fim
- * fica no último quadro com a app sempre a rolar (motion-loop) e o botão
- * «Quero a minha app grátis» é um botão a sério, por cima do vídeo.
+ * A ENTRADA (10/11/2026, Diogo): o vídeo interativo em ecrã inteiro — o caos
+ * (mensagens, chamadas, faltas…) junta-se, vira Convecta, «A solução» em
+ * checklist e entra o telemóvel com a app a passar. Enquanto a animação corre,
+ * a página não rola e o cabeçalho está escondido; no fim fica o último quadro
+ * com a app sempre a rolar (motion-loop), o botão «Quero a minha app grátis»
+ * (botão a sério, por cima do vídeo) e o cabeçalho aparece.
+ * O vídeo tem o fundo da marca (#24201C), por isso fica «contido» num ecrã
+ * da mesma cor: enche o ecrã sem cortar nada, em qualquer telemóvel.
  */
-/* O fundo: o vídeo da página inicial, desfocado e escurecido (10/11/2026, Diogo). */
-const FUNDO = {
-  pc: { src: '/video/entrada-pc-v2.mp4', poster: '/video/entrada-pc-v2.jpg' },
-  tlm: { src: '/video/entrada-tlm-v1.mp4', poster: '/video/entrada-tlm-v1.jpg' },
-};
-const MOTION = { entrada: '/video/motion-entrada.mp4', loop: '/video/motion-loop.mp4', fim: '/video/motion-loop.jpg', botaoEm: 13.4 };
+const MOTION = { entrada: '/video/motion-entrada.mp4', loop: '/video/motion-loop.mp4', fim: '/video/motion-loop.jpg', botaoEm: 13.4, maxSeg: 18 };
 
-function MotionApp({ onCta }) {
-  const caixa = useRef(null);
+function MotionApp({ onCta, onFim }) {
   const v1 = useRef(null);
-  const [fase, setFase] = useState('espera'); // espera → entrada → loop
+  const [fase, setFase] = useState('entrada'); // entrada → loop | fim (sem animação)
   const [botao, setBotao] = useState(false);
-  const [fundo, setFundo] = useState(null);
+  const acabou = useRef(false);
+  const fechar = useCallback((fim) => {
+    setBotao(true);
+    setFase(fim);
+    if (!acabou.current) { acabou.current = true; onFim && onFim(); }
+  }, [onFim]);
   useEffect(() => {
     let poupa = false;
     try { poupa = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !!navigator.connection?.saveData; } catch { /* */ }
-    try { setFundo({ ...(window.matchMedia('(max-width: 767px)').matches ? FUNDO.tlm : FUNDO.pc), parado: poupa }); } catch { setFundo({ ...FUNDO.pc, parado: true }); }
-    if (poupa || typeof IntersectionObserver === 'undefined') { setFase('fim'); setBotao(true); return; }
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setFase(f => (f === 'espera' ? 'entrada' : f)); io.disconnect(); }
-    }, { threshold: 0.35 });
-    if (caixa.current) io.observe(caixa.current);
-    return () => io.disconnect();
-  }, []);
-  useEffect(() => {
-    if (fase === 'entrada' && v1.current) { const p = v1.current.play(); if (p && p.catch) p.catch(() => { setFase('fim'); setBotao(true); }); }
-  }, [fase]);
+    if (poupa) { fechar('fim'); return; }
+    try { window.scrollTo(0, 0); } catch { /* */ }
+    const el = v1.current;
+    const p = el && el.play();
+    if (p && p.catch) p.catch(() => fechar('fim'));   // sem autoplay (ex.: poupança de bateria): mostra já o fim
+    const seguranca = setTimeout(() => fechar('loop'), MOTION.maxSeg * 1000); // se o vídeo encravar, a página não fica presa
+    return () => clearTimeout(seguranca);
+  }, [fechar]);
   return (
-    <section className="xp-motion" ref={caixa} aria-label="Do caos das mensagens à tua app Convecta">
-      <div className="xp-motion-fundo" aria-hidden="true">
-        {fundo && (fundo.parado ? <img src={fundo.poster} alt="" /> : <video src={fundo.src} poster={fundo.poster} autoPlay muted loop playsInline />)}
-      </div>
+    <section className="xp-motion" aria-label="Do caos das mensagens à tua app Convecta">
       <div className="xp-motion-ecra">
         {fase === 'fim' && <img src={MOTION.fim} alt="" />}
-        {(fase === 'espera' || fase === 'entrada') && (
-          <video ref={v1} src={MOTION.entrada} muted playsInline preload="auto" aria-hidden="true"
+        {fase === 'entrada' && (
+          <video ref={v1} src={MOTION.entrada} muted playsInline autoPlay preload="auto" aria-hidden="true"
             onTimeUpdate={e => { if (e.currentTarget.currentTime >= MOTION.botaoEm) setBotao(true); }}
-            onEnded={() => { setBotao(true); setFase('loop'); }} />
+            onEnded={() => fechar('loop')} onError={() => fechar('fim')} />
         )}
         {fase === 'loop' && <video src={MOTION.loop} poster={MOTION.fim} muted playsInline autoPlay loop aria-hidden="true" />}
         <button type="button" className={`xp-btn xp-motion-btn${botao ? ' on' : ''}`} onClick={onCta} tabIndex={botao ? 0 : -1}>
@@ -175,6 +171,15 @@ export default function Experimenta() {
   useEffect(() => { try { guardarOrigem(); } catch { /* sem armazenamento */ } }, []);
   const reduz = useReducedMotion();
   const formRef = useRef(null);
+  const [entrou, setEntrou] = useState(false);
+  useEffect(() => {
+    // enquanto a animação de entrada corre, a página não rola
+    const h = document.documentElement, b = document.body;
+    if (entrou) { h.style.overflow = ''; b.style.overflow = ''; return; }
+    h.style.overflow = 'hidden'; b.style.overflow = 'hidden';
+    return () => { h.style.overflow = ''; b.style.overflow = ''; };
+  }, [entrou]);
+  const fimEntrada = useCallback(() => setEntrou(true), []);
   const [passo, setPasso] = useState(0);
   const [dir, setDir] = useState(1);
   const [f, setF] = useState({ nome: '', barbearia: '', telefone: '', email: '', password: '' });
@@ -292,13 +297,13 @@ export default function Experimenta() {
       <style>{CSS}</style>
       <div className="xp-brilho" aria-hidden="true" />
 
-      <header className="xp-topo xp-topo-sobre">
+      <header className={`xp-topo xp-topo-sobre${entrou ? '' : ' xp-topo-escondido'}`}>
         <Link to="/" className="xp-marca" aria-label="Convecta"><img src="/brand/convecta-logo-novo-claro.png" alt="Convecta" width="903" height="160" /></Link>
         <button type="button" className="xp-btn xp-btn-pequeno" onClick={irAoFormulario}>Experimentar grátis</button>
       </header>
 
       {/* ENTRADA: o vídeo interativo (caos → Convecta → app), com o botão a sério no fim */}
-      <MotionApp onCta={irAoFormulario} />
+      <MotionApp onCta={irAoFormulario} onFim={fimEntrada} />
 
       {/* UM DIA COM A CONVECTA — exemplo */}
       <section className="xp-dia">
@@ -444,16 +449,15 @@ const CSS = `
 .xp-mais svg{animation:xpDesce 2s ease-in-out infinite}
 @keyframes xpDesce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 @media (prefers-reduced-motion:reduce){.xp-mais svg{animation:none}}
-.xp-motion{max-width:none!important;margin:0 -16px 80px!important;display:flex;justify-content:center;padding:84px 16px 40px;overflow:hidden;isolation:isolate}
-.xp-motion-fundo{position:absolute;inset:0;z-index:-1}
-.xp-motion-fundo video,.xp-motion-fundo img{position:absolute;inset:-40px;width:calc(100% + 80px);height:calc(100% + 80px);object-fit:cover;filter:blur(18px) brightness(.45) saturate(.9)}
-.xp-motion-fundo::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(36,32,28,.2) 0%,rgba(36,32,28,.35) 70%,#24201C 100%)}
-.xp-motion-ecra{position:relative;container-type:inline-size;box-shadow:0 30px 80px -30px rgba(0,0,0,.7);width:min(100%,calc((100svh - 100px) * 9 / 16));aspect-ratio:9/16;border-radius:28px;overflow:hidden;background:#24201C}
+.xp-motion{max-width:none!important;margin:0 -16px 80px!important;height:100vh;height:100svh;display:flex;align-items:center;justify-content:center;background:#24201C;overflow:hidden}
+.xp-motion-ecra{position:relative;container-type:inline-size;height:min(100svh,calc(100vw * 16 / 9));aspect-ratio:9/16;background:#24201C}
+.xp-topo-escondido{opacity:0;pointer-events:none;transform:translateY(-10px)}
+.xp-topo-sobre{transition:opacity .5s ease,transform .5s ease}
+@media (max-width:560px){.xp-topo-sobre .xp-marca{visibility:hidden}}
 .xp-motion-ecra video,.xp-motion-ecra img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .xp-motion-btn{position:absolute;left:50%;top:91.4%;transform:translate(-50%,-50%) scale(.85);opacity:0;pointer-events:none;white-space:nowrap;font-size:3.7cqw;padding:3.1cqw 5.2cqw;gap:1.2cqw;transition:opacity .35s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
 .xp-motion-btn svg{width:3.8cqw;height:3.8cqw}
 .xp-motion-btn.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
-@media (max-width:560px){.xp-motion{margin:0 -16px 60px!important;padding:76px 16px 24px}.xp-motion-ecra{border-radius:22px;width:100%}}
 .xp-beneficios{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:0 0 80px}
 .xp-cartao{display:grid;gap:8px;align-content:start;padding:22px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha)}
 .xp-cartao-icone{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(254,233,109,.12);color:var(--xp-amarelo);margin-bottom:6px}
