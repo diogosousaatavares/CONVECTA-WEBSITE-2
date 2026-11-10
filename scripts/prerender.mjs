@@ -31,6 +31,7 @@ const ROTAS = [
   "/precos",
   "/pagamentos-online",
   "/comecar",
+  "/experimenta",
   "/faq",
   "/contacto",
   "/instagram",

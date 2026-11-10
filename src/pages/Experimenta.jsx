@@ -126,7 +126,7 @@ function Opcao({ on, children, onClick }) {
  * O vídeo tem o fundo da marca (#24201C), por isso fica «contido» num ecrã
  * da mesma cor: enche o ecrã sem cortar nada, em qualquer telemóvel.
  */
-const MOTION = { entrada: '/video/motion-entrada-v2.mp4', loop: '/video/motion-loop-v2.mp4', fim: '/video/motion-loop-v2.jpg', botaoEm: 13.4, logoEm: 11.5, maxSeg: 18 };
+const MOTION = { entrada: '/video/motion-entrada-v3.mp4', loop: '/video/motion-loop-v3.mp4', fim: '/video/motion-loop-v3.jpg', botaoEm: 13.4, logoEm: 11.5, maxSeg: 18 };
 
 function MotionApp({ onCta, onFim, onLogo }) {
   const v1 = useRef(null);

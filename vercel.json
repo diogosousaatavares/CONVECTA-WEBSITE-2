@@ -94,6 +94,10 @@
       "destination": "/comecar.html"
     },
     {
+      "source": "/experimenta",
+      "destination": "/experimenta.html"
+    },
+    {
       "source": "/pagamentos-online",
       "destination": "/pagamentos-online.html"
     },
