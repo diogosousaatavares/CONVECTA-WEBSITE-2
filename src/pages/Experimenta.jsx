@@ -48,6 +48,22 @@ const DIA = [
   { h: '10:00', t: 'Chega à hora.', d: 'Zero mensagens.' },
 ];
 
+/* O que muda — os ganhos, ditos pela Convecta (não são citações de clientes). */
+const MUDA = [
+  ['Mais organização', 'Todas as marcações num só sítio, com uma visão clara do dia.'],
+  ['Menos tempo ao telemóvel', 'Deixas de responder a mensagens e dás o tempo aos clientes que estão na cadeira.'],
+  ['Imagem mais profissional', 'Uma app própria, com a identidade da tua barbearia.'],
+  ['Equipa mais simples de gerir', 'Os horários e as marcações de cada profissional, à vista.'],
+];
+
+/*
+ * DEPOIMENTOS — SÓ VERDADEIROS (10/11/2026). Cada um tem de ser de um cliente
+ * real, com as palavras dele e a autorização para publicar (nome e foto).
+ * Enquanto a lista estiver vazia, a secção não aparece.
+ * Formato: { nome: 'Rui', barbearia: 'Rasta Village', frase: '…', foto: '/provas/rui.jpg', estrelas: 5 }
+ */
+const DEPOIMENTOS = [];
+
 const PASSOS = ['barbearia', 'profissionais', 'gestao', 'melhorar', 'contacto', 'conta'];
 
 const sobe = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } } };
@@ -267,6 +283,37 @@ export default function Experimenta() {
         </ol>
       </section>
 
+      {/* O QUE MUDA */}
+      <section className="xp-muda">
+        <Palavras texto="O que muda." />
+        <div className="xp-muda-grelha">
+          {MUDA.map(([t, d], i) => (
+            <Revela key={t} atraso={i * 0.06} className="xp-muda-item">
+              <Check size={18} />
+              <span><b>{t}</b><br /><small>{d}</small></span>
+            </Revela>
+          ))}
+        </div>
+      </section>
+
+      {/* DEPOIMENTOS VERDADEIROS — só aparecem quando houver */}
+      {DEPOIMENTOS.length > 0 && (
+        <section className="xp-depo">
+          <div className="xp-depo-grelha">
+            {DEPOIMENTOS.map((d, i) => (
+              <Revela key={d.nome + d.barbearia} atraso={i * 0.06} className="xp-depo-cartao">
+                {d.estrelas ? <div className="xp-estrelas" aria-label={`${d.estrelas} de 5 estrelas`}>{'★'.repeat(Math.round(d.estrelas))}</div> : null}
+                <p>«{d.frase}»</p>
+                <div className="xp-depo-quem">
+                  {d.foto && <img src={d.foto} alt="" width="44" height="44" />}
+                  <span><b>{d.nome}</b><br /><small>{d.barbearia}</small></span>
+                </div>
+              </Revela>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* O VÍDEO DA RASTA VILLAGE */}
       <section className="xp-video">
         <Palavras texto="Quem já usa." /><Revela><p className="xp-mini">Rasta Village</p></Revela>
@@ -371,6 +418,18 @@ const CSS = `
 .xp-dia li::before{content:"";position:absolute;left:-29px;top:24px;width:12px;height:12px;border-radius:50%;background:var(--xp-amarelo);box-shadow:0 0 0 5px rgba(254,233,109,.15)}
 .xp-dia small{color:var(--xp-suave);font-size:14.5px}
 .xp-hora{font-weight:700;color:var(--xp-amarelo);font-variant-numeric:tabular-nums;min-width:52px}
+.xp-muda{padding:0 0 90px;max-width:900px!important}
+.xp-muda-grelha{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px}
+.xp-muda-item{display:flex;gap:12px;align-items:flex-start;padding:18px;border-radius:16px;background:var(--xp-cartao);border:1px solid var(--xp-linha);font-size:16.5px;line-height:1.45}
+.xp-muda-item svg{color:var(--xp-amarelo);flex-shrink:0;margin-top:3px}
+.xp-muda-item b{font-weight:600}.xp-muda-item small{color:var(--xp-suave);font-size:14.5px}
+.xp-depo{padding:0 0 60px}
+.xp-depo-grelha{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.xp-depo-cartao{padding:22px;border-radius:18px;background:var(--xp-cartao);border:1px solid var(--xp-linha);display:grid;gap:14px;align-content:start}
+.xp-depo-cartao p{margin:0;font-size:16px;line-height:1.55}
+.xp-estrelas{color:var(--xp-amarelo);letter-spacing:2px}
+.xp-depo-quem{display:flex;gap:12px;align-items:center}.xp-depo-quem img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.xp-depo-quem small{color:var(--xp-suave)}
 .xp-video{padding:0 0 90px;text-align:center}
 .xp-video-moldura{margin:26px auto 0;width:min(400px,100%);border-radius:20px;overflow:hidden;background:#fff;border:1px solid var(--xp-linha)}
 .xp-video-moldura iframe{display:block;width:100%;height:640px;border:0}
@@ -409,5 +468,5 @@ const CSS = `
 .xp-lista li{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;background:var(--xp-cartao);border:1px solid var(--xp-linha);font-size:15.5px;line-height:1.5}
 .xp-lista li svg{color:var(--xp-amarelo);flex-shrink:0;margin-top:3px}
 @media (max-width:900px){.xp-heroi{grid-template-columns:1fr;text-align:center;padding-top:20px}.xp-sub{margin-left:auto;margin-right:auto}.xp-beneficios{grid-template-columns:1fr 1fr}}
-@media (max-width:560px){.xp-beneficios{grid-template-columns:1fr}.xp-video-moldura iframe{height:560px}.xp-cartao-form{padding:22px 16px 18px}.xp-pergunta{font-size:21px}}
+.xp-muda-grelha{}@media (max-width:560px){.xp-muda-grelha{grid-template-columns:1fr}.xp-beneficios{grid-template-columns:1fr}.xp-video-moldura iframe{height:560px}.xp-cartao-form{padding:22px 16px 18px}.xp-pergunta{font-size:21px}}
 `;
