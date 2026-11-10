@@ -477,14 +477,15 @@ const CSS = `
 .xp-progresso{height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
 .xp-progresso span{display:block;height:100%;background:var(--xp-amarelo);border-radius:99px}
 .xp-passo-num{font-size:12.5px;color:var(--xp-suave);margin:12px 0 18px;letter-spacing:.04em}
-.xp-passo{display:grid;gap:12px;min-height:180px;align-content:start}
+/* 10/11/2026: o cartão do formulário tem SEMPRE a mesma altura — o do passo com mais opções (5) — para a página não saltar entre passos. */
+.xp-passo{display:grid;gap:10px;height:404px;align-content:start}
 .xp-pergunta{font-size:27px;line-height:1.2;margin-bottom:4px}
 .xp-pergunta small{display:block;font-family:'Inter',system-ui,sans-serif;font-size:14px;font-weight:400;color:var(--xp-suave);margin-top:4px}
 .xp-campo{width:100%;padding:15px 16px;border-radius:14px;font-size:17px;border:1px solid var(--xp-linha);background:var(--xp-campo);color:var(--xp-texto);font-family:inherit}
 .xp-campo::placeholder{color:rgba(244,241,234,.35)}
 .xp-endereco{font-size:13.5px;color:var(--xp-suave)}.xp-endereco b{color:var(--xp-amarelo)}
 .xp-opcoes{display:grid;gap:10px}
-.xp-opcao{display:flex;align-items:center;gap:12px;width:100%;padding:15px 16px;border-radius:14px;border:1px solid var(--xp-linha);background:var(--xp-campo);color:var(--xp-texto);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+.xp-opcao{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--xp-linha);background:var(--xp-campo);color:var(--xp-texto);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
 .xp-opcao:hover{border-color:rgba(254,233,109,.45)}
 .xp-opcao.on{border-color:var(--xp-amarelo);background:rgba(254,233,109,.08)}
 .xp-opcao-marca{width:22px;height:22px;border-radius:7px;border:1.5px solid rgba(255,255,255,.25);display:grid;place-items:center;flex-shrink:0;color:#141210}
