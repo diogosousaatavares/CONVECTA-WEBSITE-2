@@ -223,6 +223,8 @@ function VideoDuasApps() {
   );
 }
 
+const JA_TEM_CONTA = 'Este email já tem uma conta na Convecta. Entra em administrador.marcacoes.app — ou usa outro email.';
+
 export default function Experimenta() {
   useEffect(() => { try { guardarOrigem(); } catch { /* sem armazenamento */ } }, []);
   const reduz = useReducedMotion();
@@ -323,7 +325,7 @@ export default function Experimenta() {
     setAEnviar(true);
     if (!contactoEnviado.current) { contactoEnviado.current = true; enviarContacto({ nome: f.nome.trim(), negocio: f.barbearia.trim(), telefone: telLimpo(f.telefone), email: f.email.trim().toLowerCase(), mensagem: texto }).catch(() => {}); }
     try {
-      const { error } = await supabase().auth.signUp({
+      const { data, error } = await supabase().auth.signUp({
         email: f.email.trim().toLowerCase(),
         password: f.password,
         options: {
@@ -339,11 +341,14 @@ export default function Experimenta() {
       });
       if (error) {
         const m = (error.message || '').toLowerCase();
-        if (/already registered|already been registered|user already/.test(m)) { setFeito(true); return; }
+        if (/already registered|already been registered|user already/.test(m)) return setErro(JA_TEM_CONTA);
         if (/rate|too many/.test(m)) return setErro('Já foram feitas várias tentativas. Espera um minuto e tenta outra vez.');
         if (/password/.test(m)) return setErro('Essa palavra-passe é demasiado fraca. Escolhe outra com pelo menos 8 caracteres.');
         return setErro(error.message || 'Não foi possível criar a conta.');
       }
+      // Email que já tem conta: o Supabase não dá erro (por segurança) mas também não manda email nenhum —
+      // a conta volta sem «identities». Dizer-lhe, em vez de o pôr à espera de um email que não chega.
+      if (data?.user && Array.isArray(data.user.identities) && data.user.identities.length === 0) return setErro(JA_TEM_CONTA);
       try { window.trackEvent?.('landing_conta_criada', { profissionais: prof, gestao }); } catch { /* sem analytics */ }
       setFeito(true);
       window.scrollTo(0, 0);
